@@ -1,0 +1,43 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>CAD-Killer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content="Visionneur de carte pour logisticiens pressés">
+
+  <link rel="stylesheet" href="vendor/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="vendor/leaflet.photon/leaflet.photon.css" />
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link rel="stylesheet" type="text/css" href="css/stylesprint.css" media="print" />
+
+  <script src="vendor/leaflet/dist/leaflet.js"></script>
+  <script src="vendor/leaflet.photon/leaflet.photon.js"></script>
+  <script src="vendor/leaflet-hash/leaflet-hash.js"></script>
+
+  <script src="js/utils.js"></script>
+</head>
+
+<body class="map">
+  <header class="wrapper">
+    <section>
+      <h1 class="beta"><a href="/">CAD-Killer</a>
+      </h1>
+    </section>
+    <section class="menu">
+      <a href="http://adresse.data.gouv.fr">Basé sur adresse.data.gouv.fr</a>
+      <a onclick="edit();">édition</a>
+    </section>
+  </header>
+  <div id="label"></div>
+  <div class="content">
+    <div id="map"></div>
+    <script type="text/javascript">
+      API_URL = 'http://api.adresse.data.gouv.fr/search/?';
+    </script>
+    <script src="js/map.js"></script>
+  </div>
+</body>
+
+</html>
