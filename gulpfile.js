@@ -8,7 +8,6 @@ var colorguard = require('gulp-colorguard');
 var crass = require('gulp-crass');
 var prettify = require('gulp-html-prettify');
 var resources = require('gulp-resources');
-var cleanDest = require('gulp-clean-dest');
 var csscombLint = require('gulp-csscomb-lint');
 var ga = require('gulp-ga');
 var jshint = require('gulp-jshint');
@@ -52,7 +51,6 @@ gulp.task("styles", function() {
 gulp.task("html", function() {
   gulp.src("./src/*.html")
     .pipe(options.production ? plumber() : gutil.noop())
-    .pipe(cleanDest('./dist/'))
     .pipe(prettify({
       indent_char: ' ',
       indent_size: 2
@@ -66,7 +64,6 @@ gulp.task("html", function() {
 
 gulp.task("js", function() {
   gulp.src("./src/js/*.js")
-    .pipe(cleanDest('./dist/js/'))
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(gulp.dest("./dist/js/"))
@@ -74,14 +71,12 @@ gulp.task("js", function() {
 
 gulp.task("vendor", function() {
   gulp.src(["./bower_components/**/*", "./src/vendor/**/*"])
-    .pipe(cleanDest('./dist/vendor/'))
     .pipe(gulp.dest("./dist/vendor/"))
 })
 
 gulp.task("font", function() {
   gulp.src("./src/font/**/*")
     .pipe(options.production ? plumber() : gutil.noop())
-    .pipe(cleanDest('./dist/font/'))
     .pipe(gulp.dest("./dist/font/"))
 })
 
