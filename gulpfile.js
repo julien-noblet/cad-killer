@@ -8,12 +8,12 @@ var colorguard = require('gulp-colorguard');
 var crass = require('gulp-crass');
 var prettify = require('gulp-html-prettify');
 var resources = require('gulp-resources');
-var deploy = require('gulp-gh-pages');
 var cleanDest = require('gulp-clean-dest');
 var csscombLint = require('gulp-csscomb-lint');
 var ga = require('gulp-ga');
 var jshint = require('gulp-jshint');
-var deploy = require('gulp-gh-pages');
+var ghpages = require('gh-pages');
+var path = require('path');
 
 gulp.task("checkCSS", function() {
   gulp.src("./dist/*.html")
@@ -94,7 +94,6 @@ gulp.task("default", ["vendor", "html", "styles", "js", "font", "checkCSS"], fun
   gulp.watch("./src/css/**/*", ["styles", "checkCSS"])
 })
 
-gulp.task('deploy', function () {
-  return gulp.src('./dist/**/*')
-  .pipe(deploy());
+gulp.task("deploy", ["vendor", "html", "styles", "js", "font", "checkCSS"], function(cb) {
+  ghpages.publish(path.join(process.cwd(), "dist"), cb);
 });
