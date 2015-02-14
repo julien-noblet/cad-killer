@@ -1,4 +1,7 @@
-CENTER = [46.495, 2.201];
+/*global L */
+var CENTER = [46.495, 2.201];
+var API_URL = 'http://api.adresse.data.gouv.fr/search/?';
+var REVERSE_URL = 'http://bano.fluv.io/reverse/?';
 var searchPoints = L.geoJson(null, {
   onEachFeature: function(feature, layer) {
     layer.bindPopup(feature.properties.name);
@@ -21,7 +24,7 @@ var formatResult = function(feature, el) {
     locality: 'lieu-dit',
     hamlet: 'hamlet',
     village: 'village',
-    city: 'city',
+    city: 'ville',
     commune: 'commune',
   };
   if (types[feature.properties.type]) L.DomUtil.create('span', 'type', title).innerHTML = types[feature.properties.type];
@@ -45,7 +48,7 @@ var photonControlOptions = {
 var photonReverseControlOptions = {
   resultsHandler: showSearchPoints,
   position: 'topleft',
-  url: 'http://bano.fluv.io/reverse/?',
+  url: REVERSE_URL,
   formatResult: formatResult,
   noResultLabel: 'Aucun résultat',
   tooltipLabel: 'Cliquer sur la carte pour obtenir l\'adresse'
@@ -88,11 +91,11 @@ var map = L.map('map', {
 
 map.addLayer(osmfr);
 var baseMaps = {
-  "OpenStreetMap France": osmfr,
-  "OpenStreetMap": osm,
-  "Tranport": thunderforest,
-  "Bing": bing,
-  "Bing+OSM": boner,
+  'OpenStreetMap France': osmfr,
+  'OpenStreetMap': osm,
+  'Tranport': thunderforest,
+  'Bing': bing,
+  'Bing+OSM': boner,
   //"Google" : google,
   //"Google Sat" : googlesat,
 
@@ -108,7 +111,7 @@ searchPoints.addTo(map);
 L.control.attribution({
   position: 'bottomleft'
 }).addTo(map);
-var label = document.getElementById("label");
+var label = document.getElementById('label');
 L.Control.ReverseLabel = L.Control.extend({
 
   options: {
@@ -118,7 +121,7 @@ L.Control.ReverseLabel = L.Control.extend({
   onAdd: function(map) {
     var container = L.DomUtil.create('div', 'reverse-label');
     var reverse = new L.PhotonReverse({
-      url: 'http://bano.fluv.io/reverse/?',
+      url: REVERSE_URL,
       handleResults: function(data) {
         container.innerHTML = 'Carte centrée sur «' + data.features[0].properties.label + '»';
       }
@@ -138,7 +141,7 @@ var hash = new L.Hash(map);
 // edition
 var edit = function() {
   var center = map.getCenter();
-  var url = "http://www.openstreetmap.org/edit#map=" + map.getZoom() + '/' + center.lat + '/' + center.lng;
-  console.log("going to " + url);
+  var url = 'http://www.openstreetmap.org/edit#map=' + map.getZoom() + '/' + center.lat + '/' + center.lng;
+  // console.log('going to ' + url);
   window.open(url, '_blank');
 };

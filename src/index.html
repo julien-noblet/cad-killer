@@ -6,14 +6,9 @@
   <title>CAD-Killer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="description" content="Visionneur de carte pour logisticiens pressés">
-
-  <link rel="stylesheet" href="vendor/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="vendor/leaflet.photon/leaflet.photon.css" />
+  <!-- build:css css/combined.css -->
   <link rel="stylesheet" type="text/css" href="css/style.css">
-
-  <script src="vendor/leaflet/dist/leaflet.js"></script>
-  <script src="vendor/leaflet.photon/leaflet.photon.js"></script>
-  <script src="vendor/leaflet-hash/leaflet-hash.js"></script>
+  <!-- endbuild -->
 
 </head>
 
@@ -31,11 +26,13 @@
   <div id="label"></div>
   <div class="content">
     <div id="map"></div>
-    <script type="text/javascript">
-      API_URL = 'http://api.adresse.data.gouv.fr/search/?';
-    </script>
-    <script src="js/map.js"></script>
   </div>
+  <!-- build:js js/combined.js -->
+  <script src="vendor/leaflet/dist/leaflet.js"></script>
+  <script src="vendor/leaflet.photon/leaflet.photon.js"></script>
+  <script src="vendor/leaflet-hash/leaflet-hash.js"></script>
+  <script src="js/map.js"></script>
+  <!-- endbuild -->
 </body>
 
 </html>

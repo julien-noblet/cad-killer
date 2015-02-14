@@ -21,6 +21,10 @@
         visibility: hidden;
       }
     }
+
+    .leaflet-control-layers-toggle {
+      background-image: url(../images/leaflet/dist/images/layers.png);
+    }
     .leaflet-photon {
       right: calc(50% - 200px);
     }
