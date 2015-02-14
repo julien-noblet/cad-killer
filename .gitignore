@@ -8,7 +8,9 @@
 ehthumbs.db
 Thumbs.db
 
-dist
+serve
+prod
 bower_components
 plato
 node_modules
+src/css

@@ -1,0 +1,60 @@
+/* ************************************************* */
+/* ********************* MAP *********************** */
+/* ************************************************* */
+
+.map {
+  #map {
+    width: 100%;
+    position: absolute;
+    top: 100px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .photon-input {
+      width: 400px;
+    }
+    .leaflet-right {
+      width: 100%;
+    }
+    .leaflet-top {
+      @media (print){
+        visibility: hidden;
+      }
+    }
+    .leaflet-photon {
+      right: calc(50% - 200px);
+    }
+    @media (print){
+      top: 0px;
+      height: 100%;
+    }
+  }
+  footer {
+    display: none;
+  }
+}
+
+.reverse-label {
+  padding: 0 10px;
+  margin-bottom: 0 !important;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  border: 1px solid #ddd;
+  background-color: #fefefe;
+  color: #333;
+  opacity: 0.8;
+  @media (print){
+    top: 0px;
+    font-size: x-large;
+    bottom: inherit;     // need???
+    visibility: visible; // need??
+  }
+}
+
+.photon-autocomplete li .type {
+  font-family: 'open_sanslight';
+  font-weight: normal;
+  float: right;
+  font-size: 0.8em;
+}
