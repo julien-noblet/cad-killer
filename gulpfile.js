@@ -105,7 +105,6 @@ gulp.task('fonts', function () {
 gulp.task('vendor', function () {
   return gulp.src([config.source_folder+'/vendor/**','bower_components/**'])
   .pipe(gulp.dest(config.dev_folder+'/vendor'))
-  .pipe(gulp.dest(config.prod_folder+'/vendor'))
     .pipe($.size({ title: 'vendor' }));
 });
 
