@@ -104,7 +104,8 @@ gulp.task('fonts', function () {
 // Copy over vendor to the 'site' directory // need?
 gulp.task('vendor', function () {
   return gulp.src([config.source_folder+'/vendor/**','bower_components/**'])
-    .pipe(gulp.dest(config.dev_folder+'/vendor'))
+  .pipe(gulp.dest(config.dev_folder+'/vendor'))
+  .pipe(gulp.dest(config.prod_folder+'/vendor'))
     .pipe($.size({ title: 'vendor' }));
 });
 
@@ -118,7 +119,7 @@ gulp.task('js', function() {
 
 // Optimizes the images that exists
 gulp.task('images', function () {
-  return gulp.src([config.source_folder+'/images/**','bower_components/**/images/**'])
+  return gulp.src([config.source_folder+'/images/**'])
     .pipe(gulp.dest(config.dev_folder+'/images'))
     .pipe($.changed(config.prod_folder+'/images'))
     .pipe($.imagemin({
