@@ -164,7 +164,7 @@ gulp.task('prod', ['dev'], function () {
     // Minify CSS
     .pipe($.if('*.css', $.minifyCss()))
     // Start cache busting the files
-    .pipe($.revAll({ ignore: ['.eot', '.svg', '.ttf', '.woff'] }))
+    .pipe($.revAll({ ignore: ['.eot', '.svg', '.ttf', '.woff','png'] }))
     .pipe(assets.restore())
     // Conctenate your files based on what you specified in _layout/header.html
     .pipe($.useref())
