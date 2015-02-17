@@ -50,7 +50,7 @@ header {
   section {
     display: inline-block;
   }
-  @media(print){
+  @mediaprint{
       visibility: hidden;
       height: 0px;
   }

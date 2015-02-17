@@ -11,6 +11,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+@media print{
+  @page {
+    size: landscape
+  }
+}
+
 input, textarea {
   color: #404040;
   color: rgba(0, 0, 0, 0.75);

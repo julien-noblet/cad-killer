@@ -17,7 +17,7 @@
       width: 100%;
     }
     .leaflet-top {
-      @media (print){
+      @media print{
         visibility: hidden;
       }
     }
@@ -25,7 +25,7 @@
     .leaflet-photon {
       right: calc(50% - 200px);
     }
-    @media (print){
+    @media print{
       top: 0px;
       height: 100%;
     }
@@ -45,7 +45,7 @@
   background-color: #fefefe;
   color: #333;
   opacity: 0.8;
-  @media (print){
+  @media print{
     top: 0px;
     font-size: x-large;
     bottom: inherit;     // need???
