@@ -118,7 +118,7 @@ gulp.task('js', function() {
 
 // Optimizes the images that exists
 gulp.task('images', function () {
-  return gulp.src([config.source_folder+'/images/**'])
+  return gulp.src([config.source_folder+'/images/**','bower_components/leaflet/dist/images/**'])
     .pipe(gulp.dest(config.dev_folder+'/images'))
     .pipe($.changed(config.prod_folder+'/images'))
     .pipe($.imagemin({

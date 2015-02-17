@@ -88,7 +88,7 @@ var map = L.map('map', {
   photonReverseControlOptions: photonReverseControlOptions,
   attributionControl: false,
 });
-L.Icon.Default.imagePath = '/cad-killer/images/leaflet/dist/images';
+L.Icon.Default.imagePath = '/cad-killer/images';
 map.addLayer(osmfr);
 var baseMaps = {
   'OpenStreetMap France': osmfr,
