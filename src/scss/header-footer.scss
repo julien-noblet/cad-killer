@@ -21,6 +21,7 @@ header {
     }
     @media (max-width: 640px){
       margin-left : 0;
+      line-height:45px;
     }
   }
   .menu {
@@ -50,7 +51,10 @@ header {
   section {
     display: inline-block;
   }
-  @mediaprint{
+  @media (max-width: 640px){
+    height : 60px;
+  }
+  @media print{
       visibility: hidden;
       height: 0px;
   }

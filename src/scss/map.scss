@@ -12,6 +12,10 @@
     right: 0;
     .photon-input {
       width: 400px;
+      @media (max-width: 640px){
+        width: 100%;
+        margin-top:-10px;
+      }
     }
     .leaflet-right {
       width: 100%;
@@ -32,6 +36,23 @@
       }
     .leaflet-photon {
       right: calc(50% - 200px);
+      @media (max-width: 640px){
+        right: 0px;
+        top:0 px;
+        width:100%;
+        margin:0;
+      }
+    }
+    .leaflet-control-zoom{
+      @media (max-width: 640px){
+        top: 45px;
+      }
+      @media print{
+        visibility: hidden;
+      }
+    }
+    @media (max-width: 640px){
+      top: 60px;
     }
     @media print{
       top: 0px;
