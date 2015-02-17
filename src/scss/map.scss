@@ -74,6 +74,11 @@
   background-color: #fefefe;
   color: #333;
   opacity: 0.8;
+  @media (max-width: 640px){
+    bottom: 2,5em;
+    width: 100%;
+    margin-right: 0 !important;
+  }
   @media print{
     top: 0px;
     font-size: x-large;
