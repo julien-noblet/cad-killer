@@ -13,7 +13,8 @@ body {
 
 @media print{
   @page {
-    size: landscape
+    size: landscape;
+    margin: 0mm;
   }
 }
 
