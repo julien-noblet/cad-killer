@@ -1,7 +1,7 @@
 /*global L */
 var CENTER = [46.495, 2.201];
 var API_URL = 'http://api.adresse.data.gouv.fr/search/?';
-var REVERSE_URL = 'http://bano.fluv.io/reverse/?';
+var REVERSE_URL = 'http://api.adresse.data.gouv.fr/reverse/?';
 var searchPoints = L.geoJson(null, {
   onEachFeature: function(feature, layer) {
     layer.bindPopup(feature.properties.name);
