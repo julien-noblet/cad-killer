@@ -32,6 +32,9 @@
       padding:6px;
       @media (max-width: 640px){
         visibility:visible;
+        top:90px;
+        position:absolute;
+        right:0px;
       }
       }
     .leaflet-right {
@@ -40,6 +43,14 @@
     .leaflet-top {
       @media print{
         visibility: hidden;
+      }
+    }
+    .leaflet-control-layers {
+      position:absolute;
+      right:0px;
+      top:0px;
+      @media (max-width: 640px){
+        top:45px;
       }
     }
     .leaflet-control-layers-toggle:before {
