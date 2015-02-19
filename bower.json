@@ -21,6 +21,7 @@
   ],
   "dependencies": {
     "leaflet": "~0.7.3",
-    "leaflet-hash": "*"
+    "leaflet-hash": "*",
+    "material-design-iconic-font": "~1.1.1"
   }
 }

@@ -65,16 +65,12 @@ gulp.task('clean:prod', del.bind(null, [config.prod_folder]));
 
 // SCSS
 gulp.task('SCSS', function () {
-  $.merge(
-    gulp.src([config.source_folder+'/vendor/**/*.css','bower_components/**/*.css'])
-      .pipe($.sourcemaps.init()),
-    gulp.src(config.source_folder+'/scss/style.scss')
-      .pipe($.sourcemaps.init()) //useless ?
-      .pipe($.sass()))
+  gulp.src([config.source_folder+'/vendor/**/*.css','bower_components/**/*.css',config.source_folder+'/scss/style.scss'])
+    //  .pipe($.sourcemaps.init()) //useless ?
+  .pipe($.sass())
   .pipe($.concat('style.css'))
   // AutoPrefix your CSS so it works between browsers
   .pipe($.autoprefixer('> 1%, last 2 versions, Firefox ESR, Opera 12.1', { cascade: true }))
-  .pipe($.sourcemaps.write())
   .pipe($.uncss(config.uncss))
   .pipe($.colorguard(config.colorguard))
   .pipe(gulp.dest(config.source_folder+'/css'))
@@ -95,7 +91,7 @@ gulp.task('jslint', function () {
 
 // Copy over fonts to the 'site' directory
 gulp.task('fonts', function () {
-  return gulp.src(config.source_folder+'/fonts/**')
+  return gulp.src([config.source_folder+'/fonts/**','bower_components/material-design-iconic-font/fonts/*'])
     .pipe(gulp.dest(config.dev_folder+'/fonts'))
     .pipe(gulp.dest(config.prod_folder+'/fonts'))
     .pipe($.size({ title: 'fonts' }));

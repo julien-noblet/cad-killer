@@ -17,6 +17,23 @@
         margin-top:-10px;
       }
     }
+/*
+    .leaflet-shadow-pane {
+      display:hidden;
+    }*/
+    .leaflet-marker-pane {
+
+    }
+    .leaflet-control-geoloc {
+      visibility:hidden;
+    	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    	background: #fff;
+    	border-radius: 5px;
+      padding:6px;
+      @media (max-width: 640px){
+        visibility:visible;
+      }
+      }
     .leaflet-right {
       width: 100%;
     }
@@ -25,15 +42,25 @@
         visibility: hidden;
       }
     }
+    .leaflet-control-layers-toggle:before {
+      content: "\f267";
+    }
     .leaflet-control-layers-toggle {
-      background-image: url(../images/layers.png);
-      width: 36px;
-      height: 36px;
-      }
-    .leaflet-retina .leaflet-control-layers-toggle {
-      background-image: url(../images/layers-2x.png);
-      background-size: 26px 26px;
-      }
+      //background-image: url(../images/layers.png);
+      //width: 36px;
+      //height: 36px;
+      font: normal normal normal 28px/1 'Material Design Iconic Font';
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-image:none;
+      text-decoration:none;
+      color:#333;
+      height:100%;
+      width:100%;
+      padding:5px;
+
+    }
     .leaflet-photon {
       right: calc(50% - 200px);
       @media (max-width: 640px){
