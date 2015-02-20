@@ -3,16 +3,16 @@ var CENTER = [46.495, 2.201];
 var API_URL = 'http://api.adresse.data.gouv.fr/search/?';
 var REVERSE_URL = 'http://api.adresse.data.gouv.fr/reverse/?';
 var searchPoints = L.geoJson(null, {
-  onEachFeature: function(feature, layer) {
-    layer.bindPopup(feature.properties.name);
+  onEachFeature: function (feature, layer) {
+    layer.bindPopup(feature.properties.name+'<a class="geo" href="geo:'+feature.geometry.coordinates[1]+','+feature.geometry.coordinates[0]+'"><i class="md-navigation md-2x"></i></a>');
   }
 });
-var showSearchPoints = function(geojson) {
+var showSearchPoints = function (geojson) {
   searchPoints.clearLayers();
   searchPoints.addData(geojson);
 };
 
-var formatResult = function(feature, el) {
+var formatResult = function (feature, el) {
   var title = L.DomUtil.create('strong', '', el),
     detailsContainer = L.DomUtil.create('small', '', el),
     details = [],
@@ -118,17 +118,21 @@ L.Control.ReverseLabel = L.Control.extend({
     position: 'topright' //'bottomright'
   },
 
-  onAdd: function(map) {
+  onAdd: function (map) {
     var container = L.DomUtil.create('div', 'reverse-label');
     var reverse = new L.PhotonReverse({
       url: REVERSE_URL,
-      handleResults: function(data) {
+      handleResults: function (data) {
         container.innerHTML = 'Carte centrée sur «' + data.features[0].properties.label + '»';
       }
     });
 
-    map.on('moveend', function() {
-      if (this.getZoom() > 14) reverse.doReverse(this.getCenter());
+    map.on('moveend', function () {
+      if (this.getZoom() > 14) {
+        reverse.doReverse(this.getCenter());
+        document.getElementById('head').className += ' headmasked';
+        document.getElementById('map').className += ' nohead';
+      }
       else container.innerHTML = '';
     });
     return container;
@@ -139,9 +143,43 @@ new L.Control.ReverseLabel().addTo(map);
 var hash = new L.Hash(map);
 
 // edition
-var edit = function() {
+var edit = function () {
   var center = map.getCenter();
   var url = 'http://www.openstreetmap.org/edit#map=' + map.getZoom() + '/' + center.lat + '/' + center.lng;
   // console.log('going to ' + url);
   window.open(url, '_blank');
 };
+
+// Géoloc
+var showPosition = function(position){
+  map.setView([position.coords.latitude,position.coords.longitude], 16);
+  var icone = document.getElementById('geoloc_icon');
+  icone.className = 'md-gps-fixed';
+
+};
+
+var getLocation = function() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    var icone = document.getElementById('geoloc_icon');
+    icone.className = 'md-gps-not-fixed';
+
+  }
+};
+
+var geoLoc = L.Control.extend({
+    options: {
+        position: 'topright'
+    },
+
+    onAdd: function (map) {
+        // create the control container with a particular class name
+        var container = L.DomUtil.create('div', 'leaflet-control-geoloc');
+        container.innerHTML = '<span onClick="getLocation();" id="geoloc" class="md-2x"><i class="md-gps-off" id="geoloc_icon"></i></span>';
+        // ... initialize other DOM elements, add listeners, etc.
+
+        return container;
+    }
+});
+
+map.addControl(new geoLoc());

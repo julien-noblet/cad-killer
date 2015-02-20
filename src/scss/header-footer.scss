@@ -4,6 +4,12 @@
 $light : #fefefe;
 $dark : #333;
 
+.headmasked {
+  @media (max-width: 640px){
+    visibility: hidden;
+  }
+}
+
 header {
   height: 100px;
   padding: 0 20px;
@@ -21,6 +27,7 @@ header {
     }
     @media (max-width: 640px){
       margin-left : 0;
+      line-height:45px;
     }
   }
   .menu {
@@ -50,7 +57,10 @@ header {
   section {
     display: inline-block;
   }
-  @mediaprint{
+  @media (max-width: 640px){
+    height : 60px;
+  }
+  @media print{
       visibility: hidden;
       height: 0px;
   }
