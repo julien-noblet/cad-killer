@@ -169,7 +169,7 @@ gulp.task('prod', ['dev'], function () {
     // Add GA
     .pipe($.if('*.html',$.ga({
           url: 'julien-noblet.github.io/cad-killer',
-          uid: 'UA-59363844-1'
+          uid: 'UA-59363844-3'
         })))
     // Minify HTML
     .pipe($.if('*.html', $.htmlmin({
