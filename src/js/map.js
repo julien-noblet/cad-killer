@@ -128,7 +128,11 @@ L.Control.ReverseLabel = L.Control.extend({
     });
 
     map.on('moveend', function () {
-      if (this.getZoom() > 14) reverse.doReverse(this.getCenter());
+      if (this.getZoom() > 14) {
+        reverse.doReverse(this.getCenter());
+        document.getElementById('head').className += ' headmasked';
+        document.getElementById('map').className += ' nohead';
+      }
       else container.innerHTML = '';
     });
     return container;

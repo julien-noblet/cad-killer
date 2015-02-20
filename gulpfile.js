@@ -14,6 +14,8 @@ var config = {
       '.content',
       '.type',
       '.geoJson',
+      '.headmasked',
+      '.nohead',
       '.on',
       'ul',
       'li',
