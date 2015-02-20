@@ -16,6 +16,7 @@ var config = {
       '.geoJson',
       '.headmasked',
       '.nohead',
+      '.geo',
       '.on',
       'ul',
       'li',

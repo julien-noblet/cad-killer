@@ -7,6 +7,11 @@
     top: 0px !important;
   }
 }
+.geo{
+  @media (max-width: 640px){
+    display:block;
+  }
+}
 .map {
   #map {
     width: 100%;
@@ -22,12 +27,15 @@
         margin-top:-10px;
       }
     }
-/*
+    /*
     .leaflet-shadow-pane {
       display:hidden;
     }*/
     .leaflet-marker-pane {
 
+    }
+    .leaflet-popup-content{
+      text-align: center;
     }
     .leaflet-control-geoloc {
       visibility:hidden;
@@ -117,8 +125,9 @@
   background-color: #fefefe;
   color: #333;
   opacity: 0.8;
+  text-align:center;
   @media (max-width: 640px){
-    bottom: 2,5em;
+    bottom: 2.5em;
     width: 100%;
     margin-right: 0 !important;
   }

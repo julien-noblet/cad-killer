@@ -4,7 +4,7 @@ var API_URL = 'http://api.adresse.data.gouv.fr/search/?';
 var REVERSE_URL = 'http://api.adresse.data.gouv.fr/reverse/?';
 var searchPoints = L.geoJson(null, {
   onEachFeature: function (feature, layer) {
-    layer.bindPopup(feature.properties.name);
+    layer.bindPopup(feature.properties.name+'<a class="geo" href="geo:'+feature.geometry.coordinates[1]+','+feature.geometry.coordinates[0]+'"><i class="md-navigation md-2x"></i></a>');
   }
 });
 var showSearchPoints = function (geojson) {
@@ -152,7 +152,7 @@ var edit = function () {
 
 // Géoloc
 var showPosition = function(position){
-  map.setView([position.coords.latitude,position.coords.longitude], 14);
+  map.setView([position.coords.latitude,position.coords.longitude], 16);
   var icone = document.getElementById('geoloc_icon');
   icone.className = 'md-gps-fixed';
 
