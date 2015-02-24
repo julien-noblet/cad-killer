@@ -71,7 +71,7 @@ gulp.task('clean:prod', del.bind(null, [config.prod_folder]));
 
 // SCSS
 gulp.task('SCSS', function () {
-  gulp.src([config.source_folder+'/vendor/**/*.css','bower_components/**/*.css',config.source_folder+'/scss/style.scss'])
+  gulp.src(['bower_components/**/*.css',config.source_folder+'/scss/style.scss'])
     //  .pipe($.sourcemaps.init()) //useless ?
   .pipe($.sass())
   .pipe($.concat('style.css'))
@@ -103,13 +103,6 @@ gulp.task('fonts', function () {
     .pipe($.size({ title: 'fonts' }));
 });
 
-// Copy over vendor to the 'site' directory // need?
-gulp.task('vendor', function () {
-  return gulp.src([config.source_folder+'/vendor/**','bower_components/**'])
-  .pipe(gulp.dest(config.dev_folder+'/vendor'))
-    .pipe($.size({ title: 'vendor' }));
-});
-
 gulp.task('js', function() {
   gulp.src(config.source_folder+'/js/*.js')
   //.pipe($.concat('all.js'))
@@ -133,7 +126,13 @@ gulp.task('images', function () {
     .pipe($.size({title: 'images'}));
 });
 
-gulp.task('dev',['vendor','fonts','images','SCSS','jslint','js'],function(){
+gulp.task('bower', function() {
+  return $.bower()
+    .pipe(gulp.dest(config.dev_folder+'/vendor'));
+});
+
+gulp.task('dev',['bower','fonts','images','SCSS','jslint','js'],function(){
+
   gulp.src(config.source_folder+'/**/*.html')
   .pipe(gulp.dest(config.dev_folder));
 });
