@@ -1,5 +1,6 @@
 /*jslint node: true */
 'use strict';
+
 /*****************
  * Configuration *
  *****************/
@@ -49,6 +50,8 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')(); // auto load :)
 // Permet de supprimer les dossier de destination
 var del = require('del'); // ce n'est pas un plugin Gulp.
+var argv = require('minimist')(process.argv.slice(2));
+
 
 // Idem, on doit le charger manuellement.
 var browserSync = require('browser-sync');
@@ -199,6 +202,13 @@ gulp.task('serve:prod', ['prod'], function () {
 });
 
 gulp.task('deploy',['prod'], function () {
+  if (argv.clean) {
+        var os = require('os');
+        var path = require('path');
+        var repoPath = path.join(os.tmpdir(), 'tmpRepo');
+        $.util.log('Delete ' + $.util.colors.magenta(repoPath));
+        del.sync(repoPath, {force: true});
+    }
   // Deploys your optimized site, you can change the settings in the html task if you want to
   return gulp.src(config.prod_folder+'/**/*')
     .pipe($.ghPages({
