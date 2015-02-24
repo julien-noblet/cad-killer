@@ -2,6 +2,16 @@
 /* ********************* MAP *********************** */
 /* ************************************************* */
 
+.nohead {
+  @media (max-width: 640px){
+    top: 0px !important;
+  }
+}
+.geo{
+  @media (max-width: 640px){
+    display:block;
+  }
+}
 .map {
   #map {
     width: 100%;
@@ -12,7 +22,34 @@
     right: 0;
     .photon-input {
       width: 400px;
+      @media (max-width: 640px){
+        width: 100%;
+        margin-top:-10px;
+      }
     }
+    /*
+    .leaflet-shadow-pane {
+      display:hidden;
+    }*/
+    .leaflet-marker-pane {
+
+    }
+    .leaflet-popup-content{
+      text-align: center;
+    }
+    .leaflet-control-geoloc {
+      visibility:hidden;
+    	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    	background: #fff;
+    	border-radius: 5px;
+      padding:6px;
+      @media (max-width: 640px){
+        visibility:visible;
+        top:90px;
+        position:absolute;
+        right:0px;
+      }
+      }
     .leaflet-right {
       width: 100%;
     }
@@ -21,17 +58,52 @@
         visibility: hidden;
       }
     }
+    .leaflet-control-layers {
+      position:absolute;
+      right:0px;
+      top:0px;
+      @media (max-width: 640px){
+        top:45px;
+      }
+    }
+    .leaflet-control-layers-toggle:before {
+      content: "\f267";
+    }
     .leaflet-control-layers-toggle {
-      background-image: url(../images/layers.png);
-      width: 36px;
-      height: 36px;
-      }
-    .leaflet-retina .leaflet-control-layers-toggle {
-      background-image: url(../images/layers-2x.png);
-      background-size: 26px 26px;
-      }
+      //background-image: url(../images/layers.png);
+      //width: 36px;
+      //height: 36px;
+      font: normal normal normal 28px/1 'Material Design Iconic Font';
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-image:none;
+      text-decoration:none;
+      color:#333;
+      height:100%;
+      width:100%;
+      padding:5px;
+
+    }
     .leaflet-photon {
       right: calc(50% - 200px);
+      @media (max-width: 640px){
+        right: 0px;
+        top:0 px;
+        width:100%;
+        margin:0;
+      }
+    }
+    .leaflet-control-zoom{
+      @media (max-width: 640px){
+        top: 45px;
+      }
+      @media print{
+        visibility: hidden;
+      }
+    }
+    @media (max-width: 640px){
+      top: 60px;
     }
     @media print{
       top: 0px;
@@ -53,6 +125,12 @@
   background-color: #fefefe;
   color: #333;
   opacity: 0.8;
+  text-align:center;
+  @media (max-width: 640px){
+    bottom: 2.5em;
+    width: 100%;
+    margin-right: 0 !important;
+  }
   @media print{
     top: 0px;
     font-size: x-large;
