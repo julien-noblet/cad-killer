@@ -8,8 +8,13 @@
   }
 }
 .geo{
+  float:right;
+  visibility:hidden;
+  width:0;
   @media (max-width: 640px){
     display:block;
+    visibility:visible;
+    float:none;
   }
 }
 .map {
