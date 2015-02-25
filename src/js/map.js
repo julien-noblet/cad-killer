@@ -82,16 +82,19 @@ var boner = L.tileLayer(
   });
 var cadastre = L.tileLayer(
   'http://tms.cadastre.openstreetmap.fr/*/tout/{z}/{x}/{y}.png',{
-    maxZoom:20,
+    maxZoom:22,
+    minZoom:16,
     attribution: 'Data \u00a9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | Tiles \u00a9 Cadastre'
   });
 var cadastre_t = L.tileLayer(
   'http://tms.cadastre.openstreetmap.fr/*/transp/{z}/{x}/{y}.png',{
-    maxZoom:20,
+    maxZoom:22,
+    minZoom:16,
     attribution: 'Data \u00a9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | Tiles \u00a9 Cadastre'
   });
-  var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-  	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+  var Esri_WorldImagery = L.tileLayer(
+    'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
   });
 var map = L.map('map', {
   photonControl: true,
