@@ -106,7 +106,7 @@ gulp.task('fonts', function () {
 gulp.task('js', function() {
   gulp.src(config.source_folder+'/js/*.js')
   //.pipe($.concat('all.js'))
-  .pipe($.uglify({preserveComments: 'some'}))
+  //.pipe($.uglify({preserveComments: 'some'}))
   .pipe($.size({title: 'js'}))
   .pipe(gulp.dest(config.dev_folder+'/js/'));
 });

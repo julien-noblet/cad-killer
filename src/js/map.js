@@ -80,7 +80,19 @@ var boner = L.tileLayer(
     maxZoom: 18,
     attribution: 'Data \u00a9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | Tiles \u00a9 <a href="http://bing.com/">Bing</a>'
   });
-
+var cadastre = L.tileLayer(
+  'http://tms.cadastre.openstreetmap.fr/*/tout/{z}/{x}/{y}.png',{
+    maxZoom:20,
+    attribution: 'Data \u00a9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | Tiles \u00a9 Cadastre'
+  });
+var cadastre_t = L.tileLayer(
+  'http://tms.cadastre.openstreetmap.fr/*/transp/{z}/{x}/{y}.png',{
+    maxZoom:20,
+    attribution: 'Data \u00a9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | Tiles \u00a9 Cadastre'
+  });
+  var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+  });
 var map = L.map('map', {
   photonControl: true,
   photonControlOptions: photonControlOptions,
@@ -96,14 +108,16 @@ var baseMaps = {
   'Tranport': thunderforest,
   'Bing': bing,
   'Bing+OSM': boner,
+  'Cadastre': cadastre,
+  'Esri': Esri_WorldImagery,
   //"Google" : google,
   //"Google Sat" : googlesat,
 
 };
 var overlayMaps = {
-
+  'Cadastre': cadastre_t,
 };
-L.control.layers(baseMaps).addTo(map);
+L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 map.setView(CENTER, 6);
 searchPoints.addTo(map);
