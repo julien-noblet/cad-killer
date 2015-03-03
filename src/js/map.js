@@ -137,6 +137,16 @@ var ign = L.tileLayer(
     attribution: '&copy; <a href="http://www.ign.fr">IGN</a>'
   });
 
+  var ggl = new L.Google('ROADMAP',{
+      maxZoom: 20,
+      attribution: '&copy; <a href="http://www.google.com">Google</a>'
+    });
+
+var ggl_hyb = new L.Google('HYBRID',{
+    maxZoom: 20,
+    attribution: '&copy; <a href="http://www.google.com">Google</a>'
+  });
+
 
 var map = L.map('map', {
   photonControl: true,
@@ -157,8 +167,8 @@ var baseMaps = {
   'Cadastre': cadastre,
   'Esri': Esri_WorldImagery,
   //'MapBox - Digiglobe': mapbox_digiglobe,
-  //'Google' : google,
-  //'Google Sat' : googlesat,
+  'Google' : ggl,
+  'Google Sat' : ggl_hyb,
 
 };
 var overlayMaps = {
