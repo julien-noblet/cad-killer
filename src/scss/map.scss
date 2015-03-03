@@ -107,6 +107,11 @@
         visibility: hidden;
       }
     }
+    .leaflet-control-permalink{
+      @media print{
+        display:none;
+      }
+    }
     @media (max-width: 640px){
       top: 60px;
     }

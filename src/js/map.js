@@ -9,11 +9,14 @@ var API_URL = 'http://api.adresse.data.gouv.fr/search/?';
 var REVERSE_URL = 'http://api.adresse.data.gouv.fr/reverse/?';
 var SHORT_CITY_NAMES = ['y', 'ay', 'bu', 'by', 'eu', 'fa', 'gy', 'oo', 'oz', 'py', 'ri', 'ry', 'sy', 'ur', 'us', 'uz'];
 var ATTRIBUTIONS = 'Données &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | <a href="https://www.data.gouv.fr/fr/datasets/base-d-adresses-nationale-ouverte-bano/">Adresses BANO</a> sous licence ODbL';
-var IGN_KEY = 'ztr0a9dk574qlszvikoa0zqi';//'2ya53yhtpe1sd5egoc1tebhi';
+var IGN_KEY = 'ztr0a9dk574qlszvikoa0zqi'; //'2ya53yhtpe1sd5egoc1tebhi';
 var IGN_LAYER = 'GEOGRAPHICALGRIDSYSTEMS.MAPS'; // GEOGRAPHICALGRIDSYSTEMS.PLANIGN
 
 var searchPoints = L.geoJson(null, {
   onEachFeature: function (feature, layer) {
+    layer.on('click', function (e) {
+        map.setView([feature.geometry.coordinates[1],feature.geometry.coordinates[0]],16);
+    });
     layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="md-navigation md-2x"></i></a>');
   }
 });
@@ -131,21 +134,21 @@ var mapquest_hyb = L.tileLayer(
 });
 */
 var ign = L.tileLayer(
-  'http://wxs.ign.fr/'+IGN_KEY+'/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER='+IGN_LAYER+'&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg', {
+  'http://wxs.ign.fr/' + IGN_KEY + '/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=' + IGN_LAYER + '&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg', {
     maxZoom: 18,
     minZoom: 6,
     attribution: '&copy; <a href="http://www.ign.fr">IGN</a>'
   });
 
-  var ggl = new L.Google('ROADMAP',{
-      maxZoom: 20,
-      attribution: '&copy; <a href="http://www.google.com">Google</a>'
-    });
+var ggl = new L.Google('ROADMAP', {
+  maxZoom: 20,
+  attribution: '&copy; <a href="http://www.google.com">Google</a>'
+});
 
-var ggl_hyb = new L.Google('HYBRID',{
-    maxZoom: 20,
-    attribution: '&copy; <a href="http://www.google.com">Google</a>'
-  });
+var ggl_hyb = new L.Google('HYBRID', {
+  maxZoom: 20,
+  attribution: '&copy; <a href="http://www.google.com">Google</a>'
+});
 
 
 var map = L.map('map', {
@@ -160,22 +163,24 @@ map.addLayer(osmfr);
 var baseMaps = {
   'OpenStreetMap France': osmfr,
   'OpenStreetMap': osm,
-  'Carte IGN' : ign,
+  'Carte IGN': ign,
   'Tranport': thunderforest,
   'Bing': bing,
   'Bing+OSM': boner,
   'Cadastre': cadastre,
   'Esri': Esri_WorldImagery,
   //'MapBox - Digiglobe': mapbox_digiglobe,
-  'Google' : ggl,
-  'Google Sat' : ggl_hyb,
+  'Google': ggl,
+  'Google Sat': ggl_hyb,
 
 };
 var overlayMaps = {
   'Cadastre': cadastre_t,
   //'Mapquest': mapquest_hyb,
 };
-L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+var layers = L.control.layers(baseMaps, overlayMaps);
+layers.addTo(map);
 
 map.setView(CENTER, 6);
 searchPoints.addTo(map);
@@ -212,7 +217,13 @@ L.Control.ReverseLabel = L.Control.extend({
 
 });
 new L.Control.ReverseLabel().addTo(map);
-var hash = new L.Hash(map);
+
+map.addControl(new L.Control.Permalink({
+  text: 'Permalink',
+  layers: layers,
+  useLocation: true
+}));
+
 
 // edition
 var edit = function () {
