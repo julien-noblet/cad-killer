@@ -1,12 +1,23 @@
 /*global L */
+/**
+ * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
+ * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
+ */
+
 var CENTER = [46.495, 2.201];
 var API_URL = 'http://api.adresse.data.gouv.fr/search/?';
 var REVERSE_URL = 'http://api.adresse.data.gouv.fr/reverse/?';
+var SHORT_CITY_NAMES = ['y', 'ay', 'bu', 'by', 'eu', 'fa', 'gy', 'oo', 'oz', 'py', 'ri', 'ry', 'sy', 'ur', 'us', 'uz'];
+var ATTRIBUTIONS = 'Données &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | <a href="https://www.data.gouv.fr/fr/datasets/base-d-adresses-nationale-ouverte-bano/">Adresses BANO</a> sous licence ODbL';
+var IGN_KEY = 'ztr0a9dk574qlszvikoa0zqi';//'2ya53yhtpe1sd5egoc1tebhi';
+var IGN_LAYER = 'GEOGRAPHICALGRIDSYSTEMS.MAPS'; // GEOGRAPHICALGRIDSYSTEMS.PLANIGN
+
 var searchPoints = L.geoJson(null, {
   onEachFeature: function (feature, layer) {
-    layer.bindPopup(feature.properties.name+'<a class="geo" href="geo:'+feature.geometry.coordinates[1]+','+feature.geometry.coordinates[0]+'"><i class="md-navigation md-2x"></i></a>');
+    layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="md-navigation md-2x"></i></a>');
   }
 });
+
 var showSearchPoints = function (geojson) {
   searchPoints.clearLayers();
   searchPoints.addData(geojson);
@@ -35,6 +46,7 @@ var formatResult = function (feature, el) {
   detailsContainer.innerHTML = details.join(', ');
 };
 
+
 var photonControlOptions = {
   resultsHandler: showSearchPoints,
   placeholder: 'Ex. 6 quai de la tourelle cergy…',
@@ -43,8 +55,13 @@ var photonControlOptions = {
   formatResult: formatResult,
   noResultLabel: 'Aucun résultat',
   feedbackLabel: 'Signaler',
-  feedbackEmail: 'adresses@data.gouv.fr'
+  feedbackEmail: 'adresses@data.gouv.fr',
+  minChar: function (val) {
+    return SHORT_CITY_NAMES.indexOf(val) !== -1 || val.length >= 3;
+  },
+  submitDelay: 200
 };
+
 var photonReverseControlOptions = {
   resultsHandler: showSearchPoints,
   position: 'topleft',
@@ -58,44 +75,69 @@ var photonReverseControlOptions = {
 var osmfr = L.tileLayer(
   'http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
     maxZoom: 20,
-    attribution: 'Data \u00a9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | Tiles \u00a9 <a href="http://openstreetmap.fr/">OpenStreetMap France</a>'
+    attribution: '&copy; <a href="http://openstreetmap.fr/">OpenStreetMap France</a>'
   });
 var osm = L.tileLayer(
   'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
-    attribution: 'Data \u00a9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | Tiles \u00a9 <a href="http://openstreetmap.org/">OpenStreetMap</a>'
+    attribution: '&copy; <a href="http://openstreetmap.org/">OpenStreetMap</a>'
   });
 var thunderforest = L.tileLayer(
   'http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png', {
     maxZoom: 18,
-    attribution: 'Data \u00a9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | Tiles \u00a9 <a href="http://thunderforest.com/">Thunderforest</a>'
+    attribution: '&copy; <a href="http://thunderforest.com/">Thunderforest</a>'
   });
 var bing = L.tileLayer(
   'http://tile.stamen.com/bing-lite/{z}/{x}/{y}.jpg', {
     maxZoom: 18,
-    attribution: 'Data \u00a9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | Tiles \u00a9 <a href="http://bing.com/">Bing</a>'
+    attribution: '&copy; <a href="http://bing.com/">Bing</a> via Stamen'
   });
 var boner = L.tileLayer(
   'http://tile.stamen.com/boner/{z}/{x}/{y}.jpg', {
     maxZoom: 18,
-    attribution: 'Data \u00a9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | Tiles \u00a9 <a href="http://bing.com/">Bing</a>'
+    attribution: '&copy; <a href="http://bing.com/">Bing</a> via Stamen'
   });
 var cadastre = L.tileLayer(
-  'http://tms.cadastre.openstreetmap.fr/*/tout/{z}/{x}/{y}.png',{
-    maxZoom:22,
-    minZoom:16,
-    attribution: 'Data \u00a9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | Tiles \u00a9 Cadastre'
+  'http://tms.cadastre.openstreetmap.fr/*/tout/{z}/{x}/{y}.png', {
+    maxZoom: 22,
+    minZoom: 16,
+    attribution: '&copy; Cadastre'
   });
 var cadastre_t = L.tileLayer(
-  'http://tms.cadastre.openstreetmap.fr/*/transp/{z}/{x}/{y}.png',{
-    maxZoom:22,
-    minZoom:16,
-    attribution: 'Data \u00a9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | Tiles \u00a9 Cadastre'
+  'http://tms.cadastre.openstreetmap.fr/*/transp/{z}/{x}/{y}.png', {
+    maxZoom: 22,
+    minZoom: 16,
+    attribution: '&copy; Cadastre'
   });
-  var Esri_WorldImagery = L.tileLayer(
-    'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
-    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+var Esri_WorldImagery = L.tileLayer(
+  'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
   });
+var mapbox_digiglobe = L.tileLayer(
+  'http://{s}.tiles.mapbox.com/v3/openstreetmap.map-4wvf9l0l/{z}/{x}/{y}.png', {
+    attribution: '&copy; Mapbox'
+  });
+var mapquest_hyb = L.tileLayer(
+  'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{y}/{x}.png', {
+    subdomains: '1234',
+    attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">'
+  });
+/*var ign = new L.TileLayer.WMTS( 'http://wxs.ign.fr/' + IGN_KEY + '/geoportail/wmts', {
+  layer: IGN_LAYER,
+  style: 'normal',
+  tilematrixSet: 'PM',
+  format: 'image/jpeg',
+  attribution: '&copy; <a href="http://www.ign.fr">IGN</a>'
+});
+*/
+var ign = L.tileLayer(
+  'http://wxs.ign.fr/'+IGN_KEY+'/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER='+IGN_LAYER+'&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg', {
+    maxZoom: 18,
+    minZoom: 6,
+    attribution: '&copy; <a href="http://www.ign.fr">IGN</a>'
+  });
+
+
 var map = L.map('map', {
   photonControl: true,
   photonControlOptions: photonControlOptions,
@@ -108,17 +150,20 @@ map.addLayer(osmfr);
 var baseMaps = {
   'OpenStreetMap France': osmfr,
   'OpenStreetMap': osm,
+  'Carte IGN' : ign,
   'Tranport': thunderforest,
   'Bing': bing,
   'Bing+OSM': boner,
   'Cadastre': cadastre,
   'Esri': Esri_WorldImagery,
-  //"Google" : google,
-  //"Google Sat" : googlesat,
+  //'MapBox - Digiglobe': mapbox_digiglobe,
+  //'Google' : google,
+  //'Google Sat' : googlesat,
 
 };
 var overlayMaps = {
   'Cadastre': cadastre_t,
+  //'Mapquest': mapquest_hyb,
 };
 L.control.layers(baseMaps, overlayMaps).addTo(map);
 
@@ -126,7 +171,8 @@ map.setView(CENTER, 6);
 searchPoints.addTo(map);
 
 L.control.attribution({
-  position: 'bottomleft'
+  position: 'bottomleft',
+  prefix: ATTRIBUTIONS
 }).addTo(map);
 var label = document.getElementById('label');
 L.Control.ReverseLabel = L.Control.extend({
@@ -149,8 +195,7 @@ L.Control.ReverseLabel = L.Control.extend({
         reverse.doReverse(this.getCenter());
         document.getElementById('head').className += ' headmasked';
         document.getElementById('map').className += ' nohead';
-      }
-      else container.innerHTML = '';
+      } else container.innerHTML = '';
     });
     return container;
   }
@@ -168,14 +213,14 @@ var edit = function () {
 };
 
 // Géoloc
-var showPosition = function(position){
-  map.setView([position.coords.latitude,position.coords.longitude], 16);
+var showPosition = function (position) {
+  map.setView([position.coords.latitude, position.coords.longitude], 16);
   var icone = document.getElementById('geoloc_icon');
   icone.className = 'md-gps-fixed';
 
 };
 
-var getLocation = function() {
+var getLocation = function () {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
     var icone = document.getElementById('geoloc_icon');
@@ -185,18 +230,18 @@ var getLocation = function() {
 };
 
 var geoLoc = L.Control.extend({
-    options: {
-        position: 'topright'
-    },
+  options: {
+    position: 'topright'
+  },
 
-    onAdd: function (map) {
-        // create the control container with a particular class name
-        var container = L.DomUtil.create('div', 'leaflet-control-geoloc');
-        container.innerHTML = '<span onClick="getLocation();" id="geoloc" class="md-2x"><i class="md-gps-off" id="geoloc_icon"></i></span>';
-        // ... initialize other DOM elements, add listeners, etc.
+  onAdd: function (map) {
+    // create the control container with a particular class name
+    var container = L.DomUtil.create('div', 'leaflet-control-geoloc');
+    container.innerHTML = '<span onClick="getLocation();" id="geoloc" class="md-2x"><i class="md-gps-off" id="geoloc_icon"></i></span>';
+    // ... initialize other DOM elements, add listeners, etc.
 
-        return container;
-    }
+    return container;
+  }
 });
 
 map.addControl(new geoLoc());
