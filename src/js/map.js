@@ -8,7 +8,7 @@ var CENTER = [46.495, 2.201];
 var API_URL = 'http://api.adresse.data.gouv.fr/search/?';
 var REVERSE_URL = 'http://api.adresse.data.gouv.fr/reverse/?';
 var SHORT_CITY_NAMES = ['y', 'ay', 'bu', 'by', 'eu', 'fa', 'gy', 'oo', 'oz', 'py', 'ri', 'ry', 'sy', 'ur', 'us', 'uz'];
-var ATTRIBUTIONS = 'Données &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap Contributors</a> | <a href="https://www.data.gouv.fr/fr/datasets/base-d-adresses-nationale-ouverte-bano/">Adresses BANO</a> sous licence ODbL';
+var ATTRIBUTIONS = '&copy; <a href="http://www.openstreetmap.org/copyright">Contributeurs de OpenStreetMap</a> | <a href="https://www.data.gouv.fr/fr/datasets/base-d-adresses-nationale-ouverte-bano/">Adresses BANO</a> sous licence ODbL';
 var IGN_KEY = 'ztr0a9dk574qlszvikoa0zqi'; //'2ya53yhtpe1sd5egoc1tebhi';
 var IGN_LAYER = 'GEOGRAPHICALGRIDSYSTEMS.MAPS'; // GEOGRAPHICALGRIDSYSTEMS.PLANIGN
 
@@ -88,7 +88,7 @@ var osm = L.tileLayer(
 var thunderforest = L.tileLayer(
   'http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png', {
     maxZoom: 18,
-    attribution: '&copy; <a href="http://thunderforest.com/">Thunderforest</a>'
+    attribution: '&copy; Tiles Courtesy of <a href="http://thunderforest.com/">Andy Allan</a>'
   });
 var bing = L.tileLayer(
   'http://tile.stamen.com/bing-lite/{z}/{x}/{y}.jpg', {
