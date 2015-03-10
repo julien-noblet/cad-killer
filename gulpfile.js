@@ -1,5 +1,6 @@
 /*jslint node: true */
 'use strict';
+
 /*****************
  * Configuration *
  *****************/
@@ -49,6 +50,8 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')(); // auto load :)
 // Permet de supprimer les dossier de destination
 var del = require('del'); // ce n'est pas un plugin Gulp.
+var argv = require('minimist')(process.argv.slice(2));
+
 
 // Idem, on doit le charger manuellement.
 var browserSync = require('browser-sync');
@@ -68,7 +71,7 @@ gulp.task('clean:prod', del.bind(null, [config.prod_folder]));
 
 // SCSS
 gulp.task('SCSS', function () {
-  gulp.src([config.source_folder+'/vendor/**/*.css','bower_components/**/*.css',config.source_folder+'/scss/style.scss'])
+  gulp.src(['bower_components/**/*.css',config.source_folder+'/scss/style.scss'])
     //  .pipe($.sourcemaps.init()) //useless ?
   .pipe($.sass())
   .pipe($.concat('style.css'))
@@ -100,17 +103,10 @@ gulp.task('fonts', function () {
     .pipe($.size({ title: 'fonts' }));
 });
 
-// Copy over vendor to the 'site' directory // need?
-gulp.task('vendor', function () {
-  return gulp.src([config.source_folder+'/vendor/**','bower_components/**'])
-  .pipe(gulp.dest(config.dev_folder+'/vendor'))
-    .pipe($.size({ title: 'vendor' }));
-});
-
 gulp.task('js', function() {
   gulp.src(config.source_folder+'/js/*.js')
   //.pipe($.concat('all.js'))
-  .pipe($.uglify({preserveComments: 'some'}))
+  //.pipe($.uglify({preserveComments: 'some'}))
   .pipe($.size({title: 'js'}))
   .pipe(gulp.dest(config.dev_folder+'/js/'));
 });
@@ -130,7 +126,13 @@ gulp.task('images', function () {
     .pipe($.size({title: 'images'}));
 });
 
-gulp.task('dev',['vendor','fonts','images','SCSS','jslint','js'],function(){
+gulp.task('bower', function() {
+  return $.bower()
+    .pipe(gulp.dest(config.dev_folder+'/vendor'));
+});
+
+gulp.task('dev',['bower','fonts','images','SCSS','jslint','js'],function(){
+
   gulp.src(config.source_folder+'/**/*.html')
   .pipe(gulp.dest(config.dev_folder));
 });
@@ -199,6 +201,13 @@ gulp.task('serve:prod', ['prod'], function () {
 });
 
 gulp.task('deploy',['prod'], function () {
+  if (argv.clean) {
+        var os = require('os');
+        var path = require('path');
+        var repoPath = path.join(os.tmpdir(), 'tmpRepo');
+        $.util.log('Delete ' + $.util.colors.magenta(repoPath));
+        del.sync(repoPath, {force: true});
+    }
   // Deploys your optimized site, you can change the settings in the html task if you want to
   return gulp.src(config.prod_folder+'/**/*')
     .pipe($.ghPages({
