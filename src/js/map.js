@@ -11,11 +11,12 @@ var SHORT_CITY_NAMES = ['y', 'ay', 'bu', 'by', 'eu', 'fa', 'gy', 'oo', 'oz', 'py
 var ATTRIBUTIONS = '&copy; <a href="http://www.openstreetmap.org/copyright">Contributeurs de OpenStreetMap</a> | <a href="https://www.data.gouv.fr/fr/datasets/base-d-adresses-nationale-ouverte-bano/">Adresses BANO</a> sous licence ODbL';
 var IGN_KEY = 'ztr0a9dk574qlszvikoa0zqi'; //'2ya53yhtpe1sd5egoc1tebhi';
 var IGN_LAYER = 'GEOGRAPHICALGRIDSYSTEMS.MAPS'; // GEOGRAPHICALGRIDSYSTEMS.PLANIGN
+var IGN_LAYER_LITE = 'GEOGRAPHICALGRIDSYSTEMS.PLANIGN'; // GEOGRAPHICALGRIDSYSTEMS.PLANIGN
 
 var searchPoints = L.geoJson(null, {
   onEachFeature: function (feature, layer) {
     layer.on('click', function (e) {
-        map.setView([feature.geometry.coordinates[1],feature.geometry.coordinates[0]],16);
+      map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
     });
     layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="md-navigation md-2x"></i></a>');
   }
@@ -78,27 +79,27 @@ var photonReverseControlOptions = {
 var osmfr = L.tileLayer(
   'http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
     maxZoom: 20,
-    attribution: '&copy; <a href="http://openstreetmap.fr/">OpenStreetMap France</a>'
+    attribution: 'Fond de plan &copy; <a href="http://openstreetmap.fr/">OpenStreetMap France</a>'
   });
 var osm = L.tileLayer(
   'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
-    attribution: '&copy; <a href="http://openstreetmap.org/">OpenStreetMap</a>'
+    attribution: 'Fond de plan &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a>'
   });
 var thunderforest = L.tileLayer(
   'http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png', {
     maxZoom: 18,
-    attribution: '&copy; Tiles Courtesy of <a href="http://thunderforest.com/">Andy Allan</a>'
+    attribution: 'Fond de plan &copy; Tiles Courtesy of <a href="http://thunderforest.com/">Andy Allan</a>'
   });
 var bing = L.tileLayer(
   'http://tile.stamen.com/bing-lite/{z}/{x}/{y}.jpg', {
     maxZoom: 18,
-    attribution: '&copy; <a href="http://bing.com/">Bing</a> via Stamen'
+    attribution: 'Vue satellite &copy; <a href="http://bing.com/">Bing</a> via Stamen'
   });
 var boner = L.tileLayer(
   'http://tile.stamen.com/boner/{z}/{x}/{y}.jpg', {
     maxZoom: 18,
-    attribution: '&copy; <a href="http://bing.com/">Bing</a> via Stamen'
+    attribution: 'Vue satellite &copy; <a href="http://bing.com/">Bing</a> via Stamen'
   });
 var cadastre = L.tileLayer(
   'http://tms.cadastre.openstreetmap.fr/*/tout/{z}/{x}/{y}.png', {
@@ -137,17 +138,24 @@ var ign = L.tileLayer(
   'http://wxs.ign.fr/' + IGN_KEY + '/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=' + IGN_LAYER + '&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg', {
     maxZoom: 18,
     minZoom: 6,
-    attribution: '&copy; <a href="http://www.ign.fr">IGN</a>'
+    attribution: 'Fond de plan &copy; <a href="http://www.ign.fr">IGN</a>'
+  });
+
+var ign_lite = L.tileLayer(
+  'http://wxs.ign.fr/' + IGN_KEY + '/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=' + IGN_LAYER_LITE + '&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg', {
+    maxZoom: 18,
+    minZoom: 6,
+    attribution: 'Fond de plan &copy; <a href="http://www.ign.fr">IGN</a>'
   });
 
 var ggl = new L.Google('ROADMAP', {
   maxZoom: 20,
-  attribution: '&copy; <a href="http://www.google.com">Google</a>'
+  attribution: 'Fond de plan &copy; <a href="http://www.google.com">Google</a>'
 });
 
 var ggl_hyb = new L.Google('HYBRID', {
   maxZoom: 20,
-  attribution: '&copy; <a href="http://www.google.com">Google</a>'
+  attribution: 'Vue satellite &copy; <a href="http://www.google.com">Google</a>'
 });
 
 
@@ -164,7 +172,8 @@ var baseMaps = {
   'OpenStreetMap France': osmfr,
   'OpenStreetMap': osm,
   'Carte IGN': ign,
-  'Tranport': thunderforest,
+  'Plan IGN': ign_lite,
+  //'Tranport': thunderforest,
   'Bing': bing,
   'Bing+OSM': boner,
   'Cadastre': cadastre,
