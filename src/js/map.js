@@ -157,7 +157,11 @@ var ggl_hyb = new L.Google('HYBRID', {
   maxZoom: 20,
   attribution: 'Vue satellite &copy; <a href="http://www.google.com">Google</a>'
 });
-
+var ban = L.titleLayer(
+    'http://{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png',{
+        maxZoom: 20,
+        attribution: 'Surcouche: &copy; BAN(O)'
+    });
 
 var map = L.map('map', {
   photonControl: true,
@@ -185,6 +189,7 @@ var baseMaps = {
 };
 var overlayMaps = {
   'Cadastre': cadastre_t,
+  'BAN(O)': ban,
   //'Mapquest': mapquest_hyb,
 };
 
