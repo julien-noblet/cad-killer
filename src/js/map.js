@@ -157,7 +157,7 @@ var ggl_hyb = new L.Google('HYBRID', {
   maxZoom: 20,
   attribution: 'Vue satellite &copy; <a href="http://www.google.com">Google</a>'
 });
-var ban = L.titleLayer(
+var ban = L.tileLayer(
     'http://{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png',{
         maxZoom: 20,
         attribution: 'Surcouche: &copy; BAN(O)'
