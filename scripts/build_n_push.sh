@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
 npm install
+npm install -g bower gulp
 bower install
 gulp prod
 gulp prod
