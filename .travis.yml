@@ -1,0 +1,1 @@
+script: bash scripts/build_n_push.sh
