@@ -5,9 +5,9 @@
  * Configuration *
  *****************/
 var config = {
-  source_folder : 'src', // dossier source
-  dev_folder : 'serve', // dossier pour le serveur local
-  prod_folder : 'prod', // dossier de build :)
+  source_folder : "src", // dossier source
+  dev_folder : "serve", // dossier pour le serveur local
+  prod_folder : "prod", // dossier de build :)
 
   uncss : {
     html : ['src/index.html'], // have to fix?
