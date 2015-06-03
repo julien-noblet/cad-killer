@@ -148,11 +148,12 @@ var ign_lite = L.tileLayer(
     attribution: 'Fond de plan &copy; <a href="http://www.ign.fr">IGN</a>'
   });
 
+/*
 var ggl = new L.Google('ROADMAP', {
   maxZoom: 20,
   attribution: 'Fond de plan &copy; <a href="http://www.google.com">Google</a>'
 });
-
+*/
 var ggl_hyb = new L.Google('HYBRID', {
   maxZoom: 20,
   attribution: 'Vue satellite &copy; <a href="http://www.google.com">Google</a>'
@@ -183,7 +184,7 @@ var baseMaps = {
   'Cadastre': cadastre,
   'Esri': Esri_WorldImagery,
   //'MapBox - Digiglobe': mapbox_digiglobe,
-  'Google': ggl,
+  //'Google': ggl,
   'Google Sat': ggl_hyb,
 
 };
