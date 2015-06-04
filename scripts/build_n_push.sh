@@ -8,10 +8,15 @@ rm -rf serve
 rm -rf prod
 
 npm install
+sleep 1
 npm install -g bower gulp
+sleep 1
 bower install
+sleep 1
 gulp prod
+sleep 1
 gulp prod # run twice :)
+sleep 1
 ( cd prod ;
   git init ;
   git config user.name "Travis-CI" ;
