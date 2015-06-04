@@ -1,5 +1,12 @@
 #!/usr/bin/bash
 
+# Force clean
+rm -rf ~/.npm
+rm -rf node_modules
+rm -rf bower_components
+rm -rf serve
+rm -rf prod
+
 npm install
 npm install -g bower gulp
 bower install
