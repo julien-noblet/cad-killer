@@ -1,18 +1,5 @@
 #!/usr/bin/bash
 
-# Force clean
-rm -rf ~/.npm
-rm -rf node_modules
-rm -rf bower_components
-rm -rf serve
-rm -rf prod
-
-npm install
-sleep 1
-npm install -g bower gulp
-sleep 1
-bower install
-sleep 1
 gulp prod
 sleep 1
 gulp prod # run twice :)
@@ -25,7 +12,7 @@ sleep 1
   git commit -m "Deploy ${TRAVIS_BRANCH} to GitHub Pages" ;
   if ${TRAVIS_BRANCH} == "master"
     then git push --force --quiet "https://${user}:${password}@github.com/julien-noblet/cad-killer.git" master:gh-pages
-  else git push --force --quiet "https://${user}:${password}@github.com/julien-noblet/cad-killer-beta.git" master:gh-pages
+    else git push --force --quiet "https://${user}:${password}@github.com/julien-noblet/cad-killer-beta.git" master:gh-pages
   fi
 )
 #> /dev/null 2>&1

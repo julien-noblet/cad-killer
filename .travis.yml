@@ -3,4 +3,6 @@ node_js:
   - "0.12"
 before_install : "npm install -g bower gulp"
 
-script: bash scripts/build_n_push.sh
+script:
+  - bower install 
+  - bash scripts/build_n_push.sh
