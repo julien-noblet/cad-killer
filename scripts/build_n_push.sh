@@ -9,6 +9,7 @@ sleep 1
   git config user.name "Travis-CI" ;
   git config user.email "travis" ;
   git add . ;
+  echo "Branche : ${TRAVIS_BRANCH}" ;
   git commit -m "Deploy ${TRAVIS_BRANCH} to GitHub Pages" ;
   if ${TRAVIS_BRANCH} == "master"
     then git push --force --quiet "https://${user}:${password}@github.com/julien-noblet/cad-killer.git" master:gh-pages
