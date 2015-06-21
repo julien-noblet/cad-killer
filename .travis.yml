@@ -3,7 +3,7 @@ node_js:
   - "0.12"
 before_install : "npm install -g bower gulp"
 
-befor_script : "bower install"
+before_script : "bower install"
 
 script:
   - gulp dev
