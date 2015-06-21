@@ -1,4 +1,4 @@
-# cad-killer
+# cad-killer [![Build Status](https://travis-ci.org/julien-noblet/cad-killer.svg?branch=master)](https://travis-ci.org/julien-noblet/cad-killer)
 Visionneur de carte pour logisticiens pressés
 
 Consultable ici : http://julien-noblet.github.io/cad-killer/
