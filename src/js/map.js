@@ -50,7 +50,6 @@ var formatResult = function (feature, el) {
   detailsContainer.innerHTML = details.join(', ');
 };
 
-
 var photonControlOptions = {
   resultsHandler: showSearchPoints,
   placeholder: 'Ex. 6 quai de la tourelle cergy…',
@@ -140,14 +139,12 @@ var ign = L.tileLayer(
     minZoom: 6,
     attribution: 'Fond de plan &copy; <a href="http://www.ign.fr">IGN</a>'
   });
-
 var ign_lite = L.tileLayer(
   'http://wxs.ign.fr/' + IGN_KEY + '/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=' + IGN_LAYER_LITE + '&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg', {
     maxZoom: 18,
     minZoom: 6,
     attribution: 'Fond de plan &copy; <a href="http://www.ign.fr">IGN</a>'
   });
-
 /*
 var ggl = new L.Google('ROADMAP', {
   maxZoom: 20,
@@ -186,7 +183,6 @@ var baseMaps = {
   //'MapBox - Digiglobe': mapbox_digiglobe,
   //'Google': ggl,
   'Google Sat': ggl_hyb,
-
 };
 var overlayMaps = {
   'Cadastre': cadastre_t,
@@ -206,7 +202,6 @@ L.control.attribution({
 }).addTo(map);
 var label = document.getElementById('label');
 L.Control.ReverseLabel = L.Control.extend({
-
   options: {
     position: 'topright' //'bottomright'
   },
@@ -231,6 +226,7 @@ L.Control.ReverseLabel = L.Control.extend({
   }
 
 });
+
 new L.Control.ReverseLabel().addTo(map);
 
 /*map.addControl(new L.Control.Permalink({
@@ -242,7 +238,6 @@ new L.Control.ReverseLabel().addTo(map);
 
 // ajout hash dans l'URL
 var hash = new L.Hash(map);
-
 
 // edition
 var edit = function () {
