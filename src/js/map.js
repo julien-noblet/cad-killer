@@ -233,11 +233,15 @@ L.Control.ReverseLabel = L.Control.extend({
 });
 new L.Control.ReverseLabel().addTo(map);
 
-map.addControl(new L.Control.Permalink({
+/*map.addControl(new L.Control.Permalink({
   text: 'Permalink',
   layers: layers,
   useLocation: true
 }));
+*/
+
+// ajout hash dans l'URL
+var hash = new L.Hash(map);
 
 
 // edition
