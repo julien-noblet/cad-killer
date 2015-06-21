@@ -3,7 +3,10 @@ node_js:
   - "0.12"
 before_install : "npm install -g bower gulp"
 
+before_script : "bower install"
+
 script:
-  - bower install
-  - gulp prod 
-  - bash scripts/build_n_push.sh
+  - gulp dev
+  - gulp prod
+
+after_success: "bash scripts/build_n_push.sh"
