@@ -1,3 +1,5 @@
+var L = require ('leaflet')
+
 /*global L */
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.

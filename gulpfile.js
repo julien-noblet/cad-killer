@@ -60,6 +60,7 @@ var bs; // voir plus loin :)
 
 var merge = require('merge-stream'); // permet de joindre 2 flux de sorties.
 
+var browserify = require('gulp-browserify'); //TODO: a changer en autoload :)
 /*********
  * Tasks *
  *********/
@@ -131,7 +132,16 @@ gulp.task('bower', function() {
     .pipe(gulp.dest(config.dev_folder+'/vendor'));
 });
 
-gulp.task('dev',['bower','fonts','images','SCSS','jslint','js'],function(){
+gulp.task('browserify', function(){
+  gulp.src(config.source_folder+'/js/map.js')
+          .pipe(browserify({
+            insertGlobals : true,
+            debug : !gulp.env.production
+          }))
+          .pipe(gulp.dest(config.dev_folder+'/js'))
+});
+
+gulp.task('dev',['browserify','fonts','images','SCSS','jslint','js'],function(){
 
   gulp.src(config.source_folder+'/**/*.html')
   .pipe(gulp.dest(config.dev_folder));
