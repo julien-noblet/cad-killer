@@ -9,5 +9,4 @@ script:
   - gulp dev
   - gulp prod
 
-deploy:
-  - bash scripts/build_n_push.sh
+after_success: "bash scripts/build_n_push.sh"
