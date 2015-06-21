@@ -14,20 +14,20 @@ var IGN_LAYER = 'GEOGRAPHICALGRIDSYSTEMS.MAPS'; // GEOGRAPHICALGRIDSYSTEMS.PLANI
 var IGN_LAYER_LITE = 'GEOGRAPHICALGRIDSYSTEMS.PLANIGN'; // GEOGRAPHICALGRIDSYSTEMS.PLANIGN
 
 var searchPoints = L.geoJson(null, {
-  onEachFeature: function (feature, layer) {
-    layer.on('click', function (e) {
+  onEachFeature: function(feature, layer) {
+    layer.on('click', function(e) {
       map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
     });
     layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="md-navigation md-2x"></i></a>');
   }
 });
 
-var showSearchPoints = function (geojson) {
+var showSearchPoints = function(geojson) {
   searchPoints.clearLayers();
   searchPoints.addData(geojson);
 };
 
-var formatResult = function (feature, el) {
+var formatResult = function(feature, el) {
   var title = L.DomUtil.create('strong', '', el),
     detailsContainer = L.DomUtil.create('small', '', el),
     details = [],
@@ -59,7 +59,7 @@ var photonControlOptions = {
   noResultLabel: 'Aucun résultat',
   feedbackLabel: 'Signaler',
   feedbackEmail: 'adresses@data.gouv.fr',
-  minChar: function (val) {
+  minChar: function(val) {
     return SHORT_CITY_NAMES.indexOf(val) !== -1 || val.length >= 3;
   },
   submitDelay: 200
@@ -156,10 +156,10 @@ var ggl_hyb = new L.Google('HYBRID', {
   attribution: 'Vue satellite &copy; <a href="http://www.google.com">Google</a>'
 });
 var ban = L.tileLayer(
-    'http://{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png',{
-        maxZoom: 20,
-        attribution: 'Surcouche: &copy; BAN(O)'
-    });
+  'http://{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png', {
+    maxZoom: 20,
+    attribution: 'Surcouche: &copy; BAN(O)'
+  });
 
 var map = L.map('map', {
   photonControl: true,
@@ -206,16 +206,16 @@ L.Control.ReverseLabel = L.Control.extend({
     position: 'topright' //'bottomright'
   },
 
-  onAdd: function (map) {
+  onAdd: function(map) {
     var container = L.DomUtil.create('div', 'reverse-label');
     var reverse = new L.PhotonReverse({
       url: REVERSE_URL,
-      handleResults: function (data) {
+      handleResults: function(data) {
         container.innerHTML = 'Carte centrée sur «' + data.features[0].properties.label + '»';
       }
     });
 
-    map.on('moveend', function () {
+    map.on('moveend', function() {
       if (this.getZoom() > 14) {
         reverse.doReverse(this.getCenter());
         document.getElementById('head').className += ' headmasked';
@@ -250,14 +250,14 @@ var edit = function () {
 */
 
 // Géoloc
-var showPosition = function (position) {
+var showPosition = function(position) {
   map.setView([position.coords.latitude, position.coords.longitude], 16);
   var icone = document.getElementById('geoloc_icon');
   icone.className = 'md-gps-fixed';
 
 };
 
-var getLocation = function () {
+var getLocation = function() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
     var icone = document.getElementById('geoloc_icon');
@@ -271,7 +271,7 @@ var geoLoc = L.Control.extend({
     position: 'topright'
   },
 
-  onAdd: function (map) {
+  onAdd: function(map) {
     // create the control container with a particular class name
     var container = L.DomUtil.create('div', 'leaflet-control-geoloc');
     container.innerHTML = '<span onClick="getLocation();" id="geoloc" class="md-2x"><i class="md-gps-off" id="geoloc_icon"></i></span>';
