@@ -39,7 +39,8 @@ var config = {
         ['#ffffff', '#fefefe'],
         ['#eeeeee', '#f4f4f4'],
         ['#cccccc', '#c3c3c3'],
-        ['#bbbbbb', '#c3c3c3']
+        ['#bbbbbb', '#c3c3c3'],
+        ['#dddddd', '#d1d1d1']
         ]
       }
 };
