@@ -4,5 +4,6 @@ node_js:
 before_install : "npm install -g bower gulp"
 
 script:
-  - bower install 
+  - bower install
+  - gulp prod 
   - bash scripts/build_n_push.sh
