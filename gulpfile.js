@@ -21,7 +21,7 @@ var config = {
       '.on',
       'ul',
       'li',
-      /ath/,
+      /\.ath/,
       /input/,
       /reverse-/,
       /leaflet-/,
