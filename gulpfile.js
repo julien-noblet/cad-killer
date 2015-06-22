@@ -21,6 +21,7 @@ var config = {
       '.on',
       'ul',
       'li',
+      /\.ath/,
       /input/,
       /reverse-/,
       /leaflet-/,
@@ -33,12 +34,14 @@ var config = {
       ignore: ['#030303'],
       whitelist: [
         ['#000000', '#010101'],
-        ['#ffffff', '#f4f4f4'], // Can-i reduce?
-        ['#fefefe', '#f4f4f4'],
-        ['#ffffff', '#fefefe'],
-        ['#eeeeee', '#f4f4f4'],
         ['#cccccc', '#c3c3c3'],
-        ['#bbbbbb', '#c3c3c3']
+        ['#cccccc', '#d1d1d1'],
+        ['#bbbbbb', '#c3c3c3'],
+        ['#dddddd', '#d1d1d1'],
+        ['#eeeeee', '#f4f4f4'],
+        ['#fefefe', '#f4f4f4'],
+        ['#ffffff', '#f4f4f4'], // Can-i reduce?
+        ['#ffffff', '#fefefe']
         ]
       }
 };

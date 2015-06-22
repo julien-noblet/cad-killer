@@ -13,7 +13,7 @@ var IGN_KEY = 'ztr0a9dk574qlszvikoa0zqi'; //'2ya53yhtpe1sd5egoc1tebhi';
 var IGN_LAYER = 'GEOGRAPHICALGRIDSYSTEMS.MAPS'; // GEOGRAPHICALGRIDSYSTEMS.PLANIGN
 var IGN_LAYER_LITE = 'GEOGRAPHICALGRIDSYSTEMS.PLANIGN'; // GEOGRAPHICALGRIDSYSTEMS.PLANIGN
 
-var searchPointsFeature = function(){}; // JSLint hack. redefined after map()
+var searchPointsFeature = function() {}; // JSLint hack. redefined after map()
 
 var searchPoints = L.geoJson(null, {
   onEachFeature: searchPointsFeature()
