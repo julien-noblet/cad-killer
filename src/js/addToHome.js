@@ -2,7 +2,7 @@
 addToHomescreen({
   startDelay: 5,
   displayPace:0,
-  detectHomescreen: 'smartURL',
+  detectHomescreen: 'queryString',
   skipFirstVisit: false,
   appID: 'io.github.julien-noblet.cad-killer'
 });
