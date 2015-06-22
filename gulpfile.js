@@ -164,7 +164,7 @@ gulp.task('prod', ['dev'], function () {
   return gulp.src(config.dev_folder+'/*.html')
     .pipe(assets)
     // Concatenate JavaScript files and preserve important comments
-    .pipe($.if('*.js',$.uglify({preserveComments: 'some'})))
+    //.pipe($.if('*.js',$.uglify({preserveComments: 'some'})))
     // Minify CSS
     .pipe($.if('*.css', $.minifyCss()))
     // Start cache busting the files
