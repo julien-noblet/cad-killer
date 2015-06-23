@@ -170,7 +170,7 @@ searchPointsFeature = function(feature, layer) {
   layer.on('click', function(e) {
     map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
   });
-  layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="md-navigation md-2x"></i></a>');
+  layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="zmdi-navigation zmdi-2x"></i></a>');
 };
 
 L.Icon.Default.imagePath = './images';
@@ -258,7 +258,7 @@ var edit = function () {
 var showPosition = function(position) {
   map.setView([position.coords.latitude, position.coords.longitude], 16);
   var icone = document.getElementById('geoloc_icon');
-  icone.className = 'md-gps-fixed';
+  icone.className = 'zmdi-gps-fixed';
 
 };
 
@@ -266,7 +266,7 @@ var getLocation = function() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
     var icone = document.getElementById('geoloc_icon');
-    icone.className = 'md-gps-not-fixed';
+    icone.className = 'zmdi-gps-not-fixed';
 
   }
 };
@@ -279,7 +279,7 @@ var geoLoc = L.Control.extend({
   onAdd: function(map) {
     // create the control container with a particular class name
     var container = L.DomUtil.create('div', 'leaflet-control-geoloc');
-    container.innerHTML = '<span onClick="getLocation();" id="geoloc" class="md-2x"><i class="md-gps-off" id="geoloc_icon"></i></span>';
+    container.innerHTML = '<span onClick="getLocation();" id="geoloc" class="zmdi-2x"><i class="zmdi-gps-off" id="geoloc_icon"></i></span>';
     // ... initialize other DOM elements, add listeners, etc.
 
     return container;
