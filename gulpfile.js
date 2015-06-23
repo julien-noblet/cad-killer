@@ -82,7 +82,13 @@ gulp.task('scss-lint', function() {
 
 // SCSS
 gulp.task('SCSS', function () {
-  gulp.src(['bower_components/**/*.css',config.source_folder+'/scss/style.scss'])
+  gulp.src(['bower_components/add-to-homescreen/style/addtohomescreen.css',
+    'bower_components/leaflet-plugins/css/distance.css',
+    'bower_components/leaflet-plugins/css/osb.css',
+    'bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css',
+    'bower_components/leaflet.photon/leaflet.photon.css',
+    'bower_components/leaflet/dist/leaflet.css',
+    config.source_folder+'/scss/style.scss'])
     //  .pipe($.sourcemaps.init()) //useless ?
   .pipe($.sass())
   .pipe($.concat('style.css'))
@@ -108,7 +114,7 @@ gulp.task('jslint', function () {
 
 // Copy over fonts to the 'site' directory
 gulp.task('fonts', function () {
-  return gulp.src([config.source_folder+'/fonts/**','bower_components/material-design-iconic-font/dist/fonts/*'])
+  return gulp.src([config.source_folder+'/fonts/**','bower_components/material-design-iconic-font/dist/font/*'])
     .pipe(gulp.dest(config.dev_folder+'/fonts'))
     .pipe(gulp.dest(config.prod_folder+'/fonts'))
     .pipe($.size({ title: 'fonts' }));
