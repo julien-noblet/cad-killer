@@ -11,7 +11,12 @@
 }
 
 @font-face {
-  @include font('open_sanssemibold', 'OpenSans-Semibold-webfont')
+
+  @include font('Material Design Iconic Font','Material-Design-Iconic-Font')
+}
+
+@font-face {
+  @include font('open_sanssemibold','OpenSans-Semibold-webfont')
 }
 
 @font-face {
