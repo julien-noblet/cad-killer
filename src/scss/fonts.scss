@@ -1,51 +1,51 @@
-/* ************************************************* */
-/* *********************** FONT ******************** */
-/* ************************************************* */
+// *************************************************
+// *********************** FONT ********************
+// *************************************************
 
-@mixin font($ff,$file) {
+@mixin font($ff, $file) {
   font-family: $ff;
-  src: url('../fonts/'+$file+'.eot');
-  src: url('../fonts/'+$file+'.eot?#iefix') format("embedded-opentype"), url('../fonts/'+$file+'.woff') format("woff"), url('../fonts/'+$file+'.ttf') format("truetype"), url('../fonts/'+$file+'.svg#open_sanssemibold') format("svg");
+//  src: url('../fonts/'+$file+'.eot');
+  src: url('../fonts/'+$file+'.eot?#iefix') format('embedded-opentype'), url('../fonts/'+$file+'.woff') format('woff'), url('../fonts/'+$file+'.ttf') format('truetype'), url('../fonts/'+$file+'.svg#open_sanssemibold') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  @include font('open_sanssemibold','OpenSans-Semibold-webfont')
+  @include font('open_sanssemibold', 'OpenSans-Semibold-webfont')
 }
 
 @font-face {
-  @include font('open_sansextrabold_italic','OpenSans-ExtraBoldItalic-webfont')
+  @include font('open_sansextrabold_italic', 'OpenSans-ExtraBoldItalic-webfont')
 }
 
 @font-face {
-  @include font('open_sanssemibold_italic','OpenSans-SemiboldItalic-webfont')
+  @include font('open_sanssemibold_italic', 'OpenSans-SemiboldItalic-webfont')
 }
 
 @font-face {
-  @include font('open_sansregular','OpenSans-Regular-webfont')
+  @include font('open_sansregular', 'OpenSans-Regular-webfont')
 }
 
 @font-face {
-  @include font('open_sanslight','OpenSans-Light-webfont')
+  @include font('open_sanslight', 'OpenSans-Light-webfont')
 }
 
 @font-face {
-  @include font('open_sanslight_italic','OpenSans-LightItalic-webfont')
+  @include font('open_sanslight_italic', 'OpenSans-LightItalic-webfont')
 }
 
 @font-face {
-  @include font('open_sansitalic','OpenSans-Italic-webfont')
+  @include font('open_sansitalic', 'OpenSans-Italic-webfont')
 }
 
 @font-face {
-  @include font('open_sansextrabold','OpenSans-ExtraBold-webfont')
+  @include font('open_sansextrabold', 'OpenSans-ExtraBold-webfont')
 }
 
 @font-face {
-  @include font('open_sansbold','OpenSans-Bold-webfont')
+  @include font('open_sansbold', 'OpenSans-Bold-webfont')
 }
 
 @font-face {
-  @include font('open_sansbold_italic','OpenSans-BoldItalic-webfont')
+  @include font('open_sansbold_italic', 'OpenSans-BoldItalic-webfont')
 }

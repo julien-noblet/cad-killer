@@ -62,7 +62,7 @@ var reload = browserSync.reload; // on met la commande dans une variable locale
 var bs; // voir plus loin :)
 
 var merge = require('merge-stream'); // permet de joindre 2 flux de sorties.
-
+var scsslint = require('gulp-scss-lint');
 /*********
  * Tasks *
  *********/
@@ -71,6 +71,14 @@ gulp.task('clean:dev', del.bind(null, [config.dev_folder]));
 
 // Deletes the directory that the optimized site is output to
 gulp.task('clean:prod', del.bind(null, [config.prod_folder]));
+
+// SCSS-Lint
+gulp.task('scss-lint', function() {
+  gulp.src(['bower_components/**/*.css',config.source_folder+'/scss/style.scss'])
+    .pipe(scsslint({
+    'reporterOutputFormat': 'Checkstyle',
+  }));
+});
 
 // SCSS
 gulp.task('SCSS', function () {
@@ -134,7 +142,7 @@ gulp.task('bower', function() {
     .pipe(gulp.dest(config.dev_folder+'/vendor'));
 });
 
-gulp.task('dev',['bower','fonts','images','SCSS','jslint','js'],function(){
+gulp.task('dev',['bower','fonts','images','scss-lint','SCSS','jslint','js'],function(){
 
   gulp.src(config.source_folder+'/**/*.html')
   .pipe(gulp.dest(config.dev_folder));

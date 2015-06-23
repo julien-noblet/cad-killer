@@ -1,7 +1,9 @@
 language: node_js
 node_js:
   - "0.12"
-before_install : "npm install -g bower gulp"
+before_install :
+  - npm install -g bower gulp
+  - gem install scss-lint scss_lint_reporter_checkstyle
 
 before_script : "bower install"
 
