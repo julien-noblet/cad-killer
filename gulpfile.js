@@ -74,10 +74,8 @@ gulp.task('clean:prod', del.bind(null, [config.prod_folder]));
 
 // SCSS-Lint
 gulp.task('scss-lint', function() {
-  gulp.src(['bower_components/**/*.css',config.source_folder+'/scss/style.scss'])
-    .pipe(scsslint({
-    'reporterOutputFormat': 'Checkstyle',
-  }));
+  gulp.src(config.source_folder+'/scss/style.scss')
+    .pipe(scsslint());
 });
 
 // SCSS
