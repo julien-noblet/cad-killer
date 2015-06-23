@@ -100,7 +100,7 @@ gulp.task('jslint', function () {
 
 // Copy over fonts to the 'site' directory
 gulp.task('fonts', function () {
-  return gulp.src([config.source_folder+'/fonts/**','bower_components/material-design-iconic-font/fonts/*'])
+  return gulp.src([config.source_folder+'/fonts/**','bower_components/material-design-iconic-font/dist/fonts/*'])
     .pipe(gulp.dest(config.dev_folder+'/fonts'))
     .pipe(gulp.dest(config.prod_folder+'/fonts'))
     .pipe($.size({ title: 'fonts' }));

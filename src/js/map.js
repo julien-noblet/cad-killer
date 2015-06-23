@@ -170,7 +170,7 @@ searchPointsFeature = function(feature, layer) {
   layer.on('click', function(e) {
     map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
   });
-  layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="md-navigation zmdi-2x"></i></a>');
+  layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="zmdi-navigation zmdi-2x"></i></a>');
 };
 
 L.Icon.Default.imagePath = './images';
