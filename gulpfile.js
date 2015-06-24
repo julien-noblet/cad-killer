@@ -214,20 +214,3 @@ gulp.task('serve:prod', ['prod'], function () {
     }
   });
 });
-
-gulp.task('deploy',['prod'], function () {
-  if (argv.clean) {
-        var os = require('os');
-        var path = require('path');
-        var repoPath = path.join(os.tmpdir(), 'tmpRepo');
-        $.util.log('Delete ' + $.util.colors.magenta(repoPath));
-        del.sync(repoPath, {force: true});
-    }
-  // Deploys your optimized site, you can change the settings in the html task if you want to
-  return gulp.src(config.prod_folder+'/**/*')
-    .pipe($.ghPages({
-      // Currently only personal GitHub Pages are supported so it will upload to the master
-      // branch and automatically overwrite anything that is in the directory
-      branch: 'gh-pages'
-      }));
-});
