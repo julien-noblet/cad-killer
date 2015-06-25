@@ -55,7 +55,6 @@ var $ = require('gulp-load-plugins')(); // auto load :)
 var del = require('del'); // ce n'est pas un plugin Gulp.
 var argv = require('minimist')(process.argv.slice(2));
 
-
 // Idem, on doit le charger manuellement.
 var browserSync = require('browser-sync');
 var reload = browserSync.reload; // on met la commande dans une variable locale
@@ -106,8 +105,9 @@ gulp.task('SCSS', function () {
 gulp.task('jslint', function () {
   gulp.src(config.source_folder+'/js/*.js')
     // Checks your JS code quality against your .jshintrc file
-    .pipe($.jshint('.jshintrc'))
-    .pipe($.jshint.reporter());
+    .pipe($.eslint())
+    .pipe($.eslint.formatEach('compact', process.stderr))
+    .pipe($.eslint.failOnError());
 });
 
 // Copy over fonts to the 'site' directory
