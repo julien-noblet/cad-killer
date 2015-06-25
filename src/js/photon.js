@@ -1,12 +1,8 @@
 /*global L,
   API_URL,
-  ATTRIBUTIONS,
-  CENTER,
-  overlayMaps,
-  baseMaps,
   SHORT_CITY_NAMES,
   REVERSE_URL,
-  layerOSMfr
+  map
    */
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
@@ -54,6 +50,7 @@ var formatResult = function(feature, el) {
   detailsContainer.innerHTML = details.join(", ");
 };
 
+/*eslint-disable no-unused-vars */
 var photonControlOptions = {
   resultsHandler: showSearchPoints,
   placeholder: "Ex. 6 quai de la tourelle cergy…",
@@ -69,7 +66,10 @@ var photonControlOptions = {
   },
   submitDelay: 200
 };
+/*eslint-enable no-unused-vars */
 
+
+/*eslint-disable no-unused-vars */
 var photonReverseControlOptions = {
   resultsHandler: showSearchPoints,
   position: "topleft",
@@ -78,6 +78,7 @@ var photonReverseControlOptions = {
   noResultLabel: "Aucun résultat",
   tooltipLabel: "Cliquer sur la carte pour obtenir l\'adresse"
 };
+/*eslint-enable no-unused-vars */
 
 searchPointsFeature = function(feature, layer) {
   "use strict";

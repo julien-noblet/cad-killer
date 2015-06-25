@@ -1,12 +1,13 @@
 /*global L,
-  API_URL,
   ATTRIBUTIONS,
   CENTER,
   overlayMaps,
   baseMaps,
-  SHORT_CITY_NAMES,
   REVERSE_URL,
-  layerOSMfr
+  layerOSMfr,
+  photonControlOptions,
+  photonReverseControlOptions,
+  searchPoints
    */
 
 var map = L.map("map", {
