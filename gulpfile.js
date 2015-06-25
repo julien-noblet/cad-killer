@@ -65,6 +65,8 @@ var bs; // voir plus loin :)
 
 //var merge = require("merge-stream"); // permet de joindre 2 flux de sorties.
 var scsslint = require("gulp-scss-lint");
+var htmlhint = require("gulp-htmlhint");
+
 /*********
  * Tasks *
  *********/
@@ -111,11 +113,22 @@ gulp.task("SCSS", function() {
     }));
 });
 
+// HTML Lint
+gulp.task("htmllint", function() {
+  gulp.src("./src/*.html")
+    .pipe(htmlhint())
+    .pipe(htmlhint.reporter());
+});
+
 // Run JS Lint against your JS
 gulp.task("jslint", function() {
   gulp.src(config.sourceFolder + "/js/*.js")
     // Checks your JS code quality against your .jshintrc file
-    .pipe($.eslint())
+    .pipe($.eslint({
+      rules: {
+        "no-unused-vars": 1
+      }
+    }))
     .pipe($.eslint.formatEach("compact", process.stderr))
     .pipe($.eslint.failOnError());
 });
@@ -162,7 +175,7 @@ gulp.task("bower", function() {
     .pipe(gulp.dest(config.devFolder + "/vendor"));
 });
 
-gulp.task("dev", ["bower", "fonts", "images", "scss-lint", "SCSS", "jslint", "js"], function() {
+gulp.task("dev", ["bower", "fonts", "images", "scss-lint", "SCSS", "jslint", "js", "htmllint"], function() {
 
   gulp.src(config.sourceFolder + "/**/*.html")
     .pipe(gulp.dest(config.devFolder));
