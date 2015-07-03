@@ -168,10 +168,11 @@ var map = L.map('map', {
 
 searchPointsFeature = function(feature, layer) {
   layer.on('click', function(e) {
-    ga('send', 'pageview');
     map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
   });
   layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="zmdi-navigation zmdi-2x"></i></a>');
+  ga('send', 'pageview');
+
 };
 
 L.Icon.Default.imagePath = './images';
