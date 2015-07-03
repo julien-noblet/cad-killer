@@ -1,4 +1,4 @@
-/*global L */
+/*global L, ga */
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
  * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
@@ -168,6 +168,7 @@ var map = L.map('map', {
 
 searchPointsFeature = function(feature, layer) {
   layer.on('click', function(e) {
+    ga('send', 'pageview');
     map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
   });
   layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="zmdi-navigation zmdi-2x"></i></a>');
