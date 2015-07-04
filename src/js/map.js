@@ -13,10 +13,18 @@ var IGN_KEY = 'ztr0a9dk574qlszvikoa0zqi'; //'2ya53yhtpe1sd5egoc1tebhi';
 var IGN_LAYER = 'GEOGRAPHICALGRIDSYSTEMS.MAPS'; // GEOGRAPHICALGRIDSYSTEMS.PLANIGN
 var IGN_LAYER_LITE = 'GEOGRAPHICALGRIDSYSTEMS.PLANIGN'; // GEOGRAPHICALGRIDSYSTEMS.PLANIGN
 
-var searchPointsFeature = function() {}; // JSLint hack. redefined after map()
+
+var map = L.map('map', {
+  attributionControl: false
+});
 
 var searchPoints = L.geoJson(null, {
-  onEachFeature: searchPointsFeature()
+  onEachFeature: function(feature, layer) {
+    layer.on('click', function(e) {
+      map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
+    });
+    layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="zmdi-navigation zmdi-2x"></i></a>');
+  }
 });
 
 var showSearchPoints = function(geojson) {
@@ -61,6 +69,9 @@ var photonControlOptions = {
   },
   submitDelay: 200
 };
+
+var myPhoton =  new L.Control.Photon(photonControlOptions);
+map.addControl(myPhoton);
 
 var photonReverseControlOptions = {
   resultsHandler: showSearchPoints,
@@ -158,21 +169,6 @@ var ban = L.tileLayer(
     attribution: 'Surcouche: &copy; BAN(O)'
   });
 
-var map = L.map('map', {
-  photonControl: true,
-  photonControlOptions: photonControlOptions,
-  photonReverseControl: true,
-  photonReverseControlOptions: photonReverseControlOptions,
-  attributionControl: false,
-});
-
-searchPointsFeature = function(feature, layer) {
-  layer.on('click', function(e) {
-    map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
-  });
-  layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="zmdi-navigation zmdi-2x"></i></a>');
-};
-
 L.Icon.Default.imagePath = './images';
 map.addLayer(osmfr);
 var baseMaps = {
@@ -233,13 +229,6 @@ L.Control.ReverseLabel = L.Control.extend({
 });
 
 new L.Control.ReverseLabel().addTo(map);
-
-/*map.addControl(new L.Control.Permalink({
-  text: 'Permalink',
-  layers: layers,
-  useLocation: true
-}));
-*/
 
 // ajout hash dans l'URL
 var hash = new L.Hash(map);
