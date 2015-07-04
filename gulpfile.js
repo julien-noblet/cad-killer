@@ -34,6 +34,7 @@ var config = {
     ignore: ["#030303"],
     whitelist: [
       ["#000000", "#010101"],
+      ["#9e9e9e", "#999999"],
       ["#cccccc", "#c3c3c3"],
       ["#cccccc", "#d1d1d1"],
       ["#bbbbbb", "#c3c3c3"],
@@ -126,7 +127,8 @@ gulp.task("jslint", function() {
     // Checks your JS code quality against your .jshintrc file
     .pipe($.eslint({
       rules: {
-        "no-unused-vars": 1
+        "no-unused-vars": 1,
+        "no-console": 1
       }
     }))
     .pipe($.eslint.formatEach("compact", process.stderr))
