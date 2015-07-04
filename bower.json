@@ -20,11 +20,10 @@
     "tests"
   ],
   "dependencies": {
-    "leaflet": "^0.7.3",
-    "material-design-iconic-font": "^2.0.2",
-    "leaflet.photon": "^0.6.0",
-    "leaflet-plugins": "^1.3.0",
-    "leaflet-hash": "*",
-    "add-to-homescreen": "^3.2.2"
+    "leaflet": "~0.7.3",
+    "material-design-iconic-font": "~2.0.2",
+    "leaflet.photon": "~0.6.0",
+    "leaflet-plugins": "~1.3.0",
+    "leaflet-hash": "*"
   }
 }

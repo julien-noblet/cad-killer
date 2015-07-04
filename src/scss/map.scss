@@ -1,105 +1,115 @@
-/* ************************************************* */
-/* ********************* MAP *********************** */
-/* ************************************************* */
+// *************************************************
+// ********************* MAP ***********************
+// *************************************************
 
 .nohead {
   @media (max-width: 640px){
-    top: 0px !important;
+    top: 0;// !important;
   }
 }
-.geo{
-  float:right;
-  visibility:hidden;
-  width:0;
+
+.geo {
+  float: right;
+  visibility: hidden;
+  width: 0;
   @media (max-width: 640px){
-    display:block;
-    visibility:visible;
-    float:none;
+    display: block;
+    float: none;
+    visibility: visible;
   }
 }
+
 .map {
-  #map {
-    width: 100%;
-    position: absolute;
-    top: 100px;
+  .leaflet-container {
     bottom: 0;
     left: 0;
+    position: absolute;
     right: 0;
+    top: 100px;
+    width: 100%;
+
     .photon-input {
       width: 400px;
       @media (max-width: 640px){
+        margin-top: -10px;
         width: 100%;
-        margin-top:-10px;
       }
     }
-    /*
-    .leaflet-shadow-pane {
-      display:hidden;
-    }*/
-    .leaflet-marker-pane {
+//    .leaflet-shadow-pane {
+//      display:hidden;
+//    }
 
-    }
-    .leaflet-popup-content{
+//    .leaflet-marker-pane {
+//    }
+
+    .leaflet-popup-content {
       text-align: center;
     }
+
     .leaflet-control-geoloc {
-      visibility:hidden;
-    	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-    	background: #fff;
-    	border-radius: 5px;
-      padding:6px;
+      background: $color-white;
+      border-radius: 5px;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, .4);
+      padding: 6px;
+      visibility: hidden;
       @media (max-width: 640px){
-        visibility:visible;
-        top:90px;
-        position:absolute;
-        right:0px;
+        position: absolute;
+        right: 0;
+        top: 90px;
+        visibility: visible;
       }
-      }
+    }
+
     .leaflet-right {
       width: 100%;
     }
+
     .leaflet-top {
       @media print{
         visibility: hidden;
       }
     }
+
     .leaflet-control-layers {
-      position:absolute;
-      right:0px;
-      top:0px;
+      position: absolute;
+      right: 0;
+      top: 0;
       @media (max-width: 640px){
-        top:45px;
+        top: 45px;
       }
     }
+
     .leaflet-control-layers-toggle:before {
-      content: "\f267";
+      content: '\f289';
     }
+
     .leaflet-control-layers-toggle {
       //background-image: url(../images/layers.png);
       //width: 36px;
       //height: 36px;
+      background-image: none;
+      color: $color-dark-text;
       font: normal normal normal 28px/1 'Material Design Iconic Font';
-      text-rendering: auto;
-      -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      background-image:none;
-      text-decoration:none;
-      color:#333;
-      height:100%;
-      width:100%;
-      padding:5px;
-
+      -webkit-font-smoothing: antialiased;
+      height: 100%;
+      padding: 5px;
+      text-decoration: none;
+      text-rendering: auto;
+      width: 100%;
     }
+
     .leaflet-photon {
       right: calc(50% - 200px);
       @media (max-width: 640px){
-        right: 0px;
-        top:0 px;
-        width:100%;
-        margin:0;
+        margin: 0;
+        right: 0;
+        top: 0;
+        width: 100%;
       }
     }
-    .leaflet-control-zoom{
+
+    .leaflet-control-zoom {
       @media (max-width: 640px){
         top: 45px;
       }
@@ -107,52 +117,55 @@
         visibility: hidden;
       }
     }
-    .leaflet-control-permalink{
+
+    .leaflet-control-permalink {
       @media print{
-        display:none;
+        display: none;
       }
     }
+
     @media (max-width: 640px){
       top: 60px;
     }
     @media print{
-      top: 0px;
       height: 100%;
+      top: 0;
     }
   }
+
   footer {
     display: none;
   }
 }
 
 .reverse-label {
-  padding: 0 10px;
-  margin-bottom: 0 !important;
-  position: fixed;
+  background-color: $color-near-white;
+  border: 1px solid $color-border;
   bottom: 0;
+  color: $color-dark-text;
+  margin-bottom: 0;// !important;
+  opacity: .8;
+  padding: 0 10px;
+  position: fixed;
   right: 0;
-  border: 1px solid #ddd;
-  background-color: #fefefe;
-  color: #333;
-  opacity: 0.8;
-  text-align:center;
+  text-align: center;
   @media (max-width: 640px){
     bottom: 2.5em;
+    margin-right: 0;// !important;
     width: 100%;
-    margin-right: 0 !important;
   }
   @media print{
-    top: 0px;
-    height:1.5em;
-    font-size: x-large;
     bottom: inherit;     // need???
+    font-size: x-large;
+    height: 1.5em;
+    top: 0;
     visibility: visible; // need??
   }
 }
 
 .photon-autocomplete li .type {
-  font-family: 'open_sanslight';
-  font-weight: normal;
   float: right;
-  font-size: 0.8em;
+  font-family: 'open_sanslight';
+  font-size: .8em;
+  font-weight: normal;
 }

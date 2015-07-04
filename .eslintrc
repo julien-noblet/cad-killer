@@ -1,0 +1,11 @@
+---
+  env:
+    browser: true
+  blobals:
+    $: true
+  rules:
+    default-case: 1
+    no-eq-null: 1
+    no-self-compare: 1
+    vars-on-top: 1
+    no-undefined: 1
