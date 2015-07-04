@@ -17,7 +17,6 @@ var getLocation = function() {
     icone.className = "zmdi-gps-not-fixed";
   }
 };
-/*eslint-enable no-unused-vars */
 
 var GeoLoc = L.Control.extend({
   options: {
@@ -32,5 +31,4 @@ var GeoLoc = L.Control.extend({
     return container;
   }
 });
-
-map.addControl(new GeoLoc());
+/*eslint-enable no-unused-vars */
