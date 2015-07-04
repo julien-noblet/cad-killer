@@ -2,6 +2,45 @@
   visibility: hidden;
 }
 
+.leaflet-draw-toolbar {
+  background-image: none;
+}
+
+.leaflet-draw-actions a {
+  background-color: #919187;
+  border-left: 1px solid #aaa;
+  color: $color-white;
+  font: 21px/29px Helvetica Neue, Arial, Helvetica, sans-serif;
+  line-height: 28px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  text-decoration: none;
+}
+
+.leaflet-draw-actions-top.leaflet-draw-actions-bottom a {
+  height: 36px;
+}
+
+.leaflet-draw-draw-marker:before {
+  content: '\f2b3';
+}
+
+.leaflet-draw-draw-marker {
+  background-image: none;
+  color: $color-dark-text;
+  font: normal normal normal 18px/1 'Material Design Iconic Font';
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  padding: 5px;
+  padding-bottom: 30px;
+  text-decoration: none;
+  text-rendering: auto;
+  width: 100%;
+}
+
 .noteholder {
   background-color: rgba(0, 0, 0, .25);
   min-height: 100%;
