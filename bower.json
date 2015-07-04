@@ -25,6 +25,7 @@
     "leaflet.photon": "~0.6.0",
     "leaflet-plugins": "~1.3.0",
     "leaflet-hash": "*",
-    "leaflet.draw": "~0.2.4"
+    "leaflet.draw": "~0.2.4",
+    "jquery": "~2.1.4"
   }
 }
