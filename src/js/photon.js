@@ -9,12 +9,14 @@
  * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
  */
 
-var searchPointsFeature = function() {
-  "use strict";
-}; // JSLint hack. redefined after map()
-
 var searchPoints = L.geoJson(null, {
-  onEachFeature: searchPointsFeature()
+  onEachFeature: function(feature, layer) {
+    layer.on('click', function(e) {
+      map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
+    });
+    layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="zmdi-navigation zmdi-2x"></i></a>');
+    ga('send', 'event', 'Point', 'click', feature.properties.label + ' / ' + feature.properties.context );
+  }
 });
 
 var showSearchPoints = function(geojson) {
@@ -79,11 +81,3 @@ var photonReverseControlOptions = {
   tooltipLabel: "Cliquer sur la carte pour obtenir l\'adresse"
 };
 /*eslint-enable no-unused-vars */
-
-searchPointsFeature = function(feature, layer) {
-  "use strict";
-  layer.on("click", function() {
-    map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
-  });
-  layer.bindPopup(feature.properties.name + "<a class=\"geo\" href=\"geo:" + feature.geometry.coordinates[1] + "," + feature.geometry.coordinates[0] + "\"><i class=\"zmdi-navigation zmdi-2x\"></i></a>");
-};

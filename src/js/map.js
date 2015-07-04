@@ -2,6 +2,7 @@
   ATTRIBUTIONS,
   CENTER,
   overlayMaps,
+  ga,
   baseMaps,
   REVERSE_URL,
   layerOSMfr,
@@ -9,6 +10,10 @@
   photonReverseControlOptions,
   searchPoints
    */
+/**
+ * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
+ * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
+ */
 
 var map = L.map("map", {
   photonControl: true,
@@ -28,6 +33,22 @@ var hash = new L.Hash(map);
 L.Icon.Default.imagePath = "./images";
 map.addLayer(layerOSMfr);
 
+var myPhoton =  new L.Control.Photon(photonControlOptions);
+map.addControl(myPhoton);
+
+/*eslint-disable noproto */
+myPhoton.search.__proto__.setChoice = function (choice) {
+    choice = choice || this.RESULTS[this.CURRENT];
+    if (choice) {
+        ga('send', 'event', 'element', 'select', choice.feature.properties.label + ' / ' + choice.feature.properties.context );
+        this.hide();
+        this.input.value = '';
+        this.fire('selected', {choice: choice.feature});
+        this.onSelected(choice.feature);
+    }
+};
+/*eslint-enable noproto*/
+
 layers.addTo(map);
 
 map.setView(CENTER, 6);
@@ -37,6 +58,7 @@ L.control.attribution({
   position: "bottomleft",
   prefix: ATTRIBUTIONS
 }).addTo(map);
+
 L.Control.ReverseLabel = L.Control.extend({
   options: {
     position: "topright" //"bottomright"
@@ -67,14 +89,3 @@ L.Control.ReverseLabel = L.Control.extend({
 });
 
 new L.Control.ReverseLabel().addTo(map);
-
-
-// edition
-/*
-var edit = function () {
-  var center = map.getCenter();
-  var url = "http://www.openstreetmap.org/edit#map=" + map.getZoom() + "/" + center.lat + "/" + center.lng;
-  // console.log("going to " + url);
-  window.open(url, "_blank");
-};
-*/
