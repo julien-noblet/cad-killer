@@ -24,6 +24,7 @@ var map = L.map("map", {
 });
 
 var layers = L.control.layers(baseMaps, overlayMaps);
+var myPhoton = new L.Control.Photon(photonControlOptions);
 
 // ajout hash dans l'URL
 /*eslint-disable no-unused-vars */
@@ -33,21 +34,21 @@ var hash = new L.Hash(map);
 L.Icon.Default.imagePath = "./images";
 map.addLayer(layerOSMfr);
 
-var myPhoton =  new L.Control.Photon(photonControlOptions);
 map.addControl(myPhoton);
 
-/*eslint-disable noproto */
+/*eslint-disable no-proto */
 myPhoton.search.__proto__.setChoice = function (choice) {
+    "use strict";
     choice = choice || this.RESULTS[this.CURRENT];
     if (choice) {
-        ga('send', 'event', 'element', 'select', choice.feature.properties.label + ' / ' + choice.feature.properties.context );
+        ga("send", "event", "element", "select", choice.feature.properties.label + " / " + choice.feature.properties.context );
         this.hide();
-        this.input.value = '';
-        this.fire('selected', {choice: choice.feature});
+        this.input.value = "";
+        this.fire("selected", {choice: choice.feature});
         this.onSelected(choice.feature);
     }
 };
-/*eslint-enable noproto*/
+/*eslint-enable no-proto*/
 
 layers.addTo(map);
 

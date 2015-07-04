@@ -2,20 +2,22 @@
   API_URL,
   SHORT_CITY_NAMES,
   REVERSE_URL,
-  map
+  map,
+  ga
    */
 /**
- * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
+ * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n"existerai pas.
  * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
  */
 
 var searchPoints = L.geoJson(null, {
   onEachFeature: function(feature, layer) {
-    layer.on('click', function(e) {
+    "use strict";
+    layer.on("click", function() {
       map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
     });
-    layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="zmdi-navigation zmdi-2x"></i></a>');
-    ga('send', 'event', 'Point', 'click', feature.properties.label + ' / ' + feature.properties.context );
+    layer.bindPopup(feature.properties.name + "<a class=\"geo\" href=\"geo:" + feature.geometry.coordinates[1] + "," + feature.geometry.coordinates[0] + "\"><i class=\"zmdi-navigation zmdi-2x\"></i></a>");
+    ga("send", "event", "Point", "click", feature.properties.label + " / " + feature.properties.context );
   }
 });
 
