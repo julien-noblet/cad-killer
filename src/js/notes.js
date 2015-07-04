@@ -59,6 +59,8 @@ var resetNote = function(){
 };
 /*eslint-enable no-unused-vars*/
 
+map.addControl(notesControl);
+
 map.on("draw:created", function(e) {
   "use strict";
   var layer = e.layer;
@@ -87,3 +89,10 @@ map.on("draw:created", function(e) {
     /*eslint-enable no-console*/
   });
 });
+
+//layers.addOverlay(notesItems, "Ma note");
+// translates!
+L.drawLocal.draw.toolbar.buttons.marker = "Siganler une erreur ou un oublis sur la carte.";
+L.drawLocal.draw.toolbar.actions.title = "Annuler le signalement";
+L.drawLocal.draw.toolbar.actions.text = "Annuler";
+L.drawLocal.draw.handlers.marker.tooltip.start = "Placez l'emplacement de l'erreur sur la carte.";

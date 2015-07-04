@@ -62,7 +62,3 @@ L.control.attribution({
 new L.Control.ReverseLabel().addTo(map);
 
 map.addControl(new GeoLoc());
-
-map.addControl(notesControl);
-
-//layers.addOverlay(notesItems, "Ma note");
