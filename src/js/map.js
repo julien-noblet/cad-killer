@@ -21,10 +21,10 @@ var map = L.map('map', {
 var searchPoints = L.geoJson(null, {
   onEachFeature: function(feature, layer) {
     layer.on('click', function(e) {
-      ga('send', 'pageview', '/#'+map.getZoom()+'/'+feature.geometry.coordinates[1]+'/'+ feature.geometry.coordinates[0],feature.properties.name );
       map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
     });
     layer.bindPopup(feature.properties.name + '<a class="geo" href="geo:' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '"><i class="zmdi-navigation zmdi-2x"></i></a>');
+    ga('send', 'event', 'Point', 'click', feature.properties.label + ' / ' + feature.properties.context );
   }
 });
 
@@ -72,7 +72,20 @@ var photonControlOptions = {
 };
 
 var myPhoton =  new L.Control.Photon(photonControlOptions);
+
+
 map.addControl(myPhoton);
+
+myPhoton.search.__proto__.setChoice = function (choice) {
+    choice = choice || this.RESULTS[this.CURRENT];
+    if (choice) {
+        ga('send', 'event', 'element', 'select', choice.feature.properties.label + ' / ' + choice.feature.properties.context );
+        this.hide();
+        this.input.value = '';
+        this.fire('selected', {choice: choice.feature});
+        this.onSelected(choice.feature);
+    }
+};
 
 var photonReverseControlOptions = {
   resultsHandler: showSearchPoints,
