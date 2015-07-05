@@ -1,0 +1,54 @@
+{
+  "viewports": [{
+    "name": "phone",
+    "width": 320,
+    "height": 480
+  }, {
+    "name": "tablet_v",
+    "width": 568,
+    "height": 1024
+  }, {
+    "name": "tablet_h",
+    "width": 1024,
+    "height": 768
+  }, {
+    "name": "desktop1920x1080",
+    "width": 1920,
+    "height": 1080
+  }, {
+    "name": "desktop1366x768",
+    "width": 1366,
+    "height": 768
+  }, {
+    "name": "desktop1280x1024",
+    "width": 1280,
+    "height": 1024
+  }, {
+    "name": "desktop1280x800",
+    "width": 1280,
+    "height": 800
+  }],
+  "scenarios": [{
+    "label": "http://localhost:3000/",
+    "url": "http://localhost:3000/",
+    "hideSelectors": [],
+    "removeSelectors": [
+      "#__bs_notify__"
+    ],
+    "selectors": [
+      "header",
+      "#map",
+      ".leaflet-photon",
+      ".leaflet-control-zoom",
+      ".leaflet-bar",
+      ".leaflet-control-layers",
+      ".leaflet-draw",
+      ".leaflet-control-attribution",
+      ".leaflet-control",
+      "body"
+    ],
+    "readyEvent": null,
+    "delay": 500,
+    "misMatchThreshold": 0.1
+  }]
+}
