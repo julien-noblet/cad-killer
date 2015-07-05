@@ -1,0 +1,31 @@
+// Spinning Icons
+// --------------------------
+
+.#{$md-css-prefix}-spin {
+   animation: md-spin 1.5s infinite linear;
+}
+
+.#{$md-css-prefix}-spin-reverse {
+  animation: md-spin-reverse 1.5s infinite linear;
+}
+
+// Spin
+@keyframes md-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+// Spin Reverse
+@keyframes md-spin-reverse {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-359deg);
+  }
+}
+

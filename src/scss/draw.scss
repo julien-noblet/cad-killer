@@ -1,269 +1,299 @@
-//colors
-$color_stack_approx: #919187;
-$color_silver_chalice_approx: #aaa;
-$white: #fff;
-$color_star_dust_approx: #a0a098;
-$color_tuatara_approx: rgb(54, 54, 54);
-$black_50: rgba(0, 0, 0, 0.5);
-$black:  black;
-$color_vanilla_ice_approx: #f2dede;
-$color_cavern_pink_approx: #e6b6bd;
-$color_chestnut_approx: #b94a48;
-$color_pig_pink_approx: #f8d5e4;
-$color_brilliant_rose_10_approx: rgba(254, 87, 161, 0.1);
-$color_brilliant_rose_60_approx: rgba(254, 87, 161, 0.6);
-$color_mountain_mist_approx: #999;
-
-//fonts
-$font_0: Helvetica Neue;
-$font_1: Arial;
-$font_2: Helvetica;
-$font_3: sans-serif;
-
 //urls
-$url_0: url(images/spritesheet.png);
-$url_1: url(images/spritesheet-2x.png);
+$url-0: url(images/spritesheet.png);
+$url-1: url(images/spritesheet-2x.png);
 
 .leaflet-draw-section {
-	position: relative;
+  position: relative;
 }
+
 .leaflet-draw-toolbar {
-	margin-top: 12px;
-	a {
-		background-image: $url_0;
-		background-repeat: no-repeat;
-	}
-	.leaflet-draw-draw-polyline {
-		background-position: -2px -2px;
-	}
-	.leaflet-draw-draw-polygon {
-		background-position: -31px -2px;
-	}
-	.leaflet-draw-draw-rectangle {
-		background-position: -62px -2px;
-	}
-	.leaflet-draw-draw-circle {
-		background-position: -92px -2px;
-	}
-	.leaflet-draw-draw-marker {
-		background-position: -122px -2px;
-	}
-	.leaflet-draw-edit-edit {
-		background-position: -152px -2px;
-		&.leaflet-disabled {
-			background-position: -212px -2px;
-		}
-	}
-	.leaflet-draw-edit-remove {
-		background-position: -182px -2px;
-		&.leaflet-disabled {
-			background-position: -242px -2px;
-		}
-	}
+  margin-top: 12px;
+
+  a {
+    background-image: $url-0;
+    background-repeat: no-repeat;
+  }
+
+  .leaflet-draw-draw-polyline {
+    background-position: -2px -2px;
+  }
+
+  .leaflet-draw-draw-polygon {
+    background-position: -31px -2px;
+  }
+
+  .leaflet-draw-draw-rectangle {
+    background-position: -62px -2px;
+  }
+
+  .leaflet-draw-draw-circle {
+    background-position: -92px -2px;
+  }
+
+  .leaflet-draw-draw-marker {
+    background-position: -122px -2px;
+  }
+
+  .leaflet-draw-edit-edit {
+    background-position: -152px -2px;
+
+    &.leaflet-disabled {
+      background-position: -212px -2px;
+    }
+  }
+
+  .leaflet-draw-edit-remove {
+    background-position: -182px -2px;
+
+    &.leaflet-disabled {
+      background-position: -242px -2px;
+    }
+  }
 }
+
 .leaflet-draw-toolbar-top {
-	margin-top: 0;
+  margin-top: 0;
 }
+
 .leaflet-draw-actions {
-	display: none;
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	position: absolute;
-	left: 26px;
-	top: 0;
-	white-space: nowrap;
-	li {
-		display: inline-block;
-		&:first-child a {
-			border-left: none;
-		}
-		&:last-child a {
-			//vendor-prefix found
-			//-webkit-border-radius: 0 4px 4px 0
-			//Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
-			border-radius: 0 4px 4px 0;
-		}
-	}
-	a {
-		background-color: $color_stack_approx;
-		border-left: 1px solid $color_silver_chalice_approx;
-		color: $white;
-		font: 11px/19px $font_0, $font_1, $font_2, $font_3;
-		line-height: 28px;
-		text-decoration: none;
-		padding-left: 10px;
-		padding-right: 10px;
-		height: 28px;
-		&:hover {
-			background-color: $color_star_dust_approx;
-		}
-	}
+  display: none;
+  left: 26px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+
+  li {
+    display: inline-block;
+
+    &:first-child a {
+      border-left: 0;
+    }
+
+    &:last-child a {
+      //vendor-prefix found
+      //-webkit-border-radius: 0 4px 4px 0
+      //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
+      border-radius: 0 4px 4px 0;
+    }
+  }
+
+  a {
+    background-color: $color-stack-approx;
+    border-left: 1px solid $color-silver-chalice-approx;
+    color: $white;
+    font: 11px/19px $ff-helvetica-neue, $ff-arial, $ff-helvetica, sans-serif;
+    height: 28px;
+    line-height: 28px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-decoration: none;
+
+    &:hover {
+      background-color: $color-star-dust-approx;
+    }
+  }
 }
+
+.leaflet-draw-edit-edit.leaflet-disabled {
+  background-position: -210px -1px;
+}
+
+.leaflet-draw-edit-remove.leaflet-disabled {
+  background-position: -240px -2px;
+}
+
 .leaflet-touch {
-	.leaflet-draw-actions {
-		left: 32px;
-		a {
-			font-size: 12px;
-			line-height: 30px;
-			height: 30px;
-		}
-	}
-	.leaflet-draw-toolbar {
-		.leaflet-draw-draw-polyline {
-			background-position: 0 -1px;
-		}
-		.leaflet-draw-draw-polygon {
-			background-position: -29px -1px;
-		}
-		.leaflet-draw-draw-rectangle {
-			background-position: -60px -1px;
-		}
-		.leaflet-draw-draw-circle {
-			background-position: -90px -1px;
-		}
-		.leaflet-draw-draw-marker {
-			background-position: -120px -1px;
-		}
-		.leaflet-draw-edit-edit {
-			background-position: -150px -1px;
-			&.leaflet-disabled {
-				background-position: -210px -1px;
-			}
-		}
-		.leaflet-draw-edit-remove {
-			background-position: -180px -1px;
-			&.leaflet-disabled {
-				background-position: -240px -2px;
-			}
-		}
-	}
-	.leaflet-right .leaflet-draw-actions {
-		right: 32px;
-		left: auto;
-	}
+  .leaflet-draw-actions {
+    left: 32px;
+
+    a {
+      font-size: 12px;
+      height: 30px;
+      line-height: 30px;
+    }
+  }
+
+  .leaflet-draw-toolbar {
+    .leaflet-draw-draw-polyline {
+      background-position: 0 -1px;
+    }
+
+    .leaflet-draw-draw-polygon {
+      background-position: -29px -1px;
+    }
+
+    .leaflet-draw-draw-rectangle {
+      background-position: -60px -1px;
+    }
+
+    .leaflet-draw-draw-circle {
+      background-position: -90px -1px;
+    }
+
+    .leaflet-draw-draw-marker {
+      background-position: -120px -1px;
+    }
+
+    .leaflet-draw-edit-edit {
+      background-position: -150px -1px;
+    }
+
+    .leaflet-draw-edit-remove {
+      background-position: -180px -1px;
+    }
+  }
+
+  .leaflet-right .leaflet-draw-actions {
+    left: auto;
+    right: 32px;
+  }
 }
+
 .leaflet-draw-actions-bottom {
-	margin-top: 0;
-	a {
-		height: 27px;
-		line-height: 27px;
-	}
+  margin-top: 0;
+
+  a {
+    height: 27px;
+    line-height: 27px;
+  }
 }
+
 .leaflet-draw-actions-top {
-	margin-top: 1px;
-	a {
-		height: 27px;
-		line-height: 27px;
-	}
-	&.leaflet-draw-actions-bottom a {
-		height: 26px;
-		line-height: 26px;
-	}
+  height: 27px;
+  margin-top: 1px;
+
+  a {
+    line-height: 27px;
+  }
+
+  &.leaflet-draw-actions-bottom a {
+    height: 26px;
+    line-height: 26px;
+  }
 }
+
 .leaflet-mouse-marker {
-	background-color: $white;
-	cursor: crosshair;
+  background-color: $white;
+  cursor: crosshair;
 }
+
 .leaflet-draw-tooltip {
-	background: $black_50;
-	border: 1px solid transparent;
-	//vendor-prefix found
-	//-webkit-border-radius: 4px
-	//Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
-	border-radius: 4px;
-	color: $white;
-	font: 12px/18px $font_0, $font_1, $font_2, $font_3;
-	margin-left: 20px;
-	margin-top: -21px;
-	padding: 4px 8px;
-	position: absolute;
-	visibility: hidden;
-	white-space: nowrap;
-	z-index: 6;
-	&:before {
-		border-right: 6px solid $black;
-		border-right-color: $black_50;
-		border-top: 6px solid transparent;
-		border-bottom: 6px solid transparent;
-		content: "";
-		position: absolute;
-		top: 7px;
-		left: -7px;
-	}
+  background: $black-50;
+  border: 1px solid transparent;
+  //vendor-prefix found
+  //-webkit-border-radius: 4px
+  //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
+  border-radius: 4px;
+  color: $white;
+  font: 12px/18px $ff-helvetica-neue, $ff-arial, $ff-helvetica, sans-serif;
+  margin-left: 20px;
+  margin-top: -21px;
+  padding: 4px 8px;
+  position: absolute;
+  visibility: hidden;
+  white-space: nowrap;
+  z-index: 6;
+
+  &:before {
+    border-bottom: 6px solid transparent;
+    border-right: 6px solid $black;
+    border-right-color: $black-50;
+    border-top: 6px solid transparent;
+    content: '';
+    left: -7px;
+    position: absolute;
+    top: 7px;
+  }
 }
+
 .leaflet-error-draw-tooltip {
-	background-color: $color_vanilla_ice_approx;
-	border: 1px solid $color_cavern_pink_approx;
-	color: $color_chestnut_approx;
-	&:before {
-		border-right-color: $color_cavern_pink_approx;
-	}
+  background-color: $color-vanilla-ice-approx;
+  border: 1px solid $color-cavern-pink-approx;
+  color: $color-chestnut-approx;
+
+  &:before {
+    border-right-color: $color-cavern-pink-approx;
+  }
 }
+
 .leaflet-draw-tooltip-single {
-	margin-top: -12px;
+  margin-top: -12px;
 }
+
 .leaflet-draw-tooltip-subtext {
-	color: $color_pig_pink_approx;
+  color: $color-pig-pink-approx;
 }
+
 .leaflet-draw-guide-dash {
-	font-size: 1%;
-	opacity: 0.6;
-	position: absolute;
-	width: 5px;
-	height: 5px;
+  font-size: 1%;
+  height: 5px;
+  opacity: .6;
+  position: absolute;
+  width: 5px;
 }
+
 .leaflet-edit-marker-selected {
-	background: $color_brilliant_rose_10_approx;
-	border: 4px dashed $color_brilliant_rose_60_approx;
-	//vendor-prefix found
-	//-webkit-border-radius: 4px
-	//Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
-	border-radius: 4px;
-	//Instead of the line below you could use @includebox-sizing($bs)
-	box-sizing: content-box;
+  background: $color-brilliant-rose-10-approx;
+  border: 4px dashed $color-brilliant-rose-60-approx;
+  //vendor-prefix found
+  //-webkit-border-radius: 4px
+  //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
+  border-radius: 4px;
+  //Instead of the line below you could use @includebox-sizing($bs)
+  box-sizing: content-box;
 }
+
 .leaflet-edit-move {
-	cursor: move;
+  cursor: move;
 }
+
 .leaflet-edit-resize {
-	cursor: pointer;
+  cursor: pointer;
 }
+
+  //Instead of the line below you could use @includeborder-top-right-radius($radius)
 .leaflet-draw-toolbar-notop a:first-child {
-	//Instead of the line below you could use @includeborder-top-right-radius($radius)
-	border-top-right-radius: 0;
+  border-top-right-radius: 0;
 }
+
 .leaflet-draw-toolbar-nobottom a:last-child {
-	//Instead of the line below you could use @includeborder-bottom-right-radius($radius)
-	border-bottom-right-radius: 0;
+  //Instead of the line below you could use @includeborder-bottom-right-radius($radius)
+  border-bottom-right-radius: 0;
 }
+
 .leaflet-retina .leaflet-draw-toolbar a {
-	background-image: $url_1;
-	background-size: 270px 30px;
+  background-image: $url-1;
+  background-size: 270px 30px;
 }
+
 .leaflet-draw a {
-	display: block;
-	text-align: center;
-	text-decoration: none;
+  display: block;
+  text-align: center;
+  text-decoration: none;
 }
+
 .leaflet-right .leaflet-draw-actions {
-	right: 26px;
-	left: auto;
-	li {
-		&:last-child a {
-			//vendor-prefix found
-			//-webkit-border-radius: 0
-			//Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
-			border-radius: 0;
-		}
-		&:first-child a {
-			//vendor-prefix found
-			//-webkit-border-radius: 4px 0 0 4px
-			//Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
-			border-radius: 4px 0 0 4px;
-		}
-	}
+  left: auto;
+  right: 26px;
+
+  li:last-child a {
+    //vendor-prefix found
+    //-webkit-border-radius: 0
+    //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
+    border-radius: 0;
+  }
+
+  li:first-child a {
+    //vendor-prefix found
+    //-webkit-border-radius: 4px 0 0 4px
+    //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
+    border-radius: 4px 0 0 4px;
+  }
 }
+
 .leaflet-oldie .leaflet-draw-toolbar {
-	border: 1px solid $color_mountain_mist_approx;
+  border: 1px solid $color-mountain-mist-approx;
 }

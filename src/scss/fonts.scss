@@ -2,6 +2,11 @@
 // *********************** FONT ********************
 // *************************************************
 
+$ff-arial: 'Arial';
+$ff-helvetica-neue: 'Helvetica Neue';
+$ff-helvetica: 'Helvetica';
+$ff-material: 'Material Design Iconic Font';
+
 @mixin font($ff, $file) {
   font-family: $ff;
 //  src: url('../font/'+$file+'.eot');
@@ -12,7 +17,7 @@
 
 @font-face {
 
-  @include font('Material Design Iconic Font', 'Material-Design-Iconic-Font')
+  @include font($ff-material, 'Material-Design-Iconic-Font')
 }
 
 @font-face {
