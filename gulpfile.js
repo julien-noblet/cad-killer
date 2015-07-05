@@ -21,6 +21,7 @@ var config = {
       ".on",
       "ul",
       "li",
+      /zmdi/,
       /input/,
       /reverse-/,
       /leaflet-/,
@@ -168,6 +169,12 @@ gulp.task("serve:dev", ["dev"], function() {
     // tunnel: "",
     server: {
       baseDir: config.devFolder
+    },
+    ui: {
+      port: 3000,
+      weinre: {
+        port: 3002
+      }
     }
   });
 });
@@ -233,6 +240,13 @@ gulp.task("serve:prod", ["prod"], function() {
     // tunnel: "",
     server: {
       baseDir: config.prodFolder
+    },
+    ui: {
+      port: 3000,
+      weinre: {
+        port: 3002
+      }
     }
+
   });
 });

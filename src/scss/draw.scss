@@ -242,7 +242,7 @@ $url-1: url(images/spritesheet-2x.png);
   //-webkit-border-radius: 4px
   //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
   border-radius: 4px;
-  //Instead of the line below you could use @includebox-sizing($bs)
+  //Instead of the line below you cod use @includebox-sizing($bs)
   box-sizing: content-box;
 }
 
@@ -254,13 +254,13 @@ $url-1: url(images/spritesheet-2x.png);
   cursor: pointer;
 }
 
-  //Instead of the line below you could use @includeborder-top-right-radius($radius)
+  //Instead of the line below you cod use @includeborder-top-right-radius($radius)
 .leaflet-draw-toolbar-notop a:first-child {
   border-top-right-radius: 0;
 }
 
 .leaflet-draw-toolbar-nobottom a:last-child {
-  //Instead of the line below you could use @includeborder-bottom-right-radius($radius)
+  //Instead of the line below you cod use @includeborder-bottom-right-radius($radius)
   border-bottom-right-radius: 0;
 }
 
@@ -282,7 +282,7 @@ $url-1: url(images/spritesheet-2x.png);
   li:last-child a {
     //vendor-prefix found
     //-webkit-border-radius: 0
-    //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
+    //Instead of the line below you cod use @includeborder-radius($radius, $vertical-radius)
     border-radius: 0;
   }
 

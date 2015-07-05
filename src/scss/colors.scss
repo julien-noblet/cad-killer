@@ -1,5 +1,4 @@
 //color definitions
-$black-25: rgba(0, 0, 0, .25);
 $color-mine-shaft-approx: #333;
 $yellow: #ff0;
 $color-boston-blue-approx: #2980b9;
@@ -9,24 +8,26 @@ $color-alto-approx: #ddd;
 $color-deep-cerulean-approx: #0078a8;
 $web-orange: #ffa500;
 $color-dodger-blue-approx: #38f;
-$black-65: rgba(0, 0, 0, .65);
 $color-celeste-approx: #ccc;
-$black: #000;
 $wild-sand: #f4f4f4;
 $color-pink-swan-approx: #bbb;
-$black-40: rgba(0, 0, 0, .4);
 $color-tapa-approx: #777;
-$black-20: rgba(0, 0, 0, .2);
 $color-pale-slate-approx: #c3c3c3;
 $color-cape-cod-75-approx: rgba(64, 64, 64, .75);
 
+$black: #000;
 $black-10: rgba(0, 0, 0, .1);
+$black-20: rgba(0, 0, 0, .2);
+$black-25: rgba(0, 0, 0, .25);
+$black-40: rgba(0, 0, 0, .4);
+$black-50: rgba(0, 0, 0, .5);
+$black-65: rgba(0, 0, 0, .65);
+
 $color-mine-shaft-75-approx: rgba(51, 51, 51, .75);
 $color-blue-bayoux-approx: #4e5d73;
 $color-regent-gray-approx: #7e8da3;
 $color-thunderbird-approx: #de1c12;
 $color-star-dust-approx: #a0a098;
-$black-50: rgba(0, 0, 0, .5);
 $color-vanilla-ice-approx: #f2dede;
 $color-cavern-pink-approx: #e6b6bd;
 $color-chestnut-approx: #b94a48;
@@ -37,28 +38,40 @@ $color-stack-approx: #919187;
 $color-silver-chalice-approx: #aaa;
 $color-log-cabin-approx: #222;
 $color-apple-approx: #4caf50;
+$wild-sand-50: rgba(244, 244, 244, .5);
+$wild-sand-70: rgba(244, 244, 244, .7);
+$wild-sand-75: rgba(244, 244, 244, .75);
 
 //temp redifine
 $white: $wild-sand;
 $white-50: rgba(244, 244, 244, .5);
 $white-70: rgba(244, 244, 244, .7);
 $white-75: rgba(244, 244, 244, .75);
-$color-gallery-approx: $wild-sand;
-$color-romance-approx: $wild-sand;
 
 //usages
+$color-background: $wild-sand;
+$color-background-tooltip: $color-stack-approx;
 $color-beta: $color-thunderbird-approx;
 $color-border: $color-alto-approx;
 $color-border-dark: $color-log-cabin-approx;
 $color-button: $color-blue-bayoux-approx;
 $color-button-hover: $color-regent-gray-approx;
 $color-dark-text: $color-mine-shaft-approx;
+
+$color-leaflet-background : $wild-sand;
+$color-leaflet-button: $color-mine-shaft-approx;
+$color-leaflet-list-separator: $color-alto-approx;
+$color-leaflet-shadow: $color-mountain-mist-approx;
+$color-leaflet-text-dark: $color-storm-dust-approx;
+$color-leaflet-text-med: $color-mountain-mist-approx;
+$color-leaflet-text-blue: $color-deep-cerulean-approx;
+
+$color-link: $color-deep-cerulean-approx;
 $color-near-white: $wild-sand;
 $color-text: $color-cape-cod-75-approx;
 $color-text-green: $color-apple-approx;
-$color-white: $color-near-white;
-$color-background-tooltip: $color-romance-approx;
+$color-white: $wild-sand;
+
 
 //complex
-$color-background: $wild-sand;
 $input-text-color-border: $color-border;

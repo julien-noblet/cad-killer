@@ -2,6 +2,8 @@
 // ********************* MAP ***********************
 // *************************************************
 
+$height-photon : 46px;
+
 .nohead {
   @media (max-width: 640px){
     top: 0;// !important;
@@ -29,27 +31,23 @@
     width: 100%;
 
     .photon-input {
+      margin-bottom: 0;
       width: 400px;
       @media (max-width: 640px){
         margin-top: -10px;
         width: 100%;
       }
     }
-//    .leaflet-shadow-pane {
-//      display:hidden;
-//    }
-
-//    .leaflet-marker-pane {
-//    }
 
     .leaflet-popup-content {
       text-align: center;
     }
 
     .leaflet-control-geoloc {
-      background: $color-white;
+      background: $color-leaflet-background;
       border-radius: 5px;
       box-shadow: 0 1px 5px rgba(0, 0, 0, .4);
+      color: $color-leaflet-button;
       padding: 6px;
       visibility: hidden;
       @media (max-width: 640px){
@@ -68,14 +66,28 @@
       @media print{
         visibility: hidden;
       }
-    }
 
+      .leaflet-right {
+        @media (max-width: 640px){
+          display: block;
+          top: 45px;
+        }
+        @media print{
+          visibility: hidden;
+        }
+      }
+    }
     .leaflet-control-layers {
       position: absolute;
       right: 0;
-      top: 0;
+      //top: 0;
+
       @media (max-width: 640px){
-        top: 45px;
+        display: block;
+        top: $height-photon; //hack
+      }
+      @media print{
+        visibility: hidden;
       }
     }
 
@@ -88,12 +100,13 @@
       //width: 36px;
       //height: 36px;
       background-image: none;
-      color: $color-dark-text;
+      color: $color-leaflet-button;
       font: normal normal normal 28px/1 'Material Design Iconic Font';
       -moz-osx-font-smoothing: grayscale;
       -webkit-font-smoothing: antialiased;
       height: 100%;
       padding: 5px;
+      //position: absolute;
       text-decoration: none;
       text-rendering: auto;
       width: 100%;
@@ -109,15 +122,6 @@
       }
     }
 
-    .leaflet-control-zoom {
-      @media (max-width: 640px){
-        top: 45px;
-      }
-      @media print{
-        visibility: hidden;
-      }
-    }
-
     .leaflet-control-permalink {
       @media print{
         display: none;
@@ -130,6 +134,13 @@
     @media print{
       height: 100%;
       top: 0;
+    }
+  }
+
+  .leaflet-bar {
+
+    a {
+      color: $color-leaflet-button;
     }
   }
 
@@ -160,6 +171,16 @@
     height: 1.5em;
     top: 0;
     visibility: visible; // need??
+  }
+}
+
+.leaflet-top.leaflet-left {
+  @media (max-width: 640px){
+    display: block;
+    top: $height-photon; //hack
+  }
+  @media print{
+    visibility: hidden;
   }
 }
 

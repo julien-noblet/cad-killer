@@ -6,7 +6,7 @@
   background-image: none;
 }
 
-.leaflet-draw-actions a {
+*.leaflet-draw-actions a {
   background-color: $color-background-tooltip;
   border-left: 1px solid $color-silver-chalice-approx;
   color: $color-white;

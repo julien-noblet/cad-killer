@@ -13,12 +13,12 @@
     }
 
     &.on {
-      background-color: $color-boston-blue-approx;
+      background-color: $color-leaflet-text-blue;
       cursor: pointer;
     }
 
     &.photon-no-result {
-      color: $color-storm-dust-approx;
+      color: $color-leaflet-text-dark;
       font-size: .9em;
       line-height: 40px;
       text-align: center;
@@ -26,8 +26,8 @@
   }
 
   .photon-feedback {
-    border-top: 1px solid $color-gallery-approx;
-    color: $color-mountain-mist-approx;
+    border-top: 1px solid $color-leaflet-list-separator;
+    color: $color-leaflet-text-med;
     display: block;
     font-size: .8em;
     padding: 3px;
@@ -36,8 +36,8 @@
 }
 
 .photon-autocomplete {
-  background-color: $white;
-  box-shadow: 0 4px 9px $color-mountain-mist-approx;
+  background-color: $color-leaflet-background;
+  box-shadow: 0 4px 9px $color-leaflet-shadow;
   display: none;
   position: absolute;
   z-index: 1000;
