@@ -1,4 +1,4 @@
-/*global $,L,map,REVERSE_URL
+/*global $,L,map,REVERSE_URL,ga
  */
 
 /*eslint-disable no-unused-vars*/
