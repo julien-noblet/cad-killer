@@ -211,13 +211,12 @@ gulp.task("prod", ["dev"], function() {
     // Replace the asset names with their cache busted names
     .pipe($.revReplace())
     // Add GA
-    .pipe($.if('*.html', $.ga({
-      url: "julien-noblet.github.io/cad-killer",
-      uid: "UA-59363844-3",
-      demographics: true,
-      tag: "body",
-      linkAttribution: true
-    })))
+    .pipe($.if('*.html',$.ga({
+          url: "http://julien-noblet.github.io/cad-killer",
+          uid: "UA-59363844-3",
+          tag: "body",
+          linkAttribution: true
+        })))
     // Minify HTML
     .pipe($.if("*.html", $.htmlmin({
       removeComments: true,
