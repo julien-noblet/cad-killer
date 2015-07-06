@@ -6,6 +6,7 @@
   git config user.email "travis" ;
   git add . ;
   echo "Branche : ${TRAVIS_BRANCH}" ;
+  echo "PR : ${TRAVIS_PULL_REQUEST}" ;
   git commit -m "Deploy ${TRAVIS_BRANCH} to GitHub Pages" ;
   if ${TRAVIS_BRANCH} == "master" && !${TRAVIS_PULL_REQUEST}
     then git push --force --quiet "https://${user}:${password}@github.com/julien-noblet/cad-killer.git" master:gh-pages
