@@ -145,7 +145,8 @@ gulp.task("images", function() {
       // Lossless conversion to progressive JPGs
       progressive: true,
       // Interlace GIFs for progressive rendering
-      interlaced: true
+      interlaced: true,
+      optimizationLevel: 7
     }))
     .pipe(gulp.dest(config.prodFolder + "/images"))
     .pipe($.size({
