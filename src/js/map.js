@@ -22,10 +22,8 @@ var map = L.map("map", {
 var layers = L.control.layers(baseMaps, overlayMaps);
 var myPhoton = new L.Control.Photon(photonControlOptions);
 
-// ajout hash dans l'URL
-/*eslint-disable no-unused-vars */
-var hash = new L.Hash(map);
-/*eslint-enable no-unused-vars */
+var hash;
+
 
 L.Icon.Default.imagePath = "./images";
 map.addLayer(layerOSMfr);
@@ -51,6 +49,12 @@ myPhoton.search.__proto__.setChoice = function(choice) {
 layers.addTo(map);
 
 map.setView(CENTER, 6);
+
+// ajout hash dans l'URL
+/*eslint-disable no-unused-vars */
+hash = new L.Hash(map);
+/*eslint-enable no-unused-vars */
+
 searchPoints.addTo(map);
 
 L.control.attribution({
