@@ -90,7 +90,6 @@ searchPoints.addTo(map);
 
 map.addControl(myPhoton);
 
-
 /*eslint-disable no-proto */
 myPhoton.search.__proto__.setChoice = function(choice) {
   "use strict";

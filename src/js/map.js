@@ -39,3 +39,8 @@ L.control.attribution({
 /*eslint-disable no-unused-vars */
 hash = new L.Hash(map);
 /*eslint-enable no-unused-vars */
+
+map.on("moveend", function(){
+  "use strict";
+  ga("send", "event", "map", "move", "Move : Lat: " + map.getCenter().latitude + " Lon: " + map.getCenter().longitude );
+});
