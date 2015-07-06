@@ -32,3 +32,5 @@ var GeoLoc = L.Control.extend({
   }
 });
 /*eslint-enable no-unused-vars */
+
+map.addControl(new GeoLoc());

@@ -9,11 +9,22 @@ a {
 }
 
 body {
-  color: $color-text;
   font: 15px/20px 'open_sansregular', sans-serif;
   -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;
+  @media print {
+    height: 100%;
+    margin: 0;
+  }
+}
+
+html {
+  @media print {
+    height: 100%;
+    margin: 0;
+  }
+
 }
 
 @media print {
