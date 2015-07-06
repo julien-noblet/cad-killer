@@ -15,7 +15,6 @@ var searchPoints = L.geoJson(null, {
     "use strict";
     layer.on("click", function() {
       map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
-      ga("send", "event", "element", "click", "Search :" + feature.properties.label + " / " + feature.properties.context );
     });
     layer.bindPopup(feature.properties.name + "<a class=\"geo\" href=\"geo:" + feature.geometry.coordinates[1] + "," + feature.geometry.coordinates[0] + "\"><i class=\"zmdi-navigation zmdi-2x\"></i></a>");
   }
