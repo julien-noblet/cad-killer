@@ -35,7 +35,7 @@ myPhoton.search.__proto__.setChoice = function(choice) {
   "use strict";
   choice = choice || this.RESULTS[this.CURRENT];
   if (choice) {
-    ga("send", "event", "element", "select", choice.feature.properties.label + " / " + choice.feature.properties.context);
+    ga("send", "event", "element", "select", "Search :" + choice.feature.properties.label + " / " + choice.feature.properties.context, 0);
     this.hide();
     this.input.value = "";
     this.fire("selected", {

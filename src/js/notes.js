@@ -39,6 +39,8 @@ var addNote = function() {
     type: "post",
     headers: options.headers,
     success: function(data) {
+      ga("send", "event", "element", "note", "post:"+data, 0);
+
       document.getElementById("newnote").className += "hidden";
       document.getElementById("noteok").className = "noteok";
       /*eslint-disable no-console*/

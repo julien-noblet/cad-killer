@@ -17,7 +17,7 @@ var searchPoints = L.geoJson(null, {
       map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
     });
     layer.bindPopup(feature.properties.name + "<a class=\"geo\" href=\"geo:" + feature.geometry.coordinates[1] + "," + feature.geometry.coordinates[0] + "\"><i class=\"zmdi-navigation zmdi-2x\"></i></a>");
-    ga("send", "event", "Point", "click", feature.properties.label + " / " + feature.properties.context );
+    ga("send", "event", "element", "click", "Search :" + feature.properties.label + " / " + feature.properties.context );
   }
 });
 
