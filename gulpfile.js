@@ -223,9 +223,8 @@ gulp.task("prod", ["dev"], function() {
     .pipe($.revReplace())
     // Add GA
     .pipe($.if('*.html',$.ga({
-          url: "julien-noblet.github.io/cad-killer",
+          url: "http://julien-noblet.github.io/cad-killer",
           uid: "UA-59363844-3",
-          demographics: true,
           tag: "body",
           linkAttribution: true
         })))
