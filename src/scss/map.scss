@@ -184,6 +184,10 @@ $height-photon : 46px;
   }
 }
 
+.leaflet-bottom .leaflet-control {
+  margin: 0;
+}
+
 .photon-autocomplete li .type {
   float: right;
   font-family: 'open_sanslight';
