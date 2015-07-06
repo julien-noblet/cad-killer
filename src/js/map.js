@@ -7,8 +7,7 @@
   baseMaps,
   layerOSMfr,
   photonControlOptions,
-  searchPoints,
-  notesControl
+  searchPoints
    */
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
