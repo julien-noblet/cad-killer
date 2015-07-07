@@ -6,11 +6,11 @@
   background-image: none;
 }
 
-.leaflet-draw-actions a {
-  background-color: #919187;
-  border-left: 1px solid #aaa;
+*.leaflet-draw-actions a {
+  background-color: $color-background-tooltip;
+  border-left: 1px solid $color-silver-chalice-approx;
   color: $color-white;
-  font: 21px/29px Helvetica Neue, Arial, Helvetica, sans-serif;
+  font: 21px/29px $ff-helvetica-neue, $ff-arial, $ff-helvetica, sans-serif;
   line-height: 28px;
   padding-bottom: 5px;
   padding-left: 10px;
@@ -30,7 +30,7 @@
 .leaflet-draw-draw-marker {
   background-image: none;
   color: $color-dark-text;
-  font: normal normal normal 18px/1 'Material Design Iconic Font';
+  font: normal normal normal 18px/1 $ff-material;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;
@@ -63,7 +63,7 @@
     position: initial;
     width: 30em;
 
-    i.zmdi-check-circle{
+    .zmdi-check-circle {
       color: $color-text-green;
     }
   }
@@ -87,12 +87,12 @@
       overflow-x: auto;
     }
 
-    i.close {
+    .close {
       color: $color-beta;
       text-shadow: -2px 2px $color-border;
     }
 
-    input[type="submit"] {
+    [type="submit"] {
       bottom: 30px;
       float: right;
       position: relative;

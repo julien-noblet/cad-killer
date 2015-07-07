@@ -1,0 +1,10 @@
+// Font path
+// --------------------------
+
+@font-face {
+  font-family: 'Material Design Iconic Font';
+  src: url('#{$md-font-path}/Material-Design-Iconic-Font.woff?v=#{$md-version}') format('woff'),
+  url('#{$md-font-path}/Material-Design-Iconic-Font.ttf?v=#{$md-version}') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

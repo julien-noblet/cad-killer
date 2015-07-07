@@ -1,0 +1,82 @@
+{
+  "viewports": [{
+    "name": "phone",
+    "width": 320,
+    "height": 480
+  }, {
+    "name": "tablet_v",
+    "width": 568,
+    "height": 1024
+  }, {
+    "name": "tablet_h",
+    "width": 1024,
+    "height": 768
+  }, {
+    "name": "desktop_1280x800",
+    "width": 1280,
+    "height": 800
+  }, {
+    "name": "desktop_1280x1024",
+    "width": 1280,
+    "height": 1024
+  }, {
+    "name": "desktop_1366x768",
+    "width": 1366,
+    "height": 768
+  }, {
+    "name": "desktop_1920x1080",
+    "width": 1920,
+    "height": 1080
+  }],
+  "scenarios": [{
+    "label": "home",
+    "url": "http://localhost:3000/",
+    "hideSelectors": [],
+    "removeSelectors": [
+      "#__bs_notify__", "hidden"
+    ],
+    "selectors": [
+      "header",
+      "#map",
+      ".menu",
+      ".leaflet-photon",
+      ".leaflet-control-zoom",
+      ".leaflet-bar",
+      ".leaflet-control-layers",
+      ".leaflet-draw",
+      ".leaflet-draw-actions",
+      ".leaflet-control-attribution",
+      ".leaflet-control",
+      ".reverse-label",
+      "body"
+    ],
+    "readyEvent": null,
+    "delay": 500,
+    "misMatchThreshold": 0.1
+  }, {
+    "label": "zoom",
+    "url": "http://localhost:3000/#16/46.6735/-1.2907",
+    "hideSelectors": [],
+    "removeSelectors": [
+      "#__bs_notify__", "hidden"
+    ],
+    "selectors": [
+      "header",
+      "#map",
+      ".menu",
+      ".leaflet-photon",
+      ".leaflet-control-zoom",
+      ".leaflet-bar",
+      ".leaflet-control-layers",
+      ".leaflet-draw",
+      ".leaflet-draw-actions",
+      ".leaflet-control-attribution",
+      ".leaflet-control",
+      ".reverse-label",
+      "body"
+    ],
+    "readyEvent": null,
+    "delay": 500,
+    "misMatchThreshold": 0.1
+  }]
+}
