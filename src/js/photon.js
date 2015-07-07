@@ -63,7 +63,7 @@ var photonControlOptions = {
   formatResult: formatResult,
   noResultLabel: "Aucun résultat",
   feedbackLabel: "Signaler",
-  feedbackEmail: "adresses@data.gouv.fr",
+  feedbackEmail: "julien.noblet+cad-killer@gmail.com",
   minChar: function(val) {
     "use strict";
     return SHORT_CITY_NAMES.indexOf(val) !== -1 || val.length >= 3;
