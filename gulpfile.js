@@ -215,7 +215,6 @@ gulp.task("prod", ["dev"], function() {
     .pipe($.if('*.html',$.ga({
           url: "http://julien-noblet.github.io/cad-killer",
           uid: "UA-59363844-3",
-          tag: "body",
           linkAttribution: true
         })))
     // Minify HTML
