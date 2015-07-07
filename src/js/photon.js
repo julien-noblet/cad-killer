@@ -15,7 +15,7 @@ var searchPoints = L.geoJson(null, {
     "use strict";
     layer.on("click", function() {
       map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
-      ga("send", "event", "Point", "click", feature.properties.label + " / " + feature.properties.context );
+      ga("send", "event", "element", "click", "Search :" + feature.properties.label + " / " + feature.properties.context );
     });
     layer.bindPopup(feature.properties.name + "<a class=\"geo\" href=\"geo:" + feature.geometry.coordinates[1] + "," + feature.geometry.coordinates[0] + "\"><i class=\"zmdi-navigation zmdi-2x\"></i></a>");
   }
@@ -83,3 +83,25 @@ var photonReverseControlOptions = {
   tooltipLabel: "Cliquer sur la carte pour obtenir l\'adresse"
 };
 /*eslint-enable no-unused-vars */
+
+var myPhoton = new L.Control.Photon(photonControlOptions);
+
+searchPoints.addTo(map);
+
+map.addControl(myPhoton);
+
+/*eslint-disable no-proto */
+myPhoton.search.__proto__.setChoice = function(choice) {
+  "use strict";
+  choice = choice || this.RESULTS[this.CURRENT];
+  if (choice) {
+    ga("send", "event", "element", "select", "Search :" + choice.feature.properties.label + " / " + choice.feature.properties.context, 0);
+    this.hide();
+    this.input.value = "";
+    this.fire("selected", {
+      choice: choice.feature
+    });
+    this.onSelected(choice.feature);
+  }
+};
+/*eslint-enable no-proto*/

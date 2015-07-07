@@ -21,7 +21,7 @@ var config = {
       ".on",
       "ul",
       "li",
-      /\.ath/,
+      /zmdi/,
       /input/,
       /reverse-/,
       /leaflet-/,
@@ -31,18 +31,7 @@ var config = {
   colorguard: {
     logOk: true,
     threshold: 3,
-    ignore: ["#030303"],
-    whitelist: [
-      ["#000000", "#010101"],
-      ["#cccccc", "#c3c3c3"],
-      ["#cccccc", "#d1d1d1"],
-      ["#bbbbbb", "#c3c3c3"],
-      ["#dddddd", "#d1d1d1"],
-      ["#eeeeee", "#f4f4f4"],
-      ["#fefefe", "#f4f4f4"],
-      ["#ffffff", "#f4f4f4"], // Can-i reduce?
-      ["#ffffff", "#fefefe"]
-    ]
+    whitelist: []
   }
 };
 
@@ -84,14 +73,7 @@ gulp.task("scss-lint", function() {
 
 // SCSS
 gulp.task("SCSS", function() {
-  gulp.src(["bower_components/add-to-homescreen/style/addtohomescreen.css",
-      "bower_components/leaflet-plugins/css/distance.css",
-      "bower_components/leaflet-plugins/css/osb.css",
-      "bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css",
-      "bower_components/leaflet.photon/leaflet.photon.css",
-      "bower_components/leaflet/dist/leaflet.css",
-      config.sourceFolder + "/scss/style.scss"
-    ])
+  gulp.src(config.sourceFolder + "/scss/style.scss")
     //  .pipe($.sourcemaps.init()) //useless ?
     .pipe($.sass())
     .pipe($.concat("style.css"))
@@ -126,7 +108,8 @@ gulp.task("jslint", function() {
     // Checks your JS code quality against your .jshintrc file
     .pipe($.eslint({
       rules: {
-        "no-unused-vars": 1
+        "no-unused-vars": 1,
+        "no-console": 1
       }
     }))
     .pipe($.eslint.formatEach("compact", process.stderr))
@@ -162,7 +145,8 @@ gulp.task("images", function() {
       // Lossless conversion to progressive JPGs
       progressive: true,
       // Interlace GIFs for progressive rendering
-      interlaced: true
+      interlaced: true,
+      optimizationLevel: 7
     }))
     .pipe(gulp.dest(config.prodFolder + "/images"))
     .pipe($.size({
@@ -186,6 +170,12 @@ gulp.task("serve:dev", ["dev"], function() {
     // tunnel: "",
     server: {
       baseDir: config.devFolder
+    },
+    ui: {
+      port: 3000,
+      weinre: {
+        port: 3002
+      }
     }
   });
 });
@@ -250,6 +240,13 @@ gulp.task("serve:prod", ["prod"], function() {
     // tunnel: "",
     server: {
       baseDir: config.prodFolder
+    },
+    ui: {
+      port: 3000,
+      weinre: {
+        port: 3002
+      }
     }
+
   });
 });

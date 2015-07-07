@@ -29,5 +29,6 @@ L.Control.ReverseLabel = L.Control.extend({
     });
     return container;
   }
-
 });
+
+new L.Control.ReverseLabel().addTo(map);

@@ -9,7 +9,6 @@
   <meta name="description" content="Visionneur de carte pour logisticiens pressés">
   <!-- build:css css/combined.css -->
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="vendor/material-design-iconic-font/dist/css/material-design-iconic-font.min.css">
   <!-- endbuild -->
 </head>
 
@@ -21,26 +20,47 @@
     </section>
     <section class="menu">
       <a href="http://adresse.data.gouv.fr">Basé sur adresse.data.gouv.fr</a>
-      <!-- <a onclick="edit();">édition</a> -->
+
     </section>
   </header>
   <div id="label"></div>
   <div class="content">
     <div id="map"></div>
   </div>
+  <div id="noteholder" class="noteholder hidden">
+    <div id="newnote" class="note ">
+      <h2>Nouvelle demande de correction de la carte près de <span id="noteref"></span>: </h2> 
+      <div class="text-area">
+        <textarea id="textnote" name="textnote" autofocus="yes"></textarea>
+      </div>
+      <input type="hidden" id="lat" name="lat">
+      <input type="hidden" id="lng" name="lng">
+      <i class="zmdi zmd-3x zmdi-close-circle-o close" onclick="resetNote();"></i>
+      <input type="submit" value="Soumettre la note" class="right" onclick="addNote();">
+    </div>
+    <div id="noteok" class="noteok hidden">
+      <center>
+        <h1>Merci pour le signalement ! <i class="zmdi zmdi-mood"></i></h1>
+        <i onclick="resetNote();" class="zmd-4x zmdi zmdi-check-circle"></i>
+      </center>
+    </div>
+  </div>
   <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
   <!-- build:js js/combined.js -->
+  <script src="vendor/jquery/dist/jquery.min.js"></script>
   <script src="vendor/leaflet/dist/leaflet.js"></script>
   <script src="vendor/leaflet.photon/leaflet.photon.js"></script>
   <script src="vendor/leaflet-hash/leaflet-hash.js"></script>
   <script src="vendor/leaflet-plugins/layer/tile/Google.js"></script>
+  <script src="vendor/leaflet.draw/dist/leaflet.draw.js"></script>
   <script src="js/config.js"></script>
   <script src="js/layers.js"></script>
   <script src="js/leaflet-wmts.js"></script>
-  <script src="js/photon.js"></script>
-  <script src="js/geoloc.js"></script>
-  <script src="js/reverseLabel.js"></script>
   <script src="js/map.js"></script>
+  <script src="js/photon.js"></script>
+  <script src="js/reverseLabel.js"></script>
+  <script src="js/notes.js"></script>
+  <script src="js/geoloc.js"></script>
   <!-- endbuild -->
 </body>
 

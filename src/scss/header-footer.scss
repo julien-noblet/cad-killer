@@ -9,14 +9,14 @@
 }
 
 header {
-  background-color: $color-near-white;
-  border-bottom: 1px solid $color-dark-text;
+  background-color: $color-background;
+  border-bottom: 1px solid $color-border-dark;
   color: $color-dark-text;
   height: 100px;
   padding: 0 20px;
 
   a {
-    color: $color-near-white;
+    color: $color-dark-text;
     font-family: 'open_sanslight';
     text-decoration: none;
   }
@@ -27,10 +27,6 @@ header {
     font-weight: normal;
     line-height: 100px;
     margin-left: 140px;
-
-    a {
-      color: $color-dark-text;
-    }
 
     @media (max-width: 640px){
       line-height: 45px;
@@ -45,6 +41,10 @@ header {
       margin-right: 0;
     }
 
+    .bug {
+      color: $color-beta;
+    }
+
     a {
       color: $color-dark-text;
       font-family: 'open_sansextrabold';
@@ -52,7 +52,6 @@ header {
       font-weight: normal;
       line-height: 100px;
       text-transform: uppercase;
-
     }
 
     a:hover {

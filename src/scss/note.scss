@@ -1,0 +1,101 @@
+.hidden {
+  visibility: hidden;
+}
+
+.leaflet-draw-toolbar {
+  background-image: none;
+}
+
+*.leaflet-draw-actions a {
+  background-color: $color-background-tooltip;
+  border-left: 1px solid $color-silver-chalice-approx;
+  color: $color-white;
+  font: 21px/29px $ff-helvetica-neue, $ff-arial, $ff-helvetica, sans-serif;
+  line-height: 28px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  text-decoration: none;
+}
+
+.leaflet-draw-actions-top.leaflet-draw-actions-bottom a {
+  height: 36px;
+}
+
+.leaflet-draw-draw-marker:before {
+  content: '\f2b3';
+}
+
+.leaflet-draw-draw-marker {
+  background-image: none;
+  color: $color-dark-text;
+  font: normal normal normal 18px/1 $ff-material;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  padding: 5px;
+  padding-bottom: 30px;
+  text-decoration: none;
+  text-rendering: auto;
+  width: 100%;
+}
+
+.noteholder {
+  background-color: rgba(0, 0, 0, .25);
+  min-height: 100%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 16777271; // at top!
+
+  .noteok {
+    background-color: $color-near-white;
+    border: 10px solid;
+    border-color: $color-border-dark;
+    border-radius: 10px;
+    margin: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 80%;
+    //overflow-x: auto;
+    padding: 30px;
+    position: initial;
+    width: 30em;
+
+    .zmdi-check-circle {
+      color: $color-text-green;
+    }
+  }
+
+  .note {
+    background-color: $color-near-white;
+    border: 10px solid;
+    border-color: $color-border-dark;
+    border-radius: 10px;
+    margin: 10%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    max-height: 80%;
+    //overflow-x: auto;
+    padding: 30px;
+    padding-bottom: 0;
+    position: absolute;
+    width: 80%;
+
+    .text-area {
+      overflow-x: auto;
+    }
+
+    .close {
+      color: $color-beta;
+      text-shadow: -2px 2px $color-border;
+    }
+
+    [type="submit"] {
+      bottom: 30px;
+      float: right;
+      position: relative;
+    }
+  }
+}

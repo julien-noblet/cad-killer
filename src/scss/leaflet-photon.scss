@@ -1,0 +1,48 @@
+
+.photon-autocomplete {
+  li {
+    font-size: 1em;
+    line-height: 1em;
+    min-height: 40px;
+    overflow: hidden;
+    padding: 5px 10px;
+    white-space: nowrap;
+
+    strong {
+      display: block;
+    }
+
+    &.on {
+      background-color: $color-leaflet-text-blue;
+      cursor: pointer;
+    }
+
+    &.photon-no-result {
+      color: $color-leaflet-text-dark;
+      font-size: .9em;
+      line-height: 40px;
+      text-align: center;
+    }
+  }
+
+  .photon-feedback {
+    border-top: 1px solid $color-leaflet-list-separator;
+    color: $color-leaflet-text-med;
+    display: block;
+    font-size: .8em;
+    padding: 3px;
+    text-align: right;
+  }
+}
+
+.photon-autocomplete {
+  background-color: $color-leaflet-background;
+  box-shadow: 0 4px 9px $color-leaflet-shadow;
+  display: none;
+  position: absolute;
+  z-index: 1000;
+}
+
+.photon-input:focus {
+  width: 400px;
+}

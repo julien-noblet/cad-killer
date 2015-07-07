@@ -1,0 +1,14 @@
+// Bordered icons
+// -------------------------
+
+.#{$md-css-prefix}-border {
+  padding: .1em .25em;
+  border: solid .1em $md-border-color;
+  border-radius: 2px;
+}
+
+.#{$md-css-prefix}-border-circle {
+  padding: .1em .25em;
+  border: solid .1em $md-border-color;
+  border-radius: 50%;
+}
