@@ -1,13 +1,12 @@
-/*global $,L,
+/*global L,
   ATTRIBUTIONS,
   CENTER,
   overlayMaps,
   ga,
   baseMaps,
-  layerOSMfr,
-  photonControlOptions,
-  searchPoints
-   */
+  layerOSMfr
+*/
+
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
  * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
