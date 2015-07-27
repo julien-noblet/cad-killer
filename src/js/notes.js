@@ -33,7 +33,6 @@ var addNote = function() {
     }
   };
 
-  document.getElementById("noteholder").className = "noteholder hidden";
   $.ajax({
     url: API + content,
     type: "post",
