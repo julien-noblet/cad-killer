@@ -14,3 +14,5 @@ bower_components
 plato
 node_modules
 src/css
+.gulp-scss-cache
+.sass-cache
