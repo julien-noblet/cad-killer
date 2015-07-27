@@ -76,7 +76,7 @@ gulp.task("scss-lint", function() {
 gulp.task("SCSS", function() {
   gulp.src(config.sourceFolder + "/scss/style.scss")
     //  .pipe($.sourcemaps.init()) //useless ?
-    .pipe($.sass())
+    .pipe($.scss())
     .pipe($.concat("style.css"))
     // AutoPrefix your CSS so it works between browsers
     .pipe($.autoprefixer("> 1%, last 2 versions, Firefox ESR, Opera 12.1", {
@@ -194,19 +194,26 @@ gulp.task("prod", ["dev"], function() {
   var assets = $.useref.assets({
     searchPath: config.devFolder
   });
+/*  var revAll = new $.revAll({
+    dontRenameFile: [".eot", ".svg", ".ttf", ".woff", "png"]
+  });*/
+  var jsFilter = $.filter("**/*.js",{restore: true});
+  var cssFilter = $.filter("**/*.css",{restore: true});
 
   return gulp.src(config.devFolder + "/*.html")
     .pipe(assets)
     // Concatenate JavaScript files and preserve important comments
-    .pipe($.if("*.js", $.uglify({
+    .pipe(jsFilter)
+    .pipe($.uglify({
       preserveComments: "some"
-    })))
-    // Minify CSS
-    .pipe($.if("*.css", $.minifyCss()))
-    // Start cache busting the files
-    .pipe($.revAll({
-      ignore: [".eot", ".svg", ".ttf", ".woff", "png"]
     }))
+    .pipe(jsFilter.restore)
+    // Minify CSS
+    .pipe(cssFilter)
+    .pipe($.minifyCss())
+    .pipe(cssFilter.restore)
+    // Start cache busting the files
+    .pipe($.rev())
     .pipe(assets.restore())
     // Conctenate your files based on what you specified in _layout/header.html
     .pipe($.useref())
