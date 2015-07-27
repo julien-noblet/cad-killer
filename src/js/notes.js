@@ -41,7 +41,7 @@ var addNote = function() {
     success: function(data) {
       ga("send", "event", "element", "note", "post:" + data, 0);
 
-      document.getElementById("newnote").className += "hidden";
+      document.getElementById("newnote").className += " hidden";
       document.getElementById("noteok").className = "noteok";
       /*eslint-disable no-console*/
       console.info(data);
