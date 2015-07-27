@@ -54,7 +54,6 @@ var reload = browserSync.reload; // on met la commande dans une variable locale
 var bs; // voir plus loin :)
 /* eslint-enable no-unused-vars */
 
-//var merge = require("merge-stream"); // permet de joindre 2 flux de sorties.
 var scsslint = require("gulp-scss-lint");
 var htmlhint = require("gulp-htmlhint");
 
