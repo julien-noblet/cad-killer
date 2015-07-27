@@ -23,7 +23,7 @@ var addNote = function() {
   var note = document.getElementById("textnote").value;
 
   var path = "/api/0.6/notes";
-  var API = "http://api06.dev.openstreetmap.org" + path;
+  var API = "http://api06.openstreetmap.org" + path;
   var content = "?lat=" + lat + "&lon=" + lng + "&text=" + encodeURIComponent(note);
   var postUrl = API + content;
   var options = {
@@ -43,6 +43,7 @@ var addNote = function() {
 
       document.getElementById("newnote").className += " hidden";
       document.getElementById("noteok").className = "noteok";
+      document.getElementById("noteholder").className = "noteholder";
       /*eslint-disable no-console*/
       console.info(data);
       /*eslint-enable no-console*/
