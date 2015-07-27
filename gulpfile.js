@@ -13,19 +13,21 @@ var config = {
     html: ["src/index.html"], // have to fix?
     ignore: [
       ".content",
-      ".type",
+      ".geo",
       ".geoJson",
       ".headmasked",
+      ".hidden",
       ".nohead",
-      ".geo",
       ".on",
-      "ul",
+      ".type",
       "li",
-      /zmdi/,
+      "ul",
       /input/,
-      /reverse-/,
       /leaflet-/,
-      /photon-/
+      /note/,
+      /photon-/,
+      /reverse-/,
+      /zmdi/
     ]
   },
   colorguard: {
