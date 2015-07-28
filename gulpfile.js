@@ -54,8 +54,6 @@ var reload = browserSync.reload; // on met la commande dans une variable locale
 var bs; // voir plus loin :)
 /* eslint-enable no-unused-vars */
 
-var scsslint = require("gulp-scss-lint");
-var htmlhint = require("gulp-htmlhint");
 var imageminZopfli = require("imagemin-zopfli");
 
 /*********
@@ -70,7 +68,7 @@ gulp.task("clean:prod", del.bind(null, [config.prodFolder]));
 // SCSS-Lint
 gulp.task("scss-lint", function() {
   gulp.src(config.sourceFolder + "/scss/style.scss")
-    .pipe(scsslint());
+    .pipe($.scssLint());
 });
 
 // SCSS
@@ -100,8 +98,8 @@ gulp.task("SCSS", function() {
 // HTML Lint
 gulp.task("htmllint", function() {
   gulp.src("./src/*.html")
-    .pipe(htmlhint())
-    .pipe(htmlhint.reporter());
+    .pipe($.htmlhint())
+    .pipe($.htmlhint.reporter());
 });
 
 // Run JS Lint against your JS
