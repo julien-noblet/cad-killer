@@ -56,6 +56,7 @@ var bs; // voir plus loin :)
 
 var scsslint = require("gulp-scss-lint");
 var htmlhint = require("gulp-htmlhint");
+var imageminZopfli = require("imagemin-zopfli");
 
 /*********
  * Tasks *
@@ -143,11 +144,12 @@ gulp.task("images", function() {
     .pipe(gulp.dest(config.devFolder + "/images"))
     .pipe($.changed(config.prodFolder + "/images"))
     .pipe($.imagemin({
-      // Lossless conversion to progressive JPGs
-      progressive: true,
       // Interlace GIFs for progressive rendering
       interlaced: true,
-      optimizationLevel: 7
+      // Lossless conversion to progressive JPGs
+      progressive: true,
+      optimizationLevel: 7,
+      use: [imageminZopfli({"8bit": true, "more": true})]
     }))
     .pipe(gulp.dest(config.prodFolder + "/images"))
     .pipe($.size({
