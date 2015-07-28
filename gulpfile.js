@@ -197,8 +197,9 @@ gulp.task("prod", ["dev"], function() {
 /*  var revAll = new $.revAll({
     dontRenameFile: [".eot", ".svg", ".ttf", ".woff", "png"]
   });*/
-  var jsFilter = $.filter("**/*.js",{restore: true});
-  var cssFilter = $.filter("**/*.css",{restore: true});
+  var jsFilter = $.filter("**/*.js", {restore: true});
+  var cssFilter = $.filter("**/*.css", {restore: true});
+  var htmlFilter = $.filter("**/*.html", {restore: true});
 
   return gulp.src(config.devFolder + "/*.html")
     .pipe(assets)
@@ -219,14 +220,15 @@ gulp.task("prod", ["dev"], function() {
     .pipe($.useref())
     // Replace the asset names with their cache busted names
     .pipe($.revReplace())
+    .pipe(htmlFilter)
     // Add GA
-    .pipe($.if('*.html',$.ga({
+    .pipe($.ga({
           url: "http://julien-noblet.github.io/cad-killer",
           uid: "UA-59363844-3",
           linkAttribution: true
-        })))
+        }))
     // Minify HTML
-    .pipe($.if("*.html", $.htmlmin({
+    .pipe($.htmlmin({
       removeComments: true,
       removeCommentsFromCDATA: true,
       removeCDATASectionsFromCDATA: true,
@@ -235,7 +237,8 @@ gulp.task("prod", ["dev"], function() {
       removeAttributeQuotes: true,
       removeRedundantAttributes: true
         // Send the output to the correct folder
-    })))
+    }))
+    .pipe(htmlFilter.restore)
     .pipe(gulp.dest(config.prodFolder))
     .pipe($.size({
       title: "optimizations"
