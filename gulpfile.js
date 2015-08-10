@@ -12,6 +12,7 @@ var config = {
   uncss: {
     html: ["src/index.html"], // have to fix?
     ignore: [
+      ".city",
       ".content",
       ".geo",
       ".geoJson",
@@ -19,6 +20,7 @@ var config = {
       ".hidden",
       ".nohead",
       ".on",
+      ".textnote",
       ".type",
       "li",
       "ul",
