@@ -9,6 +9,8 @@
   <meta name="description" content="Visionneur de carte pour logisticiens pressés">
   <!-- build:css css/combined.css -->
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="vendor/leaflet-modal/dist/leaflet.modal.min.css">
+
   <!-- endbuild -->
 </head>
 
@@ -27,9 +29,9 @@
   <div class="content">
     <div id="map"></div>
   </div>
-  <div id="noteholder" class="noteholder hidden">
+  <!--<div id="noteholder" class="noteholder hidden">
     <div id="newnote" class="note ">
-      <h2>Nouvelle demande de correction de la carte près de <span id="noteref"></span>: </h2> 
+      <h2>Nouvelle demande de correction de la carte près de <span id="noteref"></span>: </h2>
       <div class="text-area">
         <textarea id="textnote" name="textnote" autofocus="yes"></textarea>
       </div>
@@ -44,7 +46,7 @@
         <i onclick="resetNote();" class="zmd-4x zmdi zmdi-check-circle"></i>
       </center>
     </div>
-  </div>
+  </div> -->
   <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
   <!-- build:js js/combined.js -->
   <script src="vendor/jquery/dist/jquery.min.js"></script>
@@ -53,6 +55,8 @@
   <script src="vendor/leaflet-hash/leaflet-hash.js"></script>
   <script src="vendor/leaflet-plugins/layer/tile/Google.js"></script>
   <script src="vendor/leaflet.draw/dist/leaflet.draw.js"></script>
+  <script src="vendor/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
+  <script src="vendor/leaflet-modal/dist/Leaflet.Modal.min.js"></script>
   <script src="js/config.js"></script>
   <script src="js/layers.js"></script>
   <script src="js/leaflet-wmts.js"></script>
