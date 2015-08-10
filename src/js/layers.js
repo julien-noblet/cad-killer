@@ -19,7 +19,18 @@ var layerThunderforest = L.tileLayer(
     attribution: "Fond de plan &copy; Tiles Courtesy of <a href=\"http://thunderforest.com/\">Andy Allan</a>"
   });
 */
-
+var layerMapsurfer = L.tileLayer(
+  "http://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}", {
+    maxZoom: 19,
+    attribution: "Fond de plan &copy; <a gref=\"http://openmapsurfer.uni-hd.de/\">OpenMapSurfer</a>"
+  }
+);
+var overlayMapsurfer = L.tileLayer(
+  "http://korona.geog.uni-heidelberg.de/tiles/hybrid/x={x}&y={y}&z={z}", {
+    maxZoom: 19,
+    attribution: "Surcouche &copy <a gref=\"http://openmapsurfer.uni-hd.de/\">OpenMapSurfer</a>"
+  }
+);
 var layerBing = L.tileLayer(
   "http://tile.stamen.com/bing-lite/{z}/{x}/{y}.jpg", {
     maxZoom: 18,
@@ -99,6 +110,7 @@ var baseMaps = {
   "OpenStreetMap": layerOSM,
   "Carte IGN": layerIGN,
   "Plan IGN": layerIGNlite,
+  "MapSurfer": layerMapsurfer,
   //"Tranport": layerThunderforest,
   "Bing": layerBing,
   "Bing+OSM": layerBoner,
@@ -110,7 +122,8 @@ var baseMaps = {
 };
 var overlayMaps = {
   "Cadastre": overlayCadastre,
-  "BAN(O)": overlayBAN
+  "BAN(O)": overlayBAN,
+  "MapSurfer": overlayMapsurfer
     //"Mapquest": layerMapboxHybrid,
 };
 /*eslint-enable no-unused-vars */
