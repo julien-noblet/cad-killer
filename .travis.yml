@@ -16,3 +16,11 @@ script:
   - gulp prod
 
 after_success: "bash scripts/build_n_push.sh"
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/e274ad601caf28d0f0ee
+    on_success: always  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: always     # options: [always|never|change] default: always
