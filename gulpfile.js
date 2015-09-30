@@ -35,7 +35,7 @@ var config = {
   colorguard: {
     logOk: true,
     threshold: 3,
-    whitelist: []
+    whitelist: [["#f4f4f4", "#ffffff"]]
   }
 };
 
@@ -66,6 +66,7 @@ gulp.task("clean:dev", del.bind(null, [config.devFolder]));
 
 // Deletes the directory that the optimized site is output to
 gulp.task("clean:prod", del.bind(null, [config.prodFolder]));
+gulp.task("clean", ["clean:dev", "clean:prod"]);
 
 // SCSS-Lint
 gulp.task("scss-lint", function() {
@@ -80,7 +81,7 @@ gulp.task("SCSS", function() {
     .pipe($.scss())
     .pipe($.concat("style.css"))
     // AutoPrefix your CSS so it works between browsers
-    .pipe($.autoprefixer("> 1%, last 2 versions, Firefox ESR, Opera 12.1", {
+    .pipe($.autoprefixer({
       cascade: true
     }))
     .pipe($.uncss(config.uncss))
@@ -120,9 +121,9 @@ gulp.task("jslint", function() {
 
 // Copy over fonts to the "site" directory
 gulp.task("fonts", function() {
-  return gulp.src([config.sourceFolder + "/fonts/**", "bower_components/material-design-iconic-font/dist/font/*"])
-    .pipe(gulp.dest(config.devFolder + "/font"))
-    .pipe(gulp.dest(config.prodFolder + "/font"))
+  return gulp.src([config.sourceFolder + "/fonts/**", "bower_components/material-design-iconic-font/dist/fonts/*"])
+    .pipe(gulp.dest(config.devFolder + "/fonts"))
+    .pipe(gulp.dest(config.prodFolder + "/fonts"))
     .pipe($.size({
       title: "fonts"
     }));
@@ -140,7 +141,7 @@ gulp.task("js", function() {
 
 // Optimizes the images that exists
 gulp.task("images", function() {
-  return gulp.src([config.sourceFolder + "/images/**", "bower_components/leaflet/dist/images/**"])
+  return gulp.src([config.sourceFolder + "/images/**", "bower_components/leaflet/dist/images/**", "bower_components/leaflet.draw/dist/images/**"])
     .pipe(gulp.dest(config.devFolder + "/images"))
     .pipe($.changed(config.prodFolder + "/images"))
     .pipe($.imagemin({
@@ -262,3 +263,4 @@ gulp.task("serve:prod", ["prod"], function() {
 
   });
 });
+gulp.task("serve", ["serve:prod", "watch"]);
