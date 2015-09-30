@@ -35,7 +35,7 @@ var config = {
   colorguard: {
     logOk: true,
     threshold: 3,
-    whitelist: []
+    whitelist: [["#f4f4f4", "#ffffff"]]
   }
 };
 
@@ -66,6 +66,7 @@ gulp.task("clean:dev", del.bind(null, [config.devFolder]));
 
 // Deletes the directory that the optimized site is output to
 gulp.task("clean:prod", del.bind(null, [config.prodFolder]));
+gulp.task("clean", ["clean:dev", "clean:prod"], function(){});
 
 // SCSS-Lint
 gulp.task("scss-lint", function() {
@@ -120,9 +121,9 @@ gulp.task("jslint", function() {
 
 // Copy over fonts to the "site" directory
 gulp.task("fonts", function() {
-  return gulp.src([config.sourceFolder + "/fonts/**", "bower_components/material-design-iconic-font/dist/font/*"])
-    .pipe(gulp.dest(config.devFolder + "/font"))
-    .pipe(gulp.dest(config.prodFolder + "/font"))
+  return gulp.src([config.sourceFolder + "/fonts/**", "bower_components/material-design-iconic-font/dist/fonts/*"])
+    .pipe(gulp.dest(config.devFolder + "/fonts"))
+    .pipe(gulp.dest(config.prodFolder + "/fonts"))
     .pipe($.size({
       title: "fonts"
     }));
@@ -247,6 +248,22 @@ gulp.task("prod", ["dev"], function() {
     }));
 });
 gulp.task("serve:prod", ["prod"], function() {
+  bs = browserSync({
+    notify: true,
+    // tunnel: "",
+    server: {
+      baseDir: config.prodFolder
+    },
+    ui: {
+      port: 3000,
+      weinre: {
+        port: 3002
+      }
+    }
+
+  });
+});
+gulp.task("serve", ["prod"], function() {
   bs = browserSync({
     notify: true,
     // tunnel: "",
