@@ -1,7 +1,7 @@
 ---
   env:
     browser: true
-  blobals:
+  globals:
     $: true
   rules:
     default-case: 1
