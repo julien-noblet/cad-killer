@@ -22,7 +22,7 @@ var addNote = function() {
   var note = document.getElementById("textnote").value;
 
   var path = "/api/0.6/notes";
-  var API = "http://api06.dev.openstreetmap.org/" + path;
+  var API = "http://api.openstreetmap.org/" + path;
   var content = "?lat=" + lat + "&lon=" + lng + "&text=" + encodeURIComponent(note);
   var options = {
     "method": "POST",
