@@ -80,7 +80,7 @@ gulp.task("SCSS", function() {
     .pipe($.scss())
     .pipe($.concat("style.css"))
     // AutoPrefix your CSS so it works between browsers
-    .pipe($.autoprefixer("> 5%, last 2 versions, Firefox ESR", {
+    .pipe($.autoprefixer({
       cascade: true
     }))
     .pipe($.uncss(config.uncss))
