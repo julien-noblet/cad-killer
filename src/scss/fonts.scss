@@ -5,7 +5,7 @@
 $ff-arial: 'Arial';
 $ff-helvetica-neue: 'Helvetica Neue';
 $ff-helvetica: 'Helvetica';
-$ff-material: 'Material Design Iconic Font';
+//$ff-material: $zmdi-font-name;
 
 @mixin font($ff, $file) {
   font-family: $ff;

@@ -1,6 +1,6 @@
 //urls
-$url-0: url(images/spritesheet.png);
-$url-1: url(images/spritesheet-2x.png);
+$url-0: url('../images/spritesheet.png');
+$url-1: url('../images/spritesheet-2x.png');
 
 .leaflet-draw-section {
   position: relative;
@@ -10,7 +10,7 @@ $url-1: url(images/spritesheet-2x.png);
   margin-top: 12px;
 
   a {
-    background-image: $url-0;
+    //background-image: $url-0;
     background-repeat: no-repeat;
   }
 
@@ -265,7 +265,7 @@ $url-1: url(images/spritesheet-2x.png);
 }
 
 .leaflet-retina .leaflet-draw-toolbar a {
-  background-image: $url-1;
+  //background-image: $url-1;
   background-size: 270px 30px;
 }
 

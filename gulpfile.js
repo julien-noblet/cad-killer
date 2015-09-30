@@ -66,7 +66,7 @@ gulp.task("clean:dev", del.bind(null, [config.devFolder]));
 
 // Deletes the directory that the optimized site is output to
 gulp.task("clean:prod", del.bind(null, [config.prodFolder]));
-gulp.task("clean", ["clean:dev", "clean:prod"], function(){});
+gulp.task("clean", ["clean:dev", "clean:prod"]);
 
 // SCSS-Lint
 gulp.task("scss-lint", function() {
@@ -141,7 +141,7 @@ gulp.task("js", function() {
 
 // Optimizes the images that exists
 gulp.task("images", function() {
-  return gulp.src([config.sourceFolder + "/images/**", "bower_components/leaflet/dist/images/**"])
+  return gulp.src([config.sourceFolder + "/images/**", "bower_components/leaflet/dist/images/**", "bower_components/leaflet.draw/dist/images/**"])
     .pipe(gulp.dest(config.devFolder + "/images"))
     .pipe($.changed(config.prodFolder + "/images"))
     .pipe($.imagemin({
@@ -263,19 +263,4 @@ gulp.task("serve:prod", ["prod"], function() {
 
   });
 });
-gulp.task("serve", ["prod"], function() {
-  bs = browserSync({
-    notify: true,
-    // tunnel: "",
-    server: {
-      baseDir: config.prodFolder
-    },
-    ui: {
-      port: 3000,
-      weinre: {
-        port: 3002
-      }
-    }
-
-  });
-});
+gulp.task("serve", ["serve:prod", "watch"]);

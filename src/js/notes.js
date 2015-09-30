@@ -15,49 +15,40 @@ var notesControl = new L.Control.Draw({
 
 var notesItems = new L.FeatureGroup();
 
-/*eslint-disable no-unused-vars*/
-var addNote = function(lat, lng, city, message) {
+var addNote = function() {
   "use strict";
-  /*eslint-disable no-console*/
-  console.log(lat, lng);
-  console.log(city);
-  console.log(message);
-  /*eslint-enable no-console*/
-};
+  var lat = document.getElementById("lat").value;
+  var lng = document.getElementById("lng").value;
+  var note = document.getElementById("textnote").value;
 
-// var addNote = function() {
-//   "use strict";
-//   var lat = document.getElementById("lat").value;
-//   var lng = document.getElementById("lng").value;
-//   var note = document.getElementById("textnote").value;
-//
-//   var path = "/api/0.6/notes";
-//   var API = "http://devapi.openstreetmap.org" + path;
-//   var content = "?lat=" + lat + "&lon=" + lng + "&text=" + encodeURIComponent(note);
-//   var postUrl = API + content;
-//   var options = {
-//     "method": "POST",
-//     "headers": {
-//       "Authorization": "Basic " + "Q0FELUtJTExFUjpkdHl2dWRlbnQ="
-//     }
-//   };
-//
-//   $.ajax({
-//     url: API + content,
-//     type: "post",
-//     headers: options.headers,
-//     success: function(data) {
-//       ga("send", "event", "element", "note", "post:" + data, 0);
-//
-//       document.getElementById("newnote").className += " hidden";
-//       document.getElementById("noteok").className = "noteok";
-//       document.getElementById("noteholder").className = "noteholder";
-//       /*eslint-disable no-console*/
-//       console.info(data);
-//       /*eslint-enable no-console*/
-//     }
-//   });
-// };
+  var path = "/api/0.6/notes";
+  var API = "http://api06.dev.openstreetmap.org/" + path;
+  var content = "?lat=" + lat + "&lon=" + lng + "&text=" + encodeURIComponent(note);
+  var options = {
+    "method": "POST",
+    "headers": {
+      "Authorization": "Basic " + "Q0FELUtJTExFUjpkdHl2dWRlbnQ="
+    }
+  };
+
+  $.ajax({
+    url: API + content,
+    type: "post",
+    headers: options.headers,
+    success: function(data) {
+
+
+
+      map.fire('modal', {
+        content: '<h1>Votre Note à été envoyée <i class="zmdi zmdi-mood"></i></h1><br/>Merci pour votre contribution.'
+      });
+      ga("send", "event", "element", "note", "post:" + data, 0);
+      /*eslint-disable no-console*/
+      console.info(data);
+      /*eslint-enable no-console*/
+    }
+  });
+};
 /*eslint-enable no-unused-vars*/
 
 /*eslint-disable no-unused-vars*/
@@ -103,7 +94,7 @@ map.on("draw:created", function(e) {
         "<input type=\"hidden\" id=\"lng\" name=\"lng\" value=\"", layer._latlng.lng, "\">",
         /*eslint-disable no-underscore-dangle */
         "<input type=\"submit\" class=\"topcoat-button--large\" value=\"{okText}\" ",
-        "onclick=\" {addNote} \">",
+        "onclick=\" addNote() \">",
         /*eslint-enable no-underscore-dangle */
         "<input type=\"submit\" class=\"topcoat-button--large {CLOSE_CLS}\" value=\"{cancelText}\" onclick=\"map.closeModal();\">",
         "</div>"
@@ -140,8 +131,8 @@ map.on("draw:created", function(e) {
     });
 
     /*eslint-disable no-console*/
-    console.log(data);
-    console.log(data.features[0].properties.city);
+    //console.log(data);
+    //console.log(data.features[0].properties.city);
 
   });
 

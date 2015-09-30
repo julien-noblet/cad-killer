@@ -92,7 +92,7 @@ $height-photon : 46px;
     }
 
     .leaflet-control-layers-toggle:before {
-      content: '\f289';
+      content: $zmdi-var-layers;
     }
 
     .leaflet-control-layers-toggle {
@@ -101,7 +101,7 @@ $height-photon : 46px;
       //height: 36px;
       background-image: none;
       color: $color-leaflet-button;
-      font: normal normal normal 28px/1 'Material Design Iconic Font';
+      font: normal normal normal 28px/1 $zmdi-font-name;
       -moz-osx-font-smoothing: grayscale;
       -webkit-font-smoothing: antialiased;
       height: 100%;

@@ -6,7 +6,7 @@
   background-image: none;
 }
 
-*.leaflet-draw-actions a {
+.leaflet-draw-actions a {
   background-color: $color-background-tooltip;
   border-left: 1px solid $color-silver-chalice-approx;
   color: $color-white;
@@ -24,13 +24,14 @@
 }
 
 .leaflet-draw-draw-marker:before {
-  content: '\f2b3';
+  content: $zmdi-var-bug;
+  color: $color-beta;
 }
 
 .leaflet-draw-draw-marker {
   background-image: none;
   color: $color-dark-text;
-  font: normal normal normal 18px/1 $ff-material;
+  font: normal normal normal 18px/1 $zmdi-font-name;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;
