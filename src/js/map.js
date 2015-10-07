@@ -18,8 +18,9 @@ var map = L.map("map", {
 
 
 var layers = L.control.layers(baseMaps, overlayMaps);
-
+/*eslint-disable no-unused-vars */
 var hash;
+/*eslint-enable no-unused-vars */
 
 
 L.Icon.Default.imagePath = "./images";

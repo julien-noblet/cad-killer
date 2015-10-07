@@ -89,6 +89,7 @@ function genericPost(post){
   db.post(post).then(function(r){
     ret = r;
     // what to do???
+    console.log(r);//debug
   }).catch(function(err){
     console.log(err)
   });
