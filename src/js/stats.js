@@ -27,6 +27,7 @@ function getInfo() {
 
 function sendNewSearch(search){
   var ret;
+  var date = new Date();
   var post = {
     "user_id": getUserID(),
     "date": date.getTime(),
@@ -38,6 +39,7 @@ function sendNewSearch(search){
 
 function sendNewNote(note){
   var ret;
+  var date = new Date();
   var post = {
     "user_id": getUserID(),
     "date": date.getTime(),
@@ -49,6 +51,7 @@ function sendNewNote(note){
 
 function sendMove(move){
   var ret;
+  var date = new Date();
   var post = {
     "user_id": getUserID(),
     "date": date.getTime(),
@@ -60,6 +63,7 @@ function sendMove(move){
 
 function sendClick(click){
   var ret;
+  var date = new Date();
   var post = {
     "user_id": getUserID(),
     "date": date.getTime(),
@@ -71,6 +75,7 @@ function sendClick(click){
 
 function sendView() {
   var ret;
+  var date = new Date();
   var post = {
     "user_id": getUserID(),
     "date": date.getTime(),
@@ -78,6 +83,7 @@ function sendView() {
   };
   return genericPost(post);
 }
+
 function genericPost(post){
   var ret;
   db.post(post).then(function(r){
@@ -88,6 +94,7 @@ function genericPost(post){
   });
   return ret;
 }
+
 function getUserID() {
   /*
   On récupère l'ID en localdb.
@@ -125,7 +132,5 @@ function getUserID() {
         console.log(err);
       });
     }
-
-
   });
 }
