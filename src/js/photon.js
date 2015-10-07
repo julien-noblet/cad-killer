@@ -15,7 +15,8 @@ var searchPoints = L.geoJson(null, {
     "use strict";
     layer.on("click", function() {
       map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
-      ga("send", "event", "element", "click", "Search :" + feature.properties.label + " / " + feature.properties.context );
+      sendClick(feature);
+      //ga("send", "event", "element", "click", "Search :" + feature.properties.label + " / " + feature.properties.context );
     });
     layer.bindPopup(feature.properties.name + "<a class=\"geo\" href=\"geo:" + feature.geometry.coordinates[1] + "," + feature.geometry.coordinates[0] + "\"><i class=\"zmdi-navigation zmdi-2x\"></i></a>");
   }
@@ -95,7 +96,8 @@ myPhoton.search.__proto__.setChoice = function(choice) {
   "use strict";
   choice = choice || this.RESULTS[this.CURRENT];
   if (choice) {
-    ga("send", "event", "element", "select", "Search :" + choice.feature.properties.label + " / " + choice.feature.properties.context, 0);
+    sendNewSearch(choice.feature);
+    //ga("send", "event", "element", "select", "Search :" + choice.feature.properties.label + " / " + choice.feature.properties.context, 0);
     this.hide();
     this.input.value = "";
     this.fire("selected", {

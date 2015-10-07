@@ -42,7 +42,8 @@ var addNote = function() {
       map.fire('modal', {
         content: '<h1>Votre Note à été envoyée <i class="zmdi zmdi-mood"></i></h1><br/>Merci pour votre contribution.'
       });
-      ga("send", "event", "element", "note", "post:" + data, 0);
+      sendNewNote(data);
+      //ga("send", "event", "element", "note", "post:" + data, 0);
       /*eslint-disable no-console*/
       console.info(data);
       /*eslint-enable no-console*/

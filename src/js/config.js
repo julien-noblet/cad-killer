@@ -7,4 +7,6 @@ var ATTRIBUTIONS = "&copy; <a href=\"http://www.openstreetmap.org/copyright\">Co
 var IGN_KEY = "ztr0a9dk574qlszvikoa0zqi";
 var IGN_LAYER = "GEOGRAPHICALGRIDSYSTEMS.MAPS";
 var IGN_LAYER_LITE = "GEOGRAPHICALGRIDSYSTEMS.PLANIGN";
+var MY_POUCHDB = "http://cad-killer:cad-killer@cadkiller.iriscouch.com/stats"
+var LOCAL_POUCHDB = 'cad-killer'
 /*eslint-enable no-unused-vars */

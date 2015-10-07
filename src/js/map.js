@@ -41,5 +41,6 @@ hash = new L.Hash(map);
 
 map.on("moveend", function(){
   "use strict";
-  ga("send", "event", "map", "move", "Move : Lat: " + map.getCenter().lat + " Lon: " + map.getCenter().lng );
+  sendMove({"lat": map.getCenter().lat, "lng":map.getCenter().lng }); //zoom???
+  //ga("send", "event", "map", "move", "Move : Lat: " + map.getCenter().lat + " Lon: " + map.getCenter().lng );
 });
