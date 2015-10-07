@@ -1,11 +1,12 @@
-/*global L,
+/* global L,
   ATTRIBUTIONS,
   CENTER,
   overlayMaps,
-  ga,
   baseMaps,
-  layerOSMfr
+  layerOSMfr,
+  sendMove
 */
+"use strict";
 
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
@@ -18,9 +19,9 @@ var map = L.map("map", {
 
 
 var layers = L.control.layers(baseMaps, overlayMaps);
-/*eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars */
 var hash;
-/*eslint-enable no-unused-vars */
+/* eslint-enable no-unused-vars */
 
 
 L.Icon.Default.imagePath = "./images";
@@ -36,12 +37,12 @@ L.control.attribution({
 }).addTo(map);
 
 // ajout hash dans l'URL
-/*eslint-disable no-unused-vars */
 hash = new L.Hash(map);
-/*eslint-enable no-unused-vars */
 
-map.on("moveend", function(){
-  "use strict";
-  sendMove({"lat": map.getCenter().lat, "lng":map.getCenter().lng }); //zoom???
-  //ga("send", "event", "map", "move", "Move : Lat: " + map.getCenter().lat + " Lon: " + map.getCenter().lng );
+map.on("moveend", function() {
+  sendMove({
+    lat: map.getCenter().lat,
+    lng: map.getCenter().lng,
+    zoom: map.getZoom()
+  });
 });

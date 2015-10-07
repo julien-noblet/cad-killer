@@ -1,22 +1,22 @@
-/*global L,
-  REVERSE_URL,
-  map
+/* global L,
+          REVERSE_URL,
+          map
 */
+"use strict";
 
 L.Control.ReverseLabel = L.Control.extend({
   options: {
-    position: "topright" //"bottomright"
+    position: "topright" // hack
   },
 
   onAdd: function() {
-    "use strict";
-    var container = L.DomUtil.create("div", "reverse-label");
-    var reverse = new L.PhotonReverse({
-      url: REVERSE_URL,
-      handleResults: function(data) {
-        container.innerHTML = "Carte centrée sur «" + data.features[0].properties.label + "»";
-      }
-    });
+    var container = L.DomUtil.create("div", "reverse-label"),
+      reverse = new L.PhotonReverse({
+        url: REVERSE_URL,
+        handleResults: function(data) {
+          container.innerHTML = "Carte centrée sur «" + data.features[0].properties.label + "»";
+        }
+      });
 
     map.on("moveend", function() {
       if (this.getZoom() > 14) {

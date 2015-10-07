@@ -1,6 +1,7 @@
-//thanks to mylen : https://github.com/mylen/leaflet.TileLayer.WMTS/blob/master/leaflet-tilelayer-wmts-src.js
-/*global L */
-/*eslint-disable no-underscore-dangle*/
+// thanks to mylen : https://github.com/mylen/leaflet.TileLayer.WMTS/blob/master/leaflet-tilelayer-wmts-src.js
+/* global L */
+"use strict";
+
 L.TileLayer.WMTS = L.TileLayer.extend({
 
   defaultWmtsParams: {
@@ -14,10 +15,9 @@ L.TileLayer.WMTS = L.TileLayer.extend({
   },
 
   initialize: function(url, options) { // (String, Object)
-    "use strict";
     var i = "";
-    var wmtsParams = L.extend({}, this.defaultWmtsParams),
-      tileSize = options.tileSize || this.options.tileSize;
+    var tileSize = options.tileSize || this.options.tileSize,
+      wmtsParams = L.extend({}, this.defaultWmtsParams);
     if (options.detectRetina && L.Browser.retina) {
       wmtsParams.width = wmtsParams.height = tileSize * 2;
     } else {
@@ -36,18 +36,16 @@ L.TileLayer.WMTS = L.TileLayer.extend({
   },
 
   onAdd: function(map) {
-    "use strict";
     L.TileLayer.prototype.onAdd.call(this, map);
   },
 
   getTileUrl: function(tilePoint, zoom) { // (Point, Number) -> String
-    "use strict";
-    /*eslint-disable vars-on-top*/
+    /* eslint-disable vars-on-top */
     var map = this._map;
     var crs = map.options.crs;
     var tileSize = this.options.tileSize;
     var nwPoint = tilePoint.multiplyBy(tileSize);
-    //+/-1 in order to be on the tile
+    // +/-1 in order to be on the tile
     nwPoint.x += 1;
     nwPoint.y -= 1;
     var sePoint = nwPoint.add(new L.Point(tileSize, tileSize));
@@ -64,11 +62,10 @@ L.TileLayer.WMTS = L.TileLayer.extend({
       s: this._getSubdomain(tilePoint)
     });
     return url + L.Util.getParamString(this.wmtsParams, url) + "&tilematrix=" + ident + "&tilerow=" + tilerow + "&tilecol=" + tilecol;
-    /*eslint-enable vars-on-top*/
+    /* eslint-enable vars-on-top */
   },
 
   setParams: function(params, noRedraw) {
-    "use strict";
     L.extend(this.wmtsParams, params);
     if (!noRedraw) {
       this.redraw();
@@ -81,11 +78,11 @@ L.TileLayer.WMTS = L.TileLayer.extend({
      * the matrix3857 represents the projection
      * for in the IGN WMTS for the google coordinates.
      */
-    "use strict";
-
     var matrixIds3857 = new Array(22);
     var i = 0;
+    /* eslint-disable no-plusplus */
     for (i; i < 22; i++) {
+      /* eslint-enable no-plusplus */
       matrixIds3857[i] = {
         identifier: "" + i,
         topLeftCorner: new L.LatLng(20037508.3428, -20037508.3428)
@@ -96,9 +93,5 @@ L.TileLayer.WMTS = L.TileLayer.extend({
 });
 
 L.tileLayer.wmts = function(url, options) {
-  "use strict";
   return new L.TileLayer.WMTS(url, options);
 };
-
-
-/*eslint-enable no-underscore-dangle*/
