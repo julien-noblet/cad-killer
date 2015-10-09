@@ -13,6 +13,9 @@ var db = new PouchDB(MY_POUCHDB, {
   }),
   localdb = new PouchDB(LOCAL_POUCHDB);
 
+// debug
+// PouchDB.debug.enable("*");
+
 /*
 LOCAL_POUCHDB:
 {
@@ -34,7 +37,7 @@ db.info().then(function(result) {
   /* eslint-enable no-console */
 });
 
-function getInfo() {
+function getBrowserInfo() {
   var parser = new UAParser();
   return parser.getResult();
 }
@@ -64,27 +67,28 @@ function getUserID(callback) {
     /* eslint-disable no-console */
     console.log("Hello " + doc.userId + "!");
     /* eslint-enable no-console */
-    return callback(doc.userId);
+    callback(doc.userId);
   }).catch(function(err) {
     var post = {};
     if (err.status === 404) {
       /* eslint-disable no-console */
       console.log("New user! Great!");
       /* eslint-enable no-console */
-      info = getInfo();
+      info = getBrowserInfo();
       post = {
         info: info,
         date: date.getTime(),
         type: "user"
       };
       db.post(post).then(function(ret) {
-        post.userId = ret.id;
-        post._id = "cad-killer_user";
-        localdb.put(post).then(function() {
+        var localpost = post;
+        localpost.userId = ret.id;
+        localpost._id = "cad-killer_user";
+        localdb.put(localpost).then(function() {
           /* eslint-disable no-console */
-          console.log("Nice! Hello No. " + post.userId + " !");
+          console.log("Nice! Hello No. " + localpost.userId + " !");
           /* eslint-enable no-console */
-          callback(post.userId);
+          callback(localpost.userId);
         }).catch(function(errputlocal) {
           /* eslint-disable no-console */
           console.log(errputlocal);
@@ -109,9 +113,9 @@ function send(type, element) {
   /* eslint-disable no-console */
   console.log("Send type : " + type);
   /* eslint-enable no-console */
-  getUserID(function(userId) {
+  getUserID(function(myUserId) {
     var post = {
-      userId: userId,
+      userId: myUserId,
       date: date.getTime(),
       type: type
     };
