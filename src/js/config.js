@@ -1,4 +1,5 @@
-/*eslint-disable no-unused-vars */
+"use strict";
+/* eslint-disable no-unused-vars */
 var CENTER = [46.495, 2.201];
 var API_URL = "http://api-adresse.data.gouv.fr/search/?";
 var REVERSE_URL = "http://api-adresse.data.gouv.fr/reverse/?";
@@ -7,4 +8,8 @@ var ATTRIBUTIONS = "&copy; <a href=\"http://www.openstreetmap.org/copyright\">Co
 var IGN_KEY = "ztr0a9dk574qlszvikoa0zqi";
 var IGN_LAYER = "GEOGRAPHICALGRIDSYSTEMS.MAPS";
 var IGN_LAYER_LITE = "GEOGRAPHICALGRIDSYSTEMS.PLANIGN";
-/*eslint-enable no-unused-vars */
+var MY_POUCHDB = "http://cad-killer:cad-killer@cadkiller.iriscouch.com/stats";
+var LOCAL_POUCHDB = "cad-killer";
+var OSM_CREDITENTIALS = "Q0FELUtJTExFUjpkdHl2dWRlbnQ=";
+var NOTE_API = "http://api.openstreetmap.org/api/0.6/notes";
+/* eslint-enable no-unused-vars */

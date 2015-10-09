@@ -2,7 +2,8 @@
   env:
     browser: true
   globals:
-    $: true
+    $: true,
+    sendSearch: true
   rules:
     default-case: 1
     no-eq-null: 1

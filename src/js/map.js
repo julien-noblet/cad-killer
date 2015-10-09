@@ -1,11 +1,13 @@
-/*global L,
+/* global L,
   ATTRIBUTIONS,
   CENTER,
+  REVERSE_URL,
   overlayMaps,
-  ga,
   baseMaps,
-  layerOSMfr
+  layerOSMfr,
+  sendLayer
 */
+"use strict";
 
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
@@ -18,8 +20,9 @@ var map = L.map("map", {
 
 
 var layers = L.control.layers(baseMaps, overlayMaps);
-
+/* eslint-disable no-unused-vars */
 var hash;
+/* eslint-enable no-unused-vars */
 
 
 L.Icon.Default.imagePath = "./images";
@@ -35,11 +38,60 @@ L.control.attribution({
 }).addTo(map);
 
 // ajout hash dans l'URL
-/*eslint-disable no-unused-vars */
 hash = new L.Hash(map);
-/*eslint-enable no-unused-vars */
 
-map.on("moveend", function(){
-  "use strict";
-  ga("send", "event", "map", "move", "Move : Lat: " + map.getCenter().lat + " Lon: " + map.getCenter().lng );
+/* // Not needed
+map.on("moveend", function() {
+  sendMove({
+    lat: map.getCenter().lat,
+    lng: map.getCenter().lng,
+    zoom: map.getZoom()
+  });
+});
+*/
+
+/*
+  Si l'on change de layer (base) -> j'envoie un objet:
+  {
+    layer: "",
+    city: "",
+    location: {lat,lng,zoom}
+  }
+
+  Nota: est-ce qu je doit déplacer cela dans stats.js?
+ */
+
+function onSwitchLayer(layer, switchCase) {
+  var url = [REVERSE_URL, "lon=", map.getCenter().lng, "&lat=", map.getCenter().lat].join("");
+
+  L.Util.ajax(url).then(function(data) {
+    var city = "", postcode = "";
+    if (data.features[0]) {
+      city = data.features[0].properties.city;
+      postcode = data.features[0].properties.postcode;
+    }
+    sendLayer({
+      layer: layer,
+      switchCase: switchCase,
+      city: city,
+      postcode: postcode,
+      location: {
+        lat: map.getCenter().lat,
+        lng: map.getCenter().lng,
+        zoom: map.getZoom()
+      }
+    });
+  });
+}
+
+map.on("baselayerchange", function(e) {
+  onSwitchLayer(e.name, "switch");
+});
+
+map.on("overlayadd", function(e) {
+  onSwitchLayer(e.name, "add-overlay");
+});
+
+map.on("overlayremove", function(e) {
+  onSwitchLayer(e.name, "remove-overlay");
 });
