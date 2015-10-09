@@ -33,7 +33,7 @@ var addNote = function() {
       Authorization: "Basic " + OSM_CREDITENTIALS
     }
   };
-  $.ajax({
+  $.ajax({ /* Changer pour L.Util.ajax() pour supprimer la dépendece avec Jquery */
     url: NOTE_API + content,
     type: "post",
     headers: options.headers,
@@ -41,6 +41,7 @@ var addNote = function() {
       map.fire("modal", {
         content: "<h1>Votre Note à été envoyée <i class=\"zmdi zmdi-mood\"></i></h1><br/>Merci pour votre contribution."
       });
+      /* declencher un evenement??? */
       sendNote(data);
     }
   });

@@ -13,9 +13,6 @@ var db = new PouchDB(MY_POUCHDB, {
   }),
   localdb = new PouchDB(LOCAL_POUCHDB);
 
-// debug
-// PouchDB.debug.enable("*");
-
 /*
 LOCAL_POUCHDB:
 {
@@ -134,6 +131,12 @@ function sendSearch(search) {
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
+function sendLayer(search) {
+  return send("layer", search);
+}
+/* eslint-enable no-unused-vars */
+
+/* eslint-disable no-unused-vars */
 function sendNote(note) {
   return send("note", note);
 }
@@ -155,3 +158,5 @@ function sendClick(click) {
 function sendView() {
   return send("view", null);
 }
+
+sendView(); // Send view on load ^^
