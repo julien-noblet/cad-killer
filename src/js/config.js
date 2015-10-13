@@ -8,7 +8,7 @@ var ATTRIBUTIONS = "&copy; <a href=\"http://www.openstreetmap.org/copyright\">Co
 var IGN_KEY = "ztr0a9dk574qlszvikoa0zqi";
 var IGN_LAYER = "GEOGRAPHICALGRIDSYSTEMS.MAPS";
 var IGN_LAYER_LITE = "GEOGRAPHICALGRIDSYSTEMS.PLANIGN";
-var MY_POUCHDB = "http://cad-killer:cad-killer@cadkiller.iriscouch.com/stats";
+var MY_POUCHDB = "https://sidercomourellydiforteep:16f21a8ad23f32de280b36fc338a38a24c5d49b2@cad-killer.cloudant.com/stats";
 var LOCAL_POUCHDB = "cad-killer";
 var OSM_CREDITENTIALS = "Q0FELUtJTExFUjpkdHl2dWRlbnQ=";
 var NOTE_API = "http://api.openstreetmap.org/api/0.6/notes";

@@ -26,27 +26,6 @@ LOCAL_POUCHDB:
 }
 */
 
-function dbinfo() {
-  db.info().then(function(result) {
-    /* eslint-disable no-console */
-    console.log(result);
-    retry = RETRY_MAX;
-    /* eslint-enable no-console */
-    // handle result
-  }).catch(function(err) {
-    if (err.status === 502 && retry > 0) {
-      setTimeout(function() {
-        retry -= 1;
-        dbinfo();
-      }, TIMEOUT);
-    } else {
-      /* eslint-disable no-console */
-      console.log(err);
-      /* eslint-enable no-console */
-    }
-  });
-}
-
 function getBrowserInfo() {
   var parser = new UAParser();
   return parser.getResult();
@@ -128,6 +107,65 @@ function getUserID(callback) {
         /* eslint-disable no-console */
         console.log(err);
         /* eslint-enable no-console */
+    }
+  });
+}
+
+function checkUserId() {
+  getUserID(function(userId) {
+    db.get(userId).then(function() {
+      /* eslint-disable no-console */
+      console.log("Ok " + userId + " is on DB!");
+      /* eslint-enable no-console */
+
+    }).catch(function(err) {
+      var date = new Date(),
+        info,
+        post;
+      if (err.status === 404) {
+        /* eslint-disable no-console */
+        console.log("Damn!");
+        /* eslint-enable no-console */
+        info = getBrowserInfo();
+        post = {
+          _id: userId,
+          info: info,
+          date: date.getTime(),
+          type: "user"
+        };
+        db.put(post).then(function() {
+          console.log("Ok");
+        }).catch(function(error) {
+          /* eslint-disable no-console */
+          console.log(error);
+          /* eslint-enable no-console */
+        });
+      }
+      /* eslint-disable no-console */
+      console.log(err);
+      /* eslint-enable no-console */
+    });
+  });
+}
+
+function dbinfo() {
+  db.info().then(function(result) {
+    /* eslint-disable no-console */
+    console.log(result);
+    /* eslint-enable no-console */
+    retry = RETRY_MAX;
+    checkUserId();
+    // handle result
+  }).catch(function(err) {
+    if (err.status === 502 && retry > 0) {
+      setTimeout(function() {
+        retry -= 1;
+        dbinfo();
+      }, TIMEOUT);
+    } else {
+      /* eslint-disable no-console */
+      console.log(err);
+      /* eslint-enable no-console */
     }
   });
 }
