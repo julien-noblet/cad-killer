@@ -107,7 +107,7 @@ var config = {
       "no-undef": 2,
       "no-undef-init": 2,
       "no-undefined": 2,
-      "no-unused-vars": 2,
+      "no-unused-vars": 1,
       "no-use-before-define": 2,
       // Stylistic Issues
       "indent": [2, 2, {
@@ -134,7 +134,7 @@ var config = {
       "no-mixed-spaces-and-tabs": 2,
       "no-nested-ternary": 2,
       "no-new-object": 2,
-      "semi-spacing": [2, {
+      "semi-spacing": [1, {
         "before": false,
         "after": true
       }],
@@ -144,12 +144,12 @@ var config = {
       "no-multiple-empty-lines": 1,
       "no-underscore-dangle": 0,
       "one-var": 0,
-      "operator-assignment": [2, "always"],
+      "operator-assignment": [1, "always"],
       "padded-blocks": 0,
       "quotes": [2, "double"],
       "quote-props": [2, "as-needed"],
       "semi": [2, "always"],
-      "sort-vars": [2, {
+      "sort-vars": [1, {
         "ignoreCase": true
       }],
       "space-after-keywords": 1,
