@@ -60,6 +60,11 @@ function getUserID(callback) {
   var date = new Date(),
     info;
   localdb.get("cad-killer_user").then(function(doc) {
+    if (!doc.userId) { // Hack , sometimes IE forget userId :(
+      localdb.destroy().then(function() {
+        doc.userId = getUserID();
+      });
+    }
     /* eslint-disable no-console */
     console.log("Hello " + doc.userId + "!");
     /* eslint-enable no-console */
@@ -134,7 +139,9 @@ function checkUserId() {
           type: "user"
         };
         db.put(post).then(function() {
-          console.log("Ok");
+          /* eslint-disable no-console */
+          console.log("User " + userId + " have been reposted!");
+          /* eslint-enable no-console */
         }).catch(function(error) {
           /* eslint-disable no-console */
           console.log(error);
