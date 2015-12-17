@@ -54,5 +54,7 @@
     "gulp-util": "3.0.7",
     "imagemin-zopfli": "4.1.0",
     "minimist": "1.2.0"
+  },
+  "dependencies": {
   }
 }

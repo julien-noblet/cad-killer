@@ -387,14 +387,14 @@ gulp.task("prod", ["dev"], function() {
     .pipe($.minifyCss())
     .pipe(cssFilter.restore)
     // Start cache busting the files
-    .pipe($.rev())
+    //.pipe($.rev())
     //.pipe(assets.restore())
     // Conctenate your files based on what you specified in _layout/header.html
     .pipe($.useref({
       searchPath: config.devFolder
     }))
     // Replace the asset names with their cache busted names
-    .pipe($.revReplace())
+    //.pipe($.revReplace())
     .pipe(htmlFilter)
     // Add GA
     /*
