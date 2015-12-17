@@ -15,7 +15,7 @@
 var searchPoints = L.geoJson(null, {
   onEachFeature: function(feature, layer) {
     layer.on("click", function() {
-      var zoom=16;
+      var zoom = 16;
       switch (feature.properties.type) {
         case "housenumber":
           zoom = 18;
