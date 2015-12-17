@@ -374,7 +374,7 @@ gulp.task("prod", ["dev"], function() {
     restore: true
   });
 
-  return gulp.src(config.devFolder + "/*.html")
+  return gulp.src(config.devFolder + "/index.html")
     //.pipe(assets)
     // Concatenate JavaScript files and preserve important comments
     .pipe(jsFilter)
