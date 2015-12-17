@@ -358,9 +358,9 @@ gulp.task("default", ["serve:dev", "watch"]);
 
 // Optimizes all the CSS, HTML and concats the JS etc
 gulp.task("prod", ["dev"], function() {
-  var assets = $.useref.assets({
+  /*var assets = $.useref.assets({
     searchPath: config.devFolder
-  });
+  });*/
   /*  var revAll = new $.revAll({
       dontRenameFile: [".eot", ".svg", ".ttf", ".woff", "png"]
     });*/
@@ -375,7 +375,7 @@ gulp.task("prod", ["dev"], function() {
   });
 
   return gulp.src(config.devFolder + "/*.html")
-    .pipe(assets)
+    //.pipe(assets)
     // Concatenate JavaScript files and preserve important comments
     .pipe(jsFilter)
     .pipe($.uglify({
@@ -388,7 +388,7 @@ gulp.task("prod", ["dev"], function() {
     .pipe(cssFilter.restore)
     // Start cache busting the files
     .pipe($.rev())
-    .pipe(assets.restore())
+    //.pipe(assets.restore())
     // Conctenate your files based on what you specified in _layout/header.html
     .pipe($.useref())
     // Replace the asset names with their cache busted names
