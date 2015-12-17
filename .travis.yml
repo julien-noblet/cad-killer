@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "0.12"
+  - "4.1"
 before_install :
   - npm install -g bower gulp
   - gem install sass scss_lint scss_lint_reporter_checkstyle
