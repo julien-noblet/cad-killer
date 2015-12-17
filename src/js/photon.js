@@ -29,13 +29,13 @@ var searchPoints = L.geoJson(null, {
         case "city":
           zoom = 12;
           break;
-        case "locality"
+        case "locality":
           zoom = 16;
           break;
-        case "hamlet",
+        case "hamlet":
           zoom = 16;
           break;
-        case "commune",
+        case "commune":
           zoom = 12;
           break;
         default:
