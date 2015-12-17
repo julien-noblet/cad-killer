@@ -15,7 +15,33 @@
 var searchPoints = L.geoJson(null, {
   onEachFeature: function(feature, layer) {
     layer.on("click", function() {
-      map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
+      var zoom=16;
+      switch (feature.properties.type) {
+        case "housenumber":
+          zoom = 18;
+          break;
+        case "street":
+          zoom = 16;
+          break;
+        case "village":
+          zoom = 12;
+          break;
+        case "city":
+          zoom = 12;
+          break;
+        case "locality"
+          zoom = 16;
+          break;
+        case "hamlet",
+          zoom = 16;
+          break;
+        case "commune",
+          zoom = 12;
+          break;
+        default:
+          zoom = 16;
+      }
+      map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], zoom);
       sendClick(feature);
     });
     layer.bindPopup(feature.properties.name + "<a class=\"geo\" href=\"geo:" + feature.geometry.coordinates[1] + "," + feature.geometry.coordinates[0] + "\"><i class=\"zmdi-navigation zmdi-2x\"></i></a>");
