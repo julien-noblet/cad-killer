@@ -1,6 +1,14 @@
 language: node_js
 node_js:
-  - "4.1"
+  - "4"
+env:
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
 before_install :
   - npm install -g bower gulp
   - gem install sass scss_lint scss_lint_reporter_checkstyle
