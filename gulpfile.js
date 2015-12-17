@@ -390,7 +390,9 @@ gulp.task("prod", ["dev"], function() {
     .pipe($.rev())
     //.pipe(assets.restore())
     // Conctenate your files based on what you specified in _layout/header.html
-    .pipe($.useref())
+    .pipe($.useref({
+      searchPath: config.devFolder
+    }))
     // Replace the asset names with their cache busted names
     .pipe($.revReplace())
     .pipe(htmlFilter)
