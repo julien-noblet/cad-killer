@@ -5,7 +5,7 @@
 $height-photon : 46px;
 
 .nohead {
-  @media (max-width: 640px){
+  @media (max-width: $smartphone){
     top: 0;// !important;
   }
 }
@@ -14,7 +14,7 @@ $height-photon : 46px;
   float: right;
   visibility: hidden;
   width: 0;
-  @media (max-width: 640px){
+  @media (max-width: $smartphone){
     display: block;
     float: none;
     visibility: visible;
@@ -33,7 +33,7 @@ $height-photon : 46px;
     .photon-input {
       margin-bottom: 0;
       width: 400px;
-      @media (max-width: 640px){
+      @media (max-width: $smartphone){
         margin-top: -10px;
         width: 100%;
       }
@@ -50,7 +50,7 @@ $height-photon : 46px;
       color: $color-leaflet-button;
       padding: 6px;
       visibility: hidden;
-      @media (max-width: 640px){
+      @media (max-width: $smartphone){
         position: absolute;
         right: 0;
         top: 90px;
@@ -68,7 +68,7 @@ $height-photon : 46px;
       }
 
       .leaflet-right {
-        @media (max-width: 640px){
+        @media (max-width: $smartphone){
           display: block;
           top: 45px;
         }
@@ -82,7 +82,7 @@ $height-photon : 46px;
       right: 0;
       //top: 0;
 
-      @media (max-width: 640px){
+      @media (max-width: $smartphone){
         display: block;
         top: $height-photon; //hack
       }
@@ -114,7 +114,7 @@ $height-photon : 46px;
 
     .leaflet-photon {
       right: calc(50% - 200px);
-      @media (max-width: 640px){
+      @media (max-width: $smartphone){
         margin: 0;
         right: 0;
         top: 0;
@@ -128,7 +128,7 @@ $height-photon : 46px;
       }
     }
 
-    @media (max-width: 640px){
+    @media (max-width: $smartphone){
       top: 60px;
     }
     @media print{
@@ -161,7 +161,7 @@ $height-photon : 46px;
   position: fixed;
   right: 0;
   text-align: center;
-  @media (max-width: 640px){
+  @media (max-width: $smartphone){
     bottom: 2.5em;
     margin-right: 0;// !important;
     width: 100%;
@@ -176,7 +176,7 @@ $height-photon : 46px;
 }
 
 .leaflet-top.leaflet-left {
-  @media (max-width: 640px){
+  @media (max-width: $smartphone){
     display: block;
     top: $height-photon; //hack
   }
