@@ -61,7 +61,7 @@ var config = {
       "no-caller": 2,
       "no-div-regex": 2,
       "no-else-return": 2,
-      "no-empty-label": 2,
+      "no-labels": 2,
       "no-eq-null": 2,
       "no-eval": 2,
       "no-extend-native": 2,
@@ -152,13 +152,12 @@ var config = {
       "sort-vars": [1, {
         "ignoreCase": true
       }],
-      "space-after-keywords": 1,
+      "keyword-spacing": 1,
       "space-before-blocks": 1,
       "object-curly-spacing": [1, "always"],
       "array-bracket-spacing": [1, "never"],
       "space-in-parens": 1,
       "space-infix-ops": 1,
-      "space-return-throw-case": 1,
       "space-unary-ops": 1,
       "spaced-comment": 1,
       "wrap-regex": 1,
@@ -384,7 +383,7 @@ gulp.task("prod", ["dev"], function() {
     .pipe(jsFilter.restore)
     // Minify CSS
     .pipe(cssFilter)
-    .pipe($.minifyCss())
+    .pipe($.cleanCss({compatibility: 'ie8'}))
     .pipe(cssFilter.restore)
     // Start cache busting the files
     //.pipe($.rev())
