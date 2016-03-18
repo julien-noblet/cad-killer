@@ -31,6 +31,7 @@
   "scenarios": [{
     "label": "home",
     "url": "http://localhost:3000/",
+    "referenceUrl": "http://julien-noblet.github.io/cad-killer/",
     "hideSelectors": [],
     "removeSelectors": [
       "#__bs_notify__", "hidden"
@@ -56,6 +57,7 @@
   }, {
     "label": "zoom",
     "url": "http://localhost:3000/#16/46.6735/-1.2907",
+    "referenceUrl": "http://julien-noblet.github.io/cad-killer/#16/46.6735/-1.2907",
     "hideSelectors": [],
     "removeSelectors": [
       "#__bs_notify__", "hidden"
@@ -76,7 +78,19 @@
       "body"
     ],
     "readyEvent": null,
-    "delay": 500,
-    "misMatchThreshold": 0.1
-  }]
+    "delay": 1500,
+    "misMatchThreshold": 0.1,
+    "onReadyScript": null,
+    "onBeforeScript": null
+  }],
+  "paths": {
+    "bitmaps_reference": "../../backstop_data/bitmaps_reference",
+    "bitmaps_test": "../../backstop_data/bitmaps_test",
+    "compare_data": "../../backstop_data/bitmaps_test/compare.json",
+    "casper_scripts": "../../backstop_data/casper_scripts"
+  },
+  "engine": "phantomjs",
+  "report": ["browser", "CLI"],
+  "debug": false,
+  "port": 3002
 }
