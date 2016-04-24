@@ -281,7 +281,7 @@ gulp.task("jslint", function() {
 
 // Copy over fonts to the "site" directory
 gulp.task("fonts", function() {
-  return gulp.src([config.sourceFolder + "/fonts/**", "bower_components/material-design-iconic-font/dist/fonts/*"])
+  return gulp.src([config.sourceFolder + "/fonts/**", "node_modules/material-design-iconic-font/dist/fonts/**"])
     .pipe(gulp.dest(config.devFolder + "/fonts"))
     .pipe(gulp.dest(config.prodFolder + "/fonts"))
     .pipe($.size({
@@ -301,7 +301,7 @@ gulp.task("js", function() {
 
 // Optimizes the images that exists
 gulp.task("images", function() {
-  return gulp.src([config.sourceFolder + "/images/**", "bower_components/leaflet/dist/images/**", "bower_components/leaflet.draw/dist/images/**"])
+  return gulp.src([config.sourceFolder + "/images/**", "node_modules/leaflet/dist/images/**", "node_modules/leaflet-draw/dist/images/**"])
     .pipe(gulp.dest(config.devFolder + "/images"))
     .pipe($.changed(config.prodFolder + "/images"))
     .pipe($.imagemin({
@@ -321,12 +321,13 @@ gulp.task("images", function() {
     }));
 });
 
-gulp.task("bower", function() {
-  return $.bower()
-    .pipe(gulp.dest(config.devFolder + "/vendor"));
+gulp.task("install", function() {
+  return gulp.src(['./package.json'])
+    .pipe(gulp.dest(config.devFolder))
+    .pipe($.install({production: true}));
 });
 
-gulp.task("dev", ["bower", "fonts", "images", "scss-lint", "SCSS", "jslint", "js", "htmllint"], function() {
+gulp.task("dev", ["install", "fonts", "images", "scss-lint", "SCSS", "jslint", "js", "htmllint"], function() {
 
   gulp.src(config.sourceFolder + "/**/*.html")
     .pipe(gulp.dest(config.devFolder));
