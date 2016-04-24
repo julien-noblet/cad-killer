@@ -92,5 +92,5 @@
   "engine": "phantomjs",
   "report": ["browser", "CLI"],
   "debug": false,
-  "port": 3002
+  "port": 3003
 }
