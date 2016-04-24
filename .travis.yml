@@ -10,15 +10,12 @@ addons:
     packages:
       - g++-4.8
 before_install :
-  - npm install -g bower gulp
+  - npm install -g gulp
   - gem install sass scss_lint scss_lint_reporter_checkstyle
-
-before_script : "bower install"
 
 cache:
   directories:
     - node_modules
-    - bower_components
 
 script:
   - gulp dev

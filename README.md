@@ -2,6 +2,7 @@
 # cad-killer
 Visionneur de carte pour logisticiens pressés
 
+[![Dependency Status](https://david-dm.org/julien-noblet/cad-killer.svg)](https://david-dm.org/julien-noblet/cad-killer)
 [![devDependency Status](https://david-dm.org/julien-noblet/cad-killer/dev-status.svg)](https://david-dm.org/julien-noblet/cad-killer#info=devDependencies)
 [![Build Status](https://travis-ci.org/julien-noblet/cad-killer.svg?branch=master)](https://travis-ci.org/julien-noblet/cad-killer)
 [![Join the chat at https://gitter.im/julien-noblet/cad-killer](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/julien-noblet/cad-killer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)

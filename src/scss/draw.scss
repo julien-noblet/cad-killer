@@ -73,7 +73,7 @@ $url-1: url('../images/spritesheet-2x.png');
     }
 
     &:last-child a {
-      //vendor-prefix found
+      //node_modules-prefix found
       //-webkit-border-radius: 0 4px 4px 0
       //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
       border-radius: 0 4px 4px 0;
@@ -183,7 +183,7 @@ $url-1: url('../images/spritesheet-2x.png');
 .leaflet-draw-tooltip {
   background: $black-50;
   border: 1px solid transparent;
-  //vendor-prefix found
+  //node_modules-prefix found
   //-webkit-border-radius: 4px
   //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
   border-radius: 4px;
@@ -238,7 +238,7 @@ $url-1: url('../images/spritesheet-2x.png');
 .leaflet-edit-marker-selected {
   background: $color-brilliant-rose-10-approx;
   border: 4px dashed $color-brilliant-rose-60-approx;
-  //vendor-prefix found
+  //node_modules-prefix found
   //-webkit-border-radius: 4px
   //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
   border-radius: 4px;
@@ -280,14 +280,14 @@ $url-1: url('../images/spritesheet-2x.png');
   right: 26px;
 
   li:last-child a {
-    //vendor-prefix found
+    //node_modules-prefix found
     //-webkit-border-radius: 0
     //Instead of the line below you cod use @includeborder-radius($radius, $vertical-radius)
     border-radius: 0;
   }
 
   li:first-child a {
-    //vendor-prefix found
+    //node_modules-prefix found
     //-webkit-border-radius: 4px 0 0 4px
     //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
     border-radius: 4px 0 0 4px;
