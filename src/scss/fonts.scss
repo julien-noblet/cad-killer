@@ -21,41 +21,41 @@ $ff-helvetica: 'Helvetica';
 //}
 
 @font-face {
-  @include font('open_sanssemibold', 'OpenSans-Semibold-webfont')
+  @include font('open_sanssemibold', 'Semibold/OpenSans-Semibold')
 }
 
 @font-face {
-  @include font('open_sansextrabold_italic', 'OpenSans-ExtraBoldItalic-webfont')
+  @include font('open_sansextrabold_italic', 'ExtraBoldItalic/OpenSans-ExtraBoldItalic')
 }
 
 @font-face {
-  @include font('open_sanssemibold_italic', 'OpenSans-SemiboldItalic-webfont')
+  @include font('open_sanssemibold_italic', 'SemiboldItalic/OpenSans-SemiboldItalic')
 }
 
 @font-face {
-  @include font('open_sansregular', 'OpenSans-Regular-webfont')
+  @include font('open_sansregular', 'Regular/OpenSans-Regular')
 }
 
 @font-face {
-  @include font('open_sanslight', 'OpenSans-Light-webfont')
+  @include font('open_sanslight', 'Light/OpenSans-Light')
 }
 
 @font-face {
-  @include font('open_sanslight_italic', 'OpenSans-LightItalic-webfont')
+  @include font('open_sanslight_italic', 'LightItalic/OpenSans-LightItalic')
 }
 
 @font-face {
-  @include font('open_sansitalic', 'OpenSans-Italic-webfont')
+  @include font('open_sansitalic', 'Italic/OpenSans-Italic')
 }
 
 @font-face {
-  @include font('open_sansextrabold', 'OpenSans-ExtraBold-webfont')
+  @include font('open_sansextrabold', 'ExtraBold/OpenSans-ExtraBold')
 }
 
 @font-face {
-  @include font('open_sansbold', 'OpenSans-Bold-webfont')
+  @include font('open_sansbold', 'Bold/OpenSans')
 }
 
 @font-face {
-  @include font('open_sansbold_italic', 'OpenSans-BoldItalic-webfont')
+  @include font('open_sansbold_italic', 'BoldItalic/OpenSans-BoldItalic')
 }
