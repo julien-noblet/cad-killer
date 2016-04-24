@@ -281,7 +281,7 @@ gulp.task("jslint", function() {
 
 // Copy over fonts to the "site" directory
 gulp.task("fonts", function() {
-  return gulp.src([config.sourceFolder + "/fonts/**", "node_modules/material-design-iconic-font/dist/fonts/**"])
+  return gulp.src(["node_modules/npm-font-open-sans/fonts/**", "node_modules/material-design-iconic-font/dist/fonts/**"])
     .pipe(gulp.dest(config.devFolder + "/fonts"))
     .pipe(gulp.dest(config.prodFolder + "/fonts"))
     .pipe($.size({
@@ -324,10 +324,33 @@ gulp.task("images", function() {
 gulp.task("install", function() {
   return gulp.src(['./package.json'])
     .pipe(gulp.dest(config.devFolder))
-    .pipe($.install({production: true}));
+    .pipe($.install({production: true}))
+    .pipe($.size({
+      title: "node_modules"
+    }));;
 });
 
-gulp.task("dev", ["install", "fonts", "images", "scss-lint", "SCSS", "jslint", "js", "htmllint"], function() {
+gulp.task("install2",["install"],function(){
+  return gulp.src([config.sourceFolder + "/node_modules/**"])
+    .pipe(gulp.dest(config.devFolder ))
+    .pipe($.imagemin({
+      // Interlace GIFs for progressive rendering
+      interlaced: true,
+      // Lossless conversion to progressive JPGs
+      progressive: true,
+      optimizationLevel: 7,
+      use: [imageminZopfli({
+        "8bit": true,
+        "more": true
+      })]
+    }))
+    .pipe(gulp.dest(config.prodFolder))
+    .pipe($.size({
+      title: "images in node_modules"
+    }));
+})
+
+gulp.task("dev", ["install2", "fonts", "images", "scss-lint", "SCSS", "jslint", "js", "htmllint"], function() {
 
   gulp.src(config.sourceFolder + "/**/*.html")
     .pipe(gulp.dest(config.devFolder));

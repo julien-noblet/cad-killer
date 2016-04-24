@@ -19,7 +19,9 @@ $height-photon : 46px;
     float: none;
     visibility: visible;
   }
+  font-name: $zmdi-font-name;
 }
+
 
 .map {
   .leaflet-container {
