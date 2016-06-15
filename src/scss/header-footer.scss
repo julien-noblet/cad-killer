@@ -12,7 +12,7 @@ header {
   background-color: $color-background;
   border-bottom: 1px solid $color-border-dark;
   color: $color-dark-text;
-  height: 100px;
+  height: 65px;
   padding: 0 20px;
 
   a {
@@ -25,7 +25,7 @@ header {
     font-family: 'open_sanslight';
     font-size: 40px;
     font-weight: normal;
-    line-height: 100px;
+    line-height: 60px;
     margin-left: 140px;
 
     @media (max-width: 640px){
@@ -50,7 +50,7 @@ header {
       font-family: 'open_sansextrabold';
       font-size: 15px;
       font-weight: normal;
-      line-height: 100px;
+      line-height: 60px;
       text-transform: uppercase;
     }
 
@@ -111,5 +111,5 @@ footer {
   position: relative;
   text-align: center;
   text-transform: uppercase;
-  top: 25px;
+  top: 20px;
 }
