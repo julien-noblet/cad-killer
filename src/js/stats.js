@@ -3,18 +3,18 @@
           LOCAL_POUCHDB,
           UAParser
 */
-"use strict";
 
 // Creation des liens vers les bases.
-var db = new PouchDB(MY_POUCHDB, {
-    ajax: {
-      timeout: 100000
-    }
-  }),
-  localdb = new PouchDB(LOCAL_POUCHDB),
-  retry = 3,
-  RETRY_MAX = 3,
-  TIMEOUT = 1e4; // 1sec
+const db = new PouchDB(MY_POUCHDB, {
+  ajax: {
+    timeout: 100000
+  }
+});
+
+const localdb = new PouchDB(LOCAL_POUCHDB);
+let retry = 3;
+const RETRY_MAX = 3;
+const TIMEOUT = 1e4; // 1sec
 
 /*
 LOCAL_POUCHDB:
@@ -27,18 +27,18 @@ LOCAL_POUCHDB:
 */
 
 function getBrowserInfo() {
-  var parser = new UAParser();
+  const parser = new UAParser();
   return parser.getResult();
 }
 
 function genericPost(post) {
-  db.post(post).then(function(r) {
+  db.post(post).then((r) => {
     // what to do???
     retry = RETRY_MAX;
     return r;
-  }).catch(function(err) {
+  }).catch((err) => {
     if (err.status === 502 && retry > 0) {
-      setTimeout(function() {
+      setTimeout(() => {
         retry -= 1;
         genericPost(post);
       }, TIMEOUT);
@@ -57,20 +57,21 @@ function getUserID(callback) {
   et on récup l'ID.
   On le stock dans localdb.
   */
-  var date = new Date(),
-    info;
-  localdb.get("cad-killer_user").then(function(doc) {
+  const date = new Date();
+  let info;
+  localdb.get("cad-killer_user").then((d) => {
+    const doc = d;
     if (!doc.userId) { // Hack , sometimes IE forget userId :(
-      localdb.destroy().then(function() {
+      localdb.destroy().then(() => {
         doc.userId = getUserID();
       });
     }
     /* eslint-disable no-console */
-    console.log("Hello " + doc.userId + "!");
+    console.log("Hello ${doc.userId} !");
     /* eslint-enable no-console */
     callback(doc.userId);
-  }).catch(function(err) {
-    var post = {};
+  }).catch((err) => {
+    let post = {};
     switch (err.status) {
       case 404:
         /* eslint-disable no-console */
@@ -78,116 +79,116 @@ function getUserID(callback) {
         /* eslint-enable no-console */
         info = getBrowserInfo();
         post = {
-          info: info,
+          info,
           date: date.getTime(),
           type: "user"
         };
-        db.post(post).then(function(ret) {
-          var localpost = post;
+        db.post(post).then((ret) => {
+          const localpost = post;
           localpost.userId = ret.id;
           localpost._id = "cad-killer_user";
-          localdb.put(localpost).then(function() {
+          localdb.put(localpost).then(() => {
             /* eslint-disable no-console */
-            console.log("Nice! Hello No. " + localpost.userId + " !");
+            console.log("Nice! Hello No. ${localpost.userId} !");
             /* eslint-enable no-console */
             callback(localpost.userId);
-          }).catch(function(errputlocal) {
+          }).catch((errputlocal) => {
             /* eslint-disable no-console */
-            console.log(errputlocal);
+            console.error(errputlocal);
             /* eslint-enable no-console */
           });
-        }).catch(function(errpost) {
+        }).catch((errpost) => {
           if (err.status === 502) {
-            setTimeout(function() {
+            setTimeout(() => {
               getUserID(callback);
             }, TIMEOUT);
           } else {
             /* eslint-disable no-console */
-            console.log(errpost);
+            console.error(errpost);
             /* eslint-enable no-console */
           }
         });
         break;
       default:
         /* eslint-disable no-console */
-        console.log(err);
+        console.error(err);
         /* eslint-enable no-console */
     }
   });
 }
 
 function checkUserId() {
-  getUserID(function(userId) {
-    db.get(userId).then(function() {
+  getUserID((userId) => {
+    db.get(userId).then(() => {
       /* eslint-disable no-console */
-      console.log("Ok " + userId + " is on DB!");
+      console.log("Ok ${userId} is on DB!");
       /* eslint-enable no-console */
 
-    }).catch(function(err) {
-      var date = new Date(),
-        info,
-        post;
+    }).catch((err) => {
+      const date = new Date();
+      let info;
+      let post;
       if (err.status === 404) {
         /* eslint-disable no-console */
-        console.log("Damn!");
+        console.error("Damn! 404!");
         /* eslint-enable no-console */
         info = getBrowserInfo();
         post = {
           _id: userId,
-          info: info,
+          info,
           date: date.getTime(),
           type: "user"
         };
-        db.put(post).then(function() {
+        db.put(post).then(() => {
           /* eslint-disable no-console */
-          console.log("User " + userId + " have been reposted!");
+          console.log("User ${userId} have been reposted!");
           /* eslint-enable no-console */
-        }).catch(function(error) {
+        }).catch((error) => {
           /* eslint-disable no-console */
-          console.log(error);
+          console.error(error);
           /* eslint-enable no-console */
         });
       }
       /* eslint-disable no-console */
-      console.log(err);
+      console.error(err);
       /* eslint-enable no-console */
     });
   });
 }
 
 function dbinfo() {
-  db.info().then(function(result) {
+  db.info().then((result) => {
     /* eslint-disable no-console */
     console.log(result);
     /* eslint-enable no-console */
     retry = RETRY_MAX;
     checkUserId();
     // handle result
-  }).catch(function(err) {
+  }).catch((err) => {
     if (err.status === 502 && retry > 0) {
-      setTimeout(function() {
+      setTimeout(() => {
         retry -= 1;
         dbinfo();
       }, TIMEOUT);
     } else {
       /* eslint-disable no-console */
-      console.log(err);
+      console.error(err);
       /* eslint-enable no-console */
     }
   });
 }
 
 function send(type, element) {
-  var date = new Date(),
-    ret;
+  const date = new Date();
+  let ret;
   /* eslint-disable no-console */
-  console.log("Send type : " + type);
+  console.log("Send type : ${type}");
   /* eslint-enable no-console */
-  getUserID(function(myUserId) {
-    var post = {
-      userId: myUserId,
+  getUserID((userId) => {
+    const post = {
+      userId,
       date: date.getTime(),
-      type: type
+      type
     };
     if (element !== null) {
       post.element = element;

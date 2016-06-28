@@ -2,23 +2,24 @@
           REVERSE_URL,
           map
 */
-"use strict";
 
 L.Control.ReverseLabel = L.Control.extend({
   options: {
     position: "topright" // hack
   },
 
-  onAdd: function() {
-    var container = L.DomUtil.create("div", "reverse-label"),
+  onAdd: () => {
+    const container = L.DomUtil.create("div", "reverse-label"),
       reverse = new L.PhotonReverse({
         url: REVERSE_URL,
-        handleResults: function(data) {
-          container.innerHTML = "Carte centrée sur «" + data.features[0].properties.label + "»";
+        /* eslint-disable no-unused-vars */
+        handleResults: (data) => {
+          container.innerHTML = "Carte centrée sur «${data.features[0].properties.label}»";
         }
+        /* eslint-enable no-unused-vars */
       });
 
-    map.on("moveend", function() {
+    map.on("moveend", () => {
       if (this.getZoom() > 14) {
         reverse.doReverse(this.getCenter());
         document.getElementById("head").className += " headmasked";

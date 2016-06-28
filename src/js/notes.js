@@ -1,14 +1,14 @@
-/* global L,
+/* global $,
+          L,
           map,
           sendNote,
           OSM_CREDITENTIALS,
           REVERSE_URL,
           NOTE_API
  */
-"use strict";
 
 /* eslint-disable no-unused-vars */
-var notesControl = new L.Control.Draw({
+const notesControl = new L.Control.Draw({
   edit: false,
   draw: {
     polyline: false,
@@ -19,63 +19,68 @@ var notesControl = new L.Control.Draw({
 });
 /* eslint-enable no-unused-vars */
 
-var notesItems = new L.FeatureGroup();
+const notesItems = new L.FeatureGroup();
 
 /* eslint-disable no-unused-vars */
-var addNote = function() {
-  var lat = document.getElementById("lat").value,
-    lng = document.getElementById("lng").value;
-  var note = document.getElementById("textnote").value;
-  var content = "?lat=" + lat + "&lon=" + lng + "&text=" + encodeURIComponent(note);
-  var options = {
+function addNote() {
+  const lat = document.getElementById("lat").value;
+  const lng = document.getElementById("lng").value;
+  const note = document.getElementById("textnote").value;
+  const content = "?lat=${lat}&lon=${lng}&text=${encodeURIComponent(note)}";
+  const options = {
     method: "POST",
     headers: {
-      Authorization: "Basic " + OSM_CREDITENTIALS
+      Authorization: "Basic $OSM_CREDITENTIALS"
     }
   };
   $.ajax({ /* Changer pour L.Util.ajax() pour supprimer la dépendece avec Jquery */
     url: NOTE_API + content,
     type: "post",
     headers: options.headers,
-    success: function(data) {
+    success: (data) => {
       map.fire("modal", {
+        /* eslint-disable max-len */
         content: "<h1>Votre Note à été envoyée <i class=\"zmdi zmdi-mood\"></i></h1><br/>Merci pour votre contribution."
+        /* eslint-enable max-len */
       });
       /* declencher un evenement??? */
       sendNote(data);
     }
   });
-};
+}
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
-var resetNote = function() {
+function resetNote() {
   document.getElementById("noteholder").className = "noteholder hidden";
   document.getElementById("noteok").className = "noteok hidden";
   document.getElementById("newnote").className = "note";
   map.removeLayer(notesItems);
-};
+}
 /* eslint-enable no-unused-vars */
 
 
-map.on("draw:created", function(e) {
-  var layer = e.layer,
-    url = [REVERSE_URL, "lon=", layer._latlng.lng, "&lat=", layer._latlng.lat].join("");
+map.on("draw:created", (e) => {
+  const layer = e.layer,
+    url = "${REVERSE_URL}lon=${layer._latlng.lng}&lat=${layer._latlng.lat}";
   /* eslint-disable no-unused-vars */
-  var req = $.ajax(url, {
+  const req = $.ajax(url, {
     dataType: "json"
   });
   /* eslint-enable no-unused-vars */
-  L.Util.ajax(url).then(function(data) {
-    var city = "";
+  L.Util.ajax(url).then((data) => {
+    /* eslint-disable no-unused-vars */
+    let city = "";
+    /* eslint-enable no-unused-vars */
     if (data.features[0]) {
-      city = ["<span class=\"city\">\n près de ", data.features[0].properties.city, "<span>"].join("");
+      city = "<span class=\"city\">\n près de ${data.features[0].properties.city}<span>";
     }
     notesItems.addLayer(layer);
     map.addLayer(notesItems);
+    /* eslint-disable max-len */
     map.fire("modal", {
-      content: ["<textarea id=\"textnote\" class=\"textnote\" name=\"textnote\" autofocus=\"yes\"></textarea>"].join(""), // HTML string
-      title: ["Nouvelle demande de correction de la carte", city, " :"].join(""),
+      content: "<textarea id=\"textnote\" class=\"textnote\" name=\"textnote\" autofocus=\"yes\"></textarea>", // HTML string
+      title: "Nouvelle demande de correction de la carte ${city} :",
       template: ["<div class=\"modal-header\"><h2>{title}</h2></div>",
         "<hr>",
         "<div class=\"modal-body\">{content}</div>",
@@ -87,6 +92,7 @@ map.on("draw:created", function(e) {
         "<input type=\"submit\" class=\"topcoat-button--large {CLOSE_CLS}\" value=\"{cancelText}\" onclick=\"map.closeModal();\">",
         "</div>"
       ].join(""),
+      /* eslint-enable max-len */
       addNote: ["",
         "addNote( \"", layer._latlng.lat,
         "\", \"", layer._latlng.lng,
@@ -102,7 +108,7 @@ map.on("draw:created", function(e) {
       transitionDuration: 300, // expected transition duration
       // callbacks for convenience,
       // you can set up you handlers here for the contents
-      onHide: function() {
+      onHide: () => {
         map.removeLayer(notesItems);
       },
 
@@ -114,10 +120,7 @@ map.on("draw:created", function(e) {
       SHOW_CLS: "show", // `modal open` CSS class, here go your transitions
       CLOSE_CLS: "close" // `x` button CSS class
     });
-
-
   });
-
 });
 
 // translates!

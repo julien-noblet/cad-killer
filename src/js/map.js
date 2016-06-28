@@ -7,21 +7,20 @@
   layerOSMfr,
   sendLayer
 */
-"use strict";
 
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
  * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
  */
 
-var map = L.map("map", {
+const map = L.map("map", {
   attributionControl: false
 });
 
 
-var layers = L.control.layers(baseMaps, overlayMaps);
+const layers = L.control.layers(baseMaps, overlayMaps);
 /* eslint-disable no-unused-vars */
-var hash;
+let hash;
 /* eslint-enable no-unused-vars */
 
 
@@ -38,7 +37,9 @@ L.control.attribution({
 }).addTo(map);
 
 // ajout hash dans l'URL
+/* eslint-disable prefer-const */
 hash = new L.Hash(map);
+/* eslint-enable prefer-const */
 
 /* // Not needed
 map.on("moveend", function() {
@@ -62,19 +63,20 @@ map.on("moveend", function() {
  */
 
 function onSwitchLayer(layer, switchCase) {
-  var url = [REVERSE_URL, "lon=", map.getCenter().lng, "&lat=", map.getCenter().lat].join("");
+  const url = "${REVERSE_URL}lon=${map.getCenter().lng}&lat=${map.getCenter().lat}";
 
-  L.Util.ajax(url).then(function(data) {
-    var city = "", postcode = "";
+  L.Util.ajax(url).then((data) => {
+    let city = "";
+    let postcode = "";
     if (data.features[0]) {
       city = data.features[0].properties.city;
       postcode = data.features[0].properties.postcode;
     }
     sendLayer({
-      layer: layer,
-      switchCase: switchCase,
-      city: city,
-      postcode: postcode,
+      layer,
+      switchCase,
+      city,
+      postcode,
       location: {
         lat: map.getCenter().lat,
         lng: map.getCenter().lng,
@@ -84,14 +86,14 @@ function onSwitchLayer(layer, switchCase) {
   });
 }
 
-map.on("baselayerchange", function(e) {
+map.on("baselayerchange", (e) => {
   onSwitchLayer(e.name, "switch");
 });
 
-map.on("overlayadd", function(e) {
+map.on("overlayadd", (e) => {
   onSwitchLayer(e.name, "add-overlay");
 });
 
-map.on("overlayremove", function(e) {
+map.on("overlayremove", (e) => {
   onSwitchLayer(e.name, "remove-overlay");
 });

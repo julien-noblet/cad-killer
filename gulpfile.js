@@ -13,6 +13,13 @@ var config = {
     "env": {
       "browser": true
     },
+    parserOptions: {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
     ecmaFeatures: {
       jsx: true
     },
@@ -20,7 +27,7 @@ var config = {
     "plugins": [],
     "rules": {
       // Possible Errors
-      "comma-dangle": [2, "never"],
+      "comma-dangle": [1, "never"],
       "no-cond-assign": 2,
       "no-console": 1,
       "no-constant-condition": 2,
@@ -169,7 +176,7 @@ var config = {
       "no-plusplus": 1,
       "no-bitwise": 1,
       // Others
-      "accessor-pairs" : 1
+      "accessor-pairs": 1
     }
   },
   uncss: {
@@ -293,6 +300,9 @@ gulp.task("js", function() {
   gulp.src(config.sourceFolder + "/js/*.js")
     //.pipe($.concat("all.js"))
     //.pipe($.uglify({preserveComments: "some"}))
+    .pipe($.babel({
+      presets: ['es2015'],
+    }))
     .pipe($.size({
       title: "js"
     }))
@@ -324,15 +334,17 @@ gulp.task("images", function() {
 gulp.task("install", function() {
   return gulp.src(['./package.json'])
     .pipe(gulp.dest(config.devFolder))
-    .pipe($.install({production: true}))
+    .pipe($.install({
+      production: true
+    }))
     .pipe($.size({
       title: "node_modules"
     }));;
 });
 
-gulp.task("install2",["install"],function(){
+gulp.task("install2", ["install"], function() {
   return gulp.src([config.sourceFolder + "/node_modules/**"])
-    .pipe(gulp.dest(config.devFolder ))
+    .pipe(gulp.dest(config.devFolder))
     .pipe($.imagemin({
       // Interlace GIFs for progressive rendering
       interlaced: true,
@@ -407,7 +419,9 @@ gulp.task("prod", ["dev"], function() {
     .pipe(jsFilter.restore)
     // Minify CSS
     .pipe(cssFilter)
-    .pipe($.cleanCss({compatibility: 'ie8'}))
+    .pipe($.cleanCss({
+      compatibility: 'ie8'
+    }))
     .pipe(cssFilter.restore)
     // Start cache busting the files
     //.pipe($.rev())
