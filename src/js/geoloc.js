@@ -21,9 +21,12 @@ const GeoLoc = L.Control.extend({
   options: {
     position: "topright"
   },
-  onAdd: () => L.DomUtil.create("div", "leaflet-control-geoloc")
-              .set("<span onClick=\"getLocation();\" id=\"geoloc\" class=\"geoloc\">"
-              + "<i class=\"zmdi zmdi-2x zmdi-gps-off\" id=\"geoloc_icon\"></i></span>")
+  onAdd: () => {
+    const container = L.DomUtil.create("div", "leaflet-control-geoloc");
+    container.innerHTML = "<span onClick=\"getLocation();\" id=\"geoloc\" class=\"geoloc\"><i class=\"zmdi zmdi-2x zmdi-gps-off\" id=\"geoloc_icon\"></i></span>";
+    // ... initialize other DOM elements, add listeners, etc.
+    return container;
+  }
 });
 
 map.addControl(new GeoLoc());
