@@ -255,7 +255,7 @@ gulp.task("SCSS", function() {
     .pipe($.concat("style.css"))
     // AutoPrefix your CSS so it works between browsers
     .pipe($.autoprefixer({
-      browsers: ['last 2 versions, > 1%'],
+      browsers: ['last 2 versions',' > 1%'],
       cascade: true
     }))
     .pipe($.uncss(config.uncss))
@@ -308,8 +308,11 @@ gulp.task("js", function() {
     .pipe($.babel({
       presets: ['es2015'],
     }))
+<<<<<<< refs/remotes/origin/feature/sourcemaps
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(config.devFolder + "/js/"))
+=======
+>>>>>>> Migrate to ES6
     .pipe($.size({
       title: "js"
     }))
@@ -442,9 +445,17 @@ gulp.task("prod", ["dev"], function() {
     }))
     .pipe(jsFilter.restore)
     // Minify CSS
+<<<<<<< refs/remotes/origin/feature/sourcemaps
     .pipe($.if('**/*.css', $.cleanCss({
       compatibility: 'ie8'
     })))
+=======
+    .pipe(cssFilter)
+    .pipe($.cleanCss({
+      compatibility: 'ie8'
+    }))
+    .pipe(cssFilter.restore)
+>>>>>>> Migrate to ES6
     // Start cache busting the files
     //.pipe($.rev())
     //.pipe(assets.restore())
