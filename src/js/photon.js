@@ -45,7 +45,7 @@ const searchPoints = L.geoJson(null, {
       sendClick(feature);
     });
     /* eslint-disable max-len */
-    layer.bindPopup("${feature.properties.name}<a class=\"geo\" href=\"geo:${feature.geometry.coordinates[1]},${feature.geometry.coordinates[0]}\"><i class=\"zmdi-navigation zmdi-2x\"></i></a>");
+    layer.bindPopup(`${feature.properties.name}<a class=\"geo\" href=\"geo:${feature.geometry.coordinates[1]},${feature.geometry.coordinates[0]}\"><i class=\"zmdi-navigation zmdi-2x\"></i></a>`);
     /* eslint-enable max-len */
   }
 });

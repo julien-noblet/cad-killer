@@ -67,7 +67,7 @@ function getUserID(callback) {
       });
     }
     /* eslint-disable no-console */
-    console.log("Hello ${doc.userId} !");
+    console.log(`Hello ${doc.userId} !`);
     /* eslint-enable no-console */
     callback(doc.userId);
   }).catch((err) => {
@@ -89,7 +89,7 @@ function getUserID(callback) {
           localpost._id = "cad-killer_user";
           localdb.put(localpost).then(() => {
             /* eslint-disable no-console */
-            console.log("Nice! Hello No. ${localpost.userId} !");
+            console.log(`Nice! Hello No. ${localpost.userId} !`);
             /* eslint-enable no-console */
             callback(localpost.userId);
           }).catch((errputlocal) => {
@@ -121,7 +121,7 @@ function checkUserId() {
   getUserID((userId) => {
     db.get(userId).then(() => {
       /* eslint-disable no-console */
-      console.log("Ok ${userId} is on DB!");
+      console.log(`Ok ${userId} is on DB!`);
       /* eslint-enable no-console */
 
     }).catch((err) => {
@@ -141,7 +141,7 @@ function checkUserId() {
         };
         db.put(post).then(() => {
           /* eslint-disable no-console */
-          console.log("User ${userId} have been reposted!");
+          console.log(`User ${userId} have been reposted!`);
           /* eslint-enable no-console */
         }).catch((error) => {
           /* eslint-disable no-console */
@@ -182,7 +182,7 @@ function send(type, element) {
   const date = new Date();
   let ret;
   /* eslint-disable no-console */
-  console.log("Send type : ${type}");
+  console.log(`Send type : ${type}`);
   /* eslint-enable no-console */
   getUserID((userId) => {
     const post = {

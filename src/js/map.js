@@ -63,7 +63,7 @@ map.on("moveend", function() {
  */
 
 function onSwitchLayer(layer, switchCase) {
-  const url = "${REVERSE_URL}lon=${map.getCenter().lng}&lat=${map.getCenter().lat}";
+  const url = `${REVERSE_URL}lon=${map.getCenter().lng}&lat=${map.getCenter().lat}`;
 
   L.Util.ajax(url).then((data) => {
     let city = "";

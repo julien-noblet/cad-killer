@@ -1,4 +1,4 @@
-/*eslint-env node*/
+/* eslint-env es5 */
 "use strict";
 
 /*****************
@@ -227,6 +227,7 @@ var reload = browserSync.reload; // on met la commande dans une variable locale
 /* eslint-disable no-unused-vars */
 var bs; // voir plus loin :)
 /* eslint-enable no-unused-vars */
+var lazypipe = require('lazypipe');
 
 var imageminZopfli = require("imagemin-zopfli");
 
@@ -249,7 +250,7 @@ gulp.task("scss-lint", function() {
 // SCSS
 gulp.task("SCSS", function() {
   gulp.src(config.sourceFolder + "/scss/style.scss")
-    //  .pipe($.sourcemaps.init()) //useless ?
+    .pipe($.sourcemaps.init()) //useless ?
     .pipe($.scss())
     .pipe($.concat("style.css"))
     // AutoPrefix your CSS so it works between browsers
@@ -259,6 +260,7 @@ gulp.task("SCSS", function() {
     .pipe($.uncss(config.uncss))
     .pipe($.colorguard(config.colorguard))
     .pipe(gulp.dest(config.sourceFolder + "/css"))
+    .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(config.devFolder + "/css"))
     // Outputs the size of the CSS file
     .pipe($.size({
@@ -298,15 +300,18 @@ gulp.task("fonts", function() {
 
 gulp.task("js", function() {
   gulp.src(config.sourceFolder + "/js/*.js")
+    .pipe($.plumber())
+    .pipe($.sourcemaps.init())
     //.pipe($.concat("all.js"))
     //.pipe($.uglify({preserveComments: "some"}))
     .pipe($.babel({
       presets: ['es2015'],
     }))
+    .pipe($.sourcemaps.write('.'))
+    .pipe(gulp.dest(config.devFolder + "/js/"))
     .pipe($.size({
       title: "js"
     }))
-    .pipe(gulp.dest(config.devFolder + "/js/"));
 });
 
 // Optimizes the images that exists
@@ -399,37 +404,49 @@ gulp.task("prod", ["dev"], function() {
   /*  var revAll = new $.revAll({
       dontRenameFile: [".eot", ".svg", ".ttf", ".woff", "png"]
     });*/
-  var jsFilter = $.filter("**/*.js", {
+  var htmlFilter = $.filter("**/*.html", {
     restore: true
   });
   var cssFilter = $.filter("**/*.css", {
     restore: true
   });
-  var htmlFilter = $.filter("**/*.html", {
+  var jsFilter = $.filter("**/*.js", {
     restore: true
   });
 
   return gulp.src(config.devFolder + "/index.html")
     //.pipe(assets)
-    // Concatenate JavaScript files and preserve important comments
-    .pipe(jsFilter)
-    .pipe($.uglify({
-      preserveComments: "some"
-    }))
-    .pipe(jsFilter.restore)
-    // Minify CSS
-    .pipe(cssFilter)
-    .pipe($.cleanCss({
-      compatibility: 'ie8'
-    }))
-    .pipe(cssFilter.restore)
-    // Start cache busting the files
-    //.pipe($.rev())
-    //.pipe(assets.restore())
     // Conctenate your files based on what you specified in _layout/header.html
     .pipe($.useref({
       searchPath: config.devFolder
+    }, lazypipe().pipe($.sourcemaps.init, {
+      loadMaps: true
+    })))
+    // Concatenate JavaScript files and preserve important comments
+    .pipe(jsFilter)
+    .pipe($.uglify({
+      output: { // http://lisperator.net/uglifyjs/codegen
+        beautify: false,
+        comments: /^!|\b(copyright|license)\b|@(preserve|license|cc_on)\b/i,
+      },
+      compress: { // http://lisperator.net/uglifyjs/compress, http://davidwalsh.name/compress-uglify
+        sequences: true,
+        booleans: true,
+        conditionals: true,
+        hoist_funs: false,
+        hoist_vars: false,
+        warnings: false,
+      },
+      mangle: true,
     }))
+    .pipe(jsFilter.restore)
+    // Minify CSS
+    .pipe($.if('**/*.css', $.cleanCss({
+      compatibility: 'ie8'
+    })))
+    // Start cache busting the files
+    //.pipe($.rev())
+    //.pipe(assets.restore())
     // Replace the asset names with their cache busted names
     //.pipe($.revReplace())
     .pipe(htmlFilter)
@@ -453,6 +470,7 @@ gulp.task("prod", ["dev"], function() {
         // Send the output to the correct folder
     }))
     .pipe(htmlFilter.restore)
+    .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(config.prodFolder))
     .pipe($.size({
       title: "optimizations"

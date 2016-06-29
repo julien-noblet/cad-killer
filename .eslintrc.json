@@ -12,6 +12,7 @@
   "ecmaFeatures": {
     "jsx": true
   },
+  "extends": "eslint:recommended",
   "globals": {},
   "plugins": [],
   "rules": {

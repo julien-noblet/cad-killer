@@ -26,7 +26,7 @@ function addNote() {
   const lat = document.getElementById("lat").value;
   const lng = document.getElementById("lng").value;
   const note = document.getElementById("textnote").value;
-  const content = "?lat=${lat}&lon=${lng}&text=${encodeURIComponent(note)}";
+  const content = `?lat=${lat}&lon=${lng}&text=${encodeURIComponent(note)}`;
   const options = {
     method: "POST",
     headers: {
@@ -62,25 +62,23 @@ function resetNote() {
 
 map.on("draw:created", (e) => {
   const layer = e.layer,
-    url = "${REVERSE_URL}lon=${layer._latlng.lng}&lat=${layer._latlng.lat}";
+    url = `${REVERSE_URL}lon=${layer._latlng.lng}&lat=${layer._latlng.lat}`;
   /* eslint-disable no-unused-vars */
   const req = $.ajax(url, {
     dataType: "json"
   });
   /* eslint-enable no-unused-vars */
   L.Util.ajax(url).then((data) => {
-    /* eslint-disable no-unused-vars */
     let city = "";
-    /* eslint-enable no-unused-vars */
     if (data.features[0]) {
-      city = "<span class=\"city\">\n près de ${data.features[0].properties.city}<span>";
+      city = `<span class=\"city\">\n près de ${data.features[0].properties.city}<span>`;
     }
     notesItems.addLayer(layer);
     map.addLayer(notesItems);
     /* eslint-disable max-len */
     map.fire("modal", {
       content: "<textarea id=\"textnote\" class=\"textnote\" name=\"textnote\" autofocus=\"yes\"></textarea>", // HTML string
-      title: "Nouvelle demande de correction de la carte ${city} :",
+      title: `Nouvelle demande de correction de la carte ${city} :`,
       template: ["<div class=\"modal-header\"><h2>{title}</h2></div>",
         "<hr>",
         "<div class=\"modal-body\">{content}</div>",
