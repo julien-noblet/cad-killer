@@ -8,6 +8,7 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
+      - ruby
       - g++-4.8
 before_install :
   - npm install -g gulp
