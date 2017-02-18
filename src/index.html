@@ -8,14 +8,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="description" content="Visionneur de carte pour logisticiens pressés">
   <!-- build:css css/combined.css -->
+  <link rel="stylesheet" type="text/css" href="node_modules/leaflet/dist/leaflet.css">
+  <link rel="stylesheet" type="text/css" href="node_modules/leaflet.photon/leaflet.photon.css">
+  <link rel="stylesheet" type="text/css" href="node_modules/leaflet-draw/dist/leaflet.draw-src.css">
+  <link rel="stylesheet" type="text/css" href="node_modules/leaflet-modal/dist/leaflet.modal.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="node_modules/leaflet-modal/dist/leaflet.modal.min.css">
   <!-- endbuild -->
 </head>
 <body class="map">
   <header id="head" class="wrapper">
     <section>
-      <h1 class="beta"><a href="./">CAD-Killer</a>
+      <h1 class=""><a href="./">CAD-Killer</a>
       </h1>
     </section>
     <section class="menu">
@@ -32,7 +35,7 @@
   <script src="node_modules/leaflet/dist/leaflet.js"></script>
   <script src="node_modules/leaflet.photon/leaflet.photon.js"></script>
   <script src="node_modules/leaflet-hash/leaflet-hash.js"></script>
-  <script src="node_modules/leaflet-plugins/layer/tile/Google.js"></script>
+  <script src="node_modules/leaflet.gridlayer.googlemutant\Leaflet.GoogleMutant.js"></script>
   <script src="node_modules/leaflet-draw/dist/leaflet.draw.js"></script>
   <script src="node_modules/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
   <script src="node_modules/leaflet-modal/dist/Leaflet.Modal.min.js"></script>

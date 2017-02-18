@@ -7,8 +7,8 @@
 // Creation des liens vers les bases.
 const db = new PouchDB(MY_POUCHDB, {
   ajax: {
-    timeout: 100000
-  }
+    timeout: 100000,
+  },
 });
 
 const localdb = new PouchDB(LOCAL_POUCHDB);
@@ -59,7 +59,7 @@ function getUserID(callback) {
   */
   const date = new Date();
   let info;
-  localdb.get("cad-killer_user").then((d) => {
+  localdb.get('cad-killer_user').then((d) => {
     const doc = d;
     if (!doc.userId) { // Hack , sometimes IE forget userId :(
       localdb.destroy().then(() => {
@@ -75,18 +75,18 @@ function getUserID(callback) {
     switch (err.status) {
       case 404:
         /* eslint-disable no-console */
-        console.log("New user! Great!");
+        console.log('New user! Great!');
         /* eslint-enable no-console */
         info = getBrowserInfo();
         post = {
           info,
           date: date.getTime(),
-          type: "user"
+          type: 'user',
         };
         db.post(post).then((ret) => {
           const localpost = post;
           localpost.userId = ret.id;
-          localpost._id = "cad-killer_user";
+          localpost._id = 'cad-killer_user';
           localdb.put(localpost).then(() => {
             /* eslint-disable no-console */
             console.log(`Nice! Hello No. ${localpost.userId} !`);
@@ -123,21 +123,20 @@ function checkUserId() {
       /* eslint-disable no-console */
       console.log(`Ok ${userId} is on DB!`);
       /* eslint-enable no-console */
-
     }).catch((err) => {
       const date = new Date();
       let info;
       let post;
       if (err.status === 404) {
         /* eslint-disable no-console */
-        console.error("Damn! 404!");
+        console.error('Damn! 404!');
         /* eslint-enable no-console */
         info = getBrowserInfo();
         post = {
           _id: userId,
           info,
           date: date.getTime(),
-          type: "user"
+          type: 'user',
         };
         db.put(post).then(() => {
           /* eslint-disable no-console */
@@ -188,7 +187,7 @@ function send(type, element) {
     const post = {
       userId,
       date: date.getTime(),
-      type
+      type,
     };
     if (element !== null) {
       post.element = element;
@@ -200,37 +199,37 @@ function send(type, element) {
 
 /* eslint-disable no-unused-vars */
 function sendSearch(search) {
-  return send("search", search);
+  return send('search', search);
 }
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
 function sendLayer(search) {
-  return send("layer", search);
+  return send('layer', search);
 }
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
 function sendNote(note) {
-  return send("note", note);
+  return send('note', note);
 }
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
 function sendMove(move) {
-  return send("move", move);
+  return send('move', move);
 }
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
 function sendClick(click) {
-  return send("click", click);
+  return send('click', click);
 }
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
 function sendView() {
-  return send("view", null);
+  return send('view', null);
 }
 
 dbinfo();

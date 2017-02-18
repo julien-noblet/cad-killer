@@ -1,31 +1,31 @@
 /* eslint-env es5 */
-"use strict";
 
-/*****************
+
+/** ***************
  * Configuration *
  *****************/
-var config = {
+const config = {
   sourceFolder: "src", // dossier source
   devFolder: "serve", // dossier pour le serveur local
   prodFolder: "prod", // dossier de build :)
 
   eslint: {
-    "env": {
-      "browser": true
+    env: {
+      browser: true
     },
     parserOptions: {
-      "ecmaVersion": 6,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true
+      ecmaVersion: 6,
+      sourceType: "module",
+      ecmaFeatures: {
+        jsx: true
       }
     },
     ecmaFeatures: {
       jsx: true
     },
-    "globals": {},
-    "plugins": [],
-    "rules": {
+    globals: {},
+    plugins: [],
+    rules: {
       // Possible Errors
       "comma-dangle": [1, "never"],
       "no-cond-assign": 2,
@@ -57,12 +57,12 @@ var config = {
       "valid-typeof": 2,
       // Best Practices
       "block-scoped-var": 2,
-      "complexity": 1,
+      complexity: 1,
       "consistent-return": 2,
-      "curly": 2,
+      curly: 2,
       "default-case": 2,
       "dot-notation": 2,
-      "eqeqeq": 2,
+      eqeqeq: 2,
       "guard-for-in": 2,
       "no-alert": 2,
       "no-caller": 2,
@@ -77,7 +77,6 @@ var config = {
       "no-floating-decimal": 2,
       "no-implied-eval": 2,
       "no-iterator": 2,
-      "no-labels": 2,
       "no-lone-blocks": 2,
       "no-loop-func": 2,
       "no-multi-spaces": 2,
@@ -99,12 +98,12 @@ var config = {
       "no-void": 1,
       "no-warning-comments": 2,
       "no-with": 2,
-      "radix": 2,
+      radix: 2,
       "vars-on-top": 1,
       "wrap-iife": 2,
-      "yoda": 2,
+      yoda: 2,
       // Strict Mode
-      "strict": [2, "global"],
+      strict: [2, "global"],
       // Variables
       "no-catch-shadow": 2,
       "no-delete-var": 2,
@@ -117,11 +116,11 @@ var config = {
       "no-unused-vars": 1,
       "no-use-before-define": 2,
       // Stylistic Issues
-      "indent": [2, 2, {
-        "SwitchCase": 1
+      indent: [2, 2, {
+        SwitchCase: 1
       }],
       "brace-style": 2,
-      "camelcase": 1,
+      camelcase: 1,
       "comma-spacing": 2,
       "comma-style": 2,
       "consistent-this": 1,
@@ -129,8 +128,8 @@ var config = {
       "func-names": 0,
       "func-style": 0,
       "key-spacing": [2, {
-        "beforeColon": false,
-        "afterColon": true
+        beforeColon: false,
+        afterColon: true
       }],
       "max-nested-callbacks": 1,
       "new-cap": 2,
@@ -142,8 +141,8 @@ var config = {
       "no-nested-ternary": 2,
       "no-new-object": 2,
       "semi-spacing": [1, {
-        "before": false,
-        "after": true
+        before: false,
+        after: true
       }],
       "no-spaced-func": 2,
       "no-ternary": 0,
@@ -153,11 +152,11 @@ var config = {
       "one-var": 0,
       "operator-assignment": [1, "always"],
       "padded-blocks": 0,
-      "quotes": [2, "double"],
+      quotes: [2, "double"],
       "quote-props": [2, "as-needed"],
-      "semi": [2, "always"],
+      semi: [2, "always"],
       "sort-vars": [1, {
-        "ignoreCase": true
+        ignoreCase: true
       }],
       "keyword-spacing": 1,
       "space-before-blocks": 1,
@@ -170,7 +169,7 @@ var config = {
       "wrap-regex": 1,
       // Legacy
       "max-depth": 0,
-      //"max-len": [2, 120],
+      // "max-len": [2, 120],
       "max-params": [1, 3],
       "max-statements": 0,
       "no-plusplus": 1,
@@ -211,27 +210,28 @@ var config = {
   }
 };
 
-/************
+/** **********
  * Includes *
  ************/
-var gulp = require("gulp");
-var $ = require("gulp-load-plugins")(); // auto load :)
+const gulp = require("gulp");
+const $ = require("gulp-load-plugins")(); // auto load :)
 // Permet de supprimer les dossier de destination
-var del = require("del"); // ce n'est pas un plugin Gulp.
-//var argv = require("minimist")(process.argv.slice(2));
+const del = require("del"); // ce n'est pas un plugin Gulp.
+// var argv = require("minimist")(process.argv.slice(2));
 
 // Idem, on doit le charger manuellement.
-var browserSync = require("browser-sync");
-var reload = browserSync.reload; // on met la commande dans une variable locale
+const browserSync = require("browser-sync");
+
+const reload = browserSync.reload; // on met la commande dans une variable locale
 
 /* eslint-disable no-unused-vars */
-var bs; // voir plus loin :)
+let bs; // voir plus loin :)
 /* eslint-enable no-unused-vars */
-var lazypipe = require('lazypipe');
+const lazypipe = require("lazypipe");
 
-var imageminZopfli = require("imagemin-zopfli");
+const imageminZopfli = require("imagemin-zopfli");
 
-/*********
+/** *******
  * Tasks *
  *********/
 // Deletes the directory that is used to serve the site during development
@@ -241,28 +241,30 @@ gulp.task("clean:dev", del.bind(null, [config.devFolder]));
 gulp.task("clean:prod", del.bind(null, [config.prodFolder]));
 gulp.task("clean", ["clean:dev", "clean:prod"]);
 
-// SCSS-Lint
-gulp.task("scss-lint", function() {
-  gulp.src(config.sourceFolder + "/scss/style.scss")
-    .pipe($.scssLint());
+// SASS-Lint
+gulp.task("sass-lint", () => {
+  gulp.src(`${config.sourceFolder}/scss/style.scss`)
+    .pipe($.sassLint())
+    .pipe($.sassLint.format())
+    .pipe($.sassLint.failOnError());
 });
 
 // SCSS
-gulp.task("SCSS", function() {
-  gulp.src(config.sourceFolder + "/scss/style.scss")
-    .pipe($.sourcemaps.init()) //useless ?
+gulp.task("SCSS", () => {
+  gulp.src(`${config.sourceFolder}/scss/style.scss`)
+    .pipe($.sourcemaps.init()) // useless ?
     .pipe($.scss())
     .pipe($.concat("style.css"))
     // AutoPrefix your CSS so it works between browsers
     .pipe($.autoprefixer({
-      browsers: ['last 2 versions','> 1%'],
+      browsers: ["last 2 versions", "> 1%"],
       cascade: true
     }))
     .pipe($.uncss(config.uncss))
     .pipe($.colorguard(config.colorguard))
-    .pipe(gulp.dest(config.sourceFolder + "/css"))
-    .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest(config.devFolder + "/css"))
+    .pipe(gulp.dest(`${config.sourceFolder}/css`))
+    .pipe($.sourcemaps.write("."))
+    .pipe(gulp.dest(`${config.devFolder}/css`))
     // Outputs the size of the CSS file
     .pipe($.size({
       title: "styles"
@@ -274,52 +276,47 @@ gulp.task("SCSS", function() {
 });
 
 // HTML Lint
-gulp.task("htmllint", function() {
+gulp.task("htmllint", () => {
   gulp.src("./src/*.html")
     .pipe($.htmlhint())
     .pipe($.htmlhint.reporter());
 });
 
 // Run JS Lint against your JS
-gulp.task("jslint", function() {
-  gulp.src(config.sourceFolder + "/js/*.js")
+gulp.task("jslint", () => {
+  gulp.src(`${config.sourceFolder}/js/*.js`)
     // Checks your JS code quality against your .jshintrc file
-    .pipe($.eslint(config.eslint))
+    .pipe($.eslint())
     .pipe($.eslint.formatEach("compact", process.stderr))
     .pipe($.eslint.failOnError());
 });
 
 // Copy over fonts to the "site" directory
-gulp.task("fonts", function() {
-  return gulp.src(["node_modules/npm-font-open-sans/fonts/**", "node_modules/material-design-iconic-font/dist/fonts/**"])
-    .pipe(gulp.dest(config.devFolder + "/fonts"))
-    .pipe(gulp.dest(config.prodFolder + "/fonts"))
+gulp.task("fonts", () => gulp.src(["node_modules/npm-font-open-sans/fonts/**", "node_modules/material-design-iconic-font/dist/fonts/**"])
+    .pipe(gulp.dest(`${config.devFolder}/fonts`))
+    .pipe(gulp.dest(`${config.prodFolder}/fonts`))
     .pipe($.size({
       title: "fonts"
+    })));
+
+gulp.task("js", () => {
+  gulp.src(`${config.sourceFolder}/js/*.js`)
+    .pipe($.plumber())
+    .pipe($.sourcemaps.init())
+    // .pipe($.concat("all.js"))
+    // .pipe($.uglify({preserveComments: "some"}))
+    .pipe($.babel())
+    .pipe($.sourcemaps.write("."))
+    .pipe(gulp.dest(`${config.devFolder}/js/`))
+    .pipe($.size({
+      title: "js"
     }));
 });
 
-gulp.task("js", function() {
-  gulp.src(config.sourceFolder + "/js/*.js")
-    .pipe($.plumber())
-    .pipe($.sourcemaps.init())
-    //.pipe($.concat("all.js"))
-    //.pipe($.uglify({preserveComments: "some"}))
-    .pipe($.babel({
-      presets: ['es2015'],
-    }))
-    .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest(config.devFolder + "/js/"))
-    .pipe($.size({
-      title: "js"
-    }))
-});
-
 // Optimizes the images that exists
-gulp.task("images", function() {
-  return gulp.src([config.sourceFolder + "/images/**", "node_modules/leaflet/dist/images/**", "node_modules/leaflet-draw/dist/images/**"])
-    .pipe(gulp.dest(config.devFolder + "/images"))
-    .pipe($.changed(config.prodFolder + "/images"))
+gulp.task("images", () => gulp.src([`${config.sourceFolder}/images/**`, "node_modules/leaflet/dist/images/**", "node_modules/leaflet-draw/dist/images/**"])
+    .pipe(gulp.dest(`${config.devFolder}/images`))
+    .pipe($.changed(`${config.prodFolder}/images`))
     .pipe($.imagemin({
       // Interlace GIFs for progressive rendering
       interlaced: true,
@@ -328,28 +325,24 @@ gulp.task("images", function() {
       optimizationLevel: 7,
       use: [imageminZopfli({
         "8bit": true,
-        "more": true
+        more: true
       })]
     }))
-    .pipe(gulp.dest(config.prodFolder + "/images"))
+    .pipe(gulp.dest(`${config.prodFolder}/images`))
     .pipe($.size({
       title: "images"
-    }));
-});
+    })));
 
-gulp.task("install", function() {
-  return gulp.src(['./package.json'])
+gulp.task("install", () => gulp.src(["./package.json"])
     .pipe(gulp.dest(config.devFolder))
     .pipe($.install({
       production: true
     }))
     .pipe($.size({
       title: "node_modules"
-    }));;
-});
+    })));
 
-gulp.task("install2", ["install"], function() {
-  return gulp.src([config.sourceFolder + "/node_modules/**"])
+gulp.task("install2", ["install"], () => gulp.src([`${config.sourceFolder}/node_modules/**`])
     .pipe(gulp.dest(config.devFolder))
     .pipe($.imagemin({
       // Interlace GIFs for progressive rendering
@@ -359,21 +352,20 @@ gulp.task("install2", ["install"], function() {
       optimizationLevel: 7,
       use: [imageminZopfli({
         "8bit": true,
-        "more": true
+        more: true
       })]
     }))
     .pipe(gulp.dest(config.prodFolder))
     .pipe($.size({
       title: "images in node_modules"
-    }));
-})
+    })));
 
-gulp.task("dev", ["install2", "fonts", "images", "scss-lint", "SCSS", "jslint", "js", "htmllint"], function() {
+gulp.task("dev", ["install2", "fonts", "images", "sass-lint", "SCSS", "jslint", "js", "htmllint"], () => {
 
-  gulp.src(config.sourceFolder + "/**/*.html")
+  gulp.src(`${config.sourceFolder}/**/*.html`)
     .pipe(gulp.dest(config.devFolder));
 });
-gulp.task("serve:dev", ["dev"], function() {
+gulp.task("serve:dev", ["dev"], () => {
   bs = browserSync({
     notify: true,
     // tunnel: "",
@@ -389,34 +381,34 @@ gulp.task("serve:dev", ["dev"], function() {
   });
 });
 
-gulp.task("watch", function() {
-  gulp.watch([config.sourceFolder + "/**/*.html", config.sourceFolder + "/**/*.js"], ["dev"]);
-  gulp.watch([config.devFolder + "/css/*.css"], reload);
-  gulp.watch([config.sourceFolder + "/scss/**/*.scss"], ["SCSS"]);
+gulp.task("watch", () => {
+  gulp.watch([`${config.sourceFolder}/**/*.html`, `${config.sourceFolder}/**/*.js`], ["dev"]);
+  gulp.watch([`${config.devFolder}/css/*.css`], reload);
+  gulp.watch([`${config.sourceFolder}/scss/**/*.scss`], ["SCSS"]);
 });
 
 gulp.task("default", ["serve:dev", "watch"]);
 
 // Optimizes all the CSS, HTML and concats the JS etc
-gulp.task("prod", ["dev"], function() {
-  /*var assets = $.useref.assets({
+gulp.task("prod", ["dev"], () => {
+  /* var assets = $.useref.assets({
     searchPath: config.devFolder
   });*/
   /*  var revAll = new $.revAll({
       dontRenameFile: [".eot", ".svg", ".ttf", ".woff", "png"]
     });*/
-  var htmlFilter = $.filter("**/*.html", {
+  const htmlFilter = $.filter("**/*.html", {
     restore: true
   });
-  var cssFilter = $.filter("**/*.css", {
+  const cssFilter = $.filter("**/*.css", {
     restore: true
   });
-  var jsFilter = $.filter("**/*.js", {
+  const jsFilter = $.filter("**/*.js", {
     restore: true
   });
 
-  return gulp.src(config.devFolder + "/index.html")
-    //.pipe(assets)
+  return gulp.src(`${config.devFolder}/index.html`)
+    // .pipe(assets)
     // Conctenate your files based on what you specified in _layout/header.html
     .pipe($.useref({
       searchPath: config.devFolder
@@ -428,7 +420,7 @@ gulp.task("prod", ["dev"], function() {
     .pipe($.uglify({
       output: { // http://lisperator.net/uglifyjs/codegen
         beautify: false,
-        comments: /^!|\b(copyright|license)\b|@(preserve|license|cc_on)\b/i,
+        comments: /^!|\b(copyright|license)\b|@(preserve|license|cc_on)\b/i
       },
       compress: { // http://lisperator.net/uglifyjs/compress, http://davidwalsh.name/compress-uglify
         sequences: true,
@@ -436,22 +428,22 @@ gulp.task("prod", ["dev"], function() {
         conditionals: true,
         hoist_funs: false,
         hoist_vars: false,
-        warnings: false,
+        warnings: false
       },
-      mangle: true,
+      mangle: true
     }))
     .pipe(jsFilter.restore)
     // Minify CSS
     .pipe(cssFilter)
     .pipe($.cleanCss({
-      compatibility: 'ie8'
+      compatibility: "ie8"
     }))
     .pipe(cssFilter.restore)
     // Start cache busting the files
-    //.pipe($.rev())
-    //.pipe(assets.restore())
+    // .pipe($.rev())
+    // .pipe(assets.restore())
     // Replace the asset names with their cache busted names
-    //.pipe($.revReplace())
+    // .pipe($.revReplace())
     .pipe(htmlFilter)
     // Add GA
     /*
@@ -473,13 +465,13 @@ gulp.task("prod", ["dev"], function() {
         // Send the output to the correct folder
     }))
     .pipe(htmlFilter.restore)
-    .pipe($.sourcemaps.write('.'))
+    .pipe($.sourcemaps.write("."))
     .pipe(gulp.dest(config.prodFolder))
     .pipe($.size({
       title: "optimizations"
     }));
 });
-gulp.task("serve:prod", ["prod"], function() {
+gulp.task("serve:prod", ["prod"], () => {
   bs = browserSync({
     notify: true,
     // tunnel: "",
