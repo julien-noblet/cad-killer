@@ -15,6 +15,7 @@ L.Control.ReverseLabel = L.Control.extend({
         handleResults: (data) => {
           container.innerHTML = `Carte centrée sur «${data.features[0].properties.label}»`;
         }
+        /* eslint-enable no-unused-vars */
       });
 
     map.on("moveend", () => {
