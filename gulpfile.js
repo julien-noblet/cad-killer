@@ -1,248 +1,250 @@
 /* eslint-env es5 */
+/* eslint strict: ["warn", "global"]*/
 
+'use strict';
 
 /** ***************
  * Configuration *
  *****************/
 const config = {
-  sourceFolder: "src", // dossier source
-  devFolder: "serve", // dossier pour le serveur local
-  prodFolder: "prod", // dossier de build :)
+  sourceFolder: 'src', // dossier source
+  devFolder: 'serve', // dossier pour le serveur local
+  prodFolder: 'prod', // dossier de build :)
 
   eslint: {
     env: {
-      browser: true
+      browser: true,
     },
     parserOptions: {
       ecmaVersion: 6,
-      sourceType: "module",
+      sourceType: 'module',
       ecmaFeatures: {
-        jsx: true
-      }
+        jsx: true,
+      },
     },
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     globals: {},
     plugins: [],
     rules: {
       // Possible Errors
-      "comma-dangle": [1, "never"],
-      "no-cond-assign": 2,
-      "no-console": 1,
-      "no-constant-condition": 2,
-      "no-control-regex": 2,
-      "no-debugger": 2,
-      "no-dupe-args": 2,
-      "no-dupe-keys": 2,
-      "no-duplicate-case": 1,
-      "no-empty": 2,
-      "no-empty-character-class": 2,
-      "no-ex-assign": 2,
-      "no-extra-boolean-cast": 2,
-      "no-extra-parens": 1,
-      "no-extra-semi": 2,
-      "no-func-assign": 2,
-      "no-inner-declarations": 2,
-      "no-invalid-regexp": 2,
-      "no-irregular-whitespace": 2,
-      "no-negated-in-lhs": 2,
-      "no-obj-calls": 2,
-      "no-regex-spaces": 2,
-      "no-reserved-keys": 0,
-      "no-sparse-arrays": 2,
-      "no-unreachable": 2,
-      "use-isnan": 2,
-      "valid-jsdoc": 0,
-      "valid-typeof": 2,
+      'comma-dangle': [1, 'never'],
+      'no-cond-assign': 2,
+      'no-console': 1,
+      'no-constant-condition': 2,
+      'no-control-regex': 2,
+      'no-debugger': 2,
+      'no-dupe-args': 2,
+      'no-dupe-keys': 2,
+      'no-duplicate-case': 1,
+      'no-empty': 2,
+      'no-empty-character-class': 2,
+      'no-ex-assign': 2,
+      'no-extra-boolean-cast': 2,
+      'no-extra-parens': 1,
+      'no-extra-semi': 2,
+      'no-func-assign': 2,
+      'no-inner-declarations': 2,
+      'no-invalid-regexp': 2,
+      'no-irregular-whitespace': 2,
+      'no-negated-in-lhs': 2,
+      'no-obj-calls': 2,
+      'no-regex-spaces': 2,
+      'no-reserved-keys': 0,
+      'no-sparse-arrays': 2,
+      'no-unreachable': 2,
+      'use-isnan': 2,
+      'valid-jsdoc': 0,
+      'valid-typeof': 2,
       // Best Practices
-      "block-scoped-var": 2,
+      'block-scoped-var': 2,
       complexity: 1,
-      "consistent-return": 2,
+      'consistent-return': 2,
       curly: 2,
-      "default-case": 2,
-      "dot-notation": 2,
+      'default-case': 2,
+      'dot-notation': 2,
       eqeqeq: 2,
-      "guard-for-in": 2,
-      "no-alert": 2,
-      "no-caller": 2,
-      "no-div-regex": 2,
-      "no-else-return": 2,
-      "no-labels": 2,
-      "no-eq-null": 2,
-      "no-eval": 2,
-      "no-extend-native": 2,
-      "no-extra-bind": 2,
-      "no-fallthrough": 2,
-      "no-floating-decimal": 2,
-      "no-implied-eval": 2,
-      "no-iterator": 2,
-      "no-lone-blocks": 2,
-      "no-loop-func": 2,
-      "no-multi-spaces": 2,
-      "no-multi-str": 1,
-      "no-native-reassign": 2,
-      "no-new": 2,
-      "no-new-func": 2,
-      "no-new-wrappers": 2,
-      "no-octal": 2,
-      "no-octal-escape": 2,
-      "no-process-env": 2,
-      "no-proto": 2,
-      "no-redeclare": 2,
-      "no-return-assign": 2,
-      "no-script-url": 2,
-      "no-self-compare": 2,
-      "no-sequences": 2,
-      "no-unused-expressions": 2,
-      "no-void": 1,
-      "no-warning-comments": 2,
-      "no-with": 2,
+      'guard-for-in': 2,
+      'no-alert': 2,
+      'no-caller': 2,
+      'no-div-regex': 2,
+      'no-else-return': 2,
+      'no-labels': 2,
+      'no-eq-null': 2,
+      'no-eval': 2,
+      'no-extend-native': 2,
+      'no-extra-bind': 2,
+      'no-fallthrough': 2,
+      'no-floating-decimal': 2,
+      'no-implied-eval': 2,
+      'no-iterator': 2,
+      'no-lone-blocks': 2,
+      'no-loop-func': 2,
+      'no-multi-spaces': 2,
+      'no-multi-str': 1,
+      'no-native-reassign': 2,
+      'no-new': 2,
+      'no-new-func': 2,
+      'no-new-wrappers': 2,
+      'no-octal': 2,
+      'no-octal-escape': 2,
+      'no-process-env': 2,
+      'no-proto': 2,
+      'no-redeclare': 2,
+      'no-return-assign': 2,
+      'no-script-url': 2,
+      'no-self-compare': 2,
+      'no-sequences': 2,
+      'no-unused-expressions': 2,
+      'no-void': 1,
+      'no-warning-comments': 2,
+      'no-with': 2,
       radix: 2,
-      "vars-on-top": 1,
-      "wrap-iife": 2,
+      'vars-on-top': 1,
+      'wrap-iife': 2,
       yoda: 2,
       // Strict Mode
-      strict: [2, "global"],
+      strict: [2, 'global'],
       // Variables
-      "no-catch-shadow": 2,
-      "no-delete-var": 2,
-      "no-label-var": 2,
-      "no-shadow": 2,
-      "no-shadow-restricted-names": 2,
-      "no-undef": 2,
-      "no-undef-init": 2,
-      "no-undefined": 2,
-      "no-unused-vars": 1,
-      "no-use-before-define": 2,
+      'no-catch-shadow': 2,
+      'no-delete-var': 2,
+      'no-label-var': 2,
+      'no-shadow': 2,
+      'no-shadow-restricted-names': 2,
+      'no-undef': 2,
+      'no-undef-init': 2,
+      'no-undefined': 2,
+      'no-unused-vars': 1,
+      'no-use-before-define': 2,
       // Stylistic Issues
       indent: [2, 2, {
-        SwitchCase: 1
+        SwitchCase: 1,
       }],
-      "brace-style": 2,
+      'brace-style': 2,
       camelcase: 1,
-      "comma-spacing": 2,
-      "comma-style": 2,
-      "consistent-this": 1,
-      "eol-last": 2,
-      "func-names": 0,
-      "func-style": 0,
-      "key-spacing": [2, {
+      'comma-spacing': 2,
+      'comma-style': 2,
+      'consistent-this': 1,
+      'eol-last': 2,
+      'func-names': 0,
+      'func-style': 0,
+      'key-spacing': [2, {
         beforeColon: false,
-        afterColon: true
+        afterColon: true,
       }],
-      "max-nested-callbacks": 1,
-      "new-cap": 2,
-      "new-parens": 2,
-      "no-array-constructor": 2,
-      "no-inline-comments": 0,
-      "no-lonely-if": 2,
-      "no-mixed-spaces-and-tabs": 2,
-      "no-nested-ternary": 2,
-      "no-new-object": 2,
-      "semi-spacing": [1, {
+      'max-nested-callbacks': 1,
+      'new-cap': 2,
+      'new-parens': 2,
+      'no-array-constructor': 2,
+      'no-inline-comments': 0,
+      'no-lonely-if': 2,
+      'no-mixed-spaces-and-tabs': 2,
+      'no-nested-ternary': 2,
+      'no-new-object': 2,
+      'semi-spacing': [1, {
         before: false,
-        after: true
+        after: true,
       }],
-      "no-spaced-func": 2,
-      "no-ternary": 0,
-      "no-trailing-spaces": 1,
-      "no-multiple-empty-lines": 1,
-      "no-underscore-dangle": 0,
-      "one-var": 0,
-      "operator-assignment": [1, "always"],
-      "padded-blocks": 0,
-      quotes: [2, "double"],
-      "quote-props": [2, "as-needed"],
-      semi: [2, "always"],
-      "sort-vars": [1, {
-        ignoreCase: true
+      'no-spaced-func': 2,
+      'no-ternary': 0,
+      'no-trailing-spaces': 1,
+      'no-multiple-empty-lines': 1,
+      'no-underscore-dangle': 0,
+      'one-var': 0,
+      'operator-assignment': [1, 'always'],
+      'padded-blocks': 0,
+      quotes: [2, 'double'],
+      'quote-props': [2, 'as-needed'],
+      semi: [2, 'always'],
+      'sort-vars': [1, {
+        ignoreCase: true,
       }],
-      "keyword-spacing": 1,
-      "space-before-blocks": 1,
-      "object-curly-spacing": [1, "always"],
-      "array-bracket-spacing": [1, "never"],
-      "space-in-parens": 1,
-      "space-infix-ops": 1,
-      "space-unary-ops": 1,
-      "spaced-comment": 1,
-      "wrap-regex": 1,
+      'keyword-spacing': 1,
+      'space-before-blocks': 1,
+      'object-curly-spacing': [1, 'always'],
+      'array-bracket-spacing': [1, 'never'],
+      'space-in-parens': 1,
+      'space-infix-ops': 1,
+      'space-unary-ops': 1,
+      'spaced-comment': 1,
+      'wrap-regex': 1,
       // Legacy
-      "max-depth": 0,
-      // "max-len": [2, 120],
-      "max-params": [1, 3],
-      "max-statements": 0,
-      "no-plusplus": 1,
-      "no-bitwise": 1,
+      'max-depth': 0,
+      // 'max-len': [2, 120],
+      'max-params': [1, 3],
+      'max-statements': 0,
+      'no-plusplus': 1,
+      'no-bitwise': 1,
       // Others
-      "accessor-pairs": 1
-    }
+      'accessor-pairs': 1,
+    },
   },
   uncss: {
-    html: ["src/index.html"], // have to fix?
+    html: ['src/index.html'], // have to fix?
     ignore: [
-      ".city",
-      ".content",
-      ".geo",
-      ".geoJson",
-      ".headmasked",
-      ".hidden",
-      ".nohead",
-      ".on",
-      ".textnote",
-      ".type",
-      "li",
-      "ul",
+      '.city',
+      '.content',
+      '.geo',
+      '.geoJson',
+      '.headmasked',
+      '.hidden',
+      '.nohead',
+      '.on',
+      '.textnote',
+      '.type',
+      'li',
+      'ul',
       /input/,
       /leaflet-/,
       /note/,
       /photon-/,
       /reverse-/,
-      /zmdi/
-    ]
+      /zmdi/,
+    ],
   },
   colorguard: {
     logOk: true,
     threshold: 3,
     whitelist: [
-      ["#f4f4f4", "#ffffff"]
-    ]
-  }
+      ['#f4f4f4', '#ffffff'],
+    ],
+  },
 };
 
 /** **********
  * Includes *
  ************/
-const gulp = require("gulp");
-const $ = require("gulp-load-plugins")(); // auto load :)
+const gulp = require('gulp');
+const $ = require('gulp-load-plugins')(); // auto load :)
 // Permet de supprimer les dossier de destination
-const del = require("del"); // ce n'est pas un plugin Gulp.
-// var argv = require("minimist")(process.argv.slice(2));
+const del = require('del'); // ce n'est pas un plugin Gulp.
+// var argv = require('minimist')(process.argv.slice(2));
 
 // Idem, on doit le charger manuellement.
-const browserSync = require("browser-sync");
+const browserSync = require('browser-sync');
 
 const reload = browserSync.reload; // on met la commande dans une variable locale
 
 /* eslint-disable no-unused-vars */
 let bs; // voir plus loin :)
 /* eslint-enable no-unused-vars */
-const lazypipe = require("lazypipe");
+const lazypipe = require('lazypipe');
 
-const imageminZopfli = require("imagemin-zopfli");
+const imageminZopfli = require('imagemin-zopfli');
 
 /** *******
  * Tasks *
  *********/
 // Deletes the directory that is used to serve the site during development
-gulp.task("clean:dev", del.bind(null, [config.devFolder]));
+gulp.task('clean:dev', del.bind(null, [config.devFolder]));
 
 // Deletes the directory that the optimized site is output to
-gulp.task("clean:prod", del.bind(null, [config.prodFolder]));
-gulp.task("clean", ["clean:dev", "clean:prod"]);
+gulp.task('clean:prod', del.bind(null, [config.prodFolder]));
+gulp.task('clean', ['clean:dev', 'clean:prod']);
 
 // SASS-Lint
-gulp.task("sass-lint", () => {
+gulp.task('sass-lint', () => {
   gulp.src(`${config.sourceFolder}/scss/style.scss`)
     .pipe($.sassLint())
     .pipe($.sassLint.format())
@@ -250,71 +252,71 @@ gulp.task("sass-lint", () => {
 });
 
 // SCSS
-gulp.task("SCSS", () => {
+gulp.task('SCSS', () => {
   gulp.src(`${config.sourceFolder}/scss/style.scss`)
     .pipe($.sourcemaps.init()) // useless ?
     .pipe($.scss())
-    .pipe($.concat("style.css"))
+    .pipe($.concat('style.css'))
     // AutoPrefix your CSS so it works between browsers
     .pipe($.autoprefixer({
-      browsers: ["last 2 versions", "> 1%"],
-      cascade: true
+      browsers: ['last 2 versions', '> 1%'],
+      cascade: true,
     }))
     .pipe($.uncss(config.uncss))
     .pipe($.colorguard(config.colorguard))
     .pipe(gulp.dest(`${config.sourceFolder}/css`))
-    .pipe($.sourcemaps.write("."))
+    .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(`${config.devFolder}/css`))
     // Outputs the size of the CSS file
     .pipe($.size({
-      title: "styles"
+      title: 'styles',
     }))
     // Injects the CSS changes to your browser since Jekyll doesn't rebuild the CSS
     .pipe(reload({
-      stream: true
+      stream: true,
     }));
 });
 
 // HTML Lint
-gulp.task("htmllint", () => {
-  gulp.src("./src/*.html")
+gulp.task('htmllint', () => {
+  gulp.src('./src/*.html')
     .pipe($.htmlhint())
     .pipe($.htmlhint.reporter());
 });
 
 // Run JS Lint against your JS
-gulp.task("jslint", () => {
+gulp.task('jslint', () => {
   gulp.src(`${config.sourceFolder}/js/*.js`)
     // Checks your JS code quality against your .jshintrc file
     .pipe($.eslint())
-    .pipe($.eslint.formatEach("compact", process.stderr))
+    .pipe($.eslint.formatEach('compact', process.stderr))
     .pipe($.eslint.failOnError());
 });
 
-// Copy over fonts to the "site" directory
-gulp.task("fonts", () => gulp.src(["node_modules/npm-font-open-sans/fonts/**", "node_modules/material-design-iconic-font/dist/fonts/**"])
+// Copy over fonts to the 'site' directory
+gulp.task('fonts', () => gulp.src(['node_modules/npm-font-open-sans/fonts/**', 'node_modules/material-design-iconic-font/dist/fonts/**'])
     .pipe(gulp.dest(`${config.devFolder}/fonts`))
     .pipe(gulp.dest(`${config.prodFolder}/fonts`))
     .pipe($.size({
-      title: "fonts"
+      title: 'fonts',
     })));
 
-gulp.task("js", () => {
+gulp.task('js', () => {
   gulp.src(`${config.sourceFolder}/js/*.js`)
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
-    // .pipe($.concat("all.js"))
-    // .pipe($.uglify({preserveComments: "some"}))
+    // .pipe($.concat('all.js'))
+    // .pipe($.uglify({preserveComments: 'some'}))
     .pipe($.babel())
-    .pipe($.sourcemaps.write("."))
+    .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(`${config.devFolder}/js/`))
     .pipe($.size({
-      title: "js"
+      title: 'js',
     }));
 });
 
 // Optimizes the images that exists
-gulp.task("images", () => gulp.src([`${config.sourceFolder}/images/**`, "node_modules/leaflet/dist/images/**", "node_modules/leaflet-draw/dist/images/**"])
+gulp.task('images', () => gulp.src([`${config.sourceFolder}/images/**`, 'node_modules/leaflet/dist/images/**', 'node_modules/leaflet-draw/dist/images/**'])
     .pipe(gulp.dest(`${config.devFolder}/images`))
     .pipe($.changed(`${config.prodFolder}/images`))
     .pipe($.imagemin({
@@ -324,25 +326,25 @@ gulp.task("images", () => gulp.src([`${config.sourceFolder}/images/**`, "node_mo
       progressive: true,
       optimizationLevel: 7,
       use: [imageminZopfli({
-        "8bit": true,
-        more: true
-      })]
+        '8bit': true,
+        more: true,
+      })],
     }))
     .pipe(gulp.dest(`${config.prodFolder}/images`))
     .pipe($.size({
-      title: "images"
+      title: 'images',
     })));
 
-gulp.task("install", () => gulp.src(["./package.json"])
+gulp.task('install', () => gulp.src(['./package.json'])
     .pipe(gulp.dest(config.devFolder))
     .pipe($.install({
-      production: true
+      production: true,
     }))
     .pipe($.size({
-      title: "node_modules"
+      title: 'node_modules',
     })));
 
-gulp.task("install2", ["install"], () => gulp.src([`${config.sourceFolder}/node_modules/**`])
+gulp.task('install2', ['install'], () => gulp.src([`${config.sourceFolder}/node_modules/**`])
     .pipe(gulp.dest(config.devFolder))
     .pipe($.imagemin({
       // Interlace GIFs for progressive rendering
@@ -351,76 +353,75 @@ gulp.task("install2", ["install"], () => gulp.src([`${config.sourceFolder}/node_
       progressive: true,
       optimizationLevel: 7,
       use: [imageminZopfli({
-        "8bit": true,
-        more: true
-      })]
+        '8bit': true,
+        more: true,
+      })],
     }))
     .pipe(gulp.dest(config.prodFolder))
     .pipe($.size({
-      title: "images in node_modules"
+      title: 'images in node_modules',
     })));
 
-gulp.task("dev", ["install2", "fonts", "images", "sass-lint", "SCSS", "jslint", "js", "htmllint"], () => {
-
+gulp.task('dev', ['install2', 'fonts', 'images', 'sass-lint', 'SCSS', 'jslint', 'js', 'htmllint'], () => {
   gulp.src(`${config.sourceFolder}/**/*.html`)
     .pipe(gulp.dest(config.devFolder));
 });
-gulp.task("serve:dev", ["dev"], () => {
+gulp.task('serve:dev', ['dev'], () => {
   bs = browserSync({
     notify: true,
-    // tunnel: "",
+    // tunnel: '',
     server: {
-      baseDir: config.devFolder
+      baseDir: config.devFolder,
     },
     ui: {
       port: 3000,
       weinre: {
-        port: 3002
-      }
-    }
+        port: 3002,
+      },
+    },
   });
 });
 
-gulp.task("watch", () => {
-  gulp.watch([`${config.sourceFolder}/**/*.html`, `${config.sourceFolder}/**/*.js`], ["dev"]);
+gulp.task('watch', () => {
+  gulp.watch([`${config.sourceFolder}/**/*.html`, `${config.sourceFolder}/**/*.js`], ['dev']);
   gulp.watch([`${config.devFolder}/css/*.css`], reload);
-  gulp.watch([`${config.sourceFolder}/scss/**/*.scss`], ["SCSS"]);
+  gulp.watch([`${config.sourceFolder}/scss/**/*.scss`], ['SCSS']);
 });
 
-gulp.task("default", ["serve:dev", "watch"]);
+gulp.task('default', ['serve:dev', 'watch']);
 
 // Optimizes all the CSS, HTML and concats the JS etc
-gulp.task("prod", ["dev"], () => {
+gulp.task('prod', ['dev'], () => {
   /* var assets = $.useref.assets({
     searchPath: config.devFolder
   });*/
   /*  var revAll = new $.revAll({
-      dontRenameFile: [".eot", ".svg", ".ttf", ".woff", "png"]
+      dontRenameFile: ['.eot', '.svg', '.ttf', '.woff', 'png']
     });*/
-  const htmlFilter = $.filter("**/*.html", {
-    restore: true
+  const htmlFilter = $.filter('**/*.html', {
+    restore: true,
   });
-  const cssFilter = $.filter("**/*.css", {
-    restore: true
+  const cssFilter = $.filter('**/*.css', {
+    restore: true,
   });
-  const jsFilter = $.filter("**/*.js", {
-    restore: true
+  const jsFilter = $.filter('**/*.js', {
+    restore: true,
   });
 
   return gulp.src(`${config.devFolder}/index.html`)
     // .pipe(assets)
     // Conctenate your files based on what you specified in _layout/header.html
     .pipe($.useref({
-      searchPath: config.devFolder
+      searchPath: config.devFolder,
     }, lazypipe().pipe($.sourcemaps.init, {
-      loadMaps: true
+      loadMaps: true,
     })))
     // Concatenate JavaScript files and preserve important comments
     .pipe(jsFilter)
     .pipe($.uglify({
       output: { // http://lisperator.net/uglifyjs/codegen
         beautify: false,
-        comments: /^!|\b(copyright|license)\b|@(preserve|license|cc_on)\b/i
+        comments: /^!|\b(copyright|license)\b|@(preserve|license|cc_on)\b/i,
       },
       compress: { // http://lisperator.net/uglifyjs/compress, http://davidwalsh.name/compress-uglify
         sequences: true,
@@ -428,15 +429,15 @@ gulp.task("prod", ["dev"], () => {
         conditionals: true,
         hoist_funs: false,
         hoist_vars: false,
-        warnings: false
+        warnings: false,
       },
-      mangle: true
+      mangle: true,
     }))
     .pipe(jsFilter.restore)
     // Minify CSS
     .pipe(cssFilter)
     .pipe($.cleanCss({
-      compatibility: "ie8"
+      compatibility: 'ie8',
     }))
     .pipe(cssFilter.restore)
     // Start cache busting the files
@@ -448,8 +449,8 @@ gulp.task("prod", ["dev"], () => {
     // Add GA
     /*
     .pipe($.ga({
-          url: "http://julien-noblet.github.io/cad-killer",
-          uid: "UA-59363844-3",
+          url: 'http://julien-noblet.github.io/cad-killer',
+          uid: 'UA-59363844-3',
           linkAttribution: true
         }))
     */
@@ -461,30 +462,30 @@ gulp.task("prod", ["dev"], () => {
       collapseWhitespace: true,
       collapseBooleanAttributes: true,
       removeAttributeQuotes: true,
-      removeRedundantAttributes: true
+      removeRedundantAttributes: true,
         // Send the output to the correct folder
     }))
     .pipe(htmlFilter.restore)
-    .pipe($.sourcemaps.write("."))
+    .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest(config.prodFolder))
     .pipe($.size({
-      title: "optimizations"
+      title: 'optimizations',
     }));
 });
-gulp.task("serve:prod", ["prod"], () => {
+gulp.task('serve:prod', ['prod'], () => {
   bs = browserSync({
     notify: true,
-    // tunnel: "",
+    // tunnel: '',
     server: {
-      baseDir: config.prodFolder
+      baseDir: config.prodFolder,
     },
     ui: {
       port: 3000,
       weinre: {
-        port: 3002
-      }
-    }
+        port: 3002,
+      },
+    },
 
   });
 });
-gulp.task("serve", ["serve:prod", "watch"]);
+gulp.task('serve', ['serve:prod', 'watch']);
