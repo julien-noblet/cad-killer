@@ -1,17 +1,21 @@
 language: node_js
+
 node_js:
-  - "5"
+  - "6"
+
 env:
   - CXX=g++-4.8
+
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
+
 before_install :
   - npm install -g gulp
-  - gem install sass scss_lint scss_lint_reporter_checkstyle
+  - gem install sass scss_lint_reporter_checkstyle
 
 cache:
   directories:
