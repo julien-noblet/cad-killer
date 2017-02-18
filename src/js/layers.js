@@ -73,7 +73,8 @@ var layerIGNlite = L.tileLayer(
     attribution: "Fond de plan &copy; <a href=\"http://www.ign.fr\">IGN</a>"
   });
 
-var layerGoogleHybrid = new L.Google("HYBRID", {
+var layerGoogleHybrid = new L.gridLayer.googleMutant({
+  type: "hybrid",
   maxZoom: 20,
   attribution: "Vue satellite &copy; <a href=\"http://www.google.com\">Google</a>"
 });
