@@ -71,9 +71,11 @@ gulp.task("clean:prod", del.bind(null, [config.prodFolder]));
 gulp.task("clean", ["clean:dev", "clean:prod"]);
 
 // SCSS-Lint
-gulp.task("scss-lint", function() {
+gulp.task("sass-lint", function() {
   gulp.src(config.sourceFolder + "/scss/style.scss")
-    .pipe($.scssLint());
+    .pipe($.sassLint())
+    .pipe($.sassLint.format())
+    .pipe($.sassLint.failOnError());
 });
 
 // SCSS
@@ -187,7 +189,7 @@ gulp.task("install2",["install"],function(){
     }));
 })
 
-gulp.task("dev", ["install2", "fonts", "images", "scss-lint", "SCSS", "jslint", "js", "htmllint"], function() {
+gulp.task("dev", ["install2", "fonts", "images", "sass-lint", "SCSS", "jslint", "js", "htmllint"], function() {
 
   gulp.src(config.sourceFolder + "/**/*.html")
     .pipe(gulp.dest(config.devFolder));
