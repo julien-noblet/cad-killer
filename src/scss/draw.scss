@@ -1,7 +1,7 @@
 //urls
-$url-0: url(images/spritesheet.png);
-$url-1: url(images/spritesheet.svg);
-$url-2: url(images/spritesheet-2x.png);
+$url-0: url(../images/spritesheet.png);
+$url-1: url(../images/spritesheet.svg);
+$url-2: url(../images/spritesheet-2x.png);
 
 .leaflet-draw-section {
 	position: relative;
@@ -9,7 +9,7 @@ $url-2: url(images/spritesheet-2x.png);
 .leaflet-draw-toolbar {
 	margin-top: 12px;
 	a {
-		background-image: linear-gradient(transparent, transparent), $url-1;
+		background-image: none;
 		background-repeat: no-repeat;
 		background-size: 270px 30px;
 		//Instead of the line below you could use @include background-clip($clip)
@@ -214,7 +214,7 @@ $url-2: url(images/spritesheet-2x.png);
 	border-bottom-right-radius: 0;
 }
 .leaflet-retina .leaflet-draw-toolbar a {
-	background-image: linear-gradient(transparent, transparent), $url-1;
+	background-image: none;
 }
 .leaflet-draw a {
 	display: block;

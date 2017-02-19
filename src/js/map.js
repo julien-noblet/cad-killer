@@ -24,7 +24,7 @@ let hash;
 /* eslint-enable no-unused-vars */
 
 
-L.Icon.Default.imagePath = './images';
+L.Icon.Default.imagePath = './images/';
 map.addLayer(layerOSMfr);
 
 layers.addTo(map);

@@ -121,8 +121,6 @@ gulp.task('jslint', () => {
     // Checks your JS code quality against your .jshintrc file
     .pipe($.eslint())
     .pipe($.eslint.formatEach('compact', process.stderr))
-    .pipe($.eslint())
-    .pipe($.eslint.formatEach('compact', process.stderr))
     .pipe($.eslint.failOnError());
 });
 
@@ -164,7 +162,6 @@ gulp.task('images', () => gulp.src([`${config.sourceFolder}/images/**`, 'node_mo
       })],
     }))
     .pipe(gulp.dest(`${config.prodFolder}/images`))
-    .pipe(gulp.dest(`${config.prodFolder}/`))
     .pipe($.size({
       title: 'images',
     })));
