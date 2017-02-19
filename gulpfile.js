@@ -120,7 +120,7 @@ gulp.task('jslint', () => {
   gulp.src(`${config.sourceFolder}/js/*.js`)
     // Checks your JS code quality against your .jshintrc file
     .pipe($.eslint())
-    .pipe($.eslint.formatEach("compact", process.stderr))
+    .pipe($.eslint.formatEach('compact', process.stderr))
     .pipe($.eslint())
     .pipe($.eslint.formatEach('compact', process.stderr))
     .pipe($.eslint.failOnError());
@@ -164,6 +164,7 @@ gulp.task('images', () => gulp.src([`${config.sourceFolder}/images/**`, 'node_mo
       })],
     }))
     .pipe(gulp.dest(`${config.prodFolder}/images`))
+    .pipe(gulp.dest(`${config.prodFolder}/`))
     .pipe($.size({
       title: 'images',
     })));
@@ -195,9 +196,6 @@ gulp.task('install2', ['install'], () => gulp.src([`${config.sourceFolder}/node_
       title: 'images in node_modules',
     })));
 
-gulp.task("dev", ["install2", "fonts", "images", "sass-lint", "SCSS", "jslint", "js", "htmllint"], function() {
-
-  gulp.src(config.sourceFolder + "/**/*.html")
 gulp.task('dev', ['install2', 'fonts', 'images', 'sass-lint', 'SCSS', 'jslint', 'js', 'htmllint'], () => {
   gulp.src(`${config.sourceFolder}/**/*.html`)
     .pipe(gulp.dest(config.devFolder));
