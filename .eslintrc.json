@@ -1,0 +1,27 @@
+{
+  "env": {
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "ecmaFeatures": {
+    "jsx": true
+  },
+  "extends": "airbnb",
+  "globals": {},
+  "plugins": [],
+  "rules": {
+    "no-underscore-dangle": [
+                              "error",
+                              { "allowAfterThis": true ,
+                                "allow": ["_id", "_latlng"]
+                              }
+                            ]
+
+  }
+}
