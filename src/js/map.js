@@ -31,6 +31,8 @@ layers.addTo(map);
 
 map.setView(CENTER, 6);
 
+map.dragging.enable();
+
 L.control.attribution({
   position: 'bottomleft',
   prefix: ATTRIBUTIONS,
