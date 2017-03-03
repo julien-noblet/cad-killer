@@ -20,7 +20,7 @@ L.Control.ReverseLabel = L.Control.extend({
 
     map.on('moveend', () => {
       if (map.getZoom() > 14) {
-        reverse.doReverse(this.getCenter());
+        reverse.doReverse(map.getCenter());
         document.getElementById('head').className += ' headmasked';
         document.getElementById('map').className += ' nohead';
       } else {
