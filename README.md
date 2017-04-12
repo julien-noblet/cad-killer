@@ -1,5 +1,7 @@
 
 # cad-killer
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/julien-noblet/cad-killer.svg)](https://greenkeeper.io/)
 Visionneur de carte pour logisticiens pressés
 
 [![Dependency Status](https://david-dm.org/julien-noblet/cad-killer.svg)](https://david-dm.org/julien-noblet/cad-killer)
