@@ -2,7 +2,6 @@
           L,
           map,
           sendNote,
-          OSM_CREDITENTIALS,
           REVERSE_URL,
           NOTE_API
  */
