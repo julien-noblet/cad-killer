@@ -1,7 +1,5 @@
-/* global L,
-          REVERSE_URL,
-          map
-*/
+import L from 'leaflet';
+import { REVERSE_URL } from './config';
 
 L.Control.ReverseLabel = L.Control.extend({
   options: {
@@ -18,9 +16,9 @@ L.Control.ReverseLabel = L.Control.extend({
       /* eslint-enable no-unused-vars */
     });
 
-    map.on('moveend', () => {
-      if (map.getZoom() > 14) {
-        reverse.doReverse(map.getCenter());
+    Window.map.on('moveend', () => {
+      if (Window.map.getZoom() > 14) {
+        reverse.doReverse(Window.map.getCenter());
         document.getElementById('head').className += ' headmasked';
         document.getElementById('map').className += ' nohead';
       } else {
@@ -31,4 +29,4 @@ L.Control.ReverseLabel = L.Control.extend({
   },
 });
 
-new L.Control.ReverseLabel().addTo(map);
+new L.Control.ReverseLabel().addTo(Window.map);

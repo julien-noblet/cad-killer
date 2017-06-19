@@ -1,54 +1,60 @@
-/* global L,
-  ATTRIBUTIONS,
-  CENTER,
-  REVERSE_URL,
-  overlayMaps,
-  baseMaps,
-  layerOSMfr,
-  sendLayer
-*/
+import L from 'leaflet';
+import { ATTRIBUTIONS, CENTER, REVERSE_URL } from './config';
+import { overlayMaps, baseMaps, layerOSMfr } from './layers';
+import { dbinfo, sendLayer } from './stats';
+
+require('leaflet-hash');
 
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
  * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
  */
 
-const map = L.map('map', {
+// connection à la BD:
+dbinfo();
+
+// Initialisation de leaflet
+Window.map = L.map('map', {
   attributionControl: false,
 });
 
 
 const layers = L.control.layers(baseMaps, overlayMaps);
-/* eslint-disable no-unused-vars */
-let hash;
-/* eslint-enable no-unused-vars */
 
 
 L.Icon.Default.imagePath = './images/';
-map.addLayer(layerOSMfr);
+Window.map.addLayer(layerOSMfr);
 
-layers.addTo(map);
+layers.addTo(Window.map);
 
-map.setView(CENTER, 6);
+Window.map.setView(CENTER, 6);
 
-map.dragging.enable();
+Window.map.dragging.enable();
 
 L.control.attribution({
   position: 'bottomleft',
   prefix: ATTRIBUTIONS,
-}).addTo(map);
+}).addTo(Window.map);
 
 // ajout hash dans l'URL
 /* eslint-disable prefer-const */
-hash = new L.Hash(map);
+/* eslint-disable no-unused-vars */
+let hash;
+/* eslint-enable no-unused-vars */
+hash = new L.Hash(Window.map);
 /* eslint-enable prefer-const */
 
+// Chargement des modules:
+require('./photon');
+require('./reverseLabel');
+require('./notes');
+
 /* // Not needed
-map.on('moveend', function() {
+Window.map.on('moveend', function() {
   sendMove({
-    lat: map.getCenter().lat,
-    lng: map.getCenter().lng,
-    zoom: map.getZoom()
+    lat: Window.map.getCenter().lat,
+    lng: Window.map.getCenter().lng,
+    zoom: Window.map.getZoom()
   });
 });
 */
@@ -65,7 +71,7 @@ map.on('moveend', function() {
  */
 
 function onSwitchLayer(layer, switchCase) {
-  const url = `${REVERSE_URL}lon=${map.getCenter().lng}&lat=${map.getCenter().lat}`;
+  const url = `${REVERSE_URL}lon=${Window.map.getCenter().lng}&lat=${Window.map.getCenter().lat}`;
 
   L.Util.ajax(url).then((data) => {
     let city = '';
@@ -80,22 +86,22 @@ function onSwitchLayer(layer, switchCase) {
       city,
       postcode,
       location: {
-        lat: map.getCenter().lat,
-        lng: map.getCenter().lng,
-        zoom: map.getZoom(),
+        lat: Window.map.getCenter().lat,
+        lng: Window.map.getCenter().lng,
+        zoom: Window.map.getZoom(),
       },
     });
   });
 }
 
-map.on('baselayerchange', (e) => {
+Window.map.on('baselayerchange', (e) => {
   onSwitchLayer(e.name, 'switch');
 });
 
-map.on('overlayadd', (e) => {
+Window.map.on('overlayadd', (e) => {
   onSwitchLayer(e.name, 'add-overlay');
 });
 
-map.on('overlayremove', (e) => {
+Window.map.on('overlayremove', (e) => {
   onSwitchLayer(e.name, 'remove-overlay');
 });

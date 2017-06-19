@@ -1,8 +1,6 @@
-/* global PouchDB,
-          MY_POUCHDB,
-          LOCAL_POUCHDB,
-          UAParser
-*/
+import PouchDB from 'pouchdb';
+import UAParser from 'ua-parser-js';
+import { MY_POUCHDB, LOCAL_POUCHDB } from './config';
 
 // Creation des liens vers les bases.
 const db = new PouchDB(MY_POUCHDB, {
@@ -155,7 +153,7 @@ function checkUserId() {
   });
 }
 
-function dbinfo() {
+export function dbinfo() {
   db.info().then((result) => {
     /* eslint-disable no-console */
     console.log(result);
@@ -197,40 +195,31 @@ function send(type, element) {
   return ret;
 }
 
-/* eslint-disable no-unused-vars */
-function sendSearch(search) {
+export function sendSearch(search) {
   return send('search', search);
 }
-/* eslint-enable no-unused-vars */
 
-/* eslint-disable no-unused-vars */
-function sendLayer(search) {
+export function sendLayer(search) {
   return send('layer', search);
 }
-/* eslint-enable no-unused-vars */
 
-/* eslint-disable no-unused-vars */
-function sendNote(note) {
+export function sendNote(note) {
   return send('note', note);
 }
-/* eslint-enable no-unused-vars */
 
-/* eslint-disable no-unused-vars */
-function sendMove(move) {
+export function sendMove(move) {
   return send('move', move);
 }
-/* eslint-enable no-unused-vars */
 
-/* eslint-disable no-unused-vars */
-function sendClick(click) {
+export function sendClick(click) {
   return send('click', click);
 }
-/* eslint-enable no-unused-vars */
 
-/* eslint-disable no-unused-vars */
-function sendView() {
+export function sendView() {
   return send('view', null);
 }
 
-dbinfo();
-sendView(); // Send view on load ^^
+export default function () {
+  dbinfo();
+}
+// sendView(); // Send view on load ^^

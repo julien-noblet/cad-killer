@@ -1,10 +1,15 @@
-/* global $,
-          L,
-          map,
-          sendNote,
-          REVERSE_URL,
-          NOTE_API
- */
+import $ from 'jquery';
+import L from 'leaflet';
+import { REVERSE_URL, NOTE_API } from './config';
+import { sendNote } from './stats';
+
+require('leaflet-draw');
+require('leaflet-draw/dist/images/marker-icon-2x.png');
+require('leaflet-draw/dist/images/marker-icon.png');
+require('leaflet-draw/dist/images/marker-shadow.png');
+require('leaflet-ajax');
+require('leaflet-modal');
+require('leaflet-modal/dist/leaflet.modal.css');
 
 /* eslint-disable no-unused-vars */
 const notesControl = new L.Control.Draw({
@@ -26,18 +31,19 @@ function addNote() {
   const lng = document.getElementById('lng').value;
   const note = document.getElementById('textnote').value;
   const content = `?lat=${lat}&lon=${lng}&text=${encodeURIComponent(note)}`;
+  // console.log('addNote');
   const options = {
     method: 'POST',
     headers: {
       Authorization: 'Basic $OSM_CREDITENTIALS',
     },
   };
-  $.ajax({ /* Changer pour L.Util.ajax() pour supprimer la dépendece avec Jquery */
+  $.ajax({ /* TODO: Changer pour L.Util.ajax() pour supprimer la dépendece avec Jquery */
     url: NOTE_API + content,
     type: 'post',
     headers: options.headers,
     success: (data) => {
-      map.fire('modal', {
+      Window.map.fire('modal', {
         /* eslint-disable max-len */
         content: '<h1>Votre Note à été envoyée <i class="zmdi zmdi-mood"></i></h1><br/>Merci pour votre contribution.',
         /* eslint-enable max-len */
@@ -54,12 +60,12 @@ function resetNote() {
   document.getElementById('noteholder').className = 'noteholder hidden';
   document.getElementById('noteok').className = 'noteok hidden';
   document.getElementById('newnote').className = 'note';
-  map.removeLayer(notesItems);
+  Window.map.removeLayer(notesItems);
 }
 /* eslint-enable no-unused-vars */
 
 
-map.on('draw:created', (e) => {
+Window.map.on('draw:created', (e) => {
   const layer = e.layer;
   const url = `${REVERSE_URL}lon=${layer._latlng.lng}&lat=${layer._latlng.lat}`;
   /* eslint-disable no-unused-vars */
@@ -73,9 +79,9 @@ map.on('draw:created', (e) => {
       city = `<span class="city">\n près de ${data.features[0].properties.city}<span>`;
     }
     notesItems.addLayer(layer);
-    map.addLayer(notesItems);
+    Window.map.addLayer(notesItems);
     /* eslint-disable max-len */
-    map.fire('modal', {
+    Window.map.fire('modal', {
       content: '<textarea id="textnote" class="textnote" name="textnote" autofocus="yes"></textarea>', // HTML string
       title: `Nouvelle demande de correction de la carte ${city} :`,
       template: ['<div class="modal-header"><h2>{title}</h2></div>',
@@ -105,8 +111,9 @@ map.on('draw:created', (e) => {
       transitionDuration: 300, // expected transition duration
       // callbacks for convenience,
       // you can set up you handlers here for the contents
+      onShow: () => { console.log('OK'); },
       onHide: () => {
-        map.removeLayer(notesItems);
+        Window.map.removeLayer(notesItems);
       },
 
       // change at your own risk
@@ -126,4 +133,4 @@ L.drawLocal.draw.toolbar.actions.title = 'Annuler le signalement';
 L.drawLocal.draw.toolbar.actions.text = 'Annuler';
 L.drawLocal.draw.handlers.marker.tooltip.start = "Placez l'emplacement de l'erreur sur la carte.";
 
-map.addControl(notesControl);
+Window.map.addControl(notesControl);
