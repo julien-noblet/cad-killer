@@ -1,7 +1,6 @@
 /*
     ./webpack.config.js
 */
-import ImageminPlugin from 'imagemin-webpack-plugin';
 
 const path = require('path');
 
@@ -13,6 +12,14 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   inject: 'body',
 });
 
+const ImageminPlugin = require('imagemin-webpack-plugin').default;
+
+const ImageminPluginConfig = new ImageminPlugin({
+  disable: process.env.NODE_ENV !== 'production', // Disable during development
+  pngquant: {
+    quality: '95-100',
+  },
+});
 
 module.exports = {
   entry: './src/index.js',
@@ -73,11 +80,8 @@ module.exports = {
     },
     ],
   },
-  plugins: [HtmlWebpackPluginConfig,
-    new ImageminPlugin({
-      disable: process.env.NODE_ENV !== 'production', // Disable during development
-      pngquant: {
-        quality: '95-100',
-      },
-    })],
+  plugins: [
+    HtmlWebpackPluginConfig,
+    ImageminPluginConfig,
+  ],
 };
