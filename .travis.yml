@@ -21,8 +21,6 @@ before_install :
 
 cache:
   yarn: true
-  directories:
-    - node_modules
 
 script:
   - gulp dev
