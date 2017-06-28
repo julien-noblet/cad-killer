@@ -59,7 +59,7 @@ function formatResult(feature, el) {
     housenumber: 'numéro',
     street: 'rue',
     locality: 'lieu-dit',
-    hamlet: 'hamlet',
+    hamlet: 'hamlet', // TODO: Hameau?
     village: 'village',
     city: 'ville',
     commune: 'commune',
@@ -101,12 +101,15 @@ const photonReverseControlOptions = {
 };
 /* eslint-enable no-unused-vars */
 
+
 const myPhoton = new L.Control.Photon(photonControlOptions);
 
-searchPoints.addTo(Window.map);
 
-Window.map.addControl(myPhoton);
 
+export function photon(){
+  searchPoints.addTo(Window.map);
+
+  Window.map.addControl(myPhoton);
 /* eslint-disable no-proto */
 myPhoton.search.__proto__.setChoice = function setChoice(choice) {
   const c = choice || this.RESULTS[this.CURRENT];
@@ -119,3 +122,5 @@ myPhoton.search.__proto__.setChoice = function setChoice(choice) {
   }
 };
 /* eslint-enable no-proto*/
+
+}

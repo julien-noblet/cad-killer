@@ -3,13 +3,14 @@ import L from 'leaflet';
 import { REVERSE_URL, NOTE_API } from './config';
 import { sendNote } from './stats';
 
-require('leaflet-draw');
+//require('font-awesome-webpack');
+require('leaflet-dialog');
+require('leaflet-dialog/Leaflet.Dialog.css');
 require('leaflet-draw/dist/images/marker-icon-2x.png');
 require('leaflet-draw/dist/images/marker-icon.png');
 require('leaflet-draw/dist/images/marker-shadow.png');
+require('leaflet-draw');
 require('leaflet-ajax');
-require('leaflet-modal');
-require('leaflet-modal/dist/leaflet.modal.css');
 
 /* eslint-disable no-unused-vars */
 const notesControl = new L.Control.Draw({
@@ -26,7 +27,7 @@ const notesControl = new L.Control.Draw({
 const notesItems = new L.FeatureGroup();
 
 /* eslint-disable no-unused-vars */
-function addNote() {
+Window.addNote = function addNote() {
   const lat = document.getElementById('lat').value;
   const lng = document.getElementById('lng').value;
   const note = document.getElementById('textnote').value;
@@ -43,13 +44,13 @@ function addNote() {
     type: 'post',
     headers: options.headers,
     success: (data) => {
-      Window.map.fire('modal', {
         /* eslint-disable max-len */
-        content: '<h1>Votre Note à été envoyée <i class="zmdi zmdi-mood"></i></h1><br/>Merci pour votre contribution.',
+        Window.dialog.setContent('<h1>Votre Note à été envoyée <i class="zmdi zmdi-mood"></i></h1><br/>Merci pour votre contribution.');
         /* eslint-enable max-len */
-      });
-      /* declencher un evenement??? */
-      sendNote(data);
+        /* declencher un evenement??? */
+        // sendNote(data); // temp
+        setTimeout(function(){ Window.dialog.close();}, 5000); // on ferme après 5 sec
+        //TODO: Window.dialog.destroy(); // cela reduira l'empreinte mémoire.
     },
   });
 }
@@ -74,56 +75,33 @@ Window.map.on('draw:created', (e) => {
   });
   /* eslint-enable no-unused-vars */
   L.Util.ajax(url).then((data) => {
+    let HtmlCity = '';
     let city = '';
     if (data.features[0]) {
-      city = `<span class="city">\n près de ${data.features[0].properties.city}<span>`;
+      city = data.features[0].properties.city;
+      HtmlCity = `<span class="city">\n près de ${data.features[0].properties.city}<span>`;
     }
     notesItems.addLayer(layer);
     Window.map.addLayer(notesItems);
-    /* eslint-disable max-len */
-    Window.map.fire('modal', {
-      content: '<textarea id="textnote" class="textnote" name="textnote" autofocus="yes"></textarea>', // HTML string
-      title: `Nouvelle demande de correction de la carte ${city} :`,
-      template: ['<div class="modal-header"><h2>{title}</h2></div>',
-        '<hr>',
-        '<div class="modal-body">{content}</div>',
-        '<div class="modal-footer">',
-        '<input type="hidden" id="lat" name="lat" value="', layer._latlng.lat, '">',
-        '<input type="hidden" id="lng" name="lng" value="', layer._latlng.lng, '">',
-        '<input type="submit" class="topcoat-button--large" value="{okText}" ',
-        'onclick=" addNote() ">',
-        '<input type="submit" class="topcoat-button--large {CLOSE_CLS}" value="{cancelText}" onclick="map.closeModal();">',
-        '</div>',
-      ].join(''),
-      /* eslint-enable max-len */
-      addNote: ['',
-        'addNote( "', layer._latlng.lat,
-        '", "', layer._latlng.lng,
-        '", "', data.features[0] ? data.features[0].properties.city : '',
-        '", "',
-        'textnote',
-        '" );',
-      ].join(''),
-      okText: 'Soumettre la note',
-      cancelText: 'Annuler',
-      closeTitle: 'Fermer', // alt title of the close button
-      zIndex: 10000, // needs to stay on top of the things
-      transitionDuration: 300, // expected transition duration
-      // callbacks for convenience,
-      // you can set up you handlers here for the contents
-      onShow: () => { console.log('OK'); },
-      onHide: () => {
-        Window.map.removeLayer(notesItems);
-      },
 
-      // change at your own risk
-      OVERLAY_CLS: 'overlay', // overlay(backdrop) CSS class
-      MODAL_CLS: 'modal', // all modal blocks wrapper CSS class
-      MODAL_CONTENT_CLS: 'modal-content', // modal window CSS class
-      INNER_CONTENT_CLS: 'modal-inner', // inner content wrapper
-      SHOW_CLS: 'show', // `modal open` CSS class, here go your transitions
-      CLOSE_CLS: 'close', // `x` button CSS class
-    });
+    Window.dialog = L.control.dialog({
+      minSize: [400, 50],
+      size: [800, 600],
+    })
+              .setContent([`<div class="modal-header"><h2>Nouvelle demande de correction de la carte ${HtmlCity} :</h2></div>`,
+                '<hr>',
+                '<div class="modal-body"><textarea id="textnote" class="textnote" name="textnote" autofocus="yes"></textarea></div>',
+                '<div class="modal-footer">',
+                `<input type="hidden" id="lat" name="lat" value="${layer._latlng.lat}">`,
+                `<input type="hidden" id="lng" name="lng" value="${layer._latlng.lng}">`,
+                '<input type="submit" class="topcoat-button--large" value="Soumettre la note" ',
+                'onclick=" Window.addNote() ">',
+                '<input type="submit" class="topcoat-button--large close" value="Annuler" onclick="Window.dialog.close();">',
+                '</div>',
+              ].join(''))
+              .addTo(Window.map);
+    Window.dialog.unlock();
+
   });
 });
 

@@ -2,6 +2,7 @@ import L from 'leaflet';
 import { ATTRIBUTIONS, CENTER, REVERSE_URL } from './config';
 import { overlayMaps, baseMaps, layerOSMfr } from './layers';
 import { dbinfo, sendLayer } from './stats';
+import { photon } from './photon';
 
 require('leaflet-hash');
 
@@ -45,9 +46,11 @@ hash = new L.Hash(Window.map);
 /* eslint-enable prefer-const */
 
 // Chargement des modules:
-require('./photon');
+// require('./photon');
 require('./reverseLabel');
 require('./notes');
+photon();
+
 
 /* // Not needed
 Window.map.on('moveend', function() {
