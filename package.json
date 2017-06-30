@@ -33,6 +33,7 @@
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.22.0",
+    "babel-polyfill": "^6.23.0",
     "css-loader": "^0.28.4",
     "del": "^3.0.0",
     "eslint": "^4.1.0",
