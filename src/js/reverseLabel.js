@@ -1,3 +1,5 @@
+/* @flow */
+
 import L from 'leaflet';
 import { REVERSE_URL } from './config';
 

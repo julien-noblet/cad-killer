@@ -1,3 +1,5 @@
+/* @flow */
+
 import L from 'leaflet';
 import { ATTRIBUTIONS, CENTER, REVERSE_URL } from './config';
 import { overlayMaps, baseMaps, layerOSMfr } from './layers';
@@ -51,17 +53,6 @@ require('./reverseLabel');
 require('./notes');
 photon();
 
-
-/* // Not needed
-Window.map.on('moveend', function() {
-  sendMove({
-    lat: Window.map.getCenter().lat,
-    lng: Window.map.getCenter().lng,
-    zoom: Window.map.getZoom()
-  });
-});
-*/
-
 /*
   Si l'on change de layer (base) -> j'envoie un objet:
   {
@@ -73,13 +64,13 @@ Window.map.on('moveend', function() {
   Nota: est-ce qu je doit déplacer cela dans stats.js?
  */
 
-function onSwitchLayer(layer, switchCase) {
+function onSwitchLayer(layer, switchCase: string) : void {
   const url = `${REVERSE_URL}lon=${Window.map.getCenter().lng}&lat=${Window.map.getCenter().lat}`;
 
-  L.Util.ajax(url).then((data) => {
-    let city = '';
-    let postcode = '';
-    if (data.features[0]) {
+  L.Util.ajax(url).then(function(data): void {
+    let city: string = '';
+    let postcode: string = '';
+    if (data.features[0] !== null) {
       city = data.features[0].properties.city;
       postcode = data.features[0].properties.postcode;
     }
@@ -97,14 +88,14 @@ function onSwitchLayer(layer, switchCase) {
   });
 }
 
-Window.map.on('baselayerchange', (e) => {
+Window.map.on('baselayerchange', function(e): void {
   onSwitchLayer(e.name, 'switch');
 });
 
-Window.map.on('overlayadd', (e) => {
+Window.map.on('overlayadd', function(e): void {
   onSwitchLayer(e.name, 'add-overlay');
 });
 
-Window.map.on('overlayremove', (e) => {
+Window.map.on('overlayremove', function(e): void {
   onSwitchLayer(e.name, 'remove-overlay');
 });

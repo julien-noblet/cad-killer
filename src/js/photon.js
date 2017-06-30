@@ -1,3 +1,5 @@
+/* @flow */
+
 import L from 'leaflet';
 import { API_URL, SHORT_CITY_NAMES, REVERSE_URL } from './config';
 import { sendClick, sendSearch } from './stats';
@@ -105,22 +107,20 @@ const photonReverseControlOptions = {
 const myPhoton = new L.Control.Photon(photonControlOptions);
 
 
-
-export function photon(){
+export function photon() {
   searchPoints.addTo(Window.map);
 
   Window.map.addControl(myPhoton);
 /* eslint-disable no-proto */
-myPhoton.search.__proto__.setChoice = function setChoice(choice) {
-  const c = choice || this.RESULTS[this.CURRENT];
-  if (c) {
-    sendSearch(c.feature);
-    this.hide();
-    this.input.value = '';
-    this.fire('selected', { choice: c.feature });
-    this.onSelected(c.feature);
-  }
-};
+  myPhoton.search.__proto__.setChoice = function setChoice(choice) {
+    const c = choice || this.RESULTS[this.CURRENT];
+    if (c) {
+      sendSearch(c.feature);
+      this.hide();
+      this.input.value = '';
+      this.fire('selected', { choice: c.feature });
+      this.onSelected(c.feature);
+    }
+  };
 /* eslint-enable no-proto*/
-
 }

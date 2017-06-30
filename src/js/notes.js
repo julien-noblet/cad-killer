@@ -1,9 +1,11 @@
+/* @flow */
+
 import $ from 'jquery';
 import L from 'leaflet';
 import { REVERSE_URL, NOTE_API } from './config';
 import { sendNote } from './stats';
 
-//require('font-awesome-webpack');
+// require('font-awesome-webpack');
 require('leaflet-dialog');
 require('leaflet-dialog/Leaflet.Dialog.css');
 require('leaflet-draw/dist/images/marker-icon-2x.png');
@@ -45,15 +47,15 @@ Window.addNote = function addNote() {
     headers: options.headers,
     success: (data) => {
         /* eslint-disable max-len */
-        Window.dialog.setContent('<h1>Votre Note à été envoyée <i class="zmdi zmdi-mood"></i></h1><br/>Merci pour votre contribution.');
+      Window.dialog.setContent('<h1>Votre Note à été envoyée <i class="zmdi zmdi-mood"></i></h1><br/>Merci pour votre contribution.');
         /* eslint-enable max-len */
         /* declencher un evenement??? */
         // sendNote(data); // temp
-        setTimeout(function(){ Window.dialog.close();}, 5000); // on ferme après 5 sec
-        //TODO: Window.dialog.destroy(); // cela reduira l'empreinte mémoire.
+      setTimeout(() => { Window.dialog.close(); }, 5000); // on ferme après 5 sec
+        // TODO: Window.dialog.destroy(); // cela reduira l'empreinte mémoire.
     },
   });
-}
+};
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
@@ -101,7 +103,6 @@ Window.map.on('draw:created', (e) => {
               ].join(''))
               .addTo(Window.map);
     Window.dialog.unlock();
-
   });
 });
 

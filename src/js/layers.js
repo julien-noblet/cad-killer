@@ -1,3 +1,5 @@
+/* @flow */
+
 /* eslint-disable max-len*/
 import L from 'leaflet';
 import { IGN_KEY, IGN_LAYER, IGN_LAYER_LITE } from './config';

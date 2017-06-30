@@ -1,10 +1,13 @@
+/* @flow */
 /* global L, map */
 
 // Géoloc
 function showPosition(position) {
   const icone = document.getElementById('geoloc_icon');
-  map.setView([position.coords.latitude, position.coords.longitude], 16);
-  icone.className = 'zmdi zmdi-2x zmdi-gps-dot';
+  if (Window.map !== null){
+    Windows.map.setView([position.coords.latitude, position.coords.longitude], 16);
+    icone.className = 'zmdi zmdi-2x zmdi-gps-dot';
+  }
 }
 
 /* eslint-disable no-unused-vars */

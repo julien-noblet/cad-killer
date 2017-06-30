@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable no-unused-vars, max-len */
 export const CENTER = [46.495, 2.201];
 export const API_URL = 'http://api-adresse.data.gouv.fr/search/?';
