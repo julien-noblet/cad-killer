@@ -11,72 +11,68 @@ import {
   LOCAL_POUCHDB,
   OSM_CREDITENTIALS,
   NOTE_API
-} from './config';
+} from "./config";
 
-function isURL(url){
-  expect(typeof (url)).toEqual('string');
+function isURL(url) {
+  expect(typeof url).toEqual("string");
 }
 
-describe('config.js check globals', () => {
-
-  describe('CENTER:', () => {
-    test('CENTER is a array', () => {
+describe("config.js check globals", () => {
+  describe("CENTER:", () => {
+    test("CENTER is a array", () => {
       expect(Array.isArray(CENTER)).toEqual(true);
     });
-    test('CENTER contain 2 numbers', () => {
+    test("CENTER contain 2 numbers", () => {
       expect(CENTER.length).toBe(2);
-      expect(typeof (CENTER[0])).toEqual('number');
-      expect(typeof (CENTER[1])).toEqual('number');
+      expect(typeof CENTER[0]).toEqual("number");
+      expect(typeof CENTER[1]).toEqual("number");
     });
   });
 
-  test('API_URL is an URL', () => {
+  test("API_URL is an URL", () => {
     isURL(API_URL);
   });
 
-  test('REVERSE_URL is an URL', () => {
+  test("REVERSE_URL is an URL", () => {
     isURL(REVERSE_URL);
   });
 
-  test('SHORT_CITY_NAMES is a array', () => {
+  test("SHORT_CITY_NAMES is a array", () => {
     expect(Array.isArray(SHORT_CITY_NAMES)).toEqual(true);
   });
 
-  test('ATTRIBUTIONS is a string', () => {
-    expect(typeof (ATTRIBUTIONS)).toEqual('string');
+  test("ATTRIBUTIONS is a string", () => {
+    expect(typeof ATTRIBUTIONS).toEqual("string");
   });
 
-  test('IGN_KEY seems valid', () => {
-    expect(typeof (IGN_KEY)).toEqual('string');
+  test("IGN_KEY seems valid", () => {
+    expect(typeof IGN_KEY).toEqual("string");
     expect(IGN_KEY.length).toBe(24);
-  })
-
-  test('IGN_LAYER is a string', () => {
-    expect(typeof (IGN_LAYER)).toEqual('string');
   });
 
-  test('IGN_LAYER_LITE is a string', () => {
-    expect(typeof (IGN_LAYER_LITE)).toEqual('string');
+  test("IGN_LAYER is a string", () => {
+    expect(typeof IGN_LAYER).toEqual("string");
   });
 
-  test('MY_POUCHDB is an URL', () =>{
+  test("IGN_LAYER_LITE is a string", () => {
+    expect(typeof IGN_LAYER_LITE).toEqual("string");
+  });
+
+  test("MY_POUCHDB is an URL", () => {
     isURL(MY_POUCHDB);
-  })
-
-  test('LOCAL_POUCHDB is a string', () => {
-    expect(typeof (LOCAL_POUCHDB)).toEqual('string');
   });
 
-  test('OSM_CREDITENTIALS seems ok', () =>{
-    expect(typeof (OSM_CREDITENTIALS)).toEqual('string');
-    expect(OSM_CREDITENTIALS.length).toBe(28);
-    expect(OSM_CREDITENTIALS[OSM_CREDITENTIALS.length-1]).toEqual('=');
-    
-  })
+  test("LOCAL_POUCHDB is a string", () => {
+    expect(typeof LOCAL_POUCHDB).toEqual("string");
+  });
 
-  test('NOTE_API is an URL', () => {
+  test("OSM_CREDITENTIALS seems ok", () => {
+    expect(typeof OSM_CREDITENTIALS).toEqual("string");
+    expect(OSM_CREDITENTIALS.length).toBe(28);
+    expect(OSM_CREDITENTIALS[OSM_CREDITENTIALS.length - 1]).toEqual("=");
+  });
+
+  test("NOTE_API is an URL", () => {
     isURL(NOTE_API);
   });
-
-
-})
+});

@@ -55,10 +55,7 @@ function genericPost(
           genericPost(post);
         }, TIMEOUT);
       } else {
-        /* eslint-disable no-console */
         console.log(err);
-
-        /* eslint-enable no-console */
       }
     });
 }
@@ -82,9 +79,7 @@ function getUserID(callback: any) {
           doc.userId = getUserID();
         });
       }
-      /* eslint-disable no-console */
-      console.log(`Hello ${doc.userId} !`);
-      /* eslint-enable no-console */
+      // console.log(`Hello ${doc.userId} !`);
       callback(doc.userId);
     })
     .catch(err => {
@@ -99,9 +94,7 @@ function getUserID(callback: any) {
       };
       switch (err.status) {
         case 404:
-          /* eslint-disable no-console */
           console.log("New user! Great!");
-          /* eslint-enable no-console */
           info = getBrowserInfo();
           post = {
             info,
@@ -118,16 +111,11 @@ function getUserID(callback: any) {
               localdb
                 .put(localpost)
                 .then(() => {
-                  /* eslint-disable no-console */
                   console.log(`Nice! Hello No. ${localpost.userId} !`);
-                  /* eslint-enable no-console */
                   callback(localpost.userId);
                 })
                 .catch(errputlocal => {
-                  /* eslint-disable no-console */
                   console.error(errputlocal);
-
-                  /* eslint-enable no-console */
                 });
             })
             .catch(errpost => {
@@ -136,19 +124,13 @@ function getUserID(callback: any) {
                   getUserID(callback);
                 }, TIMEOUT);
               } else {
-                /* eslint-disable no-console */
                 console.error(errpost);
-
-                /* eslint-enable no-console */
               }
             });
           break;
 
         default:
-          /* eslint-disable no-console */
           console.error(err);
-
-        /* eslint-enable no-console */
       }
     });
 }
@@ -158,10 +140,7 @@ function checkUserId() {
     db
       .get(userId)
       .then(() => {
-        /* eslint-disable no-console */
         console.log(`Ok ${userId} is on DB!`);
-
-        /* eslint-enable no-console */
       })
       .catch(err => {
         const date = new Date();
@@ -176,9 +155,7 @@ function checkUserId() {
           userId: "badID"
         };
         if (err.status === 404) {
-          /* eslint-disable no-console */
           console.error("Damn! 404!");
-          /* eslint-enable no-console */
           info = getBrowserInfo();
           post = {
             _id: userId,
@@ -189,22 +166,13 @@ function checkUserId() {
           db
             .put(post)
             .then(() => {
-              /* eslint-disable no-console */
               console.log(`User ${userId} have been reposted!`);
-
-              /* eslint-enable no-console */
             })
             .catch(error => {
-              /* eslint-disable no-console */
               console.error(error);
-
-              /* eslint-enable no-console */
             });
         }
-        /* eslint-disable no-console */
         console.error(err);
-
-        /* eslint-enable no-console */
       });
   });
 }
@@ -213,9 +181,7 @@ export function dbinfo(): void {
   db
     .info()
     .then(result => {
-      /* eslint-disable no-console */
       console.log(result);
-      /* eslint-enable no-console */
       retry = RETRY_MAX;
       checkUserId();
 
@@ -228,10 +194,7 @@ export function dbinfo(): void {
           dbinfo();
         }, TIMEOUT);
       } else {
-        /* eslint-disable no-console */
         console.error(err);
-
-        /* eslint-enable no-console */
       }
     });
 }
@@ -239,9 +202,7 @@ export function dbinfo(): void {
 function send(type: string, element?: any) {
   const date = new Date();
   let ret;
-  /* eslint-disable no-console */
-  console.log(`Send type : ${type}`);
-  /* eslint-enable no-console */
+  // console.log(`Send type : ${type}`);
   getUserID(userId => {
     const post: {
       _id?: string,
