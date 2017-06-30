@@ -22,7 +22,7 @@ const ImageminPluginConfig = new ImageminPlugin({
 });
 
 module.exports = {
-  entry: './src/index.js',
+  entry: ['babel-polyfill', './src/index.js'],
   devtool: 'source-map',
   output: {
     path: path.resolve('dist'),
@@ -32,7 +32,7 @@ module.exports = {
     rules: [{
       test: /\.js$/,
       loader: 'babel-loader',
-      exclude: /node_modules/,
+      exclude: [/node_modules/,/\.test\.js$/],
     },
     {
       test: /\.jsx$/,
