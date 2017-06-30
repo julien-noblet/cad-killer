@@ -1,57 +1,57 @@
-/* global L,
-  ATTRIBUTIONS,
-  CENTER,
-  REVERSE_URL,
-  overlayMaps,
-  baseMaps,
-  layerOSMfr,
-  sendLayer
-*/
+/* @flow */
+
+import L from "leaflet";
+import { ATTRIBUTIONS, CENTER, REVERSE_URL } from "./config";
+import { overlayMaps, baseMaps, layerOSMfr } from "./layers";
+import { dbinfo, sendLayer } from "./stats";
+import { photon } from "./photon";
+
+require("leaflet-hash");
 
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
  * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
  */
 
-const map = L.map('map', {
-  attributionControl: false,
+// connection à la BD:
+dbinfo();
+
+// Initialisation de leaflet
+Window.map = L.map("map", {
+  attributionControl: false
 });
 
-
 const layers = L.control.layers(baseMaps, overlayMaps);
-/* eslint-disable no-unused-vars */
-let hash;
-/* eslint-enable no-unused-vars */
 
+L.Icon.Default.imagePath = "./images/";
+Window.map.addLayer(layerOSMfr);
 
-L.Icon.Default.imagePath = './images/';
-map.addLayer(layerOSMfr);
+layers.addTo(Window.map);
 
-layers.addTo(map);
+Window.map.setView(CENTER, 6);
 
-map.setView(CENTER, 6);
+Window.map.dragging.enable();
 
-map.dragging.enable();
-
-L.control.attribution({
-  position: 'bottomleft',
-  prefix: ATTRIBUTIONS,
-}).addTo(map);
+L.control
+  .attribution({
+    position: "bottomleft",
+    prefix: ATTRIBUTIONS
+  })
+  .addTo(Window.map);
 
 // ajout hash dans l'URL
 /* eslint-disable prefer-const */
-hash = new L.Hash(map);
+/* eslint-disable no-unused-vars */
+let hash;
+/* eslint-enable no-unused-vars */
+hash = new L.Hash(Window.map);
 /* eslint-enable prefer-const */
 
-/* // Not needed
-map.on('moveend', function() {
-  sendMove({
-    lat: map.getCenter().lat,
-    lng: map.getCenter().lng,
-    zoom: map.getZoom()
-  });
-});
-*/
+// Chargement des modules:
+// require('./photon');
+require("./reverseLabel");
+require("./notes");
+photon();
 
 /*
   Si l'on change de layer (base) -> j'envoie un objet:
@@ -64,13 +64,13 @@ map.on('moveend', function() {
   Nota: est-ce qu je doit déplacer cela dans stats.js?
  */
 
-function onSwitchLayer(layer, switchCase) {
-  const url = `${REVERSE_URL}lon=${map.getCenter().lng}&lat=${map.getCenter().lat}`;
+function onSwitchLayer(layer, switchCase: string): void {
+  const url = `${REVERSE_URL}lon=${Window.map.getCenter().lng}&lat=${Window.map.getCenter().lat}`;
 
-  L.Util.ajax(url).then((data) => {
-    let city = '';
-    let postcode = '';
-    if (data.features[0]) {
+  L.Util.ajax(url).then(function(data): void {
+    let city: string = "";
+    let postcode: string = "";
+    if (data.features[0] !== null) {
       city = data.features[0].properties.city;
       postcode = data.features[0].properties.postcode;
     }
@@ -80,22 +80,22 @@ function onSwitchLayer(layer, switchCase) {
       city,
       postcode,
       location: {
-        lat: map.getCenter().lat,
-        lng: map.getCenter().lng,
-        zoom: map.getZoom(),
-      },
+        lat: Window.map.getCenter().lat,
+        lng: Window.map.getCenter().lng,
+        zoom: Window.map.getZoom()
+      }
     });
   });
 }
 
-map.on('baselayerchange', (e) => {
-  onSwitchLayer(e.name, 'switch');
+Window.map.on("baselayerchange", function(e): void {
+  onSwitchLayer(e.name, "switch");
 });
 
-map.on('overlayadd', (e) => {
-  onSwitchLayer(e.name, 'add-overlay');
+Window.map.on("overlayadd", function(e): void {
+  onSwitchLayer(e.name, "add-overlay");
 });
 
-map.on('overlayremove', (e) => {
-  onSwitchLayer(e.name, 'remove-overlay');
+Window.map.on("overlayremove", function(e): void {
+  onSwitchLayer(e.name, "remove-overlay");
 });

@@ -16,15 +16,16 @@ addons:
       - g++-4.8
 
 before_install :
-  - npm install -g gulp
-  - gem install sass scss_lint_reporter_checkstyle
+  # - npm install -g gulp
+  # - gem install sass scss_lint_reporter_checkstyle
 
 cache:
   yarn: true
 
 script:
-  - gulp dev
-  - gulp prod
+   - webpack -p
+  # - gulp dev
+  # - gulp prod
 
 after_success: "bash scripts/build_n_push.sh"
 

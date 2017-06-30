@@ -1,12 +1,10 @@
-/* global L,
-          API_URL,
-          SHORT_CITY_NAMES,
-          REVERSE_URL,
-          map,
-          sendClick,
-          sendSearch
-*/
+/* @flow */
 
+import L from 'leaflet';
+import { API_URL, SHORT_CITY_NAMES, REVERSE_URL } from './config';
+import { sendClick, sendSearch } from './stats';
+
+require('leaflet.photon');
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
  * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
@@ -41,7 +39,7 @@ const searchPoints = L.geoJson(null, {
         default:
           zoom = 16;
       }
-      map.setView([
+      Window.map.setView([
         feature.geometry.coordinates[1], feature.geometry.coordinates[0],
       ], zoom);
       sendClick(feature);
@@ -63,7 +61,7 @@ function formatResult(feature, el) {
     housenumber: 'numéro',
     street: 'rue',
     locality: 'lieu-dit',
-    hamlet: 'hamlet',
+    hamlet: 'hamlet', // TODO: Hameau?
     village: 'village',
     city: 'ville',
     commune: 'commune',
@@ -105,21 +103,24 @@ const photonReverseControlOptions = {
 };
 /* eslint-enable no-unused-vars */
 
+
 const myPhoton = new L.Control.Photon(photonControlOptions);
 
-searchPoints.addTo(map);
 
-map.addControl(myPhoton);
+export function photon() {
+  searchPoints.addTo(Window.map);
 
+  Window.map.addControl(myPhoton);
 /* eslint-disable no-proto */
-myPhoton.search.__proto__.setChoice = function (choice) {
-  const c = choice || this.RESULTS[this.CURRENT];
-  if (c) {
-    sendSearch(c.feature);
-    this.hide();
-    this.input.value = '';
-    this.fire('selected', { choice: c.feature });
-    this.onSelected(c.feature);
-  }
-};
+  myPhoton.search.__proto__.setChoice = function setChoice(choice) {
+    const c = choice || this.RESULTS[this.CURRENT];
+    if (c) {
+      sendSearch(c.feature);
+      this.hide();
+      this.input.value = '';
+      this.fire('selected', { choice: c.feature });
+      this.onSelected(c.feature);
+    }
+  };
 /* eslint-enable no-proto*/
+}

@@ -5,8 +5,13 @@
 $ff-arial: 'Arial';
 $ff-helvetica-neue: 'Helvetica Neue';
 $ff-helvetica: 'Helvetica';
-//$ff-material: $zmdi-font-name;
 
+//@import "~/opensans-npm-webfont/style";
+
+@import "~material-design-iconic-font/scss/_variables";
+@import "~material-design-iconic-font/scss/_icons";
+//$ff-material: $zmdi-font-name;
+/*
 @mixin font($ff, $file) {
   font-family: $ff;
 //  src: url('../fonts/'+$file+'.eot');
@@ -59,3 +64,4 @@ $ff-helvetica: 'Helvetica';
 @font-face {
   @include font('open_sansbold_italic', 'BoldItalic/OpenSans-BoldItalic')
 }
+*/

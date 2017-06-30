@@ -17,3 +17,5 @@ src/css
 .gulp-scss-cache
 .sass-cache
 backstop_data/bitmaps_test
+
+dist/
