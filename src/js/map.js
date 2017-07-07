@@ -65,7 +65,8 @@ photon();
  */
 
 function onSwitchLayer(layer, switchCase: string): void {
-  const url = `${REVERSE_URL}lon=${Window.map.getCenter().lng}&lat=${Window.map.getCenter().lat}`;
+  const url = `${REVERSE_URL}lon=${Window.map.getCenter()
+    .lng}&lat=${Window.map.getCenter().lat}`;
 
   L.Util.ajax(url).then(function(data): void {
     let city: string = "";

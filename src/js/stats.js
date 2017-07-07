@@ -31,16 +31,14 @@ function getBrowserInfo() {
   return parser.getResult();
 }
 
-function genericPost(
-  post: {
-    _id?: string,
-    date: number,
-    element: any,
-    type: string,
-    userId: string,
-    element: any
-  }
-): void {
+function genericPost(post: {
+  _id?: string,
+  date: number,
+  element: any,
+  type: string,
+  userId: string,
+  element: any
+}): void {
   db
     .post(post)
     .then(function(r): void {

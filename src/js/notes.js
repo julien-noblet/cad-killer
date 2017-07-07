@@ -101,7 +101,8 @@ Window.map.on("draw:created", e => {
     let city = "";
     if (data.features[0]) {
       city = data.features[0].properties.city;
-      HtmlCity = `<span class="city">\n près de ${data.features[0].properties.city}<span>`;
+      HtmlCity = `<span class="city">\n près de ${data.features[0].properties
+        .city}<span>`;
     }
     notesItems.addLayer(layer);
     Window.map.addLayer(notesItems);
@@ -117,8 +118,10 @@ Window.map.on("draw:created", e => {
           "<hr>",
           '<div class="modal-body"><textarea id="textnote" class="textnote" name="textnote" autofocus="yes"></textarea></div>',
           '<div class="modal-footer">',
-          `<input type="hidden" id="lat" name="lat" value="${layer._latlng.lat}">`,
-          `<input type="hidden" id="lng" name="lng" value="${layer._latlng.lng}">`,
+          `<input type="hidden" id="lat" name="lat" value="${layer._latlng
+            .lat}">`,
+          `<input type="hidden" id="lng" name="lng" value="${layer._latlng
+            .lng}">`,
           '<input type="submit" class="topcoat-button--large" value="Soumettre la note" ',
           'onclick=" Window.addNote() ">',
           '<input type="submit" class="topcoat-button--large close" value="Annuler" onclick="Window.dialog.close();">',

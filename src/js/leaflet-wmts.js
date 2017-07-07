@@ -71,7 +71,10 @@ L.TileLayer.WMTS = L.TileLayer.extend({
       s: this._getSubdomain(tilePoint)
     });
     /* eslint-disable max-len */
-    return `${url}${L.Util.getParamString(this.wmtsParams, url)}&tilematrix=${ident}&tilerow=${tilerow}&tilecol=${tilecol}`;
+    return `${url}${L.Util.getParamString(
+      this.wmtsParams,
+      url
+    )}&tilematrix=${ident}&tilerow=${tilerow}&tilecol=${tilecol}`;
 
     /* eslint-enable vars-on-top, max-len, no-unused-vars */
   },
