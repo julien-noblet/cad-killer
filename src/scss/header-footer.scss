@@ -3,7 +3,7 @@
 // *************************************************
 
 .headmasked {
-  @media (max-width: $smartphone){
+  @media (max-width: $smartphone) {
     visibility: hidden;
   }
 }
@@ -28,7 +28,7 @@ header {
     line-height: 60px;
     margin-left: 140px;
 
-    @media (max-width: $smartphone){
+    @media (max-width: $smartphone) {
       line-height: 45px;
       margin-left: 0;
     }
@@ -37,7 +37,7 @@ header {
   .menu {
     float: right;
     margin-right: 60px;
-    @media (max-width: $smartphone){
+    @media (max-width: $smartphone) {
       margin-right: 0;
     }
 
@@ -58,9 +58,9 @@ header {
       text-decoration: underline;
     }
 
-    a+a {
+    a + a {
       margin-left: 20px;
-      @media (max-width: $smartphone){
+      @media (max-width: $smartphone) {
         margin-left: 0;
       }
     }
@@ -70,11 +70,11 @@ header {
     display: inline-block;
   }
 
-  @media (max-width: $smartphone){
+  @media (max-width: $smartphone) {
     height: 60px;
   }
 
-  @media print{
+  @media print {
     height: 0;
     visibility: hidden;
   }
