@@ -104,13 +104,11 @@ export const layerIGNlite = L.tileLayer(
   }
 );
 
-/* eslint-disable new-cap*/
 export const layerGoogleHybrid = new L.gridLayer.googleMutant({
   type: "hybrid",
   maxZoom: 20,
   attribution: 'Vue satellite &copy; <a href="http://www.google.com">Google</a>'
 });
-/* eslint-enable new-cap*/
 
 export const overlayBAN = L.tileLayer(
   "http://{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png",

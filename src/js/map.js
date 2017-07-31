@@ -40,12 +40,8 @@ L.control
   .addTo(Window.map);
 
 // ajout hash dans l'URL
-/* eslint-disable prefer-const */
-/* eslint-disable no-unused-vars */
 let hash;
-/* eslint-enable no-unused-vars */
 hash = new L.Hash(Window.map);
-/* eslint-enable prefer-const */
 
 // Chargement des modules:
 // require('./photon');
