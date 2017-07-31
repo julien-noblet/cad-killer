@@ -7,6 +7,7 @@ import { dbinfo, sendLayer } from "./stats";
 import { photon } from "./photon";
 
 require("leaflet-hash");
+require("leaflet.browser.print/dist/leaflet.browser.print.min.js");
 
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
@@ -42,6 +43,9 @@ L.control
 // ajout hash dans l'URL
 let hash;
 hash = new L.Hash(Window.map);
+
+// ajout du bouton print
+L.browserPrint().addTo(Window.map);
 
 // Chargement des modules:
 // require('./photon');
