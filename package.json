@@ -19,10 +19,6 @@
       "prettier --parser flow --write",
       "git add"
     ],
-    "src/*.html": [
-      "prettier --parser flow --write",
-      "git add"
-    ],
     "src/scss/*.scss": [
       "prettier --parser flow --write",
       "git add"
