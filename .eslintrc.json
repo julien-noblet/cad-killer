@@ -13,11 +13,12 @@
   "rules": {
     "no-console": ["warn"],
     "no-underscore-dangle": [
-                              "error",
-                              { "allowAfterThis": true ,
-                                "allow": ["_id", "_latlng"]
-                              }
-                            ]
+      "error",
+      {
+        "allowAfterThis": true,
+        "allow": ["_id", "_latlng"]
+      }
+    ]
 
   }
 }

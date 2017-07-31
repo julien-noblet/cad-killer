@@ -16,13 +16,12 @@ L.Control.ReverseLabel = L.Control.extend({
         if (data.features !== null) {
           if (data.features[0] !== null) {
             if (data.features[0].properties !== null) {
-              container.innerHTML = `Carte centrée sur «${data.features[0].properties.label}»`;
+              container.innerHTML = `Carte centrée sur «${data.features[0]
+                .properties.label}»`;
             }
           }
         }
       }
-
-      /* eslint-enable no-unused-vars */
     });
 
     Window.map.on("moveend", () => {
