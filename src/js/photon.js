@@ -1,7 +1,7 @@
 /* @flow */
 
 import L from "leaflet";
-import { API_URL, SHORT_CITY_NAMES, REVERSE_URL } from "./config";
+import { API_URL, SHORT_CITY_NAMES } from "./config";
 import { sendClick, sendSearch } from "./stats";
 
 require("leaflet.photon");
@@ -101,7 +101,8 @@ const photonControlOptions = {
   submitDelay: 200
 };
 
-/* eslint-disable no-unused-vars */
+/*
+// not need
 const photonReverseControlOptions = {
   resultsHandler: showSearchPoints,
   position: "topleft",
@@ -110,7 +111,7 @@ const photonReverseControlOptions = {
   noResultLabel: "Aucun résultat",
   tooltipLabel: "Cliquer sur la carte pour obtenir l'adresse"
 };
-/* eslint-enable no-unused-vars */
+*/
 
 const myPhoton = new L.Control.Photon(photonControlOptions);
 

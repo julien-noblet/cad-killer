@@ -2,7 +2,8 @@
 
 import PouchDB from "pouchdb";
 import UAParser from "ua-parser-js";
-import { MY_POUCHDB, LOCAL_POUCHDB } from "./config";
+import { MY_POUCHDB, LOCAL_POUCHDB, REVERSE_URL } from "./config";
+import L from "leaflet";
 
 // Creation des liens vers les bases.
 const db = new PouchDB(MY_POUCHDB, {
@@ -247,8 +248,55 @@ export function sendView() {
   return send("view", null);
 }
 
+/*
+  Si l'on change de layer (base) -> j'envoie un objet:
+  {
+    layer: '',
+    city: '',
+    location: {lat,lng,zoom}
+  }
+
+  Nota: est-ce qu je doit déplacer cela dans stats.js?
+ */
+
+export function onSwitchLayer(layer, switchCase: string): void {
+  const url = `${REVERSE_URL}lon=${Window.map.getCenter()
+    .lng}&lat=${Window.map.getCenter().lat}`;
+
+  L.Util.ajax(url).then(function(data): void {
+    let city: string = "";
+    let postcode: string = "";
+    if (data.features[0] !== null) {
+      city = data.features[0].properties.city;
+      postcode = data.features[0].properties.postcode;
+    }
+    sendLayer({
+      layer,
+      switchCase,
+      city,
+      postcode,
+      location: {
+        lat: Window.map.getCenter().lat,
+        lng: Window.map.getCenter().lng,
+        zoom: Window.map.getZoom()
+      }
+    });
+  });
+}
+
 export default function() {
   dbinfo();
+  Window.map.on("baselayerchange", function(e): void {
+    onSwitchLayer(e.name, "switch");
+  });
+
+  Window.map.on("overlayadd", function(e): void {
+    onSwitchLayer(e.name, "add-overlay");
+  });
+
+  Window.map.on("overlayremove", function(e): void {
+    onSwitchLayer(e.name, "remove-overlay");
+  });
 }
 
 // sendView(); // Send view on load ^^
