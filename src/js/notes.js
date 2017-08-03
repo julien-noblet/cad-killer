@@ -8,9 +8,6 @@ import { sendNote } from "./stats";
 // require('font-awesome-webpack');
 require("leaflet-dialog");
 require("leaflet-dialog/Leaflet.Dialog.css");
-require("leaflet-draw/dist/images/marker-icon-2x.png");
-require("leaflet-draw/dist/images/marker-icon.png");
-require("leaflet-draw/dist/images/marker-shadow.png");
 require("leaflet-draw");
 require("leaflet-ajax");
 
