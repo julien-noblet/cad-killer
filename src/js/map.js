@@ -45,7 +45,14 @@ let hash;
 hash = new L.Hash(Window.map);
 
 // ajout du bouton print
-L.browserPrint().addTo(Window.map);
+L.browserPrint({
+  printModesNames: {
+    Portrait: "Portrait",
+    Landscape: "Paysage",
+    Auto: "Auto",
+    Custom: "Séléctionnez la zone"
+  }
+}).addTo(Window.map);
 
 // Chargement des modules:
 // require('./photon');

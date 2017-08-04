@@ -4561,9 +4561,9 @@ leaflet-plugins@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/leaflet-plugins/-/leaflet-plugins-3.0.0.tgz#e12c62ccdf6f773a2724a6aa995ff22dd07f1b81"
 
-leaflet.browser.print@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/leaflet.browser.print/-/leaflet.browser.print-0.3.3.tgz#5b048e729df6564a0044254152989387462067ab"
+leaflet.browser.print@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/leaflet.browser.print/-/leaflet.browser.print-0.3.4.tgz#b8aeed226bc2b77ccf95985b1cd96c473fab22fa"
 
 leaflet.gridlayer.googlemutant@^0.6.2:
   version "0.6.2"
