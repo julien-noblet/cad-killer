@@ -44,6 +44,12 @@ L.control
 let hash;
 hash = new L.Hash(Window.map);
 
+// Chargement des modules:
+// require('./photon');
+photon();
+require("./reverseLabel");
+// require("./notes"); // Get somes issues, removing...
+
 // ajout du bouton print
 L.browserPrint({
   printModesNames: {
@@ -53,9 +59,3 @@ L.browserPrint({
     Custom: "Séléctionnez la zone"
   }
 }).addTo(Window.map);
-
-// Chargement des modules:
-// require('./photon');
-photon();
-require("./reverseLabel");
-// require("./notes"); // Get somes issues, removing...
