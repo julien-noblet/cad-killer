@@ -1,6 +1,12 @@
 #!/usr/bin/bash
-
- cd dist ;
+git config user.name "Travis-CI" ;
+git config user.email "travis" ;
+git add yarn.lock;
+git commit -m "Updating yarn.lock";
+ git config --global push.default simple;
+git config remote.origin.url "https://${user}:${password}@github.com/julien-noblet/cad-killer.git";
+git push --quiet;
+cd dist ;
   git init ;
   git config user.name "Travis-CI" ;
   git config user.email "travis" ;
