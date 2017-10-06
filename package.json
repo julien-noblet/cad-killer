@@ -92,7 +92,7 @@
     "leaflet.photon": "^0.7.3",
     "load-google-maps-api": "^1.0.0",
     "material-design-iconic-font": "^2.2.0",
-    "opensans-npm-webfont": "^0.0.2",
+    "opensans-npm-webfont": "^1.0.0",
     "pouchdb": "^6.1.2",
     "ua-parser-js": "^0.7.12"
   },
