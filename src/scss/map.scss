@@ -2,11 +2,11 @@
 // ********************* MAP ***********************
 // *************************************************
 
-$height-photon : 46px;
+$height-photon: 46px;
 
 .nohead {
-  @media (max-width: $smartphone){
-    top: 0;// !important;
+  @media (max-width: $smartphone) {
+    top: 0; // !important;
   }
 }
 
@@ -14,14 +14,13 @@ $height-photon : 46px;
   float: right;
   visibility: hidden;
   width: 0;
-  @media (max-width: $smartphone){
+  @media (max-width: $smartphone) {
     display: block;
     float: none;
     visibility: visible;
   }
   font-name: $zmdi-font-name;
 }
-
 
 .map {
   .leaflet-container {
@@ -35,7 +34,7 @@ $height-photon : 46px;
     .photon-input {
       margin-bottom: 0;
       width: 400px;
-      @media (max-width: $smartphone){
+      @media (max-width: $smartphone) {
         margin-top: -10px;
         width: 100%;
       }
@@ -52,7 +51,7 @@ $height-photon : 46px;
       color: $color-leaflet-button;
       padding: 6px;
       visibility: hidden;
-      @media (max-width: $smartphone){
+      @media (max-width: $smartphone) {
         position: absolute;
         right: 0;
         top: 90px;
@@ -65,16 +64,16 @@ $height-photon : 46px;
     }
 
     .leaflet-top {
-      @media print{
+      @media print {
         visibility: hidden;
       }
 
       .leaflet-right {
-        @media (max-width: $smartphone){
+        @media (max-width: $smartphone) {
           display: block;
           top: 45px;
         }
-        @media print{
+        @media print {
           visibility: hidden;
         }
       }
@@ -84,11 +83,11 @@ $height-photon : 46px;
       right: 0;
       //top: 0;
 
-      @media (max-width: $smartphone){
+      @media (max-width: $smartphone) {
         display: block;
         top: $height-photon; //hack
       }
-      @media print{
+      @media print {
         visibility: hidden;
       }
     }
@@ -116,7 +115,7 @@ $height-photon : 46px;
 
     .leaflet-photon {
       right: calc(50% - 200px);
-      @media (max-width: $smartphone){
+      @media (max-width: $smartphone) {
         margin: 0;
         right: 0;
         top: 0;
@@ -125,22 +124,21 @@ $height-photon : 46px;
     }
 
     .leaflet-control-permalink {
-      @media print{
+      @media print {
         display: none;
       }
     }
 
-    @media (max-width: $smartphone){
+    @media (max-width: $smartphone) {
       top: 60px;
     }
-    @media print{
+    @media print {
       height: 100%;
       top: 0;
     }
   }
 
   .leaflet-bar {
-
     a {
       color: $color-leaflet-button;
     }
@@ -151,25 +149,24 @@ $height-photon : 46px;
   }
 }
 
-
 .reverse-label {
   background-color: $color-near-white;
   border: 1px solid $color-border;
   bottom: 0;
   color: $color-dark-text;
-  margin-bottom: 0;// !important;
+  margin-bottom: 0; // !important;
   opacity: .8;
   padding: 0 10px;
   position: fixed;
   right: 0;
   text-align: center;
-  @media (max-width: $smartphone){
+  @media (max-width: $smartphone) {
     bottom: 2.5em;
-    margin-right: 0;// !important;
+    margin-right: 0; // !important;
     width: 100%;
   }
-  @media print{
-    bottom: inherit;     // need???
+  @media print {
+    bottom: inherit; // need???
     font-size: x-large;
     height: 1.5em;
     top: 0;
@@ -178,11 +175,11 @@ $height-photon : 46px;
 }
 
 .leaflet-top.leaflet-left {
-  @media (max-width: $smartphone){
+  @media (max-width: $smartphone) {
     display: block;
     top: $height-photon; //hack
   }
-  @media print{
+  @media print {
     visibility: hidden;
   }
 }
