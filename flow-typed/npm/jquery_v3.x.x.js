@@ -1,5 +1,5 @@
-// flow-typed signature: 7b36eb94bdc1538a0fab992aa9dd2b79
-// flow-typed version: 1d9edd4a72/jquery_v3.x.x/flow_>=v0.46.x
+// flow-typed signature: 477ad33664790946008a58ce64f6143a
+// flow-typed version: 59f8f71a60/jquery_v3.x.x/flow_>=v0.28.x
 
 /* eslint-disable max-len, no-unused-vars, flowtype/no-weak-types */
 
@@ -222,6 +222,17 @@ declare class JQueryXHR {
    * Property containing the parsed response if the response Content-Type is json
    */
   responseJSON?: any;
+
+  /**
+   * Property containing the parsed response if the response Content-Type is text/plain
+   */
+  responseText?: string;
+
+  /**
+   * Status code of the response
+   */
+  status?: number;
+
   /**
    * A function to be called if the request fails.
    */
@@ -2321,13 +2332,6 @@ declare class JQuery {
    * @param handler A handler function previous: anyly attached for the event(s), or the special value false. Takes handler with extra args that can be attached with on().
    */
   off(events: string, handler: (eventObject: JQueryEventObject, ...args: any[]) => any): JQuery;
-  /**
-   * Remove an event handler.
-   *
-   * @param events One or more space-separated event types and optional namespaces, or just namespaces, such as "click", "keydown.myPlugin", or ".myPlugin".
-   * @param handler A handler function previous: anyly attached for the event(s), or the special value false.
-   */
-  off(events: string, handler: (eventObject: JQueryEventObject) => any): JQuery;
   /**
    * Remove an event handler.
    *
