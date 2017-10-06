@@ -259,7 +259,7 @@ export function sendView() {
   Nota: est-ce qu je doit déplacer cela dans stats.js?
  */
 
-export function onSwitchLayer(layer, switchCase: string): void {
+export function onSwitchLayer(layer: any, switchCase: string): void {
   const url = `${REVERSE_URL}lon=${Window.map.getCenter()
     .lng}&lat=${Window.map.getCenter().lat}`;
 
