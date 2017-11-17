@@ -32,18 +32,17 @@ Window.addNote = function addNote() {
   let eNote = document.getElementById("textnote");
 
   if (
-    eLat !== null &&
-    eLng !== null &&
-    eNote !== null &&
-    eLat instanceof HTMLInputElement &&
-    eLng instanceof HTMLInputElement &&
-    eNote instanceof HTMLInputElement
+    parseFloat(eLat.value) !== null &&
+    parseFloat(eLng.value) !== null &&
+    eNote.value !== null &&
+    parseFloat(eLat.value) !== 0 &&
+    parseFloat(eLng.value) !== 0 &&
+    eNote.value !== ""
   ) {
     const lat: number = parseFloat(eLat.value);
     const lng: number = parseFloat(eLng.value);
     const note: string = eNote.value;
     const content = `?lat=${lat}&lon=${lng}&text=${encodeURIComponent(note)}`;
-    // console.log('addNote');
     const options = {
       method: "POST",
       headers: {
@@ -55,10 +54,21 @@ Window.addNote = function addNote() {
       url: NOTE_API + content,
       type: "post",
       headers: options.headers,
+      error: data => {
+        Window.dialog.setContent(
+          '<h1>Votre note n\'à pas été envoyée <i class="zmdi zmdi-mood-bad"></i></h1><br/>Veuillez ré-essayer ultérieurement.'
+        );
+        /* eslint-enable max-len */
+        /* declencher un evenement??? */
+        // sendNote(data); // temp
+        setTimeout(() => {
+          Window.dialog.close();
+        }, 5000); // on ferme après 5 sec
+      },
       success: data => {
         /* eslint-disable max-len */
         Window.dialog.setContent(
-          '<h1>Votre Note à été envoyée <i class="zmdi zmdi-mood"></i></h1><br/>Merci pour votre contribution.'
+          '<h1>Votre note à été envoyée <i class="zmdi zmdi-mood"></i></h1><br/>Merci pour votre contribution.'
         );
         /* eslint-enable max-len */
         /* declencher un evenement??? */
@@ -75,7 +85,7 @@ Window.addNote = function addNote() {
 /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
-/* Old function 
+/* Old function
 function resetNote() {
   document.getElementById("noteholder").className = "noteholder hidden";
   document.getElementById("noteok").className = "noteok hidden";
