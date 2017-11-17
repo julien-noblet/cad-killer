@@ -48,7 +48,7 @@ hash = new L.Hash(Window.map);
 // require('./photon');
 photon();
 require("./reverseLabel");
-// require("./notes"); // Get somes issues, removing...
+require("./notes"); // Get somes issues, removing...
 
 // ajout du bouton print
 L.browserPrint({
