@@ -1,6 +1,6 @@
 {
   "name": "cad-killer",
-  "version": "^1.0.1",
+  "version": "1.0.1",
   "description": "Visionneur de carte pour logisticiens pressés",
   "main": "index.html",
   "scripts": {
