@@ -22,7 +22,7 @@ export const SHORT_CITY_NAMES = [
 ];
 export const ATTRIBUTIONS =
   "&copy; <a href='http://www.openstreetmap.org/copyright'>Contributeurs de OpenStreetMap</a> | <a href='https://www.data.gouv.fr/fr/datasets/base-d-adresses-nationale-ouverte-bano/'>Adresses BANO</a> sous licence ODbL";
-export const IGN_KEY = "ztr0a9dk574qlszvikoa0zqi";
+export const IGN_KEY = "zh4iqh58bg7a17hqzo16nqfw";
 export const IGN_LAYER = "GEOGRAPHICALGRIDSYSTEMS.MAPS";
 export const IGN_LAYER_LITE = "GEOGRAPHICALGRIDSYSTEMS.PLANIGN";
 export const MY_POUCHDB =
