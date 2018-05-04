@@ -5,7 +5,6 @@
   "main": "index.html",
   "scripts": {
     "start": "webpack-dev-server --mode development",
-    "prepublish": "babel src/ -d dist/",
     "precommit": "lint-staged",
     "build":
       "webpack --mode production --config webpack.config.js --progress --profile --colors",
