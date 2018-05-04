@@ -1,10 +1,7 @@
 {
-  "presets": [
-    "es2015",
-    "react"
-  ],
+  "presets": ["@babel/preset-env", "@babel/preset-react", "@babel/preset-flow"],
   "plugins": [
-    "transform-flow-strip-types",
-    "transform-runtime"
+    "@babel/plugin-transform-flow-strip-types",
+    "@babel/plugin-transform-runtime"
   ]
 }

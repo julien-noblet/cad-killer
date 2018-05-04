@@ -1,4 +1,8 @@
-/* @flow */
+/**
+ * /* @flow
+ *
+ * @format
+ */
 
 import $ from "jquery";
 import L from "leaflet";
@@ -130,9 +134,7 @@ Window.map.on("draw:created", e => {
       })
       .setContent(
         [
-          `<div class="modal-header"><h2>Nouvelle demande de correction de la carte ${
-            HtmlCity
-          } :</h2></div>`,
+          `<div class="modal-header"><h2>Nouvelle demande de correction de la carte ${HtmlCity} :</h2></div>`,
           "<hr>",
           '<div class="modal-body"><textarea id="textnote" class="textnote" name="textnote" autofocus="yes"></textarea></div>',
           '<div class="modal-footer">',
