@@ -1,4 +1,8 @@
-/* @flow */
+/**
+ * /* @flow
+ *
+ * @format
+ */
 
 import L from "leaflet";
 import { ATTRIBUTIONS, CENTER } from "./config";
