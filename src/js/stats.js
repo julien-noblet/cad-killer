@@ -1,4 +1,8 @@
-/* @flow */
+/**
+ * /* @flow
+ *
+ * @format
+ */
 
 import PouchDB from "pouchdb";
 import UAParser from "ua-parser-js";
@@ -260,8 +264,9 @@ export function sendView() {
  */
 
 export function onSwitchLayer(layer: any, switchCase: string): void {
-  const url = `${REVERSE_URL}lon=${Window.map.getCenter()
-    .lng}&lat=${Window.map.getCenter().lat}`;
+  const url = `${REVERSE_URL}lon=${Window.map.getCenter().lng}&lat=${
+    Window.map.getCenter().lat
+  }`;
 
   L.Util.ajax(url).then(function(data): void {
     let city: string = "";
