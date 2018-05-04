@@ -1,4 +1,8 @@
-/* @flow */
+/**
+ * /* @flow
+ *
+ * @format
+ */
 
 import L from "leaflet";
 import { API_URL, SHORT_CITY_NAMES } from "./config";
@@ -46,9 +50,11 @@ const searchPoints = L.geoJson(null, {
       sendClick(feature);
     });
     layer.bindPopup(
-      `${feature.properties.name}<a class='geo' href='geo:${feature.geometry
-        .coordinates[1]},${feature.geometry
-        .coordinates[0]}'><i class='zmdi-navigation zmdi-2x'></i></a>`
+      `${feature.properties.name}<a class='geo' href='geo:${
+        feature.geometry.coordinates[1]
+      },${
+        feature.geometry.coordinates[0]
+      }'><i class='zmdi-navigation zmdi-2x'></i></a>`
     );
   }
 });
