@@ -96,7 +96,7 @@
     "material-design-iconic-font": "^2.2.0",
     "opensans-npm-webfont": "^1.0.0",
     "pouchdb": "^6.3.4",
-    "ua-parser-js": "0.7.17"
+    "ua-parser-js": "0.7.18"
   },
   "jest": {
     "moduleNameMapper": {
