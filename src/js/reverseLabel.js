@@ -1,4 +1,8 @@
-/* @flow */
+/**
+ * /* @flow
+ *
+ * @format
+ */
 
 import L from "leaflet";
 import { REVERSE_URL } from "./config";
@@ -16,8 +20,9 @@ L.Control.ReverseLabel = L.Control.extend({
         if (data.features !== null) {
           if (data.features[0] !== null) {
             if (data.features[0].properties !== null) {
-              container.innerHTML = `Carte centrée sur «${data.features[0]
-                .properties.label}»`;
+              container.innerHTML = `Carte centrée sur «${
+                data.features[0].properties.label
+              }»`;
             }
           }
         }

@@ -1,4 +1,8 @@
-/* @flow */
+/**
+ * /* @flow
+ *
+ * @format
+ */
 
 import L from "leaflet";
 import { ATTRIBUTIONS, CENTER } from "./config";
@@ -51,11 +55,13 @@ require("./reverseLabel");
 require("./notes"); // Get somes issues, removing...
 
 // ajout du bouton print
-L.browserPrint({
-  printModesNames: {
-    Portrait: "Portrait",
-    Landscape: "Paysage",
-    Auto: "Auto",
-    Custom: "Séléctionnez la zone"
-  }
-}).addTo(Window.map);
+L.control
+  .browserPrint({
+    printModesNames: {
+      Portrait: "Portrait",
+      Landscape: "Paysage",
+      Auto: "Auto",
+      Custom: "Séléctionnez la zone"
+    }
+  })
+  .addTo(Window.map);
