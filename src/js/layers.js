@@ -3,8 +3,6 @@
 import L from "leaflet";
 import { IGN_KEY, IGN_LAYER, IGN_LAYER_LITE } from "./config";
 
-require("leaflet.gridlayer.googlemutant");
-
 // Layers
 export const layerOSMfr = L.tileLayer(
   "http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
@@ -104,12 +102,6 @@ export const layerIGNlite = L.tileLayer(
   }
 );
 
-export const layerGoogleHybrid = new L.gridLayer.googleMutant({
-  type: "hybrid",
-  maxZoom: 20,
-  attribution: 'Vue satellite &copy; <a href="http://www.google.com">Google</a>'
-});
-
 export const overlayBAN = L.tileLayer(
   "http://{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png",
   {
@@ -127,8 +119,7 @@ export const baseMaps = {
   Bing: layerBing,
   "Bing+OSM": layerBoner,
   Cadastre: layerCadastre,
-  Esri: layerEsriWorldImagery,
-  "Google Sat": layerGoogleHybrid
+  Esri: layerEsriWorldImagery
 };
 
 export const overlayMaps = {
