@@ -1,6 +1,6 @@
 /** @format */
 
-// flow-typed signature: 8c772d9cf633ff51aa1b06c5982958c5
+// flow-typed signature: d75ab5ef12495b1c81bc81794528f4a3
 // flow-typed version: <<STUB>>/less_v^3.0.0/flow_v0.70.0
 
 /**
@@ -477,6 +477,10 @@ declare module "less/test/browser/common" {
 }
 
 declare module "less/test/browser/jasmine-jsreporter" {
+  declare module.exports: any;
+}
+
+declare module "less/test/browser/less" {
   declare module.exports: any;
 }
 
@@ -1098,6 +1102,9 @@ declare module "less/test/browser/common.js" {
 }
 declare module "less/test/browser/jasmine-jsreporter.js" {
   declare module.exports: $Exports<"less/test/browser/jasmine-jsreporter">;
+}
+declare module "less/test/browser/less.js" {
+  declare module.exports: $Exports<"less/test/browser/less">;
 }
 declare module "less/test/browser/less/plugin/plugin.js" {
   declare module.exports: $Exports<"less/test/browser/less/plugin/plugin">;

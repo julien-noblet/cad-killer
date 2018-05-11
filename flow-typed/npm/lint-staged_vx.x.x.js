@@ -1,6 +1,6 @@
 /** @format */
 
-// flow-typed signature: 0bb12dfe5287a4c0a70a9075e72c10a9
+// flow-typed signature: ca33fcb95671781461ecd38ec3fcfe07
 // flow-typed version: <<STUB>>/lint-staged_v^7.0.0/flow_v0.70.0
 
 /**
@@ -48,6 +48,10 @@ declare module "lint-staged/src/index" {
   declare module.exports: any;
 }
 
+declare module "lint-staged/src/makeCmdTasks" {
+  declare module.exports: any;
+}
+
 declare module "lint-staged/src/printErrors" {
   declare module.exports: any;
 }
@@ -56,11 +60,11 @@ declare module "lint-staged/src/resolveGitDir" {
   declare module.exports: any;
 }
 
-declare module "lint-staged/src/runAll" {
+declare module "lint-staged/src/resolveTaskFn" {
   declare module.exports: any;
 }
 
-declare module "lint-staged/src/runScript" {
+declare module "lint-staged/src/runAll" {
   declare module.exports: any;
 }
 
@@ -89,15 +93,18 @@ declare module "lint-staged/src/getConfig.js" {
 declare module "lint-staged/src/index.js" {
   declare module.exports: $Exports<"lint-staged/src/index">;
 }
+declare module "lint-staged/src/makeCmdTasks.js" {
+  declare module.exports: $Exports<"lint-staged/src/makeCmdTasks">;
+}
 declare module "lint-staged/src/printErrors.js" {
   declare module.exports: $Exports<"lint-staged/src/printErrors">;
 }
 declare module "lint-staged/src/resolveGitDir.js" {
   declare module.exports: $Exports<"lint-staged/src/resolveGitDir">;
 }
+declare module "lint-staged/src/resolveTaskFn.js" {
+  declare module.exports: $Exports<"lint-staged/src/resolveTaskFn">;
+}
 declare module "lint-staged/src/runAll.js" {
   declare module.exports: $Exports<"lint-staged/src/runAll">;
-}
-declare module "lint-staged/src/runScript.js" {
-  declare module.exports: $Exports<"lint-staged/src/runScript">;
 }

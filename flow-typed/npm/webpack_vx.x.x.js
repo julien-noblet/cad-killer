@@ -1,6 +1,6 @@
 /** @format */
 
-// flow-typed signature: 6dadbd66a5eee7a62e91da73657799fb
+// flow-typed signature: ff02bfe5271f9b0cae4ad8b3071d712b
 // flow-typed version: <<STUB>>/webpack_v^4.7.0/flow_v0.70.0
 
 /**
@@ -640,6 +640,10 @@ declare module "webpack/lib/FunctionModuleTemplatePlugin" {
   declare module.exports: any;
 }
 
+declare module "webpack/lib/Generator" {
+  declare module.exports: any;
+}
+
 declare module "webpack/lib/GraphHelpers" {
   declare module.exports: any;
 }
@@ -833,10 +837,6 @@ declare module "webpack/lib/node/NodeTemplatePlugin" {
 }
 
 declare module "webpack/lib/node/NodeWatchFileSystem" {
-  declare module.exports: any;
-}
-
-declare module "webpack/lib/node/ReadFileCompileWasmMainTemplatePlugin" {
   declare module.exports: any;
 }
 
@@ -1108,7 +1108,27 @@ declare module "webpack/lib/WarnNoModeSetPlugin" {
   declare module.exports: any;
 }
 
-declare module "webpack/lib/wasm/WasmModuleTemplatePlugin" {
+declare module "webpack/lib/wasm/UnsupportedWebAssemblyFeatureError" {
+  declare module.exports: any;
+}
+
+declare module "webpack/lib/wasm/WasmMainTemplatePlugin" {
+  declare module.exports: any;
+}
+
+declare module "webpack/lib/wasm/WebAssemblyGenerator" {
+  declare module.exports: any;
+}
+
+declare module "webpack/lib/wasm/WebAssemblyJavascriptGenerator" {
+  declare module.exports: any;
+}
+
+declare module "webpack/lib/wasm/WebAssemblyModulesPlugin" {
+  declare module.exports: any;
+}
+
+declare module "webpack/lib/wasm/WebAssemblyParser" {
   declare module.exports: any;
 }
 
@@ -1117,10 +1137,6 @@ declare module "webpack/lib/WatchIgnorePlugin" {
 }
 
 declare module "webpack/lib/Watching" {
-  declare module.exports: any;
-}
-
-declare module "webpack/lib/web/FetchCompileWasmMainTemplatePlugin" {
   declare module.exports: any;
 }
 
@@ -1153,18 +1169,6 @@ declare module "webpack/lib/web/JsonpTemplatePlugin" {
 }
 
 declare module "webpack/lib/web/WebEnvironmentPlugin" {
-  declare module.exports: any;
-}
-
-declare module "webpack/lib/WebAssemblyGenerator" {
-  declare module.exports: any;
-}
-
-declare module "webpack/lib/WebAssemblyModulesPlugin" {
-  declare module.exports: any;
-}
-
-declare module "webpack/lib/WebAssemblyParser" {
   declare module.exports: any;
 }
 
@@ -1837,6 +1841,9 @@ declare module "webpack/lib/FunctionModulePlugin.js" {
 declare module "webpack/lib/FunctionModuleTemplatePlugin.js" {
   declare module.exports: $Exports<"webpack/lib/FunctionModuleTemplatePlugin">;
 }
+declare module "webpack/lib/Generator.js" {
+  declare module.exports: $Exports<"webpack/lib/Generator">;
+}
 declare module "webpack/lib/GraphHelpers.js" {
   declare module.exports: $Exports<"webpack/lib/GraphHelpers">;
 }
@@ -1987,11 +1994,6 @@ declare module "webpack/lib/node/NodeTemplatePlugin.js" {
 }
 declare module "webpack/lib/node/NodeWatchFileSystem.js" {
   declare module.exports: $Exports<"webpack/lib/node/NodeWatchFileSystem">;
-}
-declare module "webpack/lib/node/ReadFileCompileWasmMainTemplatePlugin.js" {
-  declare module.exports: $Exports<
-    "webpack/lib/node/ReadFileCompileWasmMainTemplatePlugin"
-  >;
 }
 declare module "webpack/lib/node/ReadFileCompileWasmTemplatePlugin.js" {
   declare module.exports: $Exports<
@@ -2230,19 +2232,33 @@ declare module "webpack/lib/WarnCaseSensitiveModulesPlugin.js" {
 declare module "webpack/lib/WarnNoModeSetPlugin.js" {
   declare module.exports: $Exports<"webpack/lib/WarnNoModeSetPlugin">;
 }
-declare module "webpack/lib/wasm/WasmModuleTemplatePlugin.js" {
-  declare module.exports: $Exports<"webpack/lib/wasm/WasmModuleTemplatePlugin">;
+declare module "webpack/lib/wasm/UnsupportedWebAssemblyFeatureError.js" {
+  declare module.exports: $Exports<
+    "webpack/lib/wasm/UnsupportedWebAssemblyFeatureError"
+  >;
+}
+declare module "webpack/lib/wasm/WasmMainTemplatePlugin.js" {
+  declare module.exports: $Exports<"webpack/lib/wasm/WasmMainTemplatePlugin">;
+}
+declare module "webpack/lib/wasm/WebAssemblyGenerator.js" {
+  declare module.exports: $Exports<"webpack/lib/wasm/WebAssemblyGenerator">;
+}
+declare module "webpack/lib/wasm/WebAssemblyJavascriptGenerator.js" {
+  declare module.exports: $Exports<
+    "webpack/lib/wasm/WebAssemblyJavascriptGenerator"
+  >;
+}
+declare module "webpack/lib/wasm/WebAssemblyModulesPlugin.js" {
+  declare module.exports: $Exports<"webpack/lib/wasm/WebAssemblyModulesPlugin">;
+}
+declare module "webpack/lib/wasm/WebAssemblyParser.js" {
+  declare module.exports: $Exports<"webpack/lib/wasm/WebAssemblyParser">;
 }
 declare module "webpack/lib/WatchIgnorePlugin.js" {
   declare module.exports: $Exports<"webpack/lib/WatchIgnorePlugin">;
 }
 declare module "webpack/lib/Watching.js" {
   declare module.exports: $Exports<"webpack/lib/Watching">;
-}
-declare module "webpack/lib/web/FetchCompileWasmMainTemplatePlugin.js" {
-  declare module.exports: $Exports<
-    "webpack/lib/web/FetchCompileWasmMainTemplatePlugin"
-  >;
 }
 declare module "webpack/lib/web/FetchCompileWasmTemplatePlugin.js" {
   declare module.exports: $Exports<
@@ -2273,15 +2289,6 @@ declare module "webpack/lib/web/JsonpTemplatePlugin.js" {
 }
 declare module "webpack/lib/web/WebEnvironmentPlugin.js" {
   declare module.exports: $Exports<"webpack/lib/web/WebEnvironmentPlugin">;
-}
-declare module "webpack/lib/WebAssemblyGenerator.js" {
-  declare module.exports: $Exports<"webpack/lib/WebAssemblyGenerator">;
-}
-declare module "webpack/lib/WebAssemblyModulesPlugin.js" {
-  declare module.exports: $Exports<"webpack/lib/WebAssemblyModulesPlugin">;
-}
-declare module "webpack/lib/WebAssemblyParser.js" {
-  declare module.exports: $Exports<"webpack/lib/WebAssemblyParser">;
 }
 declare module "webpack/lib/webpack.js" {
   declare module.exports: $Exports<"webpack/lib/webpack">;

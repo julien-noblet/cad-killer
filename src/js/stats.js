@@ -71,7 +71,7 @@ function getUserID(callback: any) {
   On le stock dans localdb.
   */
   const date = new Date();
-  let info: string;
+  let info: any;
   localdb
     .get("cad-killer_user")
     .then(d => {
