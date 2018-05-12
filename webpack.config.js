@@ -7,7 +7,8 @@
 const path = require("path");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: "./src/index.html",
   filename: "index.html",
@@ -18,9 +19,18 @@ var ImageminPlugin = require("imagemin-webpack-plugin").default;
 
 module.exports = {
   devtool: "source-map",
+  entry: {
+    main: "./src/index.js",
+    jquery: "jquery",
+    leaflet: "leaflet",
+    stats: ["pouchdb", "ua-parser-js", "leaflet-dialog", "leaflet-draw"],
+    leaflet_plugins_a: ["leaflet-ajax", "leaflet-hash"],
+    leaflet_plugins_b: ["leaflet-modal", "leaflet.photon"]
+  },
   output: {
     path: path.resolve("dist"),
-    filename: "index_bundle.js"
+    filename: "[name]_bundle.js",
+    chunkFilename: "[name].bundle.js"
   },
   module: {
     rules: [
@@ -37,29 +47,20 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          {
-            loader: "style-loader" // creates style nodes from JS strings
-          },
-          {
-            loader: "css-loader" // translates CSS into CommonJS
-            /*}, {
-          loader: 'resolve-url-loader', // resolve urls
-          */
-          },
-          {
-            loader: "sass-loader" // compiles Sass to CSS
-          }
+          MiniCssExtractPlugin.loader,
+          //"style-loader",
+          { loader: "css-loader", options: {} },
+          { loader: "postcss-loader", options: {} },
+
+          { loader: "sass-loader", options: {} } // compiles Sass to CSS
         ]
       },
       {
         test: /\.css$/,
         use: [
-          {
-            loader: "style-loader" // creates style nodes from JS strings
-          },
-          {
-            loader: "css-loader" // translates CSS into CommonJS
-          }
+          MiniCssExtractPlugin.loader,
+          { loader: "css-loader", options: {} },
+          { loader: "postcss-loader", options: {} }
         ]
       },
       {
@@ -85,9 +86,57 @@ module.exports = {
       pngquant: {
         quality: "95-100"
       }
+    }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: "[name].css",
+      chunkFilename: "[id].css"
+    }),
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.optimize\.css$/g,
+      cssProcessor: require("cssnano"),
+      cssProcessorOptions: { discardComments: { removeAll: true } },
+      canPrint: true
     })
   ],
   optimization: {
-    minimize: true
+    minimize: true,
+
+    //runtimeChunk: true,
+    splitChunks: {
+      chunks: "async",
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: "~",
+      name: false,
+      cacheGroups: {
+        styles: {
+          name: "styles",
+          test: /\.css$/,
+          chunks: "all",
+          enforce: true
+        },
+        leaflet: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        },
+        jquery: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        },
+        stats: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    }
   }
 };

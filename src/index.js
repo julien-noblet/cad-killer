@@ -1,4 +1,8 @@
-/* @flow */
+/**
+ * /* @flow
+ *
+ * @format
+ */
 
 import "opensans-npm-webfont";
 
@@ -13,6 +17,10 @@ require("leaflet/dist/images/marker-icon.png");
 require("leaflet/dist/images/marker-shadow.png");
 
 // JS
-require("es6-promise");
+require.ensure(["es6-promise"], function() {
+  require("es6-promise");
+});
 
-require("./js/map");
+require.ensure(["./js/map"], function() {
+  require("./js/map");
+});

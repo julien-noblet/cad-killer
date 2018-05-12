@@ -51,8 +51,12 @@ hash = new L.Hash(Window.map);
 // Chargement des modules:
 // require('./photon');
 photon();
-require("./reverseLabel");
-require("./notes"); // Get somes issues, removing...
+require.ensure("./reverseLabel", function() {
+  require("./reverseLabel");
+});
+require.ensure("./notes", function() {
+  require("./notes");
+});
 
 // ajout du bouton print
 L.control

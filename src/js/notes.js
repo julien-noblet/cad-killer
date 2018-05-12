@@ -10,10 +10,14 @@ import { REVERSE_URL, NOTE_API } from "./config";
 import { sendNote } from "./stats";
 
 // require('font-awesome-webpack');
-require("leaflet-dialog");
+require.ensure("leaflet-dialog", function() {
+  require("leaflet-dialog");
+});
 require("leaflet-dialog/Leaflet.Dialog.css");
 require("leaflet-draw");
-require("leaflet-ajax");
+require.ensure("leaflet-ajax", function() {
+  require("leaflet-ajax");
+});
 
 /* eslint-disable no-unused-vars */
 const notesControl = new L.Control.Draw({
