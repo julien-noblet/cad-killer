@@ -1,10 +1,14 @@
-/* global L, map */
+/**
+ * /* global L, map
+ *
+ * @format
+ */
 
 // Géoloc
 function showPosition(position) {
-  const icone = document.getElementById("geoloc_icon");
+  const icone = L.DomUtil.get(document.getElementById("geoloc_icon"));
   if (Window.map !== null) {
-    Windows.map.setView(
+    Window.map.setView(
       [position.coords.latitude, position.coords.longitude],
       16
     );

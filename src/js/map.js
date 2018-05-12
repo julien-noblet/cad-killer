@@ -22,39 +22,39 @@ require("leaflet.browser.print/dist/leaflet.browser.print.min.js");
 dbinfo();
 
 // Initialisation de leaflet
-Window.map = L.map("map", {
+window.map = L.map("map", {
   attributionControl: false
 });
 
 const layers = L.control.layers(baseMaps, overlayMaps);
 
 L.Icon.Default.imagePath = "./images/";
-Window.map.addLayer(layerOSMfr);
+window.map.addLayer(layerOSMfr);
 
-layers.addTo(Window.map);
+layers.addTo(window.map);
 
-Window.map.setView(CENTER, 6);
+window.map.setView(CENTER, 6);
 
-Window.map.dragging.enable();
+window.map.dragging.enable();
 
 L.control
   .attribution({
     position: "bottomleft",
     prefix: ATTRIBUTIONS
   })
-  .addTo(Window.map);
+  .addTo(window.map);
 
 // ajout hash dans l'URL
 let hash;
-hash = new L.Hash(Window.map);
+hash = new L.Hash(window.map);
 
 // Chargement des modules:
 // require('./photon');
 photon();
-require.ensure("./reverseLabel", function() {
+require.ensure(["./reverseLabel"], function() {
   require("./reverseLabel");
 });
-require.ensure("./notes", function() {
+require.ensure(["./notes"], function() {
   require("./notes");
 });
 
@@ -68,4 +68,4 @@ L.control
       Custom: "Séléctionnez la zone"
     }
   })
-  .addTo(Window.map);
+  .addTo(window.map);

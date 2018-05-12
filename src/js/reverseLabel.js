@@ -29,9 +29,9 @@ L.Control.ReverseLabel = L.Control.extend({
       }
     });
 
-    Window.map.on("moveend", () => {
-      if (Window.map.getZoom() > 14) {
-        reverse.doReverse(Window.map.getCenter());
+    window.map.on("moveend", () => {
+      if (window.map.getZoom() > 14) {
+        reverse.doReverse(window.map.getCenter());
         let head = document.getElementById("head");
         let map = document.getElementById("map");
         if (head !== null) {
@@ -48,4 +48,4 @@ L.Control.ReverseLabel = L.Control.extend({
   }
 });
 
-new L.Control.ReverseLabel().addTo(Window.map);
+new L.Control.ReverseLabel().addTo(window.map);

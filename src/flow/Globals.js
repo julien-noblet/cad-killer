@@ -1,6 +1,9 @@
 /** @format */
 
-declare var Window: Object;
+// @flow
+
+declare var window: Object;
+
 declare var require: {
   (id: string): any,
   ensure(

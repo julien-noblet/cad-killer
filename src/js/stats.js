@@ -1,7 +1,6 @@
 /**
- * /* @flow
- *
  * @format
+ * @flow
  */
 
 import PouchDB from "pouchdb";
@@ -262,10 +261,14 @@ export function sendView() {
 
   Nota: est-ce qu je doit déplacer cela dans stats.js?
  */
-
-export function onSwitchLayer(layer: any, switchCase: string): void {
-  const url = `${REVERSE_URL}lon=${Window.map.getCenter().lng}&lat=${
-    Window.map.getCenter().lat
+/**
+ *
+ * @param {*} layer
+ * @param {*} switchCase
+ */
+export function onSwitchLayer(layer: L.Layer, switchCase: string): void {
+  const url = `${REVERSE_URL}lon=${window.map.getCenter().lng}&lat=${
+    window.map.getCenter().lat
   }`;
 
   L.Util.ajax(url).then(function(data): void {
@@ -281,9 +284,9 @@ export function onSwitchLayer(layer: any, switchCase: string): void {
       city,
       postcode,
       location: {
-        lat: Window.map.getCenter().lat,
-        lng: Window.map.getCenter().lng,
-        zoom: Window.map.getZoom()
+        lat: window.map.getCenter().lat,
+        lng: window.map.getCenter().lng,
+        zoom: window.map.getZoom()
       }
     });
   });
@@ -291,15 +294,15 @@ export function onSwitchLayer(layer: any, switchCase: string): void {
 
 export default function() {
   dbinfo();
-  Window.map.on("baselayerchange", function(e): void {
+  window.map.on("baselayerchange", function(e): void {
     onSwitchLayer(e.name, "switch");
   });
 
-  Window.map.on("overlayadd", function(e): void {
+  window.map.on("overlayadd", function(e): void {
     onSwitchLayer(e.name, "add-overlay");
   });
 
-  Window.map.on("overlayremove", function(e): void {
+  window.map.on("overlayremove", function(e): void {
     onSwitchLayer(e.name, "remove-overlay");
   });
 }

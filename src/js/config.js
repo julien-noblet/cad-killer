@@ -1,7 +1,12 @@
-/* @flow */
+/**
+ * /* @flow
+ *
+ * @format
+ */
+
 export const CENTER = [46.495, 2.201];
-export const API_URL = "http://api-adresse.data.gouv.fr/search/?";
-export const REVERSE_URL = "http://api-adresse.data.gouv.fr/reverse/?";
+export const API_URL = "//api-adresse.data.gouv.fr/search/?";
+export const REVERSE_URL = "//api-adresse.data.gouv.fr/reverse/?";
 export const SHORT_CITY_NAMES = [
   "y",
   "ay",
