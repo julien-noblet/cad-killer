@@ -5,10 +5,10 @@
   "main": "index.html",
   "scripts": {
     "start": "webpack-dev-server --https --mode development",
-    "precommit": "flow check && lint-staged",
+    "precommit": "flow && lint-staged",
     "build":
       "webpack --mode production --config webpack.config.js --progress --profile --colors",
-    "test": "flow check && jest"
+    "test": "flow && jest --runInBand"
   },
   "lint-staged": {
     "*.js": ["prettier --write --insert-pragma", "git add"],

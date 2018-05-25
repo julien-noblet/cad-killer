@@ -30,14 +30,13 @@ describe("Web Render test", () => {
    * Initialize browser and server
    */
   beforeAll(async () => {
-    jest.setTimeout(1200000); // allow test to run for longer time so they don't timeout
+    jest.setTimeout(10 * 60 * 1000); // 5 min allow test to run for longer time so they don't timeout
     var config = require(path.join(__dirname, "/../../webpack.config.js"));
     var compiler = webpack(config);
     var settings = {
       /* webpack config here*/
       contentBase: path.join(__dirname, "dist"),
       compress: true,
-      https: true,
       port: 9000
     };
     server = new WebpackDevServer(compiler, settings);
@@ -61,7 +60,7 @@ describe("Web Render test", () => {
     for (const viewport of viewports) {
       const page = await browser.newPage();
       await page.setViewport(viewport);
-      await page.goto(`https://localhost:9000/`);
+      await page.goto(`http://localhost:9000/`, { timeout: 300000 });
       const screenshot = await page.screenshot({
         clip: { x: 0, y: 0, width: viewport.width, height: 60 }
       });
@@ -75,7 +74,7 @@ describe("Web Render test", () => {
     for (const device of devices) {
       const page = await browser.newPage();
       await page.emulate(device);
-      await page.goto(`https://localhost:9000/`);
+      await page.goto(`http://localhost:9000/`);
       const screenshot = await page.screenshot({
         clip: { x: 0, y: 0, width: device.viewport.width, height: 60 }
       });
@@ -88,7 +87,7 @@ describe("Web Render test", () => {
     for (const viewport of viewports) {
       const page = await browser.newPage();
 
-      await page.goto(`https://localhost:9000/`);
+      await page.goto(`http://localhost:9000/`, { timeout: 300000 });
       await page.setViewport(viewport);
       const screenshot = await page.screenshot({
         // no clip: { x: 0, y: 0, width: viewport.width, height: 60 }
@@ -104,7 +103,7 @@ describe("Web Render test", () => {
     for (const device of devices) {
       const page = await browser.newPage();
       await page.emulate(device);
-      await page.goto(`https://localhost:9000/`);
+      await page.goto(`http://localhost:9000/`, { timeout: 300000 });
       const screenshot = await page.screenshot({
         //no clip: { x: 0, y: 0, width: device.viewport.width, height: 60 }
       });
@@ -117,7 +116,7 @@ describe("Web Render test", () => {
 
   test("List Layers", async () => {
     const page = await browser.newPage();
-    await page.goto(`https://localhost:9000/`);
+    await page.goto(`http://localhost:9000/`, { timeout: 300000 });
     await page.waitForSelector(".leaflet-control-layers-toggle", {
       visible: true
     });
