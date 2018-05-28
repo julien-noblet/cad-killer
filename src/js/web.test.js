@@ -1,5 +1,3 @@
-/** @format */
-
 // example.test.ts
 import "jest";
 var path = require("path");
@@ -24,59 +22,37 @@ const viewports = [
 
 describe("Web Render test", () => {
   let server: WebpackDevServer;
-  let browser: Browser;
 
   /**
    * Initialize browser and server
    */
   beforeAll(async () => {
     jest.setTimeout(10 * 60 * 1000); // 5 min allow test to run for longer time so they don't timeout
-    var config = require(path.join(__dirname, "/../../webpack.config.js"));
-    var compiler = webpack(config);
-    var settings = {
-      /* webpack config here*/
-      contentBase: path.join(__dirname, "dist"),
-      compress: true,
-      port: 9000
-    };
-    server = new WebpackDevServer(compiler, settings);
-    server.listen(settings.port, "127.0.0.1");
-    browser = await puppeteer.launch({
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      ignoreHTTPSErrors: true
-    });
     //await browser.ignoreHTTPSErrors = true //force
-  });
-
-  /**
-   * Close browser and server
-   */
-  afterAll(async () => {
-    server.close();
-    browser.close();
   });
 
   test("Correctly renders header", async () => {
     for (const viewport of viewports) {
-      const page = await browser.newPage();
       await page.setViewport(viewport);
       await page.goto(`http://localhost:9000/`, { timeout: 300000 });
-      const screenshot = await page.screenshot({
-        clip: { x: 0, y: 0, width: viewport.width, height: 60 }
+      const elem = await page.$("#head");
+      const screenshot = await elem.screenshot({
+        // clip: { x: 0, y: 0, width: viewport.width, height: 60 }
       });
       expect(screenshot).toMatchImageSnapshot({
         customSnapshotIdentifier:
-          "header_" + viewport.width + "x" + viewport.height
+          "header_" + viewport.width + "x" + viewport.height,
+        customDiffConfig: { threshold: 10 }
       });
     }
   });
   test.skip("Correctly renders header for mobiles", async () => {
     for (const device of devices) {
-      const page = await browser.newPage();
       await page.emulate(device);
       await page.goto(`http://localhost:9000/`);
-      const screenshot = await page.screenshot({
-        clip: { x: 0, y: 0, width: device.viewport.width, height: 60 }
+      const elem = await page.$("#head");
+      const screenshot = await elem.screenshot({
+        //        clip: { x: 0, y: 0, width: device.viewport.width, height: 60 }
       });
       expect(screenshot).toMatchImageSnapshot({
         customSnapshotIdentifier: "header_" + device.name
@@ -85,10 +61,8 @@ describe("Web Render test", () => {
   });
   test("Correctly renders main page", async () => {
     for (const viewport of viewports) {
-      const page = await browser.newPage();
-
-      await page.goto(`http://localhost:9000/`, { timeout: 300000 });
       await page.setViewport(viewport);
+      await page.goto(`http://localhost:9000/`, { timeout: 300000 });
       const screenshot = await page.screenshot({
         // no clip: { x: 0, y: 0, width: viewport.width, height: 60 }
       });
@@ -115,15 +89,44 @@ describe("Web Render test", () => {
   });
 
   test("List Layers", async () => {
-    const page = await browser.newPage();
+    await page.setViewport({ width: 1280, height: 960 });
     await page.goto(`http://localhost:9000/`, { timeout: 300000 });
     await page.waitForSelector(".leaflet-control-layers-toggle", {
       visible: true
     });
-    await page.hover(".leaflet-control-layers-toggle");
-    const screenshot = await page.screenshot();
+    //await page.hover(".leaflet-control-layers-toggle");
+    await page.evaluate(() => {
+      document
+        .getElementsByClassName("leaflet-control-layers")[0]
+        .classList.add("leaflet-control-layers-expanded");
+    });
+    await page.hover(".leaflet-control-layers-list");
+    await page.waitForSelector(".leaflet-control-layers-list", {
+      visible: true
+    });
+    const elem = await page.$(".leaflet-control-layers-list");
+    //await elem.dispose()
+
+    const screenshot = await elem.screenshot();
     expect(screenshot).toMatchImageSnapshot({
       customSnapshotIdentifier: "layers_list",
+      customDiffConfig: { threshold: 10 }
+    });
+  });
+
+  test("Attribution", async () => {
+    await page.setViewport({ width: 1280, height: 960 });
+    await page.goto(`http://localhost:9000/`, { timeout: 300000 });
+
+    await page.waitForSelector(".leaflet-control-attribution", {
+      visible: true
+    });
+    const elem = await page.$(".leaflet-control-attribution");
+    //await elem.dispose()
+
+    const screenshot = await elem.screenshot();
+    expect(screenshot).toMatchImageSnapshot({
+      customSnapshotIdentifier: "attribution_default",
       customDiffConfig: { threshold: 10 }
     });
   });

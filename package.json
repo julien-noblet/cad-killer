@@ -59,6 +59,7 @@
     "imagemin-webpack-plugin": "^2.1.1",
     "jest": "^22.0.0",
     "jest-image-snapshot": "^2.4.1",
+    "jest-puppeteer": "^3.0.1",
     "lint-staged": "^7.0.0",
     "mini-css-extract-plugin": "^0.4.0",
     "node-sass": "^4.6.1",
@@ -111,7 +112,10 @@
     "transform": {
       "^.+\\.js?$": "babel-7-jest"
     },
-    "testEnvironment": "jsdom",
+    "preset": "jest-puppeteer",
+    "globalSetup": "jest-environment-puppeteer/setup",
+    "globalTeardown": "jest-environment-puppeteer/teardown",
+    "testEnvironment": "jest-environment-puppeteer",
     "globals": {
       "window": true
     }

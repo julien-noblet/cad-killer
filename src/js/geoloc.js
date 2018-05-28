@@ -39,4 +39,4 @@ const GeoLoc = L.Control.extend({
   }
 });
 
-map.addControl(new GeoLoc());
+window.map.addControl(new GeoLoc());

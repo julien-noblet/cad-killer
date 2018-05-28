@@ -12,7 +12,6 @@ import { photon } from "./photon";
 
 require("leaflet-hash");
 require("leaflet.browser.print/dist/leaflet.browser.print.min.js");
-
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
  * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
@@ -57,6 +56,8 @@ require.ensure(["./reverseLabel"], function() {
 require.ensure(["./notes"], function() {
   require("./notes");
 });
+
+//require ("./geoloc.js")
 
 // ajout du bouton print
 L.control

@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`test Geoloc geoloc_icon is correct 1`] = `
-<i
-  class="zmdi zmdi-2x zmdi-gps-off"
-  id="geoloc_icon"
-/>
-`;
