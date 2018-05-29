@@ -1,11 +1,15 @@
-/* @flow */
+/**
+ * /* @flow
+ *
+ * @format
+ */
 
 import L from "leaflet";
 import { IGN_KEY, IGN_LAYER, IGN_LAYER_LITE } from "./config";
 
 // Layers
 export const layerOSMfr = L.tileLayer(
-  "http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
+  "//{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
   {
     maxZoom: 20,
     attribution:
@@ -14,7 +18,7 @@ export const layerOSMfr = L.tileLayer(
 );
 
 export const layerOSM = L.tileLayer(
-  "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
     maxZoom: 18,
     attribution:
@@ -23,7 +27,7 @@ export const layerOSM = L.tileLayer(
 );
 
 export const layerMapsurfer = L.tileLayer(
-  "http://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}",
+  "//korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}",
   {
     maxZoom: 19,
     attribution:
@@ -32,7 +36,7 @@ export const layerMapsurfer = L.tileLayer(
 );
 
 const overlayMapsurfer = L.tileLayer(
-  "http://korona.geog.uni-heidelberg.de/tiles/hybrid/x={x}&y={y}&z={z}",
+  "//korona.geog.uni-heidelberg.de/tiles/hybrid/x={x}&y={y}&z={z}",
   {
     maxZoom: 19,
     attribution:
@@ -77,7 +81,7 @@ export const overlayCadastre = L.tileLayer(
 );
 
 export const layerEsriWorldImagery = L.tileLayer(
-  "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+  "//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   {
     attribution:
       "&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
@@ -85,7 +89,7 @@ export const layerEsriWorldImagery = L.tileLayer(
 );
 
 export const layerIGN = L.tileLayer(
-  `http://wxs.ign.fr/${IGN_KEY}/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_LAYER}&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg`,
+  `//wxs.ign.fr/${IGN_KEY}/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_LAYER}&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg`,
   {
     maxZoom: 18,
     minZoom: 6,
@@ -94,7 +98,7 @@ export const layerIGN = L.tileLayer(
 );
 
 export const layerIGNlite = L.tileLayer(
-  `http://wxs.ign.fr/${IGN_KEY}/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_LAYER_LITE}&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg`,
+  `//wxs.ign.fr/${IGN_KEY}/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_LAYER_LITE}&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg`,
   {
     maxZoom: 18,
     minZoom: 6,
@@ -103,7 +107,7 @@ export const layerIGNlite = L.tileLayer(
 );
 
 export const overlayBAN = L.tileLayer(
-  "http://{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png",
+  "//{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png",
   {
     maxZoom: 20,
     attribution: "Surcouche: &copy; BAN(O)"

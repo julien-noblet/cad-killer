@@ -1,5 +1,8 @@
 [libs]
 flow-typed
+src/flow
 [options]
-module.name_mapper.extension='css' -> '<PROJECT_ROOT>/src/flow/CSSModule.js.flow'
-module.name_mapper.extension='scss' -> '<PROJECT_ROOT>/src/flow/CSSModule.js.flow'
+module.name_mapper='^.*\.css$' -> 'css-module-flow'
+module.name_mapper='^.*\.scss$' -> 'css-module-flow'
+[ignore]
+.*/node_modules/config-chain/test/broken.json

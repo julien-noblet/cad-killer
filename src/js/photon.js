@@ -43,7 +43,7 @@ const searchPoints = L.geoJson(null, {
         default:
           zoom = 16;
       }
-      Window.map.setView(
+      window.map.setView(
         [feature.geometry.coordinates[1], feature.geometry.coordinates[0]],
         zoom
       );
@@ -122,9 +122,9 @@ const photonReverseControlOptions = {
 const myPhoton = new L.Control.Photon(photonControlOptions);
 
 export function photon() {
-  searchPoints.addTo(Window.map);
+  searchPoints.addTo(window.map);
 
-  Window.map.addControl(myPhoton);
+  window.map.addControl(myPhoton);
   /* eslint-disable no-proto */
   myPhoton.search.__proto__.setChoice = function setChoice(choice) {
     const c = choice || this.RESULTS[this.CURRENT];

@@ -10,10 +10,14 @@ import { REVERSE_URL, NOTE_API } from "./config";
 import { sendNote } from "./stats";
 
 // require('font-awesome-webpack');
-require("leaflet-dialog");
+require.ensure(["leaflet-dialog"], function() {
+  require("leaflet-dialog");
+});
 require("leaflet-dialog/Leaflet.Dialog.css");
 require("leaflet-draw");
-require("leaflet-ajax");
+require.ensure(["leaflet-ajax"], function() {
+  require("leaflet-ajax");
+});
 
 /* eslint-disable no-unused-vars */
 const notesControl = new L.Control.Draw({
@@ -31,7 +35,7 @@ const notesControl = new L.Control.Draw({
 const notesItems = new L.FeatureGroup();
 
 /* eslint-disable no-unused-vars */
-Window.addNote = function addNote(): void {
+window.addNote = function addNote(): void {
   let eLat = document.getElementById("lat");
   let eLng = document.getElementById("lng");
   let eNote = document.getElementById("textnote");
@@ -64,29 +68,29 @@ Window.addNote = function addNote(): void {
       type: "post",
       headers: options.headers,
       error: function(data, textStatus, err) {
-        Window.dialog.setContent(
+        window.dialog.setContent(
           '<h1>Votre note n\'à pas été envoyée <i class="zmdi zmdi-mood-bad"></i></h1><br/>Veuillez ré-essayer ultérieurement.'
         );
         /* eslint-enable max-len */
         /* declencher un evenement??? */
         // sendNote(data); // temp
         setTimeout(() => {
-          Window.dialog.close();
+          window.dialog.close();
         }, 5000); // on ferme après 5 sec
       },
       success: function(data) {
         /* eslint-disable max-len */
-        Window.dialog.setContent(
+        window.dialog.setContent(
           '<h1>Votre note à été envoyée <i class="zmdi zmdi-mood"></i></h1><br/>Merci pour votre contribution.'
         );
         /* eslint-enable max-len */
         /* declencher un evenement??? */
         // sendNote(data); // temp
         setTimeout(() => {
-          Window.dialog.close();
+          window.dialog.close();
         }, 5000); // on ferme après 5 sec
 
-        // TODO: Window.dialog.destroy(); // cela reduira l'empreinte mémoire.
+        // TODO: window.dialog.destroy(); // cela reduira l'empreinte mémoire.
       }
     };
     $.ajax(
@@ -102,12 +106,12 @@ function resetNote() {
   document.getElementById("noteholder").className = "noteholder hidden";
   document.getElementById("noteok").className = "noteok hidden";
   document.getElementById("newnote").className = "note";
-  Window.map.removeLayer(notesItems);
+  window.map.removeLayer(notesItems);
 }
 */
 /* eslint-enable no-unused-vars */
 
-Window.map.on("draw:created", e => {
+window.map.on("draw:created", e => {
   const layer = e.layer;
   const url = `${REVERSE_URL}lon=${layer._latlng.lng}&lat=${layer._latlng.lat}`;
   /* eslint-disable no-unused-vars */
@@ -125,9 +129,9 @@ Window.map.on("draw:created", e => {
       }<span>`;
     }
     notesItems.addLayer(layer);
-    Window.map.addLayer(notesItems);
+    window.map.addLayer(notesItems);
 
-    Window.dialog = L.control
+    window.dialog = L.control
       .dialog({
         minSize: [400, 50],
         size: [800, 600]
@@ -145,13 +149,13 @@ Window.map.on("draw:created", e => {
             layer._latlng.lng
           }">`,
           '<input type="submit" class="topcoat-button--large" value="Soumettre la note" ',
-          'onclick=" Window.addNote() ">',
-          '<input type="submit" class="topcoat-button--large close" value="Annuler" onclick="Window.dialog.close();">',
+          'onclick=" window.addNote() ">',
+          '<input type="submit" class="topcoat-button--large close" value="Annuler" onclick="window.dialog.close();">',
           "</div>"
         ].join("")
       )
-      .addTo(Window.map);
-    Window.dialog.unlock();
+      .addTo(window.map);
+    window.dialog.unlock();
   });
 });
 
@@ -163,4 +167,4 @@ L.drawLocal.draw.toolbar.actions.text = "Annuler";
 L.drawLocal.draw.handlers.marker.tooltip.start =
   "Placez l'emplacement de l'erreur sur la carte.";
 
-Window.map.addControl(notesControl);
+window.map.addControl(notesControl);
