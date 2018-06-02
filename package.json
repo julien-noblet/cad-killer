@@ -77,7 +77,7 @@
     "sugarss": "^1.0.1",
     "tapable": "^1.0.0",
     "webpack": "^4.7.0",
-    "webpack-cli": "^2.1.2",
+    "webpack-cli": "^3.0.0",
     "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
