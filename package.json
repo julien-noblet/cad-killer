@@ -19,6 +19,11 @@
     "src/*.js": ["prettier --parser flow --write", "git add"],
     "src/scss/*.scss": ["prettier --parser flow --write", "git add"]
   },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/julien-noblet/cad-killer.git"
@@ -43,9 +48,11 @@
     "@babel/runtime": "^7.0.0-beta.49",
     "babel-7-jest": "^21.3.3",
     "babel-loader": "^8.0.0-beta.0",
+    "commitizen": "^2.10.1",
     "css-loader": "^0.28.7",
     "css-module-flow": "^1.0.0",
     "cssnano": "^3.10.0",
+    "cz-conventional-changelog": "^2.1.0",
     "eslint": "^4.11.0",
     "eslint-config-prettier": "^2.7.0",
     "eslint-plugin-flowtype": "^2.49.3",
