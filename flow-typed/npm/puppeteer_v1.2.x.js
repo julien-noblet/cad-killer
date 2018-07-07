@@ -837,17 +837,17 @@ declare module "puppeteer" {
     url(): string
   };
 
-  declare type FrameBase = {
+  declare interface FrameBase {
     /**
      * The method runs document.querySelector within the page.
      * If no element matches the selector, the return value resolve to null.
      */
-    $(selector: string): Promise<?ElementHandle>,
+    $(selector: string): Promise<?ElementHandle>;
 
     /**
      * The method runs document.querySelectorAll within the page. If no elements match the selector, the return value resolve to [].
      */
-    $$(selector: string): Promise<Array<ElementHandle>>,
+    $$(selector: string): Promise<Array<ElementHandle>>;
 
     /**
      * This method runs document.querySelectorAll within the page and passes it as the first argument to `fn`.
@@ -864,7 +864,7 @@ declare module "puppeteer" {
         ...args: Array<mixed>
       ) => mixed,
       ...args: Array<mixed>
-    ): Promise<mixed>,
+    ): Promise<mixed>;
 
     /**
      * This method runs document.querySelector within the page and passes it as the first argument to `fn`.
@@ -875,21 +875,21 @@ declare module "puppeteer" {
       selector: string,
       pageFunction: (element: Element, ...args: Array<mixed>) => mixed,
       ...args: Array<mixed>
-    ): Promise<mixed>,
+    ): Promise<mixed>;
 
     /**
      * @param expression XPath expression to evaluate.
      */
-    $x(expression: string): Promise<Array<ElementHandle>>,
+    $x(expression: string): Promise<Array<ElementHandle>>;
 
     /** Adds a `<script>` tag into the page with the desired url or content. */
-    addScriptTag(options: ScriptTagOptions): Promise<void>,
+    addScriptTag(options: ScriptTagOptions): Promise<void>;
 
     /** Adds a `<link rel="stylesheet">` tag into the page with the desired url or a `<style type="text/css">` tag with the content. */
-    addStyleTag(options: StyleTagOptions): Promise<void>,
+    addStyleTag(options: StyleTagOptions): Promise<void>;
 
     /** Gets the full HTML contents of the page, including the doctype. */
-    content(): Promise<string>,
+    content(): Promise<string>;
 
     /**
      * Evaluates a function in the browser context.
@@ -898,19 +898,19 @@ declare module "puppeteer" {
      * @param fn Function to be evaluated in browser context
      * @param args Arguments to pass to `fn`
      */
-    evaluate(fn: EvaluateFn, ...args: Array<mixed>): Promise<mixed>,
+    evaluate(fn: EvaluateFn, ...args: Array<mixed>): Promise<mixed>;
 
     /**
      * Sets the page content.
      * @param html HTML markup to assign to the page.
      */
-    setContent(html: string): Promise<void>,
+    setContent(html: string): Promise<void>;
 
     /** Returns page's title. */
-    title(): Promise<string>,
+    title(): Promise<string>;
 
     /** Returns frame's url. */
-    url(): string,
+    url(): string;
 
     waitFor(
       // fn can be an abritary function
@@ -918,7 +918,7 @@ declare module "puppeteer" {
       selectorOrFunctionOrTimeout: string | number | Function,
       options?: mixed,
       ...args: Array<mixed>
-    ): Promise<mixed>,
+    ): Promise<mixed>;
 
     waitForFunction(
       // fn can be an abritary function
@@ -926,29 +926,29 @@ declare module "puppeteer" {
       fn: string | Function,
       options?: PageFnOptions,
       ...args: Array<mixed>
-    ): Promise<mixed>,
+    ): Promise<mixed>;
 
     waitForSelector(
       selector: string,
       options?: { hidden?: boolean, timeout?: number, visible?: boolean }
-    ): Promise<ElementHandle>
-  };
+    ): Promise<ElementHandle>;
+  }
 
-  declare type Frame = FrameBase & {
-    childFrames(): Array<Frame>,
+  declare interface Frame extends FrameBase {
+    childFrames(): Array<Frame>;
 
     /** Execution context associated with this frame. */
-    executionContext(): ExecutionContext,
+    executionContext(): ExecutionContext;
 
     /** Returns `true` if the frame has been detached, or `false` otherwise. */
-    isDetached(): boolean,
+    isDetached(): boolean;
 
     /** Returns frame's name attribute as specified in the tag. */
-    name(): string,
+    name(): string;
 
     /** Returns parent frame, if any. Detached frames and main frames return null. */
-    parentFrame(): ?Frame
-  };
+    parentFrame(): ?Frame;
+  }
 
   declare type PageEventObj = {
     /**
