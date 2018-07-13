@@ -1,5 +1,5 @@
 /**
- * /* global L, map
+ * global L, map
  *
  * @format
  */

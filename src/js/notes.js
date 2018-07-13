@@ -1,5 +1,5 @@
 /**
- * /* @flow
+ * @flow
  *
  * @format
  */
@@ -7,7 +7,7 @@
 import $ from "jquery";
 import L from "leaflet";
 import { REVERSE_URL, NOTE_API } from "./config";
-import { sendNote } from "./stats";
+//import { sendNote } from "./stats";
 
 // require('font-awesome-webpack');
 require.ensure(["leaflet-dialog"], function() {

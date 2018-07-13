@@ -1,5 +1,5 @@
 /**
- * /* @flow
+ * @flow
  *
  * @format
  */
@@ -7,7 +7,7 @@
 import L from "leaflet";
 import { ATTRIBUTIONS, CENTER } from "./config";
 import { overlayMaps, baseMaps, layerOSMfr } from "./layers";
-import { dbinfo } from "./stats";
+//import { dbinfo } from "./stats"; // Stats are not working :'(
 import { photon } from "./photon";
 
 require("leaflet-hash");
@@ -18,7 +18,7 @@ require("leaflet.browser.print/dist/leaflet.browser.print.min.js");
  */
 
 // connection à la BD:
-dbinfo();
+// dbinfo(); // Stats are not working :'(
 
 // Initialisation de leaflet
 window.map = L.map("map", {
@@ -62,11 +62,11 @@ require.ensure(["./notes"], function() {
 // ajout du bouton print
 L.control
   .browserPrint({
-    printModesNames: {
-      Portrait: "Portrait",
-      Landscape: "Paysage",
-      Auto: "Auto",
-      Custom: "Séléctionnez la zone"
-    }
+    printModes: [
+      L.control.browserPrint.mode.portrait("Portrait", "A4"),
+      L.control.browserPrint.mode.landscape("Paysage", "A4"),
+      L.control.browserPrint.mode.auto("Auto", "A4"),
+      L.control.browserPrint.mode.custom("Séléctionnez la zone", "A4")
+    ]
   })
   .addTo(window.map);

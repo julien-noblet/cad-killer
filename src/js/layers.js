@@ -1,5 +1,5 @@
 /**
- * /* @flow
+ * @flow
  *
  * @format
  */
@@ -13,7 +13,7 @@ export const layerOSMfr = L.tileLayer(
   {
     maxZoom: 20,
     attribution:
-      'Fond de plan &copy; <a href="http://openstreetmap.fr/">OpenStreetMap France</a>'
+      'Fond de plan &copy; <a href="https://openstreetmap.fr/">OpenStreetMap France</a>'
   }
 );
 
@@ -22,7 +22,7 @@ export const layerOSM = L.tileLayer(
   {
     maxZoom: 18,
     attribution:
-      'Fond de plan &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a>'
+      'Fond de plan &copy; <a href="https://openstreetmap.org/">OpenStreetMap</a>'
   }
 );
 
@@ -49,7 +49,7 @@ export const layerBing = L.tileLayer(
   {
     maxZoom: 18,
     attribution:
-      'Vue satellite &copy; <a href="http://bing.com/">Bing</a> via Stamen'
+      'Vue satellite &copy; <a href="https://bing.com/">Bing</a> via Stamen'
   }
 );
 
@@ -58,7 +58,7 @@ export const layerBoner = L.tileLayer(
   {
     maxZoom: 18,
     attribution:
-      'Vue satellite &copy; <a href="http://bing.com/">Bing</a> via Stamen'
+      'Vue satellite &copy; <a href="https://bing.com/">Bing</a> via Stamen'
   }
 );
 
@@ -93,7 +93,7 @@ export const layerIGN = L.tileLayer(
   {
     maxZoom: 18,
     minZoom: 6,
-    attribution: 'Fond de plan &copy; <a href="http://www.ign.fr">IGN</a>'
+    attribution: 'Fond de plan &copy; <a href="https://www.ign.fr">IGN</a>'
   }
 );
 
@@ -102,7 +102,7 @@ export const layerIGNlite = L.tileLayer(
   {
     maxZoom: 18,
     minZoom: 6,
-    attribution: 'Fond de plan &copy; <a href="http://www.ign.fr">IGN</a>'
+    attribution: 'Fond de plan &copy; <a href="https://www.ign.fr">IGN</a>'
   }
 );
 
