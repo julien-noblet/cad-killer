@@ -1,7 +1,7 @@
 /** @format */
 
-// flow-typed signature: 5424f3038583c263ad173d9a0e94e5f6
-// flow-typed version: 6175de7811/puppeteer_v1.2.x/flow_>=v0.58.x
+// flow-typed signature: c4accb474c9c8dff69c710a8aeb51509
+// flow-typed version: 622ff96b86/puppeteer_v1.2.x/flow_>=v0.76.x
 
 // @flow
 
@@ -837,17 +837,17 @@ declare module "puppeteer" {
     url(): string
   };
 
-  declare interface FrameBase {
+  declare class FrameBase {
     /**
      * The method runs document.querySelector within the page.
      * If no element matches the selector, the return value resolve to null.
      */
-    $(selector: string): Promise<?ElementHandle>;
+    $: (selector: string) => Promise<?ElementHandle>;
 
     /**
      * The method runs document.querySelectorAll within the page. If no elements match the selector, the return value resolve to [].
      */
-    $$(selector: string): Promise<Array<ElementHandle>>;
+    $$: (selector: string) => Promise<Array<ElementHandle>>;
 
     /**
      * This method runs document.querySelectorAll within the page and passes it as the first argument to `fn`.
@@ -857,39 +857,39 @@ declare module "puppeteer" {
      * @param args Arguments to pass to pageFunction
      * @returns Promise which resolves to the return value of pageFunction
      */
-    $$eval(
+    $$eval: (
       selector: string,
       pageFunction: (
         elements: NodeList<Element>,
         ...args: Array<mixed>
       ) => mixed,
       ...args: Array<mixed>
-    ): Promise<mixed>;
+    ) => Promise<mixed>;
 
     /**
      * This method runs document.querySelector within the page and passes it as the first argument to `fn`.
      * If there's no element matching selector, the method throws an error.
      * If `fn` returns a Promise, then $eval would wait for the promise to resolve and return its value.
      */
-    $eval(
+    $eval: (
       selector: string,
       pageFunction: (element: Element, ...args: Array<mixed>) => mixed,
       ...args: Array<mixed>
-    ): Promise<mixed>;
+    ) => Promise<mixed>;
 
     /**
      * @param expression XPath expression to evaluate.
      */
-    $x(expression: string): Promise<Array<ElementHandle>>;
+    $x: (expression: string) => Promise<Array<ElementHandle>>;
 
     /** Adds a `<script>` tag into the page with the desired url or content. */
-    addScriptTag(options: ScriptTagOptions): Promise<void>;
+    addScriptTag: (options: ScriptTagOptions) => Promise<void>;
 
     /** Adds a `<link rel="stylesheet">` tag into the page with the desired url or a `<style type="text/css">` tag with the content. */
-    addStyleTag(options: StyleTagOptions): Promise<void>;
+    addStyleTag: (options: StyleTagOptions) => Promise<void>;
 
     /** Gets the full HTML contents of the page, including the doctype. */
-    content(): Promise<string>;
+    content: () => Promise<string>;
 
     /**
      * Evaluates a function in the browser context.
@@ -898,57 +898,57 @@ declare module "puppeteer" {
      * @param fn Function to be evaluated in browser context
      * @param args Arguments to pass to `fn`
      */
-    evaluate(fn: EvaluateFn, ...args: Array<mixed>): Promise<mixed>;
+    evaluate: (fn: EvaluateFn, ...args: Array<mixed>) => Promise<mixed>;
 
     /**
      * Sets the page content.
      * @param html HTML markup to assign to the page.
      */
-    setContent(html: string): Promise<void>;
+    setContent: (html: string) => Promise<void>;
 
     /** Returns page's title. */
-    title(): Promise<string>;
+    +title: () => Promise<string>;
 
     /** Returns frame's url. */
-    url(): string;
+    +url: () => string;
 
-    waitFor(
+    waitFor: (
       // fn can be an abritary function
       // eslint-disable-next-line flowtype/no-weak-types
       selectorOrFunctionOrTimeout: string | number | Function,
       options?: mixed,
       ...args: Array<mixed>
-    ): Promise<mixed>;
+    ) => Promise<mixed>;
 
-    waitForFunction(
+    waitForFunction: (
       // fn can be an abritary function
       // eslint-disable-next-line flowtype/no-weak-types
       fn: string | Function,
       options?: PageFnOptions,
       ...args: Array<mixed>
-    ): Promise<mixed>;
+    ) => Promise<mixed>;
 
-    waitForSelector(
+    waitForSelector: (
       selector: string,
       options?: { hidden?: boolean, timeout?: number, visible?: boolean }
-    ): Promise<ElementHandle>;
+    ) => Promise<ElementHandle>;
   }
 
-  declare interface Frame extends FrameBase {
-    childFrames(): Array<Frame>;
+  declare type Frame = FrameBase & {
+    childFrames(): Array<Frame>,
 
     /** Execution context associated with this frame. */
-    executionContext(): ExecutionContext;
+    executionContext(): ExecutionContext,
 
     /** Returns `true` if the frame has been detached, or `false` otherwise. */
-    isDetached(): boolean;
+    isDetached(): boolean,
 
     /** Returns frame's name attribute as specified in the tag. */
-    name(): string;
+    name(): string,
 
     /** Returns parent frame, if any. Detached frames and main frames return null. */
-    parentFrame(): ?Frame;
-  }
+    parentFrame(): ?Frame
+  };
 
   declare type PageEventObj = {
     /**
