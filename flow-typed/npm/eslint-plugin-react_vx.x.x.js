@@ -1,6 +1,6 @@
 /** @format */
 
-// flow-typed signature: cc57b1976fdf0c59361343b182d55f6f
+// flow-typed signature: aa11727d228503a3fd439e06b7552f27
 // flow-typed version: <<STUB>>/eslint-plugin-react_v^7.9.1/flow_v0.78.0
 
 /**
@@ -352,6 +352,14 @@ declare module "eslint-plugin-react/lib/util/getTokenBeforeClosingBracket" {
   declare module.exports: any;
 }
 
+declare module "eslint-plugin-react/lib/util/jsx" {
+  declare module.exports: any;
+}
+
+declare module "eslint-plugin-react/lib/util/log" {
+  declare module.exports: any;
+}
+
 declare module "eslint-plugin-react/lib/util/makeNoMethodSetStateRule" {
   declare module.exports: any;
 }
@@ -361,6 +369,10 @@ declare module "eslint-plugin-react/lib/util/pragma" {
 }
 
 declare module "eslint-plugin-react/lib/util/props" {
+  declare module.exports: any;
+}
+
+declare module "eslint-plugin-react/lib/util/propTypes" {
   declare module.exports: any;
 }
 
@@ -765,6 +777,12 @@ declare module "eslint-plugin-react/lib/util/getTokenBeforeClosingBracket.js" {
     "eslint-plugin-react/lib/util/getTokenBeforeClosingBracket"
   >;
 }
+declare module "eslint-plugin-react/lib/util/jsx.js" {
+  declare module.exports: $Exports<"eslint-plugin-react/lib/util/jsx">;
+}
+declare module "eslint-plugin-react/lib/util/log.js" {
+  declare module.exports: $Exports<"eslint-plugin-react/lib/util/log">;
+}
 declare module "eslint-plugin-react/lib/util/makeNoMethodSetStateRule.js" {
   declare module.exports: $Exports<
     "eslint-plugin-react/lib/util/makeNoMethodSetStateRule"
@@ -775,6 +793,9 @@ declare module "eslint-plugin-react/lib/util/pragma.js" {
 }
 declare module "eslint-plugin-react/lib/util/props.js" {
   declare module.exports: $Exports<"eslint-plugin-react/lib/util/props">;
+}
+declare module "eslint-plugin-react/lib/util/propTypes.js" {
+  declare module.exports: $Exports<"eslint-plugin-react/lib/util/propTypes">;
 }
 declare module "eslint-plugin-react/lib/util/variable.js" {
   declare module.exports: $Exports<"eslint-plugin-react/lib/util/variable">;

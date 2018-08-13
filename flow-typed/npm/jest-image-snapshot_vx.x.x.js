@@ -1,6 +1,6 @@
 /** @format */
 
-// flow-typed signature: 93264ad3d6edd5ac10838e2718d3eedd
+// flow-typed signature: 64a7553e65c33014eb2994ac2b1fbbb2
 // flow-typed version: <<STUB>>/jest-image-snapshot_v^2.4.2/flow_v0.78.0
 
 /**
@@ -52,15 +52,15 @@ declare module "jest-image-snapshot/examples/jest-setup" {
   declare module.exports: any;
 }
 
+declare module "jest-image-snapshot/src/diff-process" {
+  declare module.exports: any;
+}
+
 declare module "jest-image-snapshot/src/diff-snapshot" {
   declare module.exports: any;
 }
 
 declare module "jest-image-snapshot/src/index" {
-  declare module.exports: any;
-}
-
-declare module "jest-image-snapshot/src/write-result-diff-image" {
   declare module.exports: any;
 }
 
@@ -96,14 +96,12 @@ declare module "jest-image-snapshot/examples/image-reporter.js" {
 declare module "jest-image-snapshot/examples/jest-setup.js" {
   declare module.exports: $Exports<"jest-image-snapshot/examples/jest-setup">;
 }
+declare module "jest-image-snapshot/src/diff-process.js" {
+  declare module.exports: $Exports<"jest-image-snapshot/src/diff-process">;
+}
 declare module "jest-image-snapshot/src/diff-snapshot.js" {
   declare module.exports: $Exports<"jest-image-snapshot/src/diff-snapshot">;
 }
 declare module "jest-image-snapshot/src/index.js" {
   declare module.exports: $Exports<"jest-image-snapshot/src/index">;
-}
-declare module "jest-image-snapshot/src/write-result-diff-image.js" {
-  declare module.exports: $Exports<
-    "jest-image-snapshot/src/write-result-diff-image"
-  >;
 }

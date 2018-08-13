@@ -1,6 +1,6 @@
 /** @format */
 
-// flow-typed signature: 077da5f621ebc28bafe23063d79b04a5
+// flow-typed signature: 36e1413c6fcb538540b41de3983f891f
 // flow-typed version: <<STUB>>/webpack_v^4.10.2/flow_v0.78.0
 
 /**
@@ -920,6 +920,18 @@ declare module "webpack/lib/optimize/ModuleConcatenationPlugin" {
   declare module.exports: any;
 }
 
+declare module "webpack/lib/optimize/NaturalChunkOrderPlugin" {
+  declare module.exports: any;
+}
+
+declare module "webpack/lib/optimize/OccurrenceChunkOrderPlugin" {
+  declare module.exports: any;
+}
+
+declare module "webpack/lib/optimize/OccurrenceModuleOrderPlugin" {
+  declare module.exports: any;
+}
+
 declare module "webpack/lib/optimize/OccurrenceOrderPlugin" {
   declare module.exports: any;
 }
@@ -1072,6 +1084,10 @@ declare module "webpack/lib/util/createHash" {
   declare module.exports: any;
 }
 
+declare module "webpack/lib/util/deterministicGrouping" {
+  declare module.exports: any;
+}
+
 declare module "webpack/lib/util/identifier" {
   declare module.exports: any;
 }
@@ -1129,6 +1145,10 @@ declare module "webpack/lib/wasm/WasmMainTemplatePlugin" {
 }
 
 declare module "webpack/lib/wasm/WebAssemblyGenerator" {
+  declare module.exports: any;
+}
+
+declare module "webpack/lib/wasm/WebAssemblyInInitialChunkError" {
   declare module.exports: any;
 }
 
@@ -2091,6 +2111,21 @@ declare module "webpack/lib/optimize/ModuleConcatenationPlugin.js" {
     "webpack/lib/optimize/ModuleConcatenationPlugin"
   >;
 }
+declare module "webpack/lib/optimize/NaturalChunkOrderPlugin.js" {
+  declare module.exports: $Exports<
+    "webpack/lib/optimize/NaturalChunkOrderPlugin"
+  >;
+}
+declare module "webpack/lib/optimize/OccurrenceChunkOrderPlugin.js" {
+  declare module.exports: $Exports<
+    "webpack/lib/optimize/OccurrenceChunkOrderPlugin"
+  >;
+}
+declare module "webpack/lib/optimize/OccurrenceModuleOrderPlugin.js" {
+  declare module.exports: $Exports<
+    "webpack/lib/optimize/OccurrenceModuleOrderPlugin"
+  >;
+}
 declare module "webpack/lib/optimize/OccurrenceOrderPlugin.js" {
   declare module.exports: $Exports<
     "webpack/lib/optimize/OccurrenceOrderPlugin"
@@ -2221,6 +2256,9 @@ declare module "webpack/lib/util/cachedMerge.js" {
 declare module "webpack/lib/util/createHash.js" {
   declare module.exports: $Exports<"webpack/lib/util/createHash">;
 }
+declare module "webpack/lib/util/deterministicGrouping.js" {
+  declare module.exports: $Exports<"webpack/lib/util/deterministicGrouping">;
+}
 declare module "webpack/lib/util/identifier.js" {
   declare module.exports: $Exports<"webpack/lib/util/identifier">;
 }
@@ -2271,6 +2309,11 @@ declare module "webpack/lib/wasm/WasmMainTemplatePlugin.js" {
 }
 declare module "webpack/lib/wasm/WebAssemblyGenerator.js" {
   declare module.exports: $Exports<"webpack/lib/wasm/WebAssemblyGenerator">;
+}
+declare module "webpack/lib/wasm/WebAssemblyInInitialChunkError.js" {
+  declare module.exports: $Exports<
+    "webpack/lib/wasm/WebAssemblyInInitialChunkError"
+  >;
 }
 declare module "webpack/lib/wasm/WebAssemblyJavascriptGenerator.js" {
   declare module.exports: $Exports<

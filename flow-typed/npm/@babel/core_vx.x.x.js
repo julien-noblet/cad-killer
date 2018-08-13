@@ -1,6 +1,6 @@
 /** @format */
 
-// flow-typed signature: 7563ec3a32264c4bcb06c0c00dc0d68a
+// flow-typed signature: dd55f0b9f1649e6b1d8d160e49a97913
 // flow-typed version: <<STUB>>/@babel/core_v^7.0.0-beta.49/flow_v0.78.0
 
 /**
@@ -85,6 +85,10 @@ declare module "@babel/core/lib/config/item" {
 }
 
 declare module "@babel/core/lib/config/partial" {
+  declare module.exports: any;
+}
+
+declare module "@babel/core/lib/config/pattern-to-regex" {
   declare module.exports: any;
 }
 
@@ -234,6 +238,9 @@ declare module "@babel/core/lib/config/item.js" {
 }
 declare module "@babel/core/lib/config/partial.js" {
   declare module.exports: $Exports<"@babel/core/lib/config/partial">;
+}
+declare module "@babel/core/lib/config/pattern-to-regex.js" {
+  declare module.exports: $Exports<"@babel/core/lib/config/pattern-to-regex">;
 }
 declare module "@babel/core/lib/config/plugin.js" {
   declare module.exports: $Exports<"@babel/core/lib/config/plugin">;

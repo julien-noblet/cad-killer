@@ -1,7 +1,7 @@
 /** @format */
 
-// flow-typed signature: ad251f3a3446f6ab4e6691a94e701cad
-// flow-typed version: caa120caaa/jest_v23.x.x/flow_>=v0.39.x
+// flow-typed signature: b88eac8c33758c6efd4f04fe38f7475a
+// flow-typed version: 33af59e963/jest_v23.x.x/flow_>=v0.39.x
 
 type JestMockFn<TArguments: $ReadOnlyArray<*>, TReturn> = {
   (...args: TArguments): TReturn,
@@ -702,6 +702,12 @@ interface JestExpectType {
    * This ensures that an Object matches the most recent snapshot.
    */
   toMatchSnapshot(name: string): void;
+
+  toMatchInlineSnapshot(snapshot?: string): void;
+  toMatchInlineSnapshot(
+    propertyMatchers?: { [key: string]: JestAsymmetricEqualityType },
+    snapshot?: string
+  ): void;
   /**
    * Use .toThrow to test that a function throws when it is called.
    * If you want to test that a specific error gets thrown, you can provide an
@@ -717,6 +723,7 @@ interface JestExpectType {
    * matching the most recent snapshot when it is called.
    */
   toThrowErrorMatchingSnapshot(): void;
+  toThrowErrorMatchingInlineSnapshot(snapshot?: string): void;
 }
 
 type JestObjectType = {
@@ -922,7 +929,16 @@ declare var describe: {
   /**
    * Skip running this describe block
    */
-  skip(name: JestTestName, fn: () => void): void
+  skip(name: JestTestName, fn: () => void): void,
+
+  /**
+   * each runs this test against array of argument arrays per each run
+   *
+   * @param {table} table of Test
+   */
+  each(
+    table: Array<Array<mixed> | mixed>
+  ): (name: JestTestName, fn?: (...args: Array<any>) => ?Promise<mixed>) => void
 };
 
 /** An individual test unit */
@@ -945,7 +961,7 @@ declare var it: {
    * @param {table} table of Test
    */
   each(
-    table: Array<Array<mixed>>
+    table: Array<Array<mixed> | mixed>
   ): (
     name: JestTestName,
     fn?: (...args: Array<any>) => ?Promise<mixed>
@@ -963,7 +979,7 @@ declare var it: {
     timeout?: number
   ): {
     each(
-      table: Array<Array<mixed>>
+      table: Array<Array<mixed> | mixed>
     ): (
       name: JestTestName,
       fn?: (...args: Array<any>) => ?Promise<mixed>
@@ -992,7 +1008,15 @@ declare var it: {
     name: JestTestName,
     fn?: (done: () => void) => ?Promise<mixed>,
     timeout?: number
-  ): void
+  ): void,
+  /**
+   * each runs this test against array of argument arrays per each run
+   *
+   * @param {table} table of Test
+   */
+  each(
+    table: Array<Array<mixed> | mixed>
+  ): (name: JestTestName, fn?: (...args: Array<any>) => ?Promise<mixed>) => void
 };
 declare function fit(
   name: JestTestName,

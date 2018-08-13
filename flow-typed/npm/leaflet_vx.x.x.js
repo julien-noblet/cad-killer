@@ -1,6 +1,6 @@
 /** @format */
 
-// flow-typed signature: a249dd78eefc07d0769ffd02ff9e9498
+// flow-typed signature: fda4e98904942f8ba60a312775788010
 // flow-typed version: <<STUB>>/leaflet_v^1.2.0/flow_v0.78.0
 
 /**
@@ -24,6 +24,10 @@ declare module "leaflet" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
+declare module "leaflet/dist/leaflet-src.esm" {
+  declare module.exports: any;
+}
+
 declare module "leaflet/dist/leaflet-src" {
   declare module.exports: any;
 }
@@ -361,6 +365,9 @@ declare module "leaflet/src/map/Map" {
 }
 
 // Filename aliases
+declare module "leaflet/dist/leaflet-src.esm.js" {
+  declare module.exports: $Exports<"leaflet/dist/leaflet-src.esm">;
+}
 declare module "leaflet/dist/leaflet-src.js" {
   declare module.exports: $Exports<"leaflet/dist/leaflet-src">;
 }
