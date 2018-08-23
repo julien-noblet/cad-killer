@@ -98,7 +98,7 @@
     "leaflet-hash": "^0.2.1",
     "leaflet-modal": "^0.1.3",
     "leaflet-plugins": "^3.0.1",
-    "leaflet.browser.print": "^0.6.7",
+    "leaflet.browser.print": "^0.7.0",
     "leaflet.photon": "^0.8.0",
     "material-design-iconic-font": "^2.2.0",
     "opensans-npm-webfont": "^1.0.0",
