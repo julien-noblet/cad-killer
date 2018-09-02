@@ -6296,9 +6296,9 @@ leaflet-plugins@^3.0.1:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/leaflet-plugins/-/leaflet-plugins-3.0.3.tgz#7c727ac79a37636b245dd1adc64e10c61b425864"
 
-leaflet.browser.print@^0.6.7:
-  version "0.6.11"
-  resolved "https://registry.yarnpkg.com/leaflet.browser.print/-/leaflet.browser.print-0.6.11.tgz#becbc96e9975c36bb62d4846c6dfd2b348d04d17"
+leaflet.browser.print@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/leaflet.browser.print/-/leaflet.browser.print-0.7.0.tgz#b1e3439ba538f2a4e36daeeb1208e7a82f4a6395"
 
 leaflet.photon@^0.8.0:
   version "0.8.0"
