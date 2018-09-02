@@ -1,6 +1,6 @@
 /** @format */
 
-// flow-typed signature: 9444090c46e5af6aaaa2428e2cda5fde
+// flow-typed signature: 8ef3feb23438c4e37e88c10e22f384ca
 // flow-typed version: <<STUB>>/eslint_v^5.0.0/flow_v0.78.0
 
 /**
@@ -49,10 +49,6 @@ declare module "eslint/conf/eslint-recommended" {
 }
 
 declare module "eslint/lib/api" {
-  declare module.exports: any;
-}
-
-declare module "eslint/lib/ast-utils" {
   declare module.exports: any;
 }
 
@@ -132,10 +128,6 @@ declare module "eslint/lib/config/plugins" {
   declare module.exports: any;
 }
 
-declare module "eslint/lib/file-finder" {
-  declare module.exports: any;
-}
-
 declare module "eslint/lib/formatters/checkstyle" {
   declare module.exports: any;
 }
@@ -193,10 +185,6 @@ declare module "eslint/lib/linter" {
 }
 
 declare module "eslint/lib/load-rules" {
-  declare module.exports: any;
-}
-
-declare module "eslint/lib/logging" {
   declare module.exports: any;
 }
 
@@ -504,6 +492,10 @@ declare module "eslint/lib/rules/no-array-constructor" {
   declare module.exports: any;
 }
 
+declare module "eslint/lib/rules/no-async-promise-executor" {
+  declare module.exports: any;
+}
+
 declare module "eslint/lib/rules/no-await-in-loop" {
   declare module.exports: any;
 }
@@ -725,6 +717,10 @@ declare module "eslint/lib/rules/no-loop-func" {
 }
 
 declare module "eslint/lib/rules/no-magic-numbers" {
+  declare module.exports: any;
+}
+
+declare module "eslint/lib/rules/no-misleading-character-class" {
   declare module.exports: any;
 }
 
@@ -1132,11 +1128,19 @@ declare module "eslint/lib/rules/radix" {
   declare module.exports: any;
 }
 
+declare module "eslint/lib/rules/require-atomic-updates" {
+  declare module.exports: any;
+}
+
 declare module "eslint/lib/rules/require-await" {
   declare module.exports: any;
 }
 
 declare module "eslint/lib/rules/require-jsdoc" {
+  declare module.exports: any;
+}
+
+declare module "eslint/lib/rules/require-unicode-regexp" {
   declare module.exports: any;
 }
 
@@ -1256,10 +1260,6 @@ declare module "eslint/lib/testers/rule-tester" {
   declare module.exports: any;
 }
 
-declare module "eslint/lib/timing" {
-  declare module.exports: any;
-}
-
 declare module "eslint/lib/token-store/backward-token-comment-cursor" {
   declare module.exports: any;
 }
@@ -1320,11 +1320,19 @@ declare module "eslint/lib/util/apply-disable-directives" {
   declare module.exports: any;
 }
 
+declare module "eslint/lib/util/ast-utils" {
+  declare module.exports: any;
+}
+
+declare module "eslint/lib/util/file-finder" {
+  declare module.exports: any;
+}
+
 declare module "eslint/lib/util/fix-tracker" {
   declare module.exports: any;
 }
 
-declare module "eslint/lib/util/glob-util" {
+declare module "eslint/lib/util/glob-utils" {
   declare module.exports: any;
 }
 
@@ -1344,6 +1352,14 @@ declare module "eslint/lib/util/keywords" {
   declare module.exports: any;
 }
 
+declare module "eslint/lib/util/lint-result-cache" {
+  declare module.exports: any;
+}
+
+declare module "eslint/lib/util/logging" {
+  declare module.exports: any;
+}
+
 declare module "eslint/lib/util/module-resolver" {
   declare module.exports: any;
 }
@@ -1356,11 +1372,11 @@ declare module "eslint/lib/util/node-event-generator" {
   declare module.exports: any;
 }
 
-declare module "eslint/lib/util/npm-util" {
+declare module "eslint/lib/util/npm-utils" {
   declare module.exports: any;
 }
 
-declare module "eslint/lib/util/path-util" {
+declare module "eslint/lib/util/path-utils" {
   declare module.exports: any;
 }
 
@@ -1380,7 +1396,7 @@ declare module "eslint/lib/util/source-code-fixer" {
   declare module.exports: any;
 }
 
-declare module "eslint/lib/util/source-code-util" {
+declare module "eslint/lib/util/source-code-utils" {
   declare module.exports: any;
 }
 
@@ -1388,7 +1404,31 @@ declare module "eslint/lib/util/source-code" {
   declare module.exports: any;
 }
 
+declare module "eslint/lib/util/timing" {
+  declare module.exports: any;
+}
+
 declare module "eslint/lib/util/traverser" {
+  declare module.exports: any;
+}
+
+declare module "eslint/lib/util/unicode/index" {
+  declare module.exports: any;
+}
+
+declare module "eslint/lib/util/unicode/is-combining-character" {
+  declare module.exports: any;
+}
+
+declare module "eslint/lib/util/unicode/is-emoji-modifier" {
+  declare module.exports: any;
+}
+
+declare module "eslint/lib/util/unicode/is-regional-indicator-symbol" {
+  declare module.exports: any;
+}
+
+declare module "eslint/lib/util/unicode/is-surrogate-pair" {
   declare module.exports: any;
 }
 
@@ -1417,9 +1457,6 @@ declare module "eslint/conf/eslint-recommended.js" {
 }
 declare module "eslint/lib/api.js" {
   declare module.exports: $Exports<"eslint/lib/api">;
-}
-declare module "eslint/lib/ast-utils.js" {
-  declare module.exports: $Exports<"eslint/lib/ast-utils">;
 }
 declare module "eslint/lib/cli-engine.js" {
   declare module.exports: $Exports<"eslint/lib/cli-engine">;
@@ -1490,9 +1527,6 @@ declare module "eslint/lib/config/environments.js" {
 declare module "eslint/lib/config/plugins.js" {
   declare module.exports: $Exports<"eslint/lib/config/plugins">;
 }
-declare module "eslint/lib/file-finder.js" {
-  declare module.exports: $Exports<"eslint/lib/file-finder">;
-}
 declare module "eslint/lib/formatters/checkstyle.js" {
   declare module.exports: $Exports<"eslint/lib/formatters/checkstyle">;
 }
@@ -1537,9 +1571,6 @@ declare module "eslint/lib/linter.js" {
 }
 declare module "eslint/lib/load-rules.js" {
   declare module.exports: $Exports<"eslint/lib/load-rules">;
-}
-declare module "eslint/lib/logging.js" {
-  declare module.exports: $Exports<"eslint/lib/logging">;
 }
 declare module "eslint/lib/options.js" {
   declare module.exports: $Exports<"eslint/lib/options">;
@@ -1773,6 +1804,11 @@ declare module "eslint/lib/rules/no-alert.js" {
 declare module "eslint/lib/rules/no-array-constructor.js" {
   declare module.exports: $Exports<"eslint/lib/rules/no-array-constructor">;
 }
+declare module "eslint/lib/rules/no-async-promise-executor.js" {
+  declare module.exports: $Exports<
+    "eslint/lib/rules/no-async-promise-executor"
+  >;
+}
 declare module "eslint/lib/rules/no-await-in-loop.js" {
   declare module.exports: $Exports<"eslint/lib/rules/no-await-in-loop">;
 }
@@ -1940,6 +1976,11 @@ declare module "eslint/lib/rules/no-loop-func.js" {
 }
 declare module "eslint/lib/rules/no-magic-numbers.js" {
   declare module.exports: $Exports<"eslint/lib/rules/no-magic-numbers">;
+}
+declare module "eslint/lib/rules/no-misleading-character-class.js" {
+  declare module.exports: $Exports<
+    "eslint/lib/rules/no-misleading-character-class"
+  >;
 }
 declare module "eslint/lib/rules/no-mixed-operators.js" {
   declare module.exports: $Exports<"eslint/lib/rules/no-mixed-operators">;
@@ -2260,11 +2301,17 @@ declare module "eslint/lib/rules/quotes.js" {
 declare module "eslint/lib/rules/radix.js" {
   declare module.exports: $Exports<"eslint/lib/rules/radix">;
 }
+declare module "eslint/lib/rules/require-atomic-updates.js" {
+  declare module.exports: $Exports<"eslint/lib/rules/require-atomic-updates">;
+}
 declare module "eslint/lib/rules/require-await.js" {
   declare module.exports: $Exports<"eslint/lib/rules/require-await">;
 }
 declare module "eslint/lib/rules/require-jsdoc.js" {
   declare module.exports: $Exports<"eslint/lib/rules/require-jsdoc">;
+}
+declare module "eslint/lib/rules/require-unicode-regexp.js" {
+  declare module.exports: $Exports<"eslint/lib/rules/require-unicode-regexp">;
 }
 declare module "eslint/lib/rules/require-yield.js" {
   declare module.exports: $Exports<"eslint/lib/rules/require-yield">;
@@ -2355,9 +2402,6 @@ declare module "eslint/lib/rules/yoda.js" {
 declare module "eslint/lib/testers/rule-tester.js" {
   declare module.exports: $Exports<"eslint/lib/testers/rule-tester">;
 }
-declare module "eslint/lib/timing.js" {
-  declare module.exports: $Exports<"eslint/lib/timing">;
-}
 declare module "eslint/lib/token-store/backward-token-comment-cursor.js" {
   declare module.exports: $Exports<
     "eslint/lib/token-store/backward-token-comment-cursor"
@@ -2413,11 +2457,17 @@ declare module "eslint/lib/util/ajv.js" {
 declare module "eslint/lib/util/apply-disable-directives.js" {
   declare module.exports: $Exports<"eslint/lib/util/apply-disable-directives">;
 }
+declare module "eslint/lib/util/ast-utils.js" {
+  declare module.exports: $Exports<"eslint/lib/util/ast-utils">;
+}
+declare module "eslint/lib/util/file-finder.js" {
+  declare module.exports: $Exports<"eslint/lib/util/file-finder">;
+}
 declare module "eslint/lib/util/fix-tracker.js" {
   declare module.exports: $Exports<"eslint/lib/util/fix-tracker">;
 }
-declare module "eslint/lib/util/glob-util.js" {
-  declare module.exports: $Exports<"eslint/lib/util/glob-util">;
+declare module "eslint/lib/util/glob-utils.js" {
+  declare module.exports: $Exports<"eslint/lib/util/glob-utils">;
 }
 declare module "eslint/lib/util/glob.js" {
   declare module.exports: $Exports<"eslint/lib/util/glob">;
@@ -2431,6 +2481,12 @@ declare module "eslint/lib/util/interpolate.js" {
 declare module "eslint/lib/util/keywords.js" {
   declare module.exports: $Exports<"eslint/lib/util/keywords">;
 }
+declare module "eslint/lib/util/lint-result-cache.js" {
+  declare module.exports: $Exports<"eslint/lib/util/lint-result-cache">;
+}
+declare module "eslint/lib/util/logging.js" {
+  declare module.exports: $Exports<"eslint/lib/util/logging">;
+}
 declare module "eslint/lib/util/module-resolver.js" {
   declare module.exports: $Exports<"eslint/lib/util/module-resolver">;
 }
@@ -2440,11 +2496,11 @@ declare module "eslint/lib/util/naming.js" {
 declare module "eslint/lib/util/node-event-generator.js" {
   declare module.exports: $Exports<"eslint/lib/util/node-event-generator">;
 }
-declare module "eslint/lib/util/npm-util.js" {
-  declare module.exports: $Exports<"eslint/lib/util/npm-util">;
+declare module "eslint/lib/util/npm-utils.js" {
+  declare module.exports: $Exports<"eslint/lib/util/npm-utils">;
 }
-declare module "eslint/lib/util/path-util.js" {
-  declare module.exports: $Exports<"eslint/lib/util/path-util">;
+declare module "eslint/lib/util/path-utils.js" {
+  declare module.exports: $Exports<"eslint/lib/util/path-utils">;
 }
 declare module "eslint/lib/util/patterns/letters.js" {
   declare module.exports: $Exports<"eslint/lib/util/patterns/letters">;
@@ -2458,14 +2514,36 @@ declare module "eslint/lib/util/safe-emitter.js" {
 declare module "eslint/lib/util/source-code-fixer.js" {
   declare module.exports: $Exports<"eslint/lib/util/source-code-fixer">;
 }
-declare module "eslint/lib/util/source-code-util.js" {
-  declare module.exports: $Exports<"eslint/lib/util/source-code-util">;
+declare module "eslint/lib/util/source-code-utils.js" {
+  declare module.exports: $Exports<"eslint/lib/util/source-code-utils">;
 }
 declare module "eslint/lib/util/source-code.js" {
   declare module.exports: $Exports<"eslint/lib/util/source-code">;
 }
+declare module "eslint/lib/util/timing.js" {
+  declare module.exports: $Exports<"eslint/lib/util/timing">;
+}
 declare module "eslint/lib/util/traverser.js" {
   declare module.exports: $Exports<"eslint/lib/util/traverser">;
+}
+declare module "eslint/lib/util/unicode/index.js" {
+  declare module.exports: $Exports<"eslint/lib/util/unicode/index">;
+}
+declare module "eslint/lib/util/unicode/is-combining-character.js" {
+  declare module.exports: $Exports<
+    "eslint/lib/util/unicode/is-combining-character"
+  >;
+}
+declare module "eslint/lib/util/unicode/is-emoji-modifier.js" {
+  declare module.exports: $Exports<"eslint/lib/util/unicode/is-emoji-modifier">;
+}
+declare module "eslint/lib/util/unicode/is-regional-indicator-symbol.js" {
+  declare module.exports: $Exports<
+    "eslint/lib/util/unicode/is-regional-indicator-symbol"
+  >;
+}
+declare module "eslint/lib/util/unicode/is-surrogate-pair.js" {
+  declare module.exports: $Exports<"eslint/lib/util/unicode/is-surrogate-pair">;
 }
 declare module "eslint/lib/util/xml-escape.js" {
   declare module.exports: $Exports<"eslint/lib/util/xml-escape">;
