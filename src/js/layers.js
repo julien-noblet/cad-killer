@@ -20,7 +20,7 @@ export const layerOSMfr = L.tileLayer(
 export const layerOSM = L.tileLayer(
   "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
-    maxZoom: 18,
+    maxZoom: 19,
     attribution:
       'Fond de plan &copy; <a href="https://openstreetmap.org/">OpenStreetMap</a>'
   }
