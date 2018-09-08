@@ -1,4 +1,5 @@
-// example.test.ts
+/** @format */
+
 import "jest";
 var path = require("path");
 import puppeteer, { Browser } from "puppeteer";
