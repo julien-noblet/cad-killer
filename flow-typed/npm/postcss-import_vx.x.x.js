@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 80bc85348491e1793961adb2d810bd9a
 // flow-typed version: <<STUB>>/postcss-import_v12.0.0/flow_v0.80.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "postcss-import" {
+declare module 'postcss-import' {
   declare module.exports: any;
 }
 
@@ -24,45 +22,45 @@ declare module "postcss-import" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "postcss-import/lib/join-media" {
+declare module 'postcss-import/lib/join-media' {
   declare module.exports: any;
 }
 
-declare module "postcss-import/lib/load-content" {
+declare module 'postcss-import/lib/load-content' {
   declare module.exports: any;
 }
 
-declare module "postcss-import/lib/parse-statements" {
+declare module 'postcss-import/lib/parse-statements' {
   declare module.exports: any;
 }
 
-declare module "postcss-import/lib/process-content" {
+declare module 'postcss-import/lib/process-content' {
   declare module.exports: any;
 }
 
-declare module "postcss-import/lib/resolve-id" {
+declare module 'postcss-import/lib/resolve-id' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "postcss-import/index" {
-  declare module.exports: $Exports<"postcss-import">;
+declare module 'postcss-import/index' {
+  declare module.exports: $Exports<'postcss-import'>;
 }
-declare module "postcss-import/index.js" {
-  declare module.exports: $Exports<"postcss-import">;
+declare module 'postcss-import/index.js' {
+  declare module.exports: $Exports<'postcss-import'>;
 }
-declare module "postcss-import/lib/join-media.js" {
-  declare module.exports: $Exports<"postcss-import/lib/join-media">;
+declare module 'postcss-import/lib/join-media.js' {
+  declare module.exports: $Exports<'postcss-import/lib/join-media'>;
 }
-declare module "postcss-import/lib/load-content.js" {
-  declare module.exports: $Exports<"postcss-import/lib/load-content">;
+declare module 'postcss-import/lib/load-content.js' {
+  declare module.exports: $Exports<'postcss-import/lib/load-content'>;
 }
-declare module "postcss-import/lib/parse-statements.js" {
-  declare module.exports: $Exports<"postcss-import/lib/parse-statements">;
+declare module 'postcss-import/lib/parse-statements.js' {
+  declare module.exports: $Exports<'postcss-import/lib/parse-statements'>;
 }
-declare module "postcss-import/lib/process-content.js" {
-  declare module.exports: $Exports<"postcss-import/lib/process-content">;
+declare module 'postcss-import/lib/process-content.js' {
+  declare module.exports: $Exports<'postcss-import/lib/process-content'>;
 }
-declare module "postcss-import/lib/resolve-id.js" {
-  declare module.exports: $Exports<"postcss-import/lib/resolve-id">;
+declare module 'postcss-import/lib/resolve-id.js' {
+  declare module.exports: $Exports<'postcss-import/lib/resolve-id'>;
 }

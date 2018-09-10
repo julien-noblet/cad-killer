@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 147f0f2789078f5d49990d3c8fd4d92f
 // flow-typed version: <<STUB>>/eslint-config-prettier_v3.0.1/flow_v0.80.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "eslint-config-prettier" {
+declare module 'eslint-config-prettier' {
   declare module.exports: any;
 }
 
@@ -24,45 +22,45 @@ declare module "eslint-config-prettier" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "eslint-config-prettier/bin/cli" {
+declare module 'eslint-config-prettier/bin/cli' {
   declare module.exports: any;
 }
 
-declare module "eslint-config-prettier/bin/validators" {
+declare module 'eslint-config-prettier/bin/validators' {
   declare module.exports: any;
 }
 
-declare module "eslint-config-prettier/flowtype" {
+declare module 'eslint-config-prettier/flowtype' {
   declare module.exports: any;
 }
 
-declare module "eslint-config-prettier/react" {
+declare module 'eslint-config-prettier/react' {
   declare module.exports: any;
 }
 
-declare module "eslint-config-prettier/standard" {
+declare module 'eslint-config-prettier/standard' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "eslint-config-prettier/bin/cli.js" {
-  declare module.exports: $Exports<"eslint-config-prettier/bin/cli">;
+declare module 'eslint-config-prettier/bin/cli.js' {
+  declare module.exports: $Exports<'eslint-config-prettier/bin/cli'>;
 }
-declare module "eslint-config-prettier/bin/validators.js" {
-  declare module.exports: $Exports<"eslint-config-prettier/bin/validators">;
+declare module 'eslint-config-prettier/bin/validators.js' {
+  declare module.exports: $Exports<'eslint-config-prettier/bin/validators'>;
 }
-declare module "eslint-config-prettier/flowtype.js" {
-  declare module.exports: $Exports<"eslint-config-prettier/flowtype">;
+declare module 'eslint-config-prettier/flowtype.js' {
+  declare module.exports: $Exports<'eslint-config-prettier/flowtype'>;
 }
-declare module "eslint-config-prettier/index" {
-  declare module.exports: $Exports<"eslint-config-prettier">;
+declare module 'eslint-config-prettier/index' {
+  declare module.exports: $Exports<'eslint-config-prettier'>;
 }
-declare module "eslint-config-prettier/index.js" {
-  declare module.exports: $Exports<"eslint-config-prettier">;
+declare module 'eslint-config-prettier/index.js' {
+  declare module.exports: $Exports<'eslint-config-prettier'>;
 }
-declare module "eslint-config-prettier/react.js" {
-  declare module.exports: $Exports<"eslint-config-prettier/react">;
+declare module 'eslint-config-prettier/react.js' {
+  declare module.exports: $Exports<'eslint-config-prettier/react'>;
 }
-declare module "eslint-config-prettier/standard.js" {
-  declare module.exports: $Exports<"eslint-config-prettier/standard">;
+declare module 'eslint-config-prettier/standard.js' {
+  declare module.exports: $Exports<'eslint-config-prettier/standard'>;
 }

@@ -10,13 +10,34 @@
     "test": "flow && jest --runInBand"
   },
   "lint-staged": {
-    "*.js": ["prettier --write --insert-pragma", "git add"],
-    "*.json": ["prettier --parser json --write", "git add"],
-    "src/**.json": ["prettier --parser json --write", "git add"],
-    "src/**/*.js": ["prettier --parser flow --write", "git add"],
-    "src/**/*.flow": ["prettier --parser flow --write", "git add"],
-    "src/*.js": ["prettier --parser flow --write", "git add"],
-    "src/scss/*.scss": ["prettier --parser flow --write", "git add"]
+    "*.js": [
+      "prettier --write --insert-pragma",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --parser json --write",
+      "git add"
+    ],
+    "src/**.json": [
+      "prettier --parser json --write",
+      "git add"
+    ],
+    "src/**/*.js": [
+      "prettier --parser flow --write",
+      "git add"
+    ],
+    "src/**/*.flow": [
+      "prettier --parser flow --write",
+      "git add"
+    ],
+    "src/*.js": [
+      "prettier --parser flow --write",
+      "git add"
+    ],
+    "src/scss/*.scss": [
+      "prettier --parser flow --write",
+      "git add"
+    ]
   },
   "config": {
     "commitizen": {
@@ -27,7 +48,9 @@
     "type": "git",
     "url": "https://github.com/julien-noblet/cad-killer.git"
   },
-  "keywords": ["osm"],
+  "keywords": [
+    "osm"
+  ],
   "author": "Julien Noblet",
   "license": "ISC",
   "bugs": {
@@ -81,7 +104,7 @@
     "regenerator-runtime": "0.12.1",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.0",
-    "webpack": "4.17.2",
+    "webpack": "4.18.0",
     "webpack-cli": "3.1.0",
     "webpack-dev-server": "3.1.8"
   },
@@ -110,7 +133,10 @@
     "verbose": true,
     "bail": false,
     "collectCoverage": false,
-    "modulePathIgnorePatterns": ["sandbox", "node_modules"],
+    "modulePathIgnorePatterns": [
+      "sandbox",
+      "node_modules"
+    ],
     "transform": {
       "^.+\\.js?$": "babel-7-jest"
     },

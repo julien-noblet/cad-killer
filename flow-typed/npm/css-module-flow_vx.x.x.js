@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 90480177a0ed676c65bf14240f5ce0d7
 // flow-typed version: <<STUB>>/css-module-flow_v1.0.0/flow_v0.80.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "css-module-flow" {
+declare module 'css-module-flow' {
   declare module.exports: any;
 }
 
@@ -25,10 +23,11 @@ declare module "css-module-flow" {
  * needed.
  */
 
+
 // Filename aliases
-declare module "css-module-flow/index" {
-  declare module.exports: $Exports<"css-module-flow">;
+declare module 'css-module-flow/index' {
+  declare module.exports: $Exports<'css-module-flow'>;
 }
-declare module "css-module-flow/index.js" {
-  declare module.exports: $Exports<"css-module-flow">;
+declare module 'css-module-flow/index.js' {
+  declare module.exports: $Exports<'css-module-flow'>;
 }

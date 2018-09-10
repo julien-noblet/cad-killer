@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 253d82cc0a180f537e72969705d5e882
 // flow-typed version: <<STUB>>/html-webpack-plugin_v3.2.0/flow_v0.80.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "html-webpack-plugin" {
+declare module 'html-webpack-plugin' {
   declare module.exports: any;
 }
 
@@ -24,38 +22,38 @@ declare module "html-webpack-plugin" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "html-webpack-plugin/lib/chunksorter" {
+declare module 'html-webpack-plugin/lib/chunksorter' {
   declare module.exports: any;
 }
 
-declare module "html-webpack-plugin/lib/compiler" {
+declare module 'html-webpack-plugin/lib/compiler' {
   declare module.exports: any;
 }
 
-declare module "html-webpack-plugin/lib/errors" {
+declare module 'html-webpack-plugin/lib/errors' {
   declare module.exports: any;
 }
 
-declare module "html-webpack-plugin/lib/loader" {
+declare module 'html-webpack-plugin/lib/loader' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "html-webpack-plugin/index" {
-  declare module.exports: $Exports<"html-webpack-plugin">;
+declare module 'html-webpack-plugin/index' {
+  declare module.exports: $Exports<'html-webpack-plugin'>;
 }
-declare module "html-webpack-plugin/index.js" {
-  declare module.exports: $Exports<"html-webpack-plugin">;
+declare module 'html-webpack-plugin/index.js' {
+  declare module.exports: $Exports<'html-webpack-plugin'>;
 }
-declare module "html-webpack-plugin/lib/chunksorter.js" {
-  declare module.exports: $Exports<"html-webpack-plugin/lib/chunksorter">;
+declare module 'html-webpack-plugin/lib/chunksorter.js' {
+  declare module.exports: $Exports<'html-webpack-plugin/lib/chunksorter'>;
 }
-declare module "html-webpack-plugin/lib/compiler.js" {
-  declare module.exports: $Exports<"html-webpack-plugin/lib/compiler">;
+declare module 'html-webpack-plugin/lib/compiler.js' {
+  declare module.exports: $Exports<'html-webpack-plugin/lib/compiler'>;
 }
-declare module "html-webpack-plugin/lib/errors.js" {
-  declare module.exports: $Exports<"html-webpack-plugin/lib/errors">;
+declare module 'html-webpack-plugin/lib/errors.js' {
+  declare module.exports: $Exports<'html-webpack-plugin/lib/errors'>;
 }
-declare module "html-webpack-plugin/lib/loader.js" {
-  declare module.exports: $Exports<"html-webpack-plugin/lib/loader">;
+declare module 'html-webpack-plugin/lib/loader.js' {
+  declare module.exports: $Exports<'html-webpack-plugin/lib/loader'>;
 }

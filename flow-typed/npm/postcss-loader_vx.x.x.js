@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 7eeee312286534abbd3585ceee718559
 // flow-typed version: <<STUB>>/postcss-loader_v3.0.0/flow_v0.80.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "postcss-loader" {
+declare module 'postcss-loader' {
   declare module.exports: any;
 }
 
@@ -24,32 +22,32 @@ declare module "postcss-loader" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "postcss-loader/src/Error" {
+declare module 'postcss-loader/src/Error' {
   declare module.exports: any;
 }
 
-declare module "postcss-loader/src/index" {
+declare module 'postcss-loader/src/index' {
   declare module.exports: any;
 }
 
-declare module "postcss-loader/src/options" {
+declare module 'postcss-loader/src/options' {
   declare module.exports: any;
 }
 
-declare module "postcss-loader/src/Warning" {
+declare module 'postcss-loader/src/Warning' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "postcss-loader/src/Error.js" {
-  declare module.exports: $Exports<"postcss-loader/src/Error">;
+declare module 'postcss-loader/src/Error.js' {
+  declare module.exports: $Exports<'postcss-loader/src/Error'>;
 }
-declare module "postcss-loader/src/index.js" {
-  declare module.exports: $Exports<"postcss-loader/src/index">;
+declare module 'postcss-loader/src/index.js' {
+  declare module.exports: $Exports<'postcss-loader/src/index'>;
 }
-declare module "postcss-loader/src/options.js" {
-  declare module.exports: $Exports<"postcss-loader/src/options">;
+declare module 'postcss-loader/src/options.js' {
+  declare module.exports: $Exports<'postcss-loader/src/options'>;
 }
-declare module "postcss-loader/src/Warning.js" {
-  declare module.exports: $Exports<"postcss-loader/src/Warning">;
+declare module 'postcss-loader/src/Warning.js' {
+  declare module.exports: $Exports<'postcss-loader/src/Warning'>;
 }
