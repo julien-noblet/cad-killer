@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 14e6678f6b645c8b971c6b6d029516f5
 // flow-typed version: <<STUB>>/mini-css-extract-plugin_v0.4.2/flow_v0.80.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "mini-css-extract-plugin" {
+declare module 'mini-css-extract-plugin' {
   declare module.exports: any;
 }
 
@@ -24,25 +22,25 @@ declare module "mini-css-extract-plugin" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "mini-css-extract-plugin/dist/cjs" {
+declare module 'mini-css-extract-plugin/dist/cjs' {
   declare module.exports: any;
 }
 
-declare module "mini-css-extract-plugin/dist/index" {
+declare module 'mini-css-extract-plugin/dist/index' {
   declare module.exports: any;
 }
 
-declare module "mini-css-extract-plugin/dist/loader" {
+declare module 'mini-css-extract-plugin/dist/loader' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "mini-css-extract-plugin/dist/cjs.js" {
-  declare module.exports: $Exports<"mini-css-extract-plugin/dist/cjs">;
+declare module 'mini-css-extract-plugin/dist/cjs.js' {
+  declare module.exports: $Exports<'mini-css-extract-plugin/dist/cjs'>;
 }
-declare module "mini-css-extract-plugin/dist/index.js" {
-  declare module.exports: $Exports<"mini-css-extract-plugin/dist/index">;
+declare module 'mini-css-extract-plugin/dist/index.js' {
+  declare module.exports: $Exports<'mini-css-extract-plugin/dist/index'>;
 }
-declare module "mini-css-extract-plugin/dist/loader.js" {
-  declare module.exports: $Exports<"mini-css-extract-plugin/dist/loader">;
+declare module 'mini-css-extract-plugin/dist/loader.js' {
+  declare module.exports: $Exports<'mini-css-extract-plugin/dist/loader'>;
 }

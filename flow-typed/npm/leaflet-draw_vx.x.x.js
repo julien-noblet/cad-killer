@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 4720000a78e0ee999b7073d057122663
 // flow-typed version: <<STUB>>/leaflet-draw_v1.0.2/flow_v0.80.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "leaflet-draw" {
+declare module 'leaflet-draw' {
   declare module.exports: any;
 }
 
@@ -24,122 +22,102 @@ declare module "leaflet-draw" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "leaflet-draw/dist/leaflet.draw-src" {
+declare module 'leaflet-draw/dist/leaflet.draw-src' {
   declare module.exports: any;
 }
 
-declare module "leaflet-draw/dist/leaflet.draw" {
+declare module 'leaflet-draw/dist/leaflet.draw' {
   declare module.exports: any;
 }
 
-declare module "leaflet-draw/docs/examples-0.7.x/libs/leaflet-src" {
+declare module 'leaflet-draw/docs/examples-0.7.x/libs/leaflet-src' {
   declare module.exports: any;
 }
 
-declare module "leaflet-draw/docs/examples-0.7.x/libs/Leaflet.draw.drag-src" {
+declare module 'leaflet-draw/docs/examples-0.7.x/libs/Leaflet.draw.drag-src' {
   declare module.exports: any;
 }
 
-declare module "leaflet-draw/docs/examples-0.7.x/libs/leaflet.geometryutil" {
+declare module 'leaflet-draw/docs/examples-0.7.x/libs/leaflet.geometryutil' {
   declare module.exports: any;
 }
 
-declare module "leaflet-draw/docs/examples-0.7.x/libs/leaflet.snap" {
+declare module 'leaflet-draw/docs/examples-0.7.x/libs/leaflet.snap' {
   declare module.exports: any;
 }
 
-declare module "leaflet-draw/docs/examples-0.7.x/libs/spectrum" {
+declare module 'leaflet-draw/docs/examples-0.7.x/libs/spectrum' {
   declare module.exports: any;
 }
 
-declare module "leaflet-draw/docs/examples/libs/leaflet-src" {
+declare module 'leaflet-draw/docs/examples/libs/leaflet-src' {
   declare module.exports: any;
 }
 
-declare module "leaflet-draw/docs/examples/libs/Leaflet.draw.drag-src" {
+declare module 'leaflet-draw/docs/examples/libs/Leaflet.draw.drag-src' {
   declare module.exports: any;
 }
 
-declare module "leaflet-draw/docs/examples/libs/leaflet.geometryutil" {
+declare module 'leaflet-draw/docs/examples/libs/leaflet.geometryutil' {
   declare module.exports: any;
 }
 
-declare module "leaflet-draw/docs/examples/libs/leaflet.snap" {
+declare module 'leaflet-draw/docs/examples/libs/leaflet.snap' {
   declare module.exports: any;
 }
 
-declare module "leaflet-draw/docs/examples/libs/spectrum" {
+declare module 'leaflet-draw/docs/examples/libs/spectrum' {
   declare module.exports: any;
 }
 
-declare module "leaflet-draw/docs/highlight/highlight.pack" {
+declare module 'leaflet-draw/docs/highlight/highlight.pack' {
   declare module.exports: any;
 }
 
-declare module "leaflet-draw/docs/js/docs" {
+declare module 'leaflet-draw/docs/js/docs' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "leaflet-draw/dist/leaflet.draw-src.js" {
-  declare module.exports: $Exports<"leaflet-draw/dist/leaflet.draw-src">;
+declare module 'leaflet-draw/dist/leaflet.draw-src.js' {
+  declare module.exports: $Exports<'leaflet-draw/dist/leaflet.draw-src'>;
 }
-declare module "leaflet-draw/dist/leaflet.draw.js" {
-  declare module.exports: $Exports<"leaflet-draw/dist/leaflet.draw">;
+declare module 'leaflet-draw/dist/leaflet.draw.js' {
+  declare module.exports: $Exports<'leaflet-draw/dist/leaflet.draw'>;
 }
-declare module "leaflet-draw/docs/examples-0.7.x/libs/leaflet-src.js" {
-  declare module.exports: $Exports<
-    "leaflet-draw/docs/examples-0.7.x/libs/leaflet-src"
-  >;
+declare module 'leaflet-draw/docs/examples-0.7.x/libs/leaflet-src.js' {
+  declare module.exports: $Exports<'leaflet-draw/docs/examples-0.7.x/libs/leaflet-src'>;
 }
-declare module "leaflet-draw/docs/examples-0.7.x/libs/Leaflet.draw.drag-src.js" {
-  declare module.exports: $Exports<
-    "leaflet-draw/docs/examples-0.7.x/libs/Leaflet.draw.drag-src"
-  >;
+declare module 'leaflet-draw/docs/examples-0.7.x/libs/Leaflet.draw.drag-src.js' {
+  declare module.exports: $Exports<'leaflet-draw/docs/examples-0.7.x/libs/Leaflet.draw.drag-src'>;
 }
-declare module "leaflet-draw/docs/examples-0.7.x/libs/leaflet.geometryutil.js" {
-  declare module.exports: $Exports<
-    "leaflet-draw/docs/examples-0.7.x/libs/leaflet.geometryutil"
-  >;
+declare module 'leaflet-draw/docs/examples-0.7.x/libs/leaflet.geometryutil.js' {
+  declare module.exports: $Exports<'leaflet-draw/docs/examples-0.7.x/libs/leaflet.geometryutil'>;
 }
-declare module "leaflet-draw/docs/examples-0.7.x/libs/leaflet.snap.js" {
-  declare module.exports: $Exports<
-    "leaflet-draw/docs/examples-0.7.x/libs/leaflet.snap"
-  >;
+declare module 'leaflet-draw/docs/examples-0.7.x/libs/leaflet.snap.js' {
+  declare module.exports: $Exports<'leaflet-draw/docs/examples-0.7.x/libs/leaflet.snap'>;
 }
-declare module "leaflet-draw/docs/examples-0.7.x/libs/spectrum.js" {
-  declare module.exports: $Exports<
-    "leaflet-draw/docs/examples-0.7.x/libs/spectrum"
-  >;
+declare module 'leaflet-draw/docs/examples-0.7.x/libs/spectrum.js' {
+  declare module.exports: $Exports<'leaflet-draw/docs/examples-0.7.x/libs/spectrum'>;
 }
-declare module "leaflet-draw/docs/examples/libs/leaflet-src.js" {
-  declare module.exports: $Exports<
-    "leaflet-draw/docs/examples/libs/leaflet-src"
-  >;
+declare module 'leaflet-draw/docs/examples/libs/leaflet-src.js' {
+  declare module.exports: $Exports<'leaflet-draw/docs/examples/libs/leaflet-src'>;
 }
-declare module "leaflet-draw/docs/examples/libs/Leaflet.draw.drag-src.js" {
-  declare module.exports: $Exports<
-    "leaflet-draw/docs/examples/libs/Leaflet.draw.drag-src"
-  >;
+declare module 'leaflet-draw/docs/examples/libs/Leaflet.draw.drag-src.js' {
+  declare module.exports: $Exports<'leaflet-draw/docs/examples/libs/Leaflet.draw.drag-src'>;
 }
-declare module "leaflet-draw/docs/examples/libs/leaflet.geometryutil.js" {
-  declare module.exports: $Exports<
-    "leaflet-draw/docs/examples/libs/leaflet.geometryutil"
-  >;
+declare module 'leaflet-draw/docs/examples/libs/leaflet.geometryutil.js' {
+  declare module.exports: $Exports<'leaflet-draw/docs/examples/libs/leaflet.geometryutil'>;
 }
-declare module "leaflet-draw/docs/examples/libs/leaflet.snap.js" {
-  declare module.exports: $Exports<
-    "leaflet-draw/docs/examples/libs/leaflet.snap"
-  >;
+declare module 'leaflet-draw/docs/examples/libs/leaflet.snap.js' {
+  declare module.exports: $Exports<'leaflet-draw/docs/examples/libs/leaflet.snap'>;
 }
-declare module "leaflet-draw/docs/examples/libs/spectrum.js" {
-  declare module.exports: $Exports<"leaflet-draw/docs/examples/libs/spectrum">;
+declare module 'leaflet-draw/docs/examples/libs/spectrum.js' {
+  declare module.exports: $Exports<'leaflet-draw/docs/examples/libs/spectrum'>;
 }
-declare module "leaflet-draw/docs/highlight/highlight.pack.js" {
-  declare module.exports: $Exports<
-    "leaflet-draw/docs/highlight/highlight.pack"
-  >;
+declare module 'leaflet-draw/docs/highlight/highlight.pack.js' {
+  declare module.exports: $Exports<'leaflet-draw/docs/highlight/highlight.pack'>;
 }
-declare module "leaflet-draw/docs/js/docs.js" {
-  declare module.exports: $Exports<"leaflet-draw/docs/js/docs">;
+declare module 'leaflet-draw/docs/js/docs.js' {
+  declare module.exports: $Exports<'leaflet-draw/docs/js/docs'>;
 }

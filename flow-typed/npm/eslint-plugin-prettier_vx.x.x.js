@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: d45c6ca3923856cfa4d36a6e0ac06848
 // flow-typed version: <<STUB>>/eslint-plugin-prettier_v2.6.2/flow_v0.80.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "eslint-plugin-prettier" {
+declare module 'eslint-plugin-prettier' {
   declare module.exports: any;
 }
 
@@ -24,13 +22,11 @@ declare module "eslint-plugin-prettier" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "eslint-plugin-prettier/eslint-plugin-prettier" {
+declare module 'eslint-plugin-prettier/eslint-plugin-prettier' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "eslint-plugin-prettier/eslint-plugin-prettier.js" {
-  declare module.exports: $Exports<
-    "eslint-plugin-prettier/eslint-plugin-prettier"
-  >;
+declare module 'eslint-plugin-prettier/eslint-plugin-prettier.js' {
+  declare module.exports: $Exports<'eslint-plugin-prettier/eslint-plugin-prettier'>;
 }

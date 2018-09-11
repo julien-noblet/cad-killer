@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 4b497df9f092e913cbae60431411fea4
 // flow-typed version: <<STUB>>/leaflet-dialog_v1.0.4/flow_v0.80.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "leaflet-dialog" {
+declare module 'leaflet-dialog' {
   declare module.exports: any;
 }
 
@@ -24,11 +22,11 @@ declare module "leaflet-dialog" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "leaflet-dialog/Leaflet.Dialog" {
+declare module 'leaflet-dialog/Leaflet.Dialog' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "leaflet-dialog/Leaflet.Dialog.js" {
-  declare module.exports: $Exports<"leaflet-dialog/Leaflet.Dialog">;
+declare module 'leaflet-dialog/Leaflet.Dialog.js' {
+  declare module.exports: $Exports<'leaflet-dialog/Leaflet.Dialog'>;
 }

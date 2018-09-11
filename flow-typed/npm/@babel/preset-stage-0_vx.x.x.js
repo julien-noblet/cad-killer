@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 9d0e6090e71af09a77fd59ccce093a1e
 // flow-typed version: <<STUB>>/@babel/preset-stage-0_v7.0.0/flow_v0.80.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "@babel/preset-stage-0" {
+declare module '@babel/preset-stage-0' {
   declare module.exports: any;
 }
 
@@ -24,11 +22,11 @@ declare module "@babel/preset-stage-0" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "@babel/preset-stage-0/lib/index" {
+declare module '@babel/preset-stage-0/lib/index' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "@babel/preset-stage-0/lib/index.js" {
-  declare module.exports: $Exports<"@babel/preset-stage-0/lib/index">;
+declare module '@babel/preset-stage-0/lib/index.js' {
+  declare module.exports: $Exports<'@babel/preset-stage-0/lib/index'>;
 }

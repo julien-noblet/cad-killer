@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 204797d66ddda59be15614d40a64f013
 // flow-typed version: <<STUB>>/opensans-npm-webfont_v1.0.0/flow_v0.80.0
 
@@ -15,6 +13,6 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "opensans-npm-webfont" {
+declare module 'opensans-npm-webfont' {
   declare module.exports: any;
 }
