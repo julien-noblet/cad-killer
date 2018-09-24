@@ -3182,7 +3182,7 @@ end-stream@~0.1.0:
   dependencies:
     write-stream "~0.4.3"
 
-enhanced-resolve@^4.0.0, enhanced-resolve@^4.1.0:
+enhanced-resolve@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-4.1.0.tgz#41c7e0bfdfe74ac1ffe1e57ad6a5c6c9f3742a7f"
   dependencies:
@@ -3622,8 +3622,8 @@ expand-tilde@^1.2.2:
     os-homedir "^1.0.1"
 
 expect-puppeteer@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/expect-puppeteer/-/expect-puppeteer-3.3.0.tgz#32c9aa27fc2780f2c495b6855d7d7261cbc51ab0"
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/expect-puppeteer/-/expect-puppeteer-3.4.0.tgz#554115c429d8eca041613758d8e8c28d15bee925"
 
 expect@^23.6.0:
   version "23.6.0"
@@ -3990,7 +3990,7 @@ find-pkg@^0.1.2:
   dependencies:
     find-file-up "^0.1.2"
 
-find-process@^1.1.2:
+find-process@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/find-process/-/find-process-1.1.3.tgz#c05ade57d29dd80ca4023a7db50684cfb3d75b11"
   dependencies:
@@ -4354,7 +4354,7 @@ glob@^7.0.0, glob@^7.0.3, glob@^7.0.5, glob@^7.1.1, glob@^7.1.2, glob@~7.1.1:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-global-modules-path@^2.1.0:
+global-modules-path@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/global-modules-path/-/global-modules-path-2.3.0.tgz#b0e2bac6beac39745f7db5c59d26a36a0b94f7dc"
 
@@ -5081,7 +5081,7 @@ inquirer@^3.0.6:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
-inquirer@^6.0.0, inquirer@^6.1.0:
+inquirer@^6.1.0, inquirer@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-6.2.0.tgz#51adcd776f661369dc1e894859c2560a224abdd8"
   dependencies:
@@ -5649,15 +5649,15 @@ jest-config@^23.6.0:
     micromatch "^2.3.11"
     pretty-format "^23.6.0"
 
-jest-dev-server@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/jest-dev-server/-/jest-dev-server-3.3.0.tgz#325807eb283ee177ddbbad85a10d711b60e7593e"
+jest-dev-server@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/jest-dev-server/-/jest-dev-server-3.4.0.tgz#3893e8a7adc5dafcbd88a4d997f12986a275e1d2"
   dependencies:
     chalk "^2.4.1"
     cwd "^0.10.0"
-    find-process "^1.1.2"
-    inquirer "^6.1.0"
-    spawnd "^2.0.0"
+    find-process "^1.1.3"
+    inquirer "^6.2.0"
+    spawnd "^3.4.0"
     terminate "^2.1.0"
     wait-port "^0.2.2"
 
@@ -5703,15 +5703,13 @@ jest-environment-node@^23.4.0:
     jest-util "^23.4.0"
 
 jest-environment-puppeteer@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/jest-environment-puppeteer/-/jest-environment-puppeteer-3.3.1.tgz#9b0a0875346c527ce4d4babaec5254043855baf3"
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/jest-environment-puppeteer/-/jest-environment-puppeteer-3.4.0.tgz#c1bd71d01842a66b3dd0e61dd1df905655e97d02"
   dependencies:
     chalk "^2.4.1"
     cwd "^0.10.0"
-    jest-dev-server "^3.3.0"
-    lodash "^4.17.10"
-    mkdirp "^0.5.1"
-    rimraf "^2.6.2"
+    jest-dev-server "^3.4.0"
+    lodash "^4.17.11"
 
 jest-get-type@^22.1.0:
   version "22.4.3"
@@ -6577,7 +6575,7 @@ lodash@4.17.5:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
-lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.3.0, lodash@~4.17.10:
+lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.3.0, lodash@~4.17.10:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
@@ -7526,7 +7524,7 @@ p-finally@^1.0.0:
 
 p-is-promise@^1.1.0:
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/p-is-promise/-/p-is-promise-1.1.0.tgz#9c9456989e9f6588017b0434d56097675c3da05e"
+  resolved "http://registry.npmjs.org/p-is-promise/-/p-is-promise-1.1.0.tgz#9c9456989e9f6588017b0434d56097675c3da05e"
 
 p-limit@^1.1.0:
   version "1.3.0"
@@ -9565,9 +9563,9 @@ spawn-sync@^1.0.15:
     concat-stream "^1.4.7"
     os-shim "^0.1.2"
 
-spawnd@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/spawnd/-/spawnd-2.0.0.tgz#d2020403dc5ef72ecac3ffab9b42fa16ae9175f5"
+spawnd@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/spawnd/-/spawnd-3.4.0.tgz#73d71bdf6e9d196ecef9a22ab433e978a7a31bec"
   dependencies:
     exit "^0.1.2"
     signal-exit "^3.0.2"
@@ -9900,7 +9898,7 @@ supports-color@^3.1.2:
   dependencies:
     has-flag "^1.0.0"
 
-supports-color@^5.1.0, supports-color@^5.3.0, supports-color@^5.4.0:
+supports-color@^5.1.0, supports-color@^5.3.0, supports-color@^5.4.0, supports-color@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
   dependencies:
@@ -10469,7 +10467,7 @@ uuid@^3.0.1, uuid@^3.1.0, uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 
-v8-compile-cache@^2.0.0:
+v8-compile-cache@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.0.2.tgz#a428b28bb26790734c4fc8bc9fa106fccebf6a6c"
 
@@ -10624,21 +10622,20 @@ webidl-conversions@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
 
-webpack-cli@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-3.1.0.tgz#d71a83687dcfeb758fdceeb0fe042f96bcf62994"
+webpack-cli@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-3.1.1.tgz#92be3e324c1788208a301172139febb476566262"
   dependencies:
     chalk "^2.4.1"
     cross-spawn "^6.0.5"
-    enhanced-resolve "^4.0.0"
-    global-modules-path "^2.1.0"
-    import-local "^1.0.0"
-    inquirer "^6.0.0"
+    enhanced-resolve "^4.1.0"
+    global-modules-path "^2.3.0"
+    import-local "^2.0.0"
     interpret "^1.1.0"
     loader-utils "^1.1.0"
-    supports-color "^5.4.0"
-    v8-compile-cache "^2.0.0"
-    yargs "^12.0.1"
+    supports-color "^5.5.0"
+    v8-compile-cache "^2.0.2"
+    yargs "^12.0.2"
 
 webpack-dev-middleware@3.2.0:
   version "3.2.0"
@@ -10907,7 +10904,7 @@ yargs-parser@^9.0.2:
   dependencies:
     camelcase "^4.1.0"
 
-yargs@12.0.2, yargs@^12.0.1:
+yargs@12.0.2, yargs@^12.0.2:
   version "12.0.2"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-12.0.2.tgz#fe58234369392af33ecbef53819171eff0f5aadc"
   dependencies:
