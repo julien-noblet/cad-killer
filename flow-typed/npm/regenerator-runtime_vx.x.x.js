@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 5a3b71657abadc761b50b4ed7a17beb1
 // flow-typed version: <<STUB>>/regenerator-runtime_v0.12.1/flow_v0.81.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "regenerator-runtime" {
+declare module 'regenerator-runtime' {
   declare module.exports: any;
 }
 
@@ -24,25 +22,25 @@ declare module "regenerator-runtime" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "regenerator-runtime/path" {
+declare module 'regenerator-runtime/path' {
   declare module.exports: any;
 }
 
-declare module "regenerator-runtime/runtime-module" {
+declare module 'regenerator-runtime/runtime-module' {
   declare module.exports: any;
 }
 
-declare module "regenerator-runtime/runtime" {
+declare module 'regenerator-runtime/runtime' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "regenerator-runtime/path.js" {
-  declare module.exports: $Exports<"regenerator-runtime/path">;
+declare module 'regenerator-runtime/path.js' {
+  declare module.exports: $Exports<'regenerator-runtime/path'>;
 }
-declare module "regenerator-runtime/runtime-module.js" {
-  declare module.exports: $Exports<"regenerator-runtime/runtime-module">;
+declare module 'regenerator-runtime/runtime-module.js' {
+  declare module.exports: $Exports<'regenerator-runtime/runtime-module'>;
 }
-declare module "regenerator-runtime/runtime.js" {
-  declare module.exports: $Exports<"regenerator-runtime/runtime">;
+declare module 'regenerator-runtime/runtime.js' {
+  declare module.exports: $Exports<'regenerator-runtime/runtime'>;
 }
