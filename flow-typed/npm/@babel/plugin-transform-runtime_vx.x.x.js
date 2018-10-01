@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 12592ba3f04b7179178ed1610c05b7fe
 // flow-typed version: <<STUB>>/@babel/plugin-transform-runtime_v7.1.0/flow_v0.81.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "@babel/plugin-transform-runtime" {
+declare module '@babel/plugin-transform-runtime' {
   declare module.exports: any;
 }
 
@@ -24,20 +22,18 @@ declare module "@babel/plugin-transform-runtime" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "@babel/plugin-transform-runtime/lib/definitions" {
+declare module '@babel/plugin-transform-runtime/lib/definitions' {
   declare module.exports: any;
 }
 
-declare module "@babel/plugin-transform-runtime/lib/index" {
+declare module '@babel/plugin-transform-runtime/lib/index' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "@babel/plugin-transform-runtime/lib/definitions.js" {
-  declare module.exports: $Exports<
-    "@babel/plugin-transform-runtime/lib/definitions"
-  >;
+declare module '@babel/plugin-transform-runtime/lib/definitions.js' {
+  declare module.exports: $Exports<'@babel/plugin-transform-runtime/lib/definitions'>;
 }
-declare module "@babel/plugin-transform-runtime/lib/index.js" {
-  declare module.exports: $Exports<"@babel/plugin-transform-runtime/lib/index">;
+declare module '@babel/plugin-transform-runtime/lib/index.js' {
+  declare module.exports: $Exports<'@babel/plugin-transform-runtime/lib/index'>;
 }
