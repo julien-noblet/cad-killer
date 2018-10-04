@@ -1,3 +1,5 @@
+/** @format */
+
 // flow-typed signature: c1676737c2588e44123927392d86e4f2
 // flow-typed version: <<STUB>>/leaflet-hash_v0.2.1/flow_v0.81.0
 
@@ -13,7 +15,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'leaflet-hash' {
+declare module "leaflet-hash" {
   declare module.exports: any;
 }
 
@@ -22,25 +24,25 @@ declare module 'leaflet-hash' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'leaflet-hash/leaflet-hash' {
+declare module "leaflet-hash/leaflet-hash" {
   declare module.exports: any;
 }
 
-declare module 'leaflet-hash/lib/leaflet-src' {
+declare module "leaflet-hash/lib/leaflet-src" {
   declare module.exports: any;
 }
 
-declare module 'leaflet-hash/test/spec/hash' {
+declare module "leaflet-hash/test/spec/hash" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'leaflet-hash/leaflet-hash.js' {
-  declare module.exports: $Exports<'leaflet-hash/leaflet-hash'>;
+declare module "leaflet-hash/leaflet-hash.js" {
+  declare module.exports: $Exports<"leaflet-hash/leaflet-hash">;
 }
-declare module 'leaflet-hash/lib/leaflet-src.js' {
-  declare module.exports: $Exports<'leaflet-hash/lib/leaflet-src'>;
+declare module "leaflet-hash/lib/leaflet-src.js" {
+  declare module.exports: $Exports<"leaflet-hash/lib/leaflet-src">;
 }
-declare module 'leaflet-hash/test/spec/hash.js' {
-  declare module.exports: $Exports<'leaflet-hash/test/spec/hash'>;
+declare module "leaflet-hash/test/spec/hash.js" {
+  declare module.exports: $Exports<"leaflet-hash/test/spec/hash">;
 }

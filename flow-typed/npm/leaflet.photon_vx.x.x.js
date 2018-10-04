@@ -1,3 +1,5 @@
+/** @format */
+
 // flow-typed signature: 21529ac590d18ca8cdc61a9f775cb822
 // flow-typed version: <<STUB>>/leaflet.photon_v0.8.0/flow_v0.81.0
 
@@ -13,7 +15,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'leaflet.photon' {
+declare module "leaflet.photon" {
   declare module.exports: any;
 }
 
@@ -22,11 +24,11 @@ declare module 'leaflet.photon' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'leaflet.photon/leaflet.photon' {
+declare module "leaflet.photon/leaflet.photon" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'leaflet.photon/leaflet.photon.js' {
-  declare module.exports: $Exports<'leaflet.photon/leaflet.photon'>;
+declare module "leaflet.photon/leaflet.photon.js" {
+  declare module.exports: $Exports<"leaflet.photon/leaflet.photon">;
 }

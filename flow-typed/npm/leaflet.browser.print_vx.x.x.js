@@ -1,3 +1,5 @@
+/** @format */
+
 // flow-typed signature: e024a5c1452fe6a119bed5d241500c0d
 // flow-typed version: <<STUB>>/leaflet.browser.print_v0.7.0/flow_v0.81.0
 
@@ -13,7 +15,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'leaflet.browser.print' {
+declare module "leaflet.browser.print" {
   declare module.exports: any;
 }
 
@@ -22,53 +24,65 @@ declare module 'leaflet.browser.print' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'leaflet.browser.print/dist/leaflet.browser.print' {
+declare module "leaflet.browser.print/dist/leaflet.browser.print" {
   declare module.exports: any;
 }
 
-declare module 'leaflet.browser.print/dist/leaflet.browser.print.min' {
+declare module "leaflet.browser.print/dist/leaflet.browser.print.min" {
   declare module.exports: any;
 }
 
-declare module 'leaflet.browser.print/examples/data/us-states' {
+declare module "leaflet.browser.print/examples/data/us-states" {
   declare module.exports: any;
 }
 
-declare module 'leaflet.browser.print/src/leaflet.browser.print' {
+declare module "leaflet.browser.print/src/leaflet.browser.print" {
   declare module.exports: any;
 }
 
-declare module 'leaflet.browser.print/src/leaflet.browser.print.sizes' {
+declare module "leaflet.browser.print/src/leaflet.browser.print.sizes" {
   declare module.exports: any;
 }
 
-declare module 'leaflet.browser.print/src/leaflet.browser.print.utils' {
+declare module "leaflet.browser.print/src/leaflet.browser.print.utils" {
   declare module.exports: any;
 }
 
-declare module 'leaflet.browser.print/webpack.config' {
+declare module "leaflet.browser.print/webpack.config" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'leaflet.browser.print/dist/leaflet.browser.print.js' {
-  declare module.exports: $Exports<'leaflet.browser.print/dist/leaflet.browser.print'>;
+declare module "leaflet.browser.print/dist/leaflet.browser.print.js" {
+  declare module.exports: $Exports<
+    "leaflet.browser.print/dist/leaflet.browser.print"
+  >;
 }
-declare module 'leaflet.browser.print/dist/leaflet.browser.print.min.js' {
-  declare module.exports: $Exports<'leaflet.browser.print/dist/leaflet.browser.print.min'>;
+declare module "leaflet.browser.print/dist/leaflet.browser.print.min.js" {
+  declare module.exports: $Exports<
+    "leaflet.browser.print/dist/leaflet.browser.print.min"
+  >;
 }
-declare module 'leaflet.browser.print/examples/data/us-states.js' {
-  declare module.exports: $Exports<'leaflet.browser.print/examples/data/us-states'>;
+declare module "leaflet.browser.print/examples/data/us-states.js" {
+  declare module.exports: $Exports<
+    "leaflet.browser.print/examples/data/us-states"
+  >;
 }
-declare module 'leaflet.browser.print/src/leaflet.browser.print.js' {
-  declare module.exports: $Exports<'leaflet.browser.print/src/leaflet.browser.print'>;
+declare module "leaflet.browser.print/src/leaflet.browser.print.js" {
+  declare module.exports: $Exports<
+    "leaflet.browser.print/src/leaflet.browser.print"
+  >;
 }
-declare module 'leaflet.browser.print/src/leaflet.browser.print.sizes.js' {
-  declare module.exports: $Exports<'leaflet.browser.print/src/leaflet.browser.print.sizes'>;
+declare module "leaflet.browser.print/src/leaflet.browser.print.sizes.js" {
+  declare module.exports: $Exports<
+    "leaflet.browser.print/src/leaflet.browser.print.sizes"
+  >;
 }
-declare module 'leaflet.browser.print/src/leaflet.browser.print.utils.js' {
-  declare module.exports: $Exports<'leaflet.browser.print/src/leaflet.browser.print.utils'>;
+declare module "leaflet.browser.print/src/leaflet.browser.print.utils.js" {
+  declare module.exports: $Exports<
+    "leaflet.browser.print/src/leaflet.browser.print.utils"
+  >;
 }
-declare module 'leaflet.browser.print/webpack.config.js' {
-  declare module.exports: $Exports<'leaflet.browser.print/webpack.config'>;
+declare module "leaflet.browser.print/webpack.config.js" {
+  declare module.exports: $Exports<"leaflet.browser.print/webpack.config">;
 }
