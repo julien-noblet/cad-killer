@@ -24,7 +24,9 @@ install:
 cache:
   yarn: true
 script:
-- git add yarn.lock package-lock.json flow-typed && git commit -m "chore(package): update lockfiles yarn.lock & package-lock.json + update flow-typed files" && git push
+- git add yarn.lock package-lock.json flow-typed 
+- git commit -m "chore(package): update lockfiles yarn.lock & package-lock.json + update flow-typed files"
+- git push
 - yarn flow
 - yarn jest
 - yarn build
