@@ -14,19 +14,18 @@ addons:
     - g++-4.8
 before_install:
 - npm install -g flow-typed
-- rm -rf dist flow-typed/npm yarn.lock package-lock.json node_modules
-- npm install
-- npm audit fix
-- rm -rf node_modules
 install:
 - yarn
-- flow-typed update
 cache:
   yarn: true
+stages:
+  - name: update
+    if : type= push
+jobs:  
+  include:
+   - stage: update
+     script : bash scripts/update.sh
 script:
-- git add yarn.lock package-lock.json flow-typed 
-- git commit -m "chore(package): update lockfiles yarn.lock & package-lock.json + update flow-typed files"
-- git push
 - yarn flow
 - yarn jest
 - yarn build
