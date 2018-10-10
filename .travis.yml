@@ -21,14 +21,16 @@ cache:
 stages:
   - name: update
     if : type= push
+  - name: test
 jobs:  
   include:
    - stage: update
      script : bash scripts/update.sh
-script:
-- yarn flow
-- yarn jest
-- yarn build
+   - stage: test
+     script:
+       - yarn flow
+       - yarn jest
+       - yarn build
 after_success:
 - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash scripts/build_n_push.sh; fi
 notifications:
