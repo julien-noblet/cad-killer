@@ -13,12 +13,26 @@ addons:
     packages:
     - g++-4.8
 before_install:
+- npm install -g flow-typed
+install:
+- yarn
 cache:
   yarn: true
-script:
-- yarn flow
-- yarn jest
-- yarn build
+stages:
+  - name: update
+    if : type=push
+  - name: test
+jobs:
+  include:
+   - stage: update
+     install: skip
+     script : bash scripts/update.sh
+     after_success: skip
+   - stage: test
+     script:
+       - yarn flow
+       - yarn jest
+       - yarn build
 after_success:
 - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash scripts/build_n_push.sh; fi
 notifications:

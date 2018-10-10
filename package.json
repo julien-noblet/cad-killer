@@ -10,13 +10,34 @@
     "test": "flow && jest --runInBand"
   },
   "lint-staged": {
-    "*.js": ["prettier --write --insert-pragma", "git add"],
-    "*.json": ["prettier --parser json --write", "git add"],
-    "src/**.json": ["prettier --parser json --write", "git add"],
-    "src/**/*.js": ["prettier --parser flow --write", "git add"],
-    "src/**/*.flow": ["prettier --parser flow --write", "git add"],
-    "src/*.js": ["prettier --parser flow --write", "git add"],
-    "src/scss/*.scss": ["prettier --parser flow --write", "git add"]
+    "*.js": [
+      "prettier --write --insert-pragma",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --parser json --write",
+      "git add"
+    ],
+    "src/**.json": [
+      "prettier --parser json --write",
+      "git add"
+    ],
+    "src/**/*.js": [
+      "prettier --parser flow --write",
+      "git add"
+    ],
+    "src/**/*.flow": [
+      "prettier --parser flow --write",
+      "git add"
+    ],
+    "src/*.js": [
+      "prettier --parser flow --write",
+      "git add"
+    ],
+    "src/scss/*.scss": [
+      "prettier --parser flow --write",
+      "git add"
+    ]
   },
   "config": {
     "commitizen": {
@@ -27,7 +48,9 @@
     "type": "git",
     "url": "https://github.com/julien-noblet/cad-killer.git"
   },
-  "keywords": ["osm"],
+  "keywords": [
+    "osm"
+  ],
   "author": "Julien Noblet",
   "license": "ISC",
   "bugs": {
@@ -35,8 +58,8 @@
   },
   "homepage": "https://github.com/julien-noblet/cad-killer",
   "devDependencies": {
-    "@babel/cli": "7.1.0",
-    "@babel/core": "7.1.0",
+    "@babel/cli": "7.1.2",
+    "@babel/core": "7.1.2",
     "@babel/plugin-transform-flow-strip-types": "7.0.0",
     "@babel/plugin-transform-runtime": "7.1.0",
     "@babel/polyfill": "7.0.0",
@@ -44,18 +67,18 @@
     "@babel/preset-flow": "7.0.0",
     "@babel/preset-react": "7.0.0",
     "@babel/preset-stage-0": "7.0.0",
-    "@babel/runtime": "7.0.0",
+    "@babel/runtime": "7.1.2",
     "@babel/runtime-corejs2": "7.0.0",
     "babel-7-jest": "21.3.3",
-    "babel-loader": "8.0.2",
-    "commitizen": "3.0.2",
+    "babel-loader": "8.0.3",
+    "commitizen": "2.10.1",
     "css-loader": "1.0.0",
     "css-module-flow": "1.0.0",
-    "cssnano": "4.1.1",
+    "cssnano": "4.1.4",
     "cz-conventional-changelog": "2.1.0",
     "eslint": "5.5.0",
     "eslint-config-prettier": "3.1.0",
-    "eslint-plugin-flowtype": "2.50.1",
+    "eslint-plugin-flowtype": "2.50.3",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-prettier": "2.7.0",
     "eslint-plugin-react": "7.11.1",
@@ -82,7 +105,7 @@
     "sass-loader": "7.1.0",
     "style-loader": "0.23.0",
     "webpack": "4.20.2",
-    "webpack-cli": "3.1.0",
+    "webpack-cli": "3.1.2",
     "webpack-dev-server": "3.1.9"
   },
   "dependencies": {
@@ -110,7 +133,10 @@
     "verbose": true,
     "bail": false,
     "collectCoverage": false,
-    "modulePathIgnorePatterns": ["sandbox", "node_modules"],
+    "modulePathIgnorePatterns": [
+      "sandbox",
+      "node_modules"
+    ],
     "transform": {
       "^.+\\.js?$": "babel-7-jest"
     },
