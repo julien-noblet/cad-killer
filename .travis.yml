@@ -44,10 +44,13 @@ deploy:
     on:
       branch: master
   - provider: pages
+    repo: julien-noblet/cad-killer-beta
     skip-cleanup: true
     local-dir: dist
     github-token: $TOKEN
     keep-history: false
+    on:
+      all_branches: true
 #after_success:
 #- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash scripts/build_n_push.sh; fi
 notifications:
