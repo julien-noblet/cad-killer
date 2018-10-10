@@ -27,6 +27,7 @@ jobs:
    - stage: update
      install: skip
      script : bash scripts/update.sh
+     after_success: skip
    - stage: test
      script:
        - yarn flow
