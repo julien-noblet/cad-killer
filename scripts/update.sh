@@ -14,5 +14,3 @@ flow-typed update
 git add yarn.lock package-lock.json flow-typed
 git commit -m "chore(package): update lockfiles yarn.lock & package-lock.json + update flow-typed files"
 git push
-cd ..
-rm -rf cad-killer
