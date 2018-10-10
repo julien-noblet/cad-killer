@@ -20,11 +20,12 @@ cache:
   yarn: true
 stages:
   - name: update
-    if : type= push
+    if : type=push
   - name: test
-jobs:  
+jobs: 
   include:
    - stage: update
+     install: skip
      script : bash scripts/update.sh
    - stage: test
      script:
