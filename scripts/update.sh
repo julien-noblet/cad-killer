@@ -1,5 +1,7 @@
 #!/bin/sh
-git clone git@github.com:julien-noblet/cad-killer.git
+git config user.name "Travis-CI" ;
+git config user.email "travis" ;
+git clone "https://${user}:${password}@github.com/julien-noblet/cad-killer.git";
 cd cad-killer
 git checkout $TRAVIS_BRANCH
 
