@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: a12f11c2f9fdf211455211491109e571
 // flow-typed version: <<STUB>>/babel-7-jest_v21.3.3/flow_v0.81.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "babel-7-jest" {
+declare module 'babel-7-jest' {
   declare module.exports: any;
 }
 
@@ -24,11 +22,11 @@ declare module "babel-7-jest" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "babel-7-jest/build/index" {
+declare module 'babel-7-jest/build/index' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "babel-7-jest/build/index.js" {
-  declare module.exports: $Exports<"babel-7-jest/build/index">;
+declare module 'babel-7-jest/build/index.js' {
+  declare module.exports: $Exports<'babel-7-jest/build/index'>;
 }

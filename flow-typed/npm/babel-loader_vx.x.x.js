@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 47502a7811d4d17f0a824697993b4b4c
 // flow-typed version: <<STUB>>/babel-loader_v8.0.3/flow_v0.81.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "babel-loader" {
+declare module 'babel-loader' {
   declare module.exports: any;
 }
 
@@ -24,39 +22,39 @@ declare module "babel-loader" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "babel-loader/lib/cache" {
+declare module 'babel-loader/lib/cache' {
   declare module.exports: any;
 }
 
-declare module "babel-loader/lib/Error" {
+declare module 'babel-loader/lib/Error' {
   declare module.exports: any;
 }
 
-declare module "babel-loader/lib/index" {
+declare module 'babel-loader/lib/index' {
   declare module.exports: any;
 }
 
-declare module "babel-loader/lib/injectCaller" {
+declare module 'babel-loader/lib/injectCaller' {
   declare module.exports: any;
 }
 
-declare module "babel-loader/lib/transform" {
+declare module 'babel-loader/lib/transform' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "babel-loader/lib/cache.js" {
-  declare module.exports: $Exports<"babel-loader/lib/cache">;
+declare module 'babel-loader/lib/cache.js' {
+  declare module.exports: $Exports<'babel-loader/lib/cache'>;
 }
-declare module "babel-loader/lib/Error.js" {
-  declare module.exports: $Exports<"babel-loader/lib/Error">;
+declare module 'babel-loader/lib/Error.js' {
+  declare module.exports: $Exports<'babel-loader/lib/Error'>;
 }
-declare module "babel-loader/lib/index.js" {
-  declare module.exports: $Exports<"babel-loader/lib/index">;
+declare module 'babel-loader/lib/index.js' {
+  declare module.exports: $Exports<'babel-loader/lib/index'>;
 }
-declare module "babel-loader/lib/injectCaller.js" {
-  declare module.exports: $Exports<"babel-loader/lib/injectCaller">;
+declare module 'babel-loader/lib/injectCaller.js' {
+  declare module.exports: $Exports<'babel-loader/lib/injectCaller'>;
 }
-declare module "babel-loader/lib/transform.js" {
-  declare module.exports: $Exports<"babel-loader/lib/transform">;
+declare module 'babel-loader/lib/transform.js' {
+  declare module.exports: $Exports<'babel-loader/lib/transform'>;
 }
