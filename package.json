@@ -102,7 +102,7 @@
     "puppeteer": "1.9.0",
     "regenerator-runtime": "0.12.1",
     "sass-loader": "7.1.0",
-    "style-loader": "0.23.0",
+    "style-loader": "0.23.1",
     "webpack": "4.20.2",
     "webpack-cli": "3.1.2",
     "webpack-dev-server": "3.1.9"
