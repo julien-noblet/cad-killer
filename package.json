@@ -100,7 +100,7 @@
     "postcss-preset-env": "6.1.0",
     "prettier": "1.14.3",
     "prettier-eslint": "8.8.2",
-    "puppeteer": "1.8.0",
+    "puppeteer": "1.9.0",
     "regenerator-runtime": "0.12.1",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.0",
