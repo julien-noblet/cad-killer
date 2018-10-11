@@ -1,4 +1,4 @@
-// flow-typed signature: 347d0936909e3b303475dcf26bea8d05
+// flow-typed signature: 5e708cd8d589d2235bdc2671fdbb2d48
 // flow-typed version: <<STUB>>/mini-css-extract-plugin_v0.4.4/flow_v0.83.0
 
 /**
