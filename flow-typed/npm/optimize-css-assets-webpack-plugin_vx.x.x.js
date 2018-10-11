@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: d70794342d459e89db4bdf72d2715346
 // flow-typed version: <<STUB>>/optimize-css-assets-webpack-plugin_v5.0.1/flow_v0.82.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "optimize-css-assets-webpack-plugin" {
+declare module 'optimize-css-assets-webpack-plugin' {
   declare module.exports: any;
 }
 
@@ -24,121 +22,95 @@ declare module "optimize-css-assets-webpack-plugin" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "optimize-css-assets-webpack-plugin/src/index" {
+declare module 'optimize-css-assets-webpack-plugin/src/index' {
   declare module.exports: any;
 }
 
-declare module "optimize-css-assets-webpack-plugin/test/cases/assetNameRegExp-no-source/index" {
+declare module 'optimize-css-assets-webpack-plugin/test/cases/assetNameRegExp-no-source/index' {
   declare module.exports: any;
 }
 
-declare module "optimize-css-assets-webpack-plugin/test/cases/assetNameRegExp-no-source/webpack.config" {
+declare module 'optimize-css-assets-webpack-plugin/test/cases/assetNameRegExp-no-source/webpack.config' {
   declare module.exports: any;
 }
 
-declare module "optimize-css-assets-webpack-plugin/test/cases/duplicate-css-exists-without-plugin/index" {
+declare module 'optimize-css-assets-webpack-plugin/test/cases/duplicate-css-exists-without-plugin/index' {
   declare module.exports: any;
 }
 
-declare module "optimize-css-assets-webpack-plugin/test/cases/duplicate-css-exists-without-plugin/webpack.config" {
+declare module 'optimize-css-assets-webpack-plugin/test/cases/duplicate-css-exists-without-plugin/webpack.config' {
   declare module.exports: any;
 }
 
-declare module "optimize-css-assets-webpack-plugin/test/cases/only-assetNameRegExp-processed/index" {
+declare module 'optimize-css-assets-webpack-plugin/test/cases/only-assetNameRegExp-processed/index' {
   declare module.exports: any;
 }
 
-declare module "optimize-css-assets-webpack-plugin/test/cases/only-assetNameRegExp-processed/webpack.config" {
+declare module 'optimize-css-assets-webpack-plugin/test/cases/only-assetNameRegExp-processed/webpack.config' {
   declare module.exports: any;
 }
 
-declare module "optimize-css-assets-webpack-plugin/test/cases/removes-duplicate-css/index" {
+declare module 'optimize-css-assets-webpack-plugin/test/cases/removes-duplicate-css/index' {
   declare module.exports: any;
 }
 
-declare module "optimize-css-assets-webpack-plugin/test/cases/removes-duplicate-css/webpack.config" {
+declare module 'optimize-css-assets-webpack-plugin/test/cases/removes-duplicate-css/webpack.config' {
   declare module.exports: any;
 }
 
-declare module "optimize-css-assets-webpack-plugin/test/plugin.test" {
+declare module 'optimize-css-assets-webpack-plugin/test/plugin.test' {
   declare module.exports: any;
 }
 
-declare module "optimize-css-assets-webpack-plugin/test/util/helpers" {
+declare module 'optimize-css-assets-webpack-plugin/test/util/helpers' {
   declare module.exports: any;
 }
 
-declare module "optimize-css-assets-webpack-plugin/test/util/index" {
+declare module 'optimize-css-assets-webpack-plugin/test/util/index' {
   declare module.exports: any;
 }
 
-declare module "optimize-css-assets-webpack-plugin/test/webpack-integration.test" {
+declare module 'optimize-css-assets-webpack-plugin/test/webpack-integration.test' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "optimize-css-assets-webpack-plugin/src/index.js" {
-  declare module.exports: $Exports<
-    "optimize-css-assets-webpack-plugin/src/index"
-  >;
+declare module 'optimize-css-assets-webpack-plugin/src/index.js' {
+  declare module.exports: $Exports<'optimize-css-assets-webpack-plugin/src/index'>;
 }
-declare module "optimize-css-assets-webpack-plugin/test/cases/assetNameRegExp-no-source/index.js" {
-  declare module.exports: $Exports<
-    "optimize-css-assets-webpack-plugin/test/cases/assetNameRegExp-no-source/index"
-  >;
+declare module 'optimize-css-assets-webpack-plugin/test/cases/assetNameRegExp-no-source/index.js' {
+  declare module.exports: $Exports<'optimize-css-assets-webpack-plugin/test/cases/assetNameRegExp-no-source/index'>;
 }
-declare module "optimize-css-assets-webpack-plugin/test/cases/assetNameRegExp-no-source/webpack.config.js" {
-  declare module.exports: $Exports<
-    "optimize-css-assets-webpack-plugin/test/cases/assetNameRegExp-no-source/webpack.config"
-  >;
+declare module 'optimize-css-assets-webpack-plugin/test/cases/assetNameRegExp-no-source/webpack.config.js' {
+  declare module.exports: $Exports<'optimize-css-assets-webpack-plugin/test/cases/assetNameRegExp-no-source/webpack.config'>;
 }
-declare module "optimize-css-assets-webpack-plugin/test/cases/duplicate-css-exists-without-plugin/index.js" {
-  declare module.exports: $Exports<
-    "optimize-css-assets-webpack-plugin/test/cases/duplicate-css-exists-without-plugin/index"
-  >;
+declare module 'optimize-css-assets-webpack-plugin/test/cases/duplicate-css-exists-without-plugin/index.js' {
+  declare module.exports: $Exports<'optimize-css-assets-webpack-plugin/test/cases/duplicate-css-exists-without-plugin/index'>;
 }
-declare module "optimize-css-assets-webpack-plugin/test/cases/duplicate-css-exists-without-plugin/webpack.config.js" {
-  declare module.exports: $Exports<
-    "optimize-css-assets-webpack-plugin/test/cases/duplicate-css-exists-without-plugin/webpack.config"
-  >;
+declare module 'optimize-css-assets-webpack-plugin/test/cases/duplicate-css-exists-without-plugin/webpack.config.js' {
+  declare module.exports: $Exports<'optimize-css-assets-webpack-plugin/test/cases/duplicate-css-exists-without-plugin/webpack.config'>;
 }
-declare module "optimize-css-assets-webpack-plugin/test/cases/only-assetNameRegExp-processed/index.js" {
-  declare module.exports: $Exports<
-    "optimize-css-assets-webpack-plugin/test/cases/only-assetNameRegExp-processed/index"
-  >;
+declare module 'optimize-css-assets-webpack-plugin/test/cases/only-assetNameRegExp-processed/index.js' {
+  declare module.exports: $Exports<'optimize-css-assets-webpack-plugin/test/cases/only-assetNameRegExp-processed/index'>;
 }
-declare module "optimize-css-assets-webpack-plugin/test/cases/only-assetNameRegExp-processed/webpack.config.js" {
-  declare module.exports: $Exports<
-    "optimize-css-assets-webpack-plugin/test/cases/only-assetNameRegExp-processed/webpack.config"
-  >;
+declare module 'optimize-css-assets-webpack-plugin/test/cases/only-assetNameRegExp-processed/webpack.config.js' {
+  declare module.exports: $Exports<'optimize-css-assets-webpack-plugin/test/cases/only-assetNameRegExp-processed/webpack.config'>;
 }
-declare module "optimize-css-assets-webpack-plugin/test/cases/removes-duplicate-css/index.js" {
-  declare module.exports: $Exports<
-    "optimize-css-assets-webpack-plugin/test/cases/removes-duplicate-css/index"
-  >;
+declare module 'optimize-css-assets-webpack-plugin/test/cases/removes-duplicate-css/index.js' {
+  declare module.exports: $Exports<'optimize-css-assets-webpack-plugin/test/cases/removes-duplicate-css/index'>;
 }
-declare module "optimize-css-assets-webpack-plugin/test/cases/removes-duplicate-css/webpack.config.js" {
-  declare module.exports: $Exports<
-    "optimize-css-assets-webpack-plugin/test/cases/removes-duplicate-css/webpack.config"
-  >;
+declare module 'optimize-css-assets-webpack-plugin/test/cases/removes-duplicate-css/webpack.config.js' {
+  declare module.exports: $Exports<'optimize-css-assets-webpack-plugin/test/cases/removes-duplicate-css/webpack.config'>;
 }
-declare module "optimize-css-assets-webpack-plugin/test/plugin.test.js" {
-  declare module.exports: $Exports<
-    "optimize-css-assets-webpack-plugin/test/plugin.test"
-  >;
+declare module 'optimize-css-assets-webpack-plugin/test/plugin.test.js' {
+  declare module.exports: $Exports<'optimize-css-assets-webpack-plugin/test/plugin.test'>;
 }
-declare module "optimize-css-assets-webpack-plugin/test/util/helpers.js" {
-  declare module.exports: $Exports<
-    "optimize-css-assets-webpack-plugin/test/util/helpers"
-  >;
+declare module 'optimize-css-assets-webpack-plugin/test/util/helpers.js' {
+  declare module.exports: $Exports<'optimize-css-assets-webpack-plugin/test/util/helpers'>;
 }
-declare module "optimize-css-assets-webpack-plugin/test/util/index.js" {
-  declare module.exports: $Exports<
-    "optimize-css-assets-webpack-plugin/test/util/index"
-  >;
+declare module 'optimize-css-assets-webpack-plugin/test/util/index.js' {
+  declare module.exports: $Exports<'optimize-css-assets-webpack-plugin/test/util/index'>;
 }
-declare module "optimize-css-assets-webpack-plugin/test/webpack-integration.test.js" {
-  declare module.exports: $Exports<
-    "optimize-css-assets-webpack-plugin/test/webpack-integration.test"
-  >;
+declare module 'optimize-css-assets-webpack-plugin/test/webpack-integration.test.js' {
+  declare module.exports: $Exports<'optimize-css-assets-webpack-plugin/test/webpack-integration.test'>;
 }

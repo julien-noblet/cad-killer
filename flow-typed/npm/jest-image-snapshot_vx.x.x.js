@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: a4d20b787d5c2867175515675afc1234
 // flow-typed version: <<STUB>>/jest-image-snapshot_v2.5.0/flow_v0.82.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "jest-image-snapshot" {
+declare module 'jest-image-snapshot' {
   declare module.exports: any;
 }
 
@@ -24,84 +22,74 @@ declare module "jest-image-snapshot" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "jest-image-snapshot/__tests__/diff-snapshot.spec" {
+declare module 'jest-image-snapshot/__tests__/diff-snapshot.spec' {
   declare module.exports: any;
 }
 
-declare module "jest-image-snapshot/__tests__/index.spec" {
+declare module 'jest-image-snapshot/__tests__/index.spec' {
   declare module.exports: any;
 }
 
-declare module "jest-image-snapshot/__tests__/integration.spec" {
+declare module 'jest-image-snapshot/__tests__/integration.spec' {
   declare module.exports: any;
 }
 
-declare module "jest-image-snapshot/examples/__tests__/local-image.spec" {
+declare module 'jest-image-snapshot/examples/__tests__/local-image.spec' {
   declare module.exports: any;
 }
 
-declare module "jest-image-snapshot/examples/__tests__/puppeteer-example.spec" {
+declare module 'jest-image-snapshot/examples/__tests__/puppeteer-example.spec' {
   declare module.exports: any;
 }
 
-declare module "jest-image-snapshot/examples/image-reporter" {
+declare module 'jest-image-snapshot/examples/image-reporter' {
   declare module.exports: any;
 }
 
-declare module "jest-image-snapshot/examples/jest-setup" {
+declare module 'jest-image-snapshot/examples/jest-setup' {
   declare module.exports: any;
 }
 
-declare module "jest-image-snapshot/src/diff-process" {
+declare module 'jest-image-snapshot/src/diff-process' {
   declare module.exports: any;
 }
 
-declare module "jest-image-snapshot/src/diff-snapshot" {
+declare module 'jest-image-snapshot/src/diff-snapshot' {
   declare module.exports: any;
 }
 
-declare module "jest-image-snapshot/src/index" {
+declare module 'jest-image-snapshot/src/index' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "jest-image-snapshot/__tests__/diff-snapshot.spec.js" {
-  declare module.exports: $Exports<
-    "jest-image-snapshot/__tests__/diff-snapshot.spec"
-  >;
+declare module 'jest-image-snapshot/__tests__/diff-snapshot.spec.js' {
+  declare module.exports: $Exports<'jest-image-snapshot/__tests__/diff-snapshot.spec'>;
 }
-declare module "jest-image-snapshot/__tests__/index.spec.js" {
-  declare module.exports: $Exports<"jest-image-snapshot/__tests__/index.spec">;
+declare module 'jest-image-snapshot/__tests__/index.spec.js' {
+  declare module.exports: $Exports<'jest-image-snapshot/__tests__/index.spec'>;
 }
-declare module "jest-image-snapshot/__tests__/integration.spec.js" {
-  declare module.exports: $Exports<
-    "jest-image-snapshot/__tests__/integration.spec"
-  >;
+declare module 'jest-image-snapshot/__tests__/integration.spec.js' {
+  declare module.exports: $Exports<'jest-image-snapshot/__tests__/integration.spec'>;
 }
-declare module "jest-image-snapshot/examples/__tests__/local-image.spec.js" {
-  declare module.exports: $Exports<
-    "jest-image-snapshot/examples/__tests__/local-image.spec"
-  >;
+declare module 'jest-image-snapshot/examples/__tests__/local-image.spec.js' {
+  declare module.exports: $Exports<'jest-image-snapshot/examples/__tests__/local-image.spec'>;
 }
-declare module "jest-image-snapshot/examples/__tests__/puppeteer-example.spec.js" {
-  declare module.exports: $Exports<
-    "jest-image-snapshot/examples/__tests__/puppeteer-example.spec"
-  >;
+declare module 'jest-image-snapshot/examples/__tests__/puppeteer-example.spec.js' {
+  declare module.exports: $Exports<'jest-image-snapshot/examples/__tests__/puppeteer-example.spec'>;
 }
-declare module "jest-image-snapshot/examples/image-reporter.js" {
-  declare module.exports: $Exports<
-    "jest-image-snapshot/examples/image-reporter"
-  >;
+declare module 'jest-image-snapshot/examples/image-reporter.js' {
+  declare module.exports: $Exports<'jest-image-snapshot/examples/image-reporter'>;
 }
-declare module "jest-image-snapshot/examples/jest-setup.js" {
-  declare module.exports: $Exports<"jest-image-snapshot/examples/jest-setup">;
+declare module 'jest-image-snapshot/examples/jest-setup.js' {
+  declare module.exports: $Exports<'jest-image-snapshot/examples/jest-setup'>;
 }
-declare module "jest-image-snapshot/src/diff-process.js" {
-  declare module.exports: $Exports<"jest-image-snapshot/src/diff-process">;
+declare module 'jest-image-snapshot/src/diff-process.js' {
+  declare module.exports: $Exports<'jest-image-snapshot/src/diff-process'>;
 }
-declare module "jest-image-snapshot/src/diff-snapshot.js" {
-  declare module.exports: $Exports<"jest-image-snapshot/src/diff-snapshot">;
+declare module 'jest-image-snapshot/src/diff-snapshot.js' {
+  declare module.exports: $Exports<'jest-image-snapshot/src/diff-snapshot'>;
 }
-declare module "jest-image-snapshot/src/index.js" {
-  declare module.exports: $Exports<"jest-image-snapshot/src/index">;
+declare module 'jest-image-snapshot/src/index.js' {
+  declare module.exports: $Exports<'jest-image-snapshot/src/index'>;
 }

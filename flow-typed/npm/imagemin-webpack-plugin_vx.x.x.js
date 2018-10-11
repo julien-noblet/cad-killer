@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 7cdf2f6c3901f2d331b3f78306a0141a
 // flow-typed version: <<STUB>>/imagemin-webpack-plugin_v^2.3.0/flow_v0.82.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "imagemin-webpack-plugin" {
+declare module 'imagemin-webpack-plugin' {
   declare module.exports: any;
 }
 
@@ -24,32 +22,32 @@ declare module "imagemin-webpack-plugin" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "imagemin-webpack-plugin/dist/helpers" {
+declare module 'imagemin-webpack-plugin/dist/helpers' {
   declare module.exports: any;
 }
 
-declare module "imagemin-webpack-plugin/dist/index" {
+declare module 'imagemin-webpack-plugin/dist/index' {
   declare module.exports: any;
 }
 
-declare module "imagemin-webpack-plugin/src/helpers" {
+declare module 'imagemin-webpack-plugin/src/helpers' {
   declare module.exports: any;
 }
 
-declare module "imagemin-webpack-plugin/src/index" {
+declare module 'imagemin-webpack-plugin/src/index' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "imagemin-webpack-plugin/dist/helpers.js" {
-  declare module.exports: $Exports<"imagemin-webpack-plugin/dist/helpers">;
+declare module 'imagemin-webpack-plugin/dist/helpers.js' {
+  declare module.exports: $Exports<'imagemin-webpack-plugin/dist/helpers'>;
 }
-declare module "imagemin-webpack-plugin/dist/index.js" {
-  declare module.exports: $Exports<"imagemin-webpack-plugin/dist/index">;
+declare module 'imagemin-webpack-plugin/dist/index.js' {
+  declare module.exports: $Exports<'imagemin-webpack-plugin/dist/index'>;
 }
-declare module "imagemin-webpack-plugin/src/helpers.js" {
-  declare module.exports: $Exports<"imagemin-webpack-plugin/src/helpers">;
+declare module 'imagemin-webpack-plugin/src/helpers.js' {
+  declare module.exports: $Exports<'imagemin-webpack-plugin/src/helpers'>;
 }
-declare module "imagemin-webpack-plugin/src/index.js" {
-  declare module.exports: $Exports<"imagemin-webpack-plugin/src/index">;
+declare module 'imagemin-webpack-plugin/src/index.js' {
+  declare module.exports: $Exports<'imagemin-webpack-plugin/src/index'>;
 }

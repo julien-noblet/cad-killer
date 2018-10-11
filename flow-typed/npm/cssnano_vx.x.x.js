@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 51e9b95213aee65f3d127fe68dbb7b35
 // flow-typed version: <<STUB>>/cssnano_v4.1.4/flow_v0.82.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "cssnano" {
+declare module 'cssnano' {
   declare module.exports: any;
 }
 
@@ -24,18 +22,18 @@ declare module "cssnano" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "cssnano/dist/index" {
+declare module 'cssnano/dist/index' {
   declare module.exports: any;
 }
 
-declare module "cssnano/quickstart" {
+declare module 'cssnano/quickstart' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "cssnano/dist/index.js" {
-  declare module.exports: $Exports<"cssnano/dist/index">;
+declare module 'cssnano/dist/index.js' {
+  declare module.exports: $Exports<'cssnano/dist/index'>;
 }
-declare module "cssnano/quickstart.js" {
-  declare module.exports: $Exports<"cssnano/quickstart">;
+declare module 'cssnano/quickstart.js' {
+  declare module.exports: $Exports<'cssnano/quickstart'>;
 }

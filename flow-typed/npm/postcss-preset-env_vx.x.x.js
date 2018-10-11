@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 4b570f83f80e9c12dcdd397371ffe632
 // flow-typed version: <<STUB>>/postcss-preset-env_v6.1.0/flow_v0.82.0
 
@@ -15,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "postcss-preset-env" {
+declare module 'postcss-preset-env' {
   declare module.exports: any;
 }
 
@@ -24,11 +22,11 @@ declare module "postcss-preset-env" {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module "postcss-preset-env/index.cjs" {
+declare module 'postcss-preset-env/index.cjs' {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module "postcss-preset-env/index.cjs.js" {
-  declare module.exports: $Exports<"postcss-preset-env/index.cjs">;
+declare module 'postcss-preset-env/index.cjs.js' {
+  declare module.exports: $Exports<'postcss-preset-env/index.cjs'>;
 }

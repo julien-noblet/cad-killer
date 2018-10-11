@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: 30de5b77bf2da2594f718de83d678a5b
 // flow-typed version: <<STUB>>/jest-puppeteer_v3.4.0/flow_v0.82.0
 
@@ -15,6 +13,6 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module "jest-puppeteer" {
+declare module 'jest-puppeteer' {
   declare module.exports: any;
 }
