@@ -1,5 +1,5 @@
-// flow-typed signature: 691597c4a5aab83a3b2e6d9ccd01a97d
-// flow-typed version: 71534a866d/jest_v23.x.x/flow_>=v0.39.x
+// flow-typed signature: dc105d04239dd6b5d964507b6bddd0ec
+// flow-typed version: 6c2ed501b8/jest_v23.x.x/flow_>=v0.39.x
 
 type JestMockFn<TArguments: $ReadOnlyArray<*>, TReturn> = {
   (...args: TArguments): TReturn,
@@ -199,9 +199,11 @@ type EnzymeMatchersType = {
   toIncludeText(text: string): void,
   toMatchElement(
     element: React$Element<any>,
-    options?: {| ignoreProps?: boolean |},
+    options?: {| ignoreProps?: boolean, verbose?: boolean |},
   ): void,
-  toMatchSelector(selector: string): void
+  toMatchSelector(selector: string): void,
+  // 7.x
+  toHaveDisplayName(name: string): void,
 };
 
 // DOM testing library extensions https://github.com/kentcdodds/dom-testing-library#custom-jest-matchers
