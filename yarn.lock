@@ -1424,13 +1424,13 @@ bin-version-check@^3.0.0:
 
 bin-version@^1.0.0:
   version "1.0.4"
-  resolved "https://registry.yarnpkg.com/bin-version/-/bin-version-1.0.4.tgz#9eb498ee6fd76f7ab9a7c160436f89579435d78e"
+  resolved "http://registry.npmjs.org/bin-version/-/bin-version-1.0.4.tgz#9eb498ee6fd76f7ab9a7c160436f89579435d78e"
   dependencies:
     find-versions "^1.0.0"
 
 bin-version@^2.0.0:
   version "2.0.0"
-  resolved "https://registry.yarnpkg.com/bin-version/-/bin-version-2.0.0.tgz#2cc95d83b522bdef2e99978e76aeb5491c8114ff"
+  resolved "http://registry.npmjs.org/bin-version/-/bin-version-2.0.0.tgz#2cc95d83b522bdef2e99978e76aeb5491c8114ff"
   dependencies:
     execa "^0.1.1"
     find-versions "^2.0.0"
@@ -3976,7 +3976,7 @@ find-up@^3.0.0:
 
 find-versions@^1.0.0:
   version "1.2.1"
-  resolved "https://registry.yarnpkg.com/find-versions/-/find-versions-1.2.1.tgz#cbde9f12e38575a0af1be1b9a2c5d5fd8f186b62"
+  resolved "http://registry.npmjs.org/find-versions/-/find-versions-1.2.1.tgz#cbde9f12e38575a0af1be1b9a2c5d5fd8f186b62"
   dependencies:
     array-uniq "^1.0.0"
     get-stdin "^4.0.1"
@@ -3985,7 +3985,7 @@ find-versions@^1.0.0:
 
 find-versions@^2.0.0:
   version "2.0.0"
-  resolved "https://registry.yarnpkg.com/find-versions/-/find-versions-2.0.0.tgz#2ad90d490f6828c1aa40292cf709ac3318210c3c"
+  resolved "http://registry.npmjs.org/find-versions/-/find-versions-2.0.0.tgz#2ad90d490f6828c1aa40292cf709ac3318210c3c"
   dependencies:
     array-uniq "^1.0.0"
     semver-regex "^1.0.0"
@@ -10569,9 +10569,9 @@ webpack-sources@^1.1.0, webpack-sources@^1.3.0:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@4.24.0:
-  version "4.24.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.24.0.tgz#d9822c91eeb595f7351aa5dd785a1952f9c4340a"
+webpack@4.25.1:
+  version "4.25.1"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.25.1.tgz#4f459fbaea0f93440dc86c89f771bb3a837cfb6d"
   dependencies:
     "@webassemblyjs/ast" "1.7.11"
     "@webassemblyjs/helper-module-context" "1.7.11"
