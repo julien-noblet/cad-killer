@@ -3,7 +3,6 @@
 
 Visionneur de carte pour logisticiens pressés
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/julien-noblet/cad-killer.svg)](https://greenkeeper.io/)
 [![Dependency Status](https://david-dm.org/julien-noblet/cad-killer.svg)](https://david-dm.org/julien-noblet/cad-killer)
 [![devDependency Status](https://david-dm.org/julien-noblet/cad-killer/dev-status.svg)](https://david-dm.org/julien-noblet/cad-killer?type=dev)
 [![Build Status](https://travis-ci.org/julien-noblet/cad-killer.svg?branch=master)](https://travis-ci.org/julien-noblet/cad-killer)
