@@ -10440,7 +10440,7 @@ vm-browserify@0.0.4:
 
 vue-eslint-parser@^2.0.2:
   version "2.0.3"
-  resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-2.0.3.tgz#c268c96c6d94cfe3d938a5f7593959b0ca3360d1"
+  resolved "http://registry.npmjs.org/vue-eslint-parser/-/vue-eslint-parser-2.0.3.tgz#c268c96c6d94cfe3d938a5f7593959b0ca3360d1"
   dependencies:
     debug "^3.1.0"
     eslint-scope "^3.7.1"
