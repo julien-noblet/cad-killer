@@ -2801,7 +2801,7 @@ default-require-extensions@^1.0.0:
 
 deferred-leveldown@~3.0.0:
   version "3.0.0"
-  resolved "https://registry.yarnpkg.com/deferred-leveldown/-/deferred-leveldown-3.0.0.tgz#bff7241bf156aa3635f520bedf34330c408d3307"
+  resolved "http://registry.npmjs.org/deferred-leveldown/-/deferred-leveldown-3.0.0.tgz#bff7241bf156aa3635f520bedf34330c408d3307"
   dependencies:
     abstract-leveldown "~4.0.0"
 
