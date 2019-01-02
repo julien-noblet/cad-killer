@@ -17,8 +17,8 @@ require("leaflet/dist/images/marker-icon.png");
 require("leaflet/dist/images/marker-shadow.png");
 
 // JS
-require.ensure(["es6-promise"], function() {
-  require("es6-promise");
+require.ensure(["es6-promise/auto"], function() {
+  require("es6-promise/auto");
 });
 
 require.ensure(["./js/map"], function() {
