@@ -1,5 +1,5 @@
-// flow-typed signature: 44a52f7267ac63ff00c5676e5984862d
-// flow-typed version: 7590a5d0c6/jquery_v3.x.x/flow_>=v0.28.x
+// flow-typed signature: 587a22e163068a004260539e0504aa9f
+// flow-typed version: 241bbac932/jquery_v3.x.x/flow_>=v0.28.x
 
 /* eslint-disable max-len, no-unused-vars, flowtype/no-weak-types */
 
@@ -364,6 +364,13 @@ declare class JQueryGenericPromise<T> {
     failFilter?: (...reasons: any[]) => any,
     progressFilter?: (...progression: any[]) => any
   ): JQueryPromise<void>;
+
+  /**
+   * Add handlers to be called when the Deferred object is rejected.
+   *
+   * @param  failFilter An function that is called when the Deferred is rejected.
+   */
+  catch(failFilter: (...reasons: any[]) => any): JQueryPromise<T>;
 }
 
 /**
