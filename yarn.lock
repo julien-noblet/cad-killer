@@ -4557,7 +4557,7 @@ imagemin-svgo@^7.0.0:
     is-svg "^3.0.0"
     svgo "^1.0.5"
 
-imagemin-webpack-plugin@^2.4.0:
+imagemin-webpack-plugin@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/imagemin-webpack-plugin/-/imagemin-webpack-plugin-2.4.0.tgz#2a5e46ff3415f19f3fd42b297c1423d647484007"
   dependencies:
