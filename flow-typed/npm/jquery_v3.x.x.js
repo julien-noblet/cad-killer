@@ -1,5 +1,5 @@
-// flow-typed signature: 587a22e163068a004260539e0504aa9f
-// flow-typed version: 241bbac932/jquery_v3.x.x/flow_>=v0.28.x
+// flow-typed signature: f26fda66e3a551aef37d3b0f53058e6a
+// flow-typed version: 44ad941b7a/jquery_v3.x.x/flow_>=v0.28.x
 
 /* eslint-disable max-len, no-unused-vars, flowtype/no-weak-types */
 
@@ -1605,7 +1605,7 @@ declare class JQuery {
   /**
    * Get the current value of the first element in the set of matched elements.
    */
-  val(_: void): any;
+  val(_: void): string | string[] | number;
   /**
    * Set the value of each element in the set of matched elements.
    *
