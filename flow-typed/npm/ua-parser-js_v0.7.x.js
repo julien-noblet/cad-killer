@@ -1,5 +1,5 @@
-// flow-typed signature: a833d28a96907fc793c947e942684852
-// flow-typed version: 3f9be5047c/ua-parser-js_v0.7.x/flow_>=v0.42.x
+// flow-typed signature: 47d1dbf8acde59e5f0e353fad891c627
+// flow-typed version: 4e458b944e/ua-parser-js_v0.7.x/flow_>=v0.42.x
 
 declare module 'ua-parser-js' {
   declare type UABrowser = {
@@ -43,6 +43,17 @@ declare module 'ua-parser-js' {
   };
 
   declare class UAParser {
+    /**
+     * NOTE: It's a bit of a weird API, but the main export (UAParser) can be
+     * instantiated as a class (option 2) - which forces the called to
+     * subsequently call .setUA() and then .getResult() to obtain the parsed
+     * result, or be invoked like a function, which directly the parsed result.
+     */
+
+    // Option 1: When used as a function
+    static (userAgent?: string): UAResult;
+
+    // Option 2: When used as a class
     constructor(): UAParser;
     getBrowser(): UABrowser;
     getCPU(): UACpu;
