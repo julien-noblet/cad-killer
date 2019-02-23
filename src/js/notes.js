@@ -6,7 +6,6 @@
 
 import $ from "jquery";
 import L from "leaflet";
-import "leaflet-draw";
 import { REVERSE_URL, NOTE_API } from "./config";
 //import { sendNote } from "./stats";
 
@@ -15,7 +14,7 @@ require.ensure(["leaflet-dialog"], function() {
   require("leaflet-dialog");
 });
 require("leaflet-dialog/Leaflet.Dialog.css");
-//require("leaflet-draw");
+require("leaflet-draw");
 require.ensure(["leaflet-ajax"], function() {
   require("leaflet-ajax");
 });
@@ -40,7 +39,7 @@ window.addNote = function addNote(): void {
   let eLat = document.getElementById("lat");
   let eLng = document.getElementById("lng");
   let eNote = document.getElementById("textnote");
-  console.log(eLat, eLng, eNote);
+  //console.log(eLat, eLng, eNote);
   if (
     eLat instanceof HTMLInputElement &&
     eLng instanceof HTMLInputElement &&

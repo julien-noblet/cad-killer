@@ -53,10 +53,13 @@ photon();
 require.ensure(["./reverseLabel"], function() {
   require("./reverseLabel");
 });
+/*
+// Removing notes because seems not working!
+// The loading of L.Draw cause also some fails with Jest!
 require.ensure(["./notes"], function() {
   require("./notes");
 });
-
+*/
 //require ("./geoloc.js")
 
 // ajout du bouton print
