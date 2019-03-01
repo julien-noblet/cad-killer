@@ -726,8 +726,8 @@
     "@types/node" "*"
 
 "@types/node@*":
-  version "11.9.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.9.5.tgz#011eece9d3f839a806b63973e228f85967b79ed3"
+  version "11.9.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.9.6.tgz#c632bbcc780a1349673a6e2e9b9dfa8c369d3c74"
 
 "@types/q@^1.5.1":
   version "1.5.1"
@@ -7123,8 +7123,8 @@ p-try@^2.0.0:
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.0.0.tgz#85080bb87c64688fa47996fe8f7dfbe8211760b1"
 
 pako@~1.0.5:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.8.tgz#6844890aab9c635af868ad5fecc62e8acbba3ea4"
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.10.tgz#4328badb5086a426aa90f541977d4955da5c9732"
 
 parallel-transform@^1.1.0:
   version "1.1.0"
@@ -8319,8 +8319,8 @@ readable-stream@1.0.33:
     string_decoder "~0.10.x"
 
 readable-stream@^3.0.6, readable-stream@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.1.1.tgz#ed6bbc6c5ba58b090039ff18ce670515795aeb06"
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.2.0.tgz#de17f229864c120a9f56945756e4f32c4045245d"
   dependencies:
     inherits "^2.0.3"
     string_decoder "^1.1.1"
