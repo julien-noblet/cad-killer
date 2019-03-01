@@ -726,8 +726,8 @@
     "@types/node" "*"
 
 "@types/node@*":
-  version "11.9.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.9.5.tgz#011eece9d3f839a806b63973e228f85967b79ed3"
+  version "11.9.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.9.6.tgz#c632bbcc780a1349673a6e2e9b9dfa8c369d3c74"
 
 "@types/q@^1.5.1":
   version "1.5.1"
@@ -748,8 +748,8 @@
     source-map "^0.6.1"
 
 "@types/webpack@^4.4.24":
-  version "4.4.24"
-  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.4.24.tgz#75bc301176066f566ec54151b6101c2b45abb8b2"
+  version "4.4.25"
+  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.4.25.tgz#c8a1eb968a33a3e6da641f529c5add0d44d34809"
   dependencies:
     "@types/anymatch" "*"
     "@types/node" "*"
@@ -954,8 +954,8 @@ acorn@^5.5.0, acorn@^5.5.3:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
 
 acorn@^6.0.1, acorn@^6.0.5, acorn@^6.0.7:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.1.0.tgz#b0a3be31752c97a0f7013c5f4903b71a05db6818"
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.1.1.tgz#7d25ae05bb8ad1f9b699108e1094ecd7884adc1f"
 
 agent-base@^4.1.0:
   version "4.2.1"
@@ -3836,9 +3836,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flow-bin@0.93.0:
-  version "0.93.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.93.0.tgz#9192a08d88db2a8da0ff55e42420f44539791430"
+flow-bin@0.94.0:
+  version "0.94.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.94.0.tgz#b5d58fe7559705b73a18229f97edfc3ab6ffffcb"
 
 flush-write-stream@^1.0.0:
   version "1.1.1"
@@ -7123,8 +7123,8 @@ p-try@^2.0.0:
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.0.0.tgz#85080bb87c64688fa47996fe8f7dfbe8211760b1"
 
 pako@~1.0.5:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.8.tgz#6844890aab9c635af868ad5fecc62e8acbba3ea4"
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.10.tgz#4328badb5086a426aa90f541977d4955da5c9732"
 
 parallel-transform@^1.1.0:
   version "1.1.0"
@@ -8319,8 +8319,8 @@ readable-stream@1.0.33:
     string_decoder "~0.10.x"
 
 readable-stream@^3.0.6, readable-stream@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.1.1.tgz#ed6bbc6c5ba58b090039ff18ce670515795aeb06"
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.2.0.tgz#de17f229864c120a9f56945756e4f32c4045245d"
   dependencies:
     inherits "^2.0.3"
     string_decoder "^1.1.1"
