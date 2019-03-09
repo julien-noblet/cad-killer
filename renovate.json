@@ -6,5 +6,6 @@
   },
   "devDependencies": {
     "automerge": true
-  }
+  },
+  "rebaseStalePrs": true
 }
