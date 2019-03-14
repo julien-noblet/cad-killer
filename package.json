@@ -90,7 +90,7 @@
     "imagemin-webpack-plugin": "2.4.2",
     "jest": "24.5.0",
     "jest-image-snapshot": "2.8.1",
-    "jest-puppeteer": "4.0.0",
+    "jest-puppeteer": "4.1.0",
     "lint-staged": "8.1.5",
     "mini-css-extract-plugin": "0.5.0",
     "node-sass": "4.11.0",
