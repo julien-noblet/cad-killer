@@ -1985,8 +1985,8 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000939, caniuse-lite@^1.0.30000947:
-  version "1.0.30000947"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000947.tgz#c30305e9701449c22e97f4e9837cea3d76aa3273"
+  version "1.0.30000948"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000948.tgz#793ed7c28fe664856beb92b43fc013fc22b81633"
 
 capture-exit@^2.0.0:
   version "2.0.0"
