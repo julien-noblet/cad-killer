@@ -20,20 +20,18 @@ install:
 cache:
   yarn: true
 stages:
-- name: update
-  if: type=push
 - name: test
+- name: build
 jobs:
   include:
-  - stage: update
-    install: skip
-    script: bash scripts/update.sh
-    after_success: skip
-    deploy: skip
   - stage: test
     script:
     - yarn flow
     - yarn jest
+    after_success: skip
+    deploy: skip
+  - stage: build
+    script:
     - yarn build
 deploy:
   - provider: pages
