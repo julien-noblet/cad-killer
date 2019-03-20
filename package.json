@@ -101,7 +101,7 @@
     "prettier": "1.16.4",
     "prettier-eslint": "8.8.2",
     "puppeteer": "1.13.0",
-    "regenerator-runtime": "0.13.1",
+    "regenerator-runtime": "0.13.2",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.1",
     "webpack": "4.29.6",
