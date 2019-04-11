@@ -2583,7 +2583,7 @@ core-js@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.0.0.tgz#a8dbfa978d29bfc263bfb66c556d0ca924c28957"
 
-core-js@^2.4.0, core-js@^2.6.5:
+core-js@^2.4.0, core-js@^2.5.7, core-js@^2.6.5:
   version "2.6.5"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.5.tgz#44bc8d249e7fb2ff5d00e0341a7ffb94fbf67895"
 
@@ -3780,9 +3780,10 @@ expand-tilde@^2.0.0, expand-tilde@^2.0.2:
   dependencies:
     homedir-polyfill "^1.0.1"
 
-expect-puppeteer@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/expect-puppeteer/-/expect-puppeteer-4.1.0.tgz#9244f309fbb28e33e5dfe68a21a18254a4d4f016"
+expect-puppeteer@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/expect-puppeteer/-/expect-puppeteer-4.1.1.tgz#cda2ab7b6fa27ac24eba273bbb0296a0de538e6d"
+  integrity sha512-xNpu6uYJL9Qrrp4Z31MOpDWK68zAi+2qg5aMQlyOTVZNy7cAgBZiPvKCN0C1JmP3jgPZfcxhetVjZLaw/KcJOQ==
 
 expect@^24.7.1:
   version "24.7.1"
@@ -4131,14 +4132,14 @@ find-pkg@^0.1.2:
   dependencies:
     find-file-up "^0.1.2"
 
-find-process@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/find-process/-/find-process-1.2.1.tgz#2e817add52ef3bf5bdd07c9c739b3d4442bfddf4"
+find-process@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/find-process/-/find-process-1.4.1.tgz#628c576a494d1525a27673fb26c77af90db5db02"
+  integrity sha512-RkYWDeukxEoDKUyocqMGKAYuwhSwq77zL99gCqhX9czWon3otdlzihJ0MSZ6YWNKHyvS/MN2YR4+RGYOuIEANg==
   dependencies:
     chalk "^2.0.1"
     commander "^2.11.0"
     debug "^2.6.8"
-    lodash "^4.17.11"
 
 find-root@1.1.0:
   version "1.1.0"
@@ -4732,6 +4733,16 @@ hmac-drbg@^1.0.0:
     hash.js "^1.0.3"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
+
+hoek@5.x.x:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/hoek/-/hoek-5.0.4.tgz#0f7fa270a1cafeb364a4b2ddfaa33f864e4157da"
+  integrity sha512-Alr4ZQgoMlnere5FZJsIyfIjORBqZll5POhDsF4q64dPuJR6rNxXdDxtHSQq8OXRurhmx+PWYEE8bXRROY8h0w==
+
+hoek@6.x.x:
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/hoek/-/hoek-6.1.3.tgz#73b7d33952e01fe27a38b0457294b79dd8da242c"
+  integrity sha512-YXXAAhmF9zpQbC7LEcREFtXfGq5K1fmd+4PHkBq8NUqmzW3G+Dq10bI/i0KucLRwss3YYFQ0fSfoxBZYiGUqtQ==
 
 homedir-polyfill@^1.0.0, homedir-polyfill@^1.0.1:
   version "1.0.3"
@@ -5503,6 +5514,13 @@ isarray@1.0.0, isarray@^1.0.0, isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
 
+isemail@3.x.x:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/isemail/-/isemail-3.2.0.tgz#59310a021931a9fb06bbb51e155ce0b3f236832c"
+  integrity sha512-zKqkK+O+dGqevc93KNsbZ/TqTUFd46MwWjYOoMrjIMZ51eU7DtQG3Wmd9SQQT7i7RVnuTPEiYEWHU3MSbxC1Tg==
+  dependencies:
+    punycode "2.x.x"
+
 isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
@@ -5656,17 +5674,18 @@ jest-config@^24.7.1:
     pretty-format "^24.7.0"
     realpath-native "^1.1.0"
 
-jest-dev-server@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/jest-dev-server/-/jest-dev-server-4.0.0.tgz#4a9e784bdaa86c0debc5b99dbf438a7ff0ff415e"
+jest-dev-server@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/jest-dev-server/-/jest-dev-server-4.1.1.tgz#47fba4fcb8376de9a6730e7c10d4e7925fc4a583"
+  integrity sha512-VB/myFWW1q271FUWWbuTy/tWFTw1bQ8Gs5U/5I0h6p8vNJSs+nBivOJQNiOrc745ijh1ND0WMs1rDSmCCnh5Cg==
   dependencies:
     chalk "^2.4.2"
     cwd "^0.10.0"
-    find-process "^1.2.1"
-    inquirer "^6.2.2"
+    find-process "^1.4.1"
+    prompts "^2.0.4"
     spawnd "^4.0.0"
     tree-kill "^1.2.1"
-    wait-port "^0.2.2"
+    wait-on "^3.2.0"
 
 jest-diff@^24.7.0:
   version "24.7.0"
@@ -5714,13 +5733,14 @@ jest-environment-node@^24.7.1:
     jest-mock "^24.7.0"
     jest-util "^24.7.1"
 
-jest-environment-puppeteer@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/jest-environment-puppeteer/-/jest-environment-puppeteer-4.1.0.tgz#16c4c645c6716fb4fe4ff22d345b7c6c9c0ebde6"
+jest-environment-puppeteer@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/jest-environment-puppeteer/-/jest-environment-puppeteer-4.1.1.tgz#dc7f715d9a8d2b6ca01c5ed29f211b4bb4aa6fdc"
+  integrity sha512-H+Wqxq4w9mFb0sBRGcbFIU02T+0YZbf/HKfQhwHvbam4UQqq7/n3kRkF0iYYlf76Jmys/H8rThtdh+HHxFgA5Q==
   dependencies:
     chalk "^2.4.2"
     cwd "^0.10.0"
-    jest-dev-server "^4.0.0"
+    jest-dev-server "^4.1.1"
     merge-deep "^3.0.2"
 
 jest-get-type@^24.3.0:
@@ -5816,12 +5836,13 @@ jest-pnp-resolver@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/jest-pnp-resolver/-/jest-pnp-resolver-1.2.1.tgz#ecdae604c077a7fbc70defb6d517c3c1c898923a"
 
-jest-puppeteer@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/jest-puppeteer/-/jest-puppeteer-4.1.0.tgz#b5d2f38174a8b79c7ccadb916035aefcd13685e0"
+jest-puppeteer@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/jest-puppeteer/-/jest-puppeteer-4.1.1.tgz#b1b37146a875545741db5c1ad0673e418cedfe92"
+  integrity sha512-nMZ8oUrmzp67UfPKXKmoEU1wLsZfPAhlOlLYHZSCb78eIkHmeP8tqSibhAMxH8BIQUHTsnAfel5z5AsGv2SzGQ==
   dependencies:
-    expect-puppeteer "^4.1.0"
-    jest-environment-puppeteer "^4.1.0"
+    expect-puppeteer "^4.1.1"
+    jest-environment-puppeteer "^4.1.1"
 
 jest-regex-util@^24.3.0:
   version "24.3.0"
@@ -5971,6 +5992,15 @@ jest@24.7.1:
   dependencies:
     import-local "^2.0.0"
     jest-cli "^24.7.1"
+
+joi@^13.0.0:
+  version "13.7.0"
+  resolved "https://registry.yarnpkg.com/joi/-/joi-13.7.0.tgz#cfd85ebfe67e8a1900432400b4d03bbd93fb879f"
+  integrity sha512-xuY5VkHfeOYK3Hdi91ulocfuFopwgbSORmIwzcwHKESQhC7w1kD5jaVSPnqDxS2I8t3RZ9omCKAxNwXN5zG1/Q==
+  dependencies:
+    hoek "5.x.x"
+    isemail "3.x.x"
+    topo "3.x.x"
 
 jpegtran-bin@^4.0.0:
   version "4.0.0"
@@ -8513,6 +8543,14 @@ prompts@^2.0.1:
     kleur "^3.0.2"
     sisteransi "^1.0.0"
 
+prompts@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/prompts/-/prompts-2.0.4.tgz#179f9d4db3128b9933aa35f93a800d8fce76a682"
+  integrity sha512-HTzM3UWp/99A0gk51gAegwo1QRYA7xjcZufMNe33rCclFszUYAuHe1fIN/3ZmiHeGPkUsNaRyQm1hHOfM0PKxA==
+  dependencies:
+    kleur "^3.0.2"
+    sisteransi "^1.0.0"
+
 prop-types@^15.6.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
@@ -8596,13 +8634,13 @@ punycode@1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.3.2.tgz#9653a036fb7c1ee42342f2325cceefea3926c48d"
 
+punycode@2.x.x, punycode@^2.1.0, punycode@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
+
 punycode@^1.2.4, punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
-
-punycode@^2.1.0, punycode@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
 
 puppeteer@1.14.0:
   version "1.14.0"
@@ -9104,6 +9142,11 @@ rx-lite-aggregates@^4.0.8:
 rx-lite@*, rx-lite@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-4.0.8.tgz#0b1e11af8bc44836f04a6407e92da42467b79444"
+
+rx@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/rx/-/rx-4.1.0.tgz#a5f13ff79ef3b740fe30aa803fb09f98805d4782"
+  integrity sha1-pfE/957zt0D+MKqAP7CfmIBdR4I=
 
 rxjs@^6.1.0, rxjs@^6.3.3, rxjs@^6.4.0:
   version "6.4.0"
@@ -10048,6 +10091,13 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
+topo@3.x.x:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/topo/-/topo-3.0.3.tgz#d5a67fb2e69307ebeeb08402ec2a2a6f5f7ad95c"
+  integrity sha512-IgpPtvD4kjrJ7CRA3ov2FhWQADwv+Tdqbsf1ZnPUSAtCJ9e1Z44MmoSGDXGk4IppoZA7jd/QRkNddlLJWlUZsQ==
+  dependencies:
+    hoek "6.x.x"
+
 toposort@^1.0.0:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/toposort/-/toposort-1.0.7.tgz#2e68442d9f64ec720b8cc89e6443ac6caa950029"
@@ -10375,6 +10425,17 @@ w3c-hr-time@^1.0.1:
   resolved "https://registry.yarnpkg.com/w3c-hr-time/-/w3c-hr-time-1.0.1.tgz#82ac2bff63d950ea9e3189a58a65625fedf19045"
   dependencies:
     browser-process-hrtime "^0.1.2"
+
+wait-on@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/wait-on/-/wait-on-3.2.0.tgz#c83924df0fc42a675c678324c49c769d378bcb85"
+  integrity sha512-QUGNKlKLDyY6W/qHdxaRlXUAgLPe+3mLL/tRByHpRNcHs/c7dZXbu+OnJWGNux6tU1WFh/Z8aEwvbuzSAu79Zg==
+  dependencies:
+    core-js "^2.5.7"
+    joi "^13.0.0"
+    minimist "^1.2.0"
+    request "^2.88.0"
+    rx "^4.1.0"
 
 wait-port@^0.2.2:
   version "0.2.2"
