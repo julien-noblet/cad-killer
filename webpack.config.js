@@ -14,6 +14,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   filename: "index.html",
   inject: "body"
 });
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 var ImageminPlugin = require("imagemin-webpack-plugin").default;
 
@@ -76,6 +77,13 @@ module.exports = {
         options: {
           name: "images/[name].[ext]"
         }
+      },
+      {
+        test: /^brave-rewards-verification\.txt/,
+        loader: "file-loader",
+        options: {
+          name: ".well-known/brave-rewards-verification.txt"
+        }
       }
     ]
   },
@@ -98,7 +106,8 @@ module.exports = {
       cssProcessor: require("cssnano"),
       cssProcessorOptions: { discardComments: { removeAll: true } },
       canPrint: true
-    })
+    }),
+    new CopyWebpackPlugin([{ from: "static" }])
   ],
   optimization: {
     minimize: true,
