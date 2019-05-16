@@ -67,7 +67,7 @@
     "husky": "2.3.0",
     "imagemin-webpack-plugin": "2.4.2",
     "jest": "24.8.0",
-    "jest-image-snapshot": "2.8.1",
+    "jest-image-snapshot": "2.8.2",
     "jest-puppeteer": "4.1.1",
     "lint-staged": "8.1.7",
     "mini-css-extract-plugin": "0.6.0",
