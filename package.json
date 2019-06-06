@@ -87,7 +87,7 @@
     "webpack-dev-server": "3.7.0"
   },
   "dependencies": {
-    "es6-promise": "4.2.6",
+    "es6-promise": "4.2.7",
     "jquery": "3.4.1",
     "leaflet": "1.5.1",
     "leaflet-ajax": "2.1.0",
