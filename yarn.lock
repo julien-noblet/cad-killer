@@ -3513,7 +3513,12 @@ es6-denodeify@^0.1.1:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/es6-denodeify/-/es6-denodeify-0.1.5.tgz#31d4d5fe9c5503e125460439310e16a2a3f39c1f"
 
-es6-promise@4.2.6, es6-promise@^4.0.3:
+es6-promise@4.2.7:
+  version "4.2.7"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.7.tgz#40fa0099ca1be6b51c4b46605c29863a5af861e5"
+  integrity sha512-a7+Hn+yFRzjOE9+uxOoA1t56vPVy9a8kydTwE3mi3RDh0kGJkjWom1EjUYMUHlTd/PibSgZE3RhVotigAnYkmQ==
+
+es6-promise@^4.0.3:
   version "4.2.6"
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.6.tgz#b685edd8258886365ea62b57d30de28fadcd974f"
 
