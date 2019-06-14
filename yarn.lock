@@ -8558,10 +8558,10 @@ postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.2, postcss@^7.0.5,
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-pouchdb@7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/pouchdb/-/pouchdb-7.1.0.tgz#f74172197b5943096ec0161f5768d2c23c14e64a"
-  integrity sha512-JMHSK+8KVlO2N8DrCGdyLJHurj18cYN2iPQOCvzZEYHFsVnZ7AZJ9h69OWsFWhPH7NTqHXolw/w+0Oq2kM1Y/A==
+pouchdb@7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/pouchdb/-/pouchdb-7.1.1.tgz#f5f8dcd1fc440fb76651cb26f6fc5d97a39cd6ce"
+  integrity sha512-8bXWclixNJZqokvxGHRsG19zehSJiaZaz4dVYlhXhhUctz7gMcNTElHjPBzBdZlKKvt9aFDndmXN1VVE53Co8g==
   dependencies:
     argsarray "0.0.1"
     buffer-from "1.1.0"
