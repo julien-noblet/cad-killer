@@ -48,7 +48,7 @@
     "babel-7-jest": "21.3.3",
     "babel-eslint": "10.0.2",
     "babel-loader": "8.0.6",
-    "commitizen": "3.1.2",
+    "commitizen": "4.0.3",
     "copy-webpack-plugin": "5.0.3",
     "css-loader": "2.1.1",
     "css-module-flow": "1.0.0",
