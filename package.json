@@ -60,7 +60,7 @@
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-prettier": "3.1.0",
     "eslint-plugin-react": "7.14.3",
-    "file-loader": "4.1.0",
+    "file-loader": "4.2.0",
     "flow-bin": "0.104.0",
     "flow-typed": "2.6.1",
     "handlebars": "4.1.2",
