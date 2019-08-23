@@ -6938,10 +6938,10 @@ leaflet-plugins@3.3.0:
   resolved "https://registry.yarnpkg.com/leaflet-plugins/-/leaflet-plugins-3.3.0.tgz#7eb50b1ae0542eddf671d6cf898f9de46a6588d5"
   integrity sha512-4dg8qNwoJQA8nXfiXEGmECDdYaBz608Nd7EsnXH0P7E+dGP+wu4QuOWTsQ8W4P8A+I0Vy5pjXKnB4PdxClnqZQ==
 
-leaflet.browser.print@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/leaflet.browser.print/-/leaflet.browser.print-1.0.1.tgz#94faa9ce13ce9283822555b5a8a052cde6c18657"
-  integrity sha512-i2qt1YahTxLNMePC1VozZiMxySACoVVMp7s5gvEefd7g1XVMy6VY9MYYrIOLVj3G0dui8EPTe9r9aKSCPsBSRA==
+leaflet.browser.print@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/leaflet.browser.print/-/leaflet.browser.print-1.0.2.tgz#d613f7a97c85ba4b9e6761d7769f4c57ada5372d"
+  integrity sha512-a1abqn7YNSq3E7Ffay7svrn+GszZiBbaw+AmiRx8fvbnI+A9WNcPEdT4O4VDFx6JfBKg1j5uESfb8LLsGqP9jQ==
 
 leaflet.photon@0.8.0:
   version "0.8.0"
