@@ -7001,10 +7001,10 @@ leaflet-modal@0.1.5:
   dependencies:
     leaflet "^0.7.3"
 
-leaflet-plugins@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/leaflet-plugins/-/leaflet-plugins-3.3.0.tgz#7eb50b1ae0542eddf671d6cf898f9de46a6588d5"
-  integrity sha512-4dg8qNwoJQA8nXfiXEGmECDdYaBz608Nd7EsnXH0P7E+dGP+wu4QuOWTsQ8W4P8A+I0Vy5pjXKnB4PdxClnqZQ==
+leaflet-plugins@3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/leaflet-plugins/-/leaflet-plugins-3.3.1.tgz#fbe0c9ab043af1a3766766c7829d892b8b222acd"
+  integrity sha512-LiB9waFn1NVdiqLUffKUr59k8qoPv/41U7cw4fYBK82mZu672hTlEzUzgSpLNE6JN1O5ruWVrjUsX83MQZxEGA==
 
 leaflet.browser.print@1.0.2:
   version "1.0.2"
