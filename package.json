@@ -70,7 +70,7 @@
     "jest": "24.9.0",
     "jest-image-snapshot": "2.11.1",
     "jest-puppeteer": "4.3.0",
-    "lint-staged": "9.4.3",
+    "lint-staged": "9.5.0",
     "mini-css-extract-plugin": "0.8.0",
     "node-sass": "4.13.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
