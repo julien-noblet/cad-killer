@@ -102,7 +102,7 @@
     "material-design-iconic-font": "2.2.0",
     "opensans-npm-webfont": "1.0.0",
     "pouchdb": "7.1.1",
-    "ua-parser-js": "0.7.20"
+    "ua-parser-js": "0.7.21"
   },
   "jest": {
     "moduleNameMapper": {
