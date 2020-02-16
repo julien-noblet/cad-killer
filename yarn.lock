@@ -9807,10 +9807,10 @@ postcss@^7.0.23:
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-pouchdb@7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/pouchdb/-/pouchdb-7.2.0.tgz#a40c637537708afc6ff3ef3ca9e89af6c17d2c1d"
-  integrity sha512-Vl6rgqZkv+z/k3HjFiQOGikyJGWeG//IBtJVQ0OEoqU3lyH/sqqd4JR8AScOOjJudZfNU10etV1zpwnOJzYg8g==
+pouchdb@7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/pouchdb/-/pouchdb-7.2.1.tgz#619e3d5c2463ddd94a4b1bf40d44408c46e9de79"
+  integrity sha512-AoDPdr6tFqj3xs7oiD2oioYj5MMu87c3UemRHZ/p++BwU+ZsKn5jpnL09OvWTLvMvaICGAOufiaUzmM1/KKoKQ==
   dependencies:
     abort-controller "3.0.0"
     argsarray "0.0.1"
