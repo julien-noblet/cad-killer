@@ -101,7 +101,7 @@
     "leaflet.photon": "0.8.0",
     "material-design-iconic-font": "2.2.0",
     "opensans-npm-webfont": "1.0.0",
-    "pouchdb": "7.1.1",
+    "pouchdb": "7.2.0",
     "ua-parser-js": "0.7.21"
   },
   "jest": {
