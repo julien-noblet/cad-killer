@@ -12,7 +12,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: "./src/index.html",
   filename: "index.html",
-  inject: "body"
+  inject: "body",
 });
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
@@ -26,24 +26,24 @@ module.exports = {
     leaflet: "leaflet",
     stats: ["pouchdb", "ua-parser-js", "leaflet-dialog", "leaflet-draw"],
     leaflet_plugins_a: ["leaflet-ajax", "leaflet-hash"],
-    leaflet_plugins_b: ["leaflet-modal", "leaflet.photon"]
+    leaflet_plugins_b: ["leaflet-modal", "leaflet.photon"],
   },
   output: {
     path: path.resolve("dist"),
     filename: "[name]_bundle.js",
-    chunkFilename: "[name].bundle.js"
+    chunkFilename: "[name].bundle.js",
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         loader: "babel-loader",
-        exclude: [/node_modules/, /\.test\.js$/]
+        exclude: [/node_modules/, /\.test\.js$/],
       },
       {
         test: /\.jsx$/,
         loader: "babel-loader",
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.scss$/,
@@ -53,61 +53,61 @@ module.exports = {
           { loader: "css-loader", options: {} },
           { loader: "postcss-loader", options: {} },
 
-          { loader: "sass-loader", options: {} } // compiles Sass to CSS
-        ]
+          { loader: "sass-loader", options: {} }, // compiles Sass to CSS
+        ],
       },
       {
         test: /\.css$/,
         use: [
           MiniCssExtractPlugin.loader,
           { loader: "css-loader", options: {} },
-          { loader: "postcss-loader", options: {} }
-        ]
+          { loader: "postcss-loader", options: {} },
+        ],
       },
       {
         test: /\.(ttf|eot|woff|woff2)$/,
         loader: "file-loader",
         options: {
-          name: "fonts/[name].[ext]"
-        }
+          name: "fonts/[name].[ext]",
+        },
       },
       {
         test: /\.(png|jpeg|jpg|gif)$/,
         loader: "file-loader",
         options: {
-          name: "images/[name].[ext]"
-        }
+          name: "images/[name].[ext]",
+        },
       },
       {
         test: /^brave-rewards-verification\.txt/,
         loader: "file-loader",
         options: {
-          name: ".well-known/brave-rewards-verification.txt"
-        }
-      }
-    ]
+          name: ".well-known/brave-rewards-verification.txt",
+        },
+      },
+    ],
   },
   plugins: [
     HtmlWebpackPluginConfig,
     new ImageminPlugin({
       disable: process.env.NODE_ENV !== "production", // Disable during development
       pngquant: {
-        quality: "95-100"
-      }
+        quality: "95-100",
+      },
     }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
       filename: "[name].css",
-      chunkFilename: "[id].css"
+      chunkFilename: "[id].css",
     }),
     new OptimizeCssAssetsPlugin({
       assetNameRegExp: /\.optimize\.css$/g,
       cssProcessor: require("cssnano"),
       cssProcessorOptions: { discardComments: { removeAll: true } },
-      canPrint: true
+      canPrint: true,
     }),
-    new CopyWebpackPlugin([{ from: "static" }])
+    new CopyWebpackPlugin({ patterns: [{ from: "static" }] }),
   ],
   optimization: {
     minimize: true,
@@ -126,26 +126,26 @@ module.exports = {
           name: "styles",
           test: /\.css$/,
           chunks: "all",
-          enforce: true
+          enforce: true,
         },
         leaflet: {
           test: /[\\/]node_modules[\\/]/,
-          priority: -10
+          priority: -10,
         },
         jquery: {
           test: /[\\/]node_modules[\\/]/,
-          priority: -10
+          priority: -10,
         },
         stats: {
           test: /[\\/]node_modules[\\/]/,
-          priority: -10
+          priority: -10,
         },
         default: {
           minChunks: 2,
           priority: -20,
-          reuseExistingChunk: true
-        }
-      }
-    }
-  }
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
 };
