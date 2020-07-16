@@ -7,7 +7,6 @@ import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import { compile } from "handlebars";
 const { toMatchImageSnapshot } = require("jest-image-snapshot");
-const devices = require("puppeteer/DeviceDescriptors");
 
 // Extend Jest expect
 expect.extend({ toMatchImageSnapshot });
@@ -18,7 +17,7 @@ const viewports = [
   { width: 768, height: 400 },
   { width: 1024, height: 500 },
   { width: 1280, height: 500 },
-  { width: 1280, height: 960 }
+  { width: 1280, height: 960 },
 ];
 
 describe("Web Render test", () => {
@@ -43,12 +42,12 @@ describe("Web Render test", () => {
       expect(screenshot).toMatchImageSnapshot({
         customSnapshotIdentifier:
           "header_" + viewport.width + "x" + viewport.height,
-        customDiffConfig: { threshold: 10 }
+        customDiffConfig: { threshold: 10 },
       });
     }
   });
   test.skip("Correctly renders header for mobiles", async () => {
-    for (const device of devices) {
+    for (const device of puppeteer.devices) {
       await page.emulate(device);
       await page.goto(`http://localhost:9000/`);
       const elem = await page.$("#head");
@@ -56,7 +55,7 @@ describe("Web Render test", () => {
         //        clip: { x: 0, y: 0, width: device.viewport.width, height: 60 }
       });
       expect(screenshot).toMatchImageSnapshot({
-        customSnapshotIdentifier: "header_" + device.name
+        customSnapshotIdentifier: "header_" + device.name,
       });
     }
   });
@@ -70,12 +69,12 @@ describe("Web Render test", () => {
       expect(screenshot).toMatchImageSnapshot({
         customSnapshotIdentifier:
           "main_" + viewport.width + "x" + viewport.height,
-        customDiffConfig: { threshold: 10 }
+        customDiffConfig: { threshold: 10 },
       });
     }
   });
   test.skip("Correctly renders mobile main page", async () => {
-    for (const device of devices) {
+    for (const device of puppeteer.devices) {
       const page = await browser.newPage();
       await page.emulate(device);
       await page.goto(`http://localhost:9000/`, { timeout: 300000 });
@@ -84,7 +83,7 @@ describe("Web Render test", () => {
       });
       expect(screenshot).toMatchImageSnapshot({
         customSnapshotIdentifier: "main_" + device.name,
-        customDiffConfig: { threshold: 10 }
+        customDiffConfig: { threshold: 10 },
       });
     }
   });
@@ -93,7 +92,7 @@ describe("Web Render test", () => {
     await page.setViewport({ width: 1280, height: 960 });
     await page.goto(`http://localhost:9000/`, { timeout: 300000 });
     await page.waitForSelector(".leaflet-control-layers-toggle", {
-      visible: true
+      visible: true,
     });
     //await page.hover(".leaflet-control-layers-toggle");
     await page.evaluate(() => {
@@ -103,7 +102,7 @@ describe("Web Render test", () => {
     });
     await page.hover(".leaflet-control-layers-list");
     await page.waitForSelector(".leaflet-control-layers-list", {
-      visible: true
+      visible: true,
     });
     const elem = await page.$(".leaflet-control-layers-list");
     //await elem.dispose()
@@ -111,7 +110,7 @@ describe("Web Render test", () => {
     const screenshot = await elem.screenshot();
     expect(screenshot).toMatchImageSnapshot({
       customSnapshotIdentifier: "layers_list",
-      customDiffConfig: { threshold: 10 }
+      customDiffConfig: { threshold: 10 },
     });
   });
 
@@ -120,7 +119,7 @@ describe("Web Render test", () => {
     await page.goto(`http://localhost:9000/`, { timeout: 300000 });
 
     await page.waitForSelector(".leaflet-control-attribution", {
-      visible: true
+      visible: true,
     });
     const elem = await page.$(".leaflet-control-attribution");
     //await elem.dispose()
@@ -128,7 +127,7 @@ describe("Web Render test", () => {
     const screenshot = await elem.screenshot();
     expect(screenshot).toMatchImageSnapshot({
       customSnapshotIdentifier: "attribution_default",
-      customDiffConfig: { threshold: 10 }
+      customDiffConfig: { threshold: 10 },
     });
   });
 });
