@@ -11,11 +11,11 @@ import L from "leaflet";
 // Creation des liens vers les bases.
 const db = new PouchDB(MY_POUCHDB, {
   ajax: {
-    timeout: 100000
-  }
+    timeout: 100000,
+  },
 });
 
-const localdb: PouchDB<any> = new PouchDB((LOCAL_POUCHDB: string));
+const localdb = new PouchDB((LOCAL_POUCHDB: string));
 let retry: number = 3;
 const RETRY_MAX: number = 3;
 const TIMEOUT: number = 1e4; // 1sec
@@ -41,16 +41,15 @@ function genericPost(post: {
   element: any,
   type: string,
   userId: string,
-  element: any
+  element: any,
 }): void {
-  db
-    .post(post)
-    .then(function(r): void {
+  db.post(post)
+    .then(function (r): void {
       // what to do???
       retry = RETRY_MAX;
       return r;
     })
-    .catch(err => {
+    .catch((err) => {
       if (err.status === 502 && retry > 0) {
         setTimeout(() => {
           retry -= 1;
@@ -73,7 +72,7 @@ function getUserID(callback: any) {
   let info: any;
   localdb
     .get("cad-killer_user")
-    .then(d => {
+    .then((d) => {
       const doc = d;
       if (doc.userId === null) {
         // Hack , sometimes IE forget userId :(
@@ -84,15 +83,15 @@ function getUserID(callback: any) {
       // console.log(`Hello ${doc.userId} !`);
       callback(doc.userId);
     })
-    .catch(err => {
+    .catch((err) => {
       let post: {
         _id?: string,
         date?: number,
         info?: any,
         type?: string,
-        userId: string
+        userId: string,
       } = {
-        userId: "badUserID"
+        userId: "badUserID",
       };
       switch (err.status) {
         case 404:
@@ -102,11 +101,10 @@ function getUserID(callback: any) {
             info,
             date: date.getTime(),
             type: "user",
-            userId: "badUserID"
+            userId: "badUserID",
           };
-          db
-            .post(post)
-            .then(ret => {
+          db.post(post)
+            .then((ret) => {
               const localpost = post;
               localpost.userId = ret.id;
               localpost._id = "cad-killer_user";
@@ -116,11 +114,11 @@ function getUserID(callback: any) {
                   console.log(`Nice! Hello No. ${localpost.userId} !`);
                   callback(localpost.userId);
                 })
-                .catch(errputlocal => {
+                .catch((errputlocal) => {
                   console.error(errputlocal);
                 });
             })
-            .catch(errpost => {
+            .catch((errpost) => {
               if (err.status === 502) {
                 setTimeout(() => {
                   getUserID(callback);
@@ -138,13 +136,12 @@ function getUserID(callback: any) {
 }
 
 function checkUserId() {
-  getUserID(userId => {
-    db
-      .get(userId)
+  getUserID((userId) => {
+    db.get(userId)
       .then(() => {
         console.log(`Ok ${userId} is on DB!`);
       })
-      .catch(err => {
+      .catch((err) => {
         const date = new Date();
         let info;
         let post: {
@@ -152,9 +149,9 @@ function checkUserId() {
           date?: number,
           info?: any,
           type?: string,
-          userId?: string
+          userId?: string,
         } = {
-          userId: "badID"
+          userId: "badID",
         };
         if (err.status === 404) {
           console.error("Damn! 404!");
@@ -163,14 +160,13 @@ function checkUserId() {
             _id: userId,
             info,
             date: date.getTime(),
-            type: "user"
+            type: "user",
           };
-          db
-            .put(post)
+          db.put(post)
             .then(() => {
               console.log(`User ${userId} have been reposted!`);
             })
-            .catch(error => {
+            .catch((error) => {
               console.error(error);
             });
         }
@@ -180,16 +176,15 @@ function checkUserId() {
 }
 
 export function dbinfo(): void {
-  db
-    .info()
-    .then(result => {
+  db.info()
+    .then((result) => {
       console.log(result);
       retry = RETRY_MAX;
       checkUserId();
 
       // handle result
     })
-    .catch(err => {
+    .catch((err) => {
       if (err.status === 502 && retry > 0) {
         setTimeout(() => {
           retry -= 1;
@@ -205,19 +200,19 @@ function send(type: string, element?: any) {
   const date = new Date();
   let ret;
   // console.log(`Send type : ${type}`);
-  getUserID(userId => {
+  getUserID((userId) => {
     const post: {
       _id?: string,
       date: number,
       info?: any,
       type: string,
       userId: string,
-      element?: any
+      element?: any,
     } = {
       userId,
       date: date.getTime(),
       type,
-      element
+      element,
     };
     if (element !== null) {
       post.element = element;
@@ -266,12 +261,12 @@ export function sendView() {
  * @param {*} layer
  * @param {*} switchCase
  */
-export function onSwitchLayer(layer: L.Layer, switchCase: string): void {
+export function onSwitchLayer(layer: typeof L.Layer, switchCase: string): void {
   const url = `${REVERSE_URL}lon=${window.map.getCenter().lng}&lat=${
     window.map.getCenter().lat
   }`;
 
-  L.Util.ajax(url).then(function(data): void {
+  L.Util.ajax(url).then(function (data): void {
     let city: string = "";
     let postcode: string = "";
     if (data.features[0] !== null) {
@@ -286,23 +281,23 @@ export function onSwitchLayer(layer: L.Layer, switchCase: string): void {
       location: {
         lat: window.map.getCenter().lat,
         lng: window.map.getCenter().lng,
-        zoom: window.map.getZoom()
-      }
+        zoom: window.map.getZoom(),
+      },
     });
   });
 }
 
-export default function() {
+export default function () {
   dbinfo();
-  window.map.on("baselayerchange", function(e): void {
+  window.map.on("baselayerchange", function (e): void {
     onSwitchLayer(e.name, "switch");
   });
 
-  window.map.on("overlayadd", function(e): void {
+  window.map.on("overlayadd", function (e): void {
     onSwitchLayer(e.name, "add-overlay");
   });
 
-  window.map.on("overlayremove", function(e): void {
+  window.map.on("overlayremove", function (e): void {
     onSwitchLayer(e.name, "remove-overlay");
   });
 }
