@@ -1,36 +1,34 @@
-// flow-typed signature: 47d1dbf8acde59e5f0e353fad891c627
-// flow-typed version: 4e458b944e/ua-parser-js_v0.7.x/flow_>=v0.42.x
+/** @format */
 
-declare module 'ua-parser-js' {
+// flow-typed signature: d5c4eac1f7f1020bead949d988ddcb8a
+// flow-typed version: c6154227d1/ua-parser-js_v0.7.x/flow_>=v0.104.x
+
+declare module "ua-parser-js" {
   declare type UABrowser = {
     name: string,
     version: string,
+    ...
   };
 
-  declare type UACpu = {
-    architecture: string,
-  };
+  declare type UACpu = { architecture: string, ... };
 
   declare type UADevice = {
     model: string,
-    type:
-      | 'console'
-      | 'mobile'
-      | 'tablet'
-      | 'smarttv'
-      | 'wearable'
-      | 'embedded',
+    type: "console" | "mobile" | "tablet" | "smarttv" | "wearable" | "embedded",
     vendor: string,
+    ...
   };
 
   declare type UAEngine = {
     name: string,
     version: string,
+    ...
   };
 
   declare type UAOs = {
     name: string,
     version: string,
+    ...
   };
 
   declare type UAResult = {
@@ -40,6 +38,7 @@ declare module 'ua-parser-js' {
     engine: UAEngine,
     os: UAOs,
     ua: string,
+    ...
   };
 
   declare class UAParser {
