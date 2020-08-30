@@ -64,7 +64,7 @@
     "flow-bin": "0.132.0",
     "flow-typed": "3.2.1",
     "handlebars": "4.7.6",
-    "html-webpack-plugin": "4.3.0",
+    "html-webpack-plugin": "4.4.1",
     "husky": "4.2.5",
     "imagemin-webpack-plugin": "2.4.2",
     "jest": "26.4.2",
