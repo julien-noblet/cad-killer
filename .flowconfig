@@ -6,3 +6,5 @@ module.name_mapper='^.*\.css$' -> 'css-module-flow'
 module.name_mapper='^.*\.scss$' -> 'css-module-flow'
 [ignore]
 .*/node_modules/config-chain/test/broken.json
+.*/node_modules/webpack-cli/lib/utils/__tests__/test-both/package-lock.json
+.*/node_modules/webpack-cli/lib/utils/__tests__/test-npm-lock/package-lock.json
