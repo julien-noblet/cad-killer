@@ -10,12 +10,12 @@ import { REVERSE_URL, NOTE_API } from "./config";
 //import { sendNote } from "./stats";
 
 // require('font-awesome-webpack');
-require.ensure(["leaflet-dialog"], function() {
+require.ensure(["leaflet-dialog"], function () {
   require("leaflet-dialog");
 });
 require("leaflet-dialog/Leaflet.Dialog.css");
 require("leaflet-draw");
-require.ensure(["leaflet-ajax"], function() {
+require.ensure(["leaflet-ajax"], function () {
   require("leaflet-ajax");
 });
 
@@ -27,8 +27,8 @@ const notesControl = new L.Control.Draw({
     circlemarker: false,
     polygon: false,
     polyline: false,
-    rectangle: false
-  }
+    rectangle: false,
+  },
 });
 /* eslint-enable no-unused-vars */
 
@@ -44,8 +44,8 @@ window.addNote = function addNote(): void {
     eLat instanceof HTMLInputElement &&
     eLng instanceof HTMLInputElement &&
     eNote instanceof HTMLTextAreaElement &&
-    parseFloat(eLat.value) !== null &&
-    parseFloat(eLng.value) !== null &&
+    isNaN(parseFloat(eLat.value)) &&
+    isNaN(parseFloat(eLng.value)) &&
     eNote.value !== null &&
     parseFloat(eLat.value) == 0 &&
     parseFloat(eLng.value) !== 0 &&
@@ -60,14 +60,14 @@ window.addNote = function addNote(): void {
     const options: { headers: { Authorization: string }, method: string } = {
       method: "POST",
       headers: {
-        Authorization: "Basic $OSM_CREDITENTIALS"
-      }
+        Authorization: "Basic $OSM_CREDITENTIALS",
+      },
     };
     const settings: JQueryAjaxSettings = {
       url: NOTE_API + content,
       type: "post",
       headers: options.headers,
-      error: function(data, textStatus, err) {
+      error: function (data, textStatus, err) {
         window.dialog.setContent(
           '<h1>Votre note n\'à pas été envoyée <i class="zmdi zmdi-mood-bad"></i></h1><br/>Veuillez ré-essayer ultérieurement.'
         );
@@ -78,7 +78,7 @@ window.addNote = function addNote(): void {
           window.dialog.close();
         }, 5000); // on ferme après 5 sec
       },
-      success: function(data) {
+      success: function (data) {
         /* eslint-disable max-len */
         window.dialog.setContent(
           '<h1>Votre note à été envoyée <i class="zmdi zmdi-mood"></i></h1><br/>Merci pour votre contribution.'
@@ -91,7 +91,7 @@ window.addNote = function addNote(): void {
         }, 5000); // on ferme après 5 sec
 
         // TODO: window.dialog.destroy(); // cela reduira l'empreinte mémoire.
-      }
+      },
     };
     $.ajax(
       settings
@@ -111,22 +111,20 @@ function resetNote() {
 */
 /* eslint-enable no-unused-vars */
 
-window.map.on("draw:created", e => {
+window.map.on("draw:created", (e) => {
   const layer = e.layer;
   const url = `${REVERSE_URL}lon=${layer._latlng.lng}&lat=${layer._latlng.lat}`;
   /* eslint-disable no-unused-vars */
   const req: JQueryXHR = $.ajax(url, {
-    dataType: "json"
+    dataType: "json",
   });
   /* eslint-enable no-unused-vars */
-  L.Util.ajax(url).then(data => {
+  L.Util.ajax(url).then((data) => {
     let HtmlCity: string = "";
     let city: string = "";
     if (data.features[0]) {
-      city = data.features[0].properties.city;
-      HtmlCity = `<span class="city">\n près de ${
-        data.features[0].properties.city
-      }<span>`;
+      //city = data.features[0].properties.city;
+      HtmlCity = `<span class="city">\n près de ${data.features[0].properties.city}<span>`;
     }
     notesItems.addLayer(layer);
     window.map.addLayer(notesItems);
@@ -134,7 +132,7 @@ window.map.on("draw:created", e => {
     window.dialog = L.control
       .dialog({
         minSize: [400, 50],
-        size: [800, 600]
+        size: [800, 600],
       })
       .setContent(
         [
@@ -142,16 +140,12 @@ window.map.on("draw:created", e => {
           "<hr>",
           '<div class="modal-body"><textarea id="textnote" class="textnote" name="textnote" autofocus="yes"></textarea></div>',
           '<div class="modal-footer">',
-          `<input type="hidden" id="lat" name="lat" value="${
-            layer._latlng.lat
-          }">`,
-          `<input type="hidden" id="lng" name="lng" value="${
-            layer._latlng.lng
-          }">`,
+          `<input type="hidden" id="lat" name="lat" value="${layer._latlng.lat}">`,
+          `<input type="hidden" id="lng" name="lng" value="${layer._latlng.lng}">`,
           '<input type="submit" class="topcoat-button--large" value="Soumettre la note" ',
           'onclick=" window.addNote() ">',
           '<input type="submit" class="topcoat-button--large close" value="Annuler" onclick="window.dialog.close();">',
-          "</div>"
+          "</div>",
         ].join("")
       )
       .addTo(window.map);
