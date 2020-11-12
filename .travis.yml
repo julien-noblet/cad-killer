@@ -33,23 +33,21 @@ jobs:
     script:
     - yarn build
 deploy:
-  - provider: pages
-    skip-cleanup: true
-    local-dir: dist
-    github-token: $TOKEN
-    keep-history: false
-    on:
-      branch: master
-  - provider: pages
-    repo: julien-noblet/cad-killer-beta
-    skip-cleanup: true
-    local-dir: dist
-    github-token: $TOKEN
-    keep-history: false
-    on:
-      all_branches: true
-#after_success:
-#- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash scripts/build_n_push.sh; fi
+- provider: pages
+  skip-cleanup: true
+  local-dir: dist
+  github-token: "$TOKEN"
+  keep-history: false
+  on:
+    branch: master
+- provider: pages
+  repo: julien-noblet/cad-killer-beta
+  skip-cleanup: true
+  local-dir: dist
+  github-token: "$TOKEN"
+  keep-history: false
+  on:
+    all_branches: true
 notifications:
   webhooks:
     urls:
@@ -57,3 +55,5 @@ notifications:
     on_success: always
     on_failure: always
     on_start: always
+  slack:
+    secure: Zd+TXwY9i5mpV5nY2NUCIBEzIJCxiIFYhIv83mhrNp3/fxxaoq1pacMQRDdFuZYMrpsH1Mf59/D7B8XT2pJAQIlu9t3qSxjlyvu28dR+B2H8sjD5JN/8ENvQQIDlklJUQK+4F/2xE+L6TDhYcHQZwuAKMZD38734m3Ktjja0HqU3Z4rh9PEiTqjARvQx6RLdsrww+AyxW3mPORrCIHUhHS/gYjwSSfkZK2PmiCoA/Y4CydroAJR0xOc7jhCTH0KzyIrZNHNaxzaS8bHooac+eqosNsacdmkawHF2LfgKZkMz+A/EEzbxHcBAzEBcYy6tpzPsSlSfkP7vMtACc/vvZzCDz2bKYwKK7IER4cDa4+w1VdqNGsux3cl94j5kiQ4Tv/AqeW6nafPp8SKmxVxfcsegZoVsrOi31n0UpMSbl4Y9gQstBFq1D0fPN4iUurjpA581Jb8LkpoLNkkilRst36RHbg03FNTRyVtvYjyjbGC6dmev+lltPnL3fOnMr1UPIKAXZBDvZx20IAhtl+uTBdoNNfXuO1cq+sU7Sq18AQBbckaof26qZTyAakUTTQY6iLAVJ/m9puH4MWXjuIFLL7gZ/KiXnF8p/38CJzF76NNFvTxuC8sXUiXD5K0GWhd6BdY+El02xkUMSwZLJpbCI18b8KQEN2tA0ww4k5IMVSc=
