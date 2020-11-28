@@ -28,7 +28,7 @@ function getLocation() {
 
 const GeoLoc = L.Control.extend({
   options: {
-    position: "topright"
+    position: "topright",
   },
   onAdd: () => {
     const container = L.DomUtil.create("div", "leaflet-control-geoloc");
@@ -36,7 +36,7 @@ const GeoLoc = L.Control.extend({
       '<span onClick="getLocation();" id="geoloc" class="geoloc"><i class="zmdi zmdi-2x zmdi-gps-off" id="geoloc_icon"></i></span>';
     // ... initialize other DOM elements, add listeners, etc.
     return container;
-  }
+  },
 });
 
 window.map.addControl(new GeoLoc());

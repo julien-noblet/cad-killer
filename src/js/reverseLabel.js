@@ -9,24 +9,22 @@ import { REVERSE_URL } from "./config";
 
 L.Control.ReverseLabel = L.Control.extend({
   options: {
-    position: "topright" // hack
+    position: "topright", // hack
   },
 
   onAdd: () => {
     const container = L.DomUtil.create("div", "reverse-label");
     const reverse = new L.PhotonReverse({
       url: REVERSE_URL,
-      handleResults: data => {
+      handleResults: (data) => {
         if (data.features !== null) {
           if (data.features[0] !== null) {
             if (data.features[0].properties !== null) {
-              container.innerHTML = `Carte centrée sur «${
-                data.features[0].properties.label
-              }»`;
+              container.innerHTML = `Carte centrée sur «${data.features[0].properties.label}»`;
             }
           }
         }
-      }
+      },
     });
 
     window.map.on("moveend", () => {
@@ -45,7 +43,7 @@ L.Control.ReverseLabel = L.Control.extend({
       }
     });
     return container;
-  }
+  },
 });
 
 new L.Control.ReverseLabel().addTo(window.map);

@@ -50,13 +50,9 @@ const searchPoints = L.geoJson(null, {
       // sendClick(feature); // Stats are not working
     });
     layer.bindPopup(
-      `${feature.properties.name}<a class='geo' href='geo:${
-        feature.geometry.coordinates[1]
-      },${
-        feature.geometry.coordinates[0]
-      }'><i class='zmdi-navigation zmdi-2x'></i></a>`
+      `${feature.properties.name}<a class='geo' href='geo:${feature.geometry.coordinates[1]},${feature.geometry.coordinates[0]}'><i class='zmdi-navigation zmdi-2x'></i></a>`
     );
-  }
+  },
 });
 
 function showSearchPoints(geojson) {
@@ -75,7 +71,7 @@ function formatResult(feature, el) {
     hamlet: "hamlet", // TODO: Hameau?
     village: "village",
     city: "ville",
-    commune: "commune"
+    commune: "commune",
   };
   title.innerHTML = feature.properties.name;
   if (types[feature.properties.type]) {
@@ -103,8 +99,8 @@ const photonControlOptions = {
   noResultLabel: "Aucun résultat",
   feedbackLabel: "Signaler",
   feedbackEmail: "julien.noblet+cad-killer@gmail.com",
-  minChar: val => SHORT_CITY_NAMES.indexOf(val) !== -1 || val.length >= 3,
-  submitDelay: 200
+  minChar: (val) => SHORT_CITY_NAMES.indexOf(val) !== -1 || val.length >= 3,
+  submitDelay: 200,
 };
 
 /*

@@ -22,7 +22,7 @@ require("leaflet.browser.print/dist/leaflet.browser.print.min.js");
 
 // Initialisation de leaflet
 window.map = L.map("map", {
-  attributionControl: false
+  attributionControl: false,
 });
 
 const layers = L.control.layers(baseMaps, overlayMaps);
@@ -39,7 +39,7 @@ window.map.dragging.enable();
 L.control
   .attribution({
     position: "bottomleft",
-    prefix: ATTRIBUTIONS
+    prefix: ATTRIBUTIONS,
   })
   .addTo(window.map);
 
@@ -50,7 +50,7 @@ hash = new L.Hash(window.map);
 // Chargement des modules:
 // require('./photon');
 photon();
-require.ensure(["./reverseLabel"], function() {
+require.ensure(["./reverseLabel"], function () {
   require("./reverseLabel");
 });
 /*
@@ -69,7 +69,7 @@ L.control
       L.control.browserPrint.mode.portrait("Portrait", "A4"),
       L.control.browserPrint.mode.landscape("Paysage", "A4"),
       L.control.browserPrint.mode.auto("Auto", "A4"),
-      L.control.browserPrint.mode.custom("Séléctionnez la zone", "A4")
-    ]
+      L.control.browserPrint.mode.custom("Séléctionnez la zone", "A4"),
+    ],
   })
   .addTo(window.map);

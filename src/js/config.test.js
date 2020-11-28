@@ -12,7 +12,7 @@ import {
   MY_POUCHDB,
   LOCAL_POUCHDB,
   OSM_CREDITENTIALS,
-  NOTE_API
+  NOTE_API,
 } from "./config";
 
 function isURL(url) {
