@@ -10,5 +10,5 @@ declare var require: {
     ids: Array<string>,
     callback?: { (require: typeof require): void },
     chunk?: string
-  ): void
+  ): void,
 };
