@@ -62,7 +62,7 @@
     "eslint-plugin-react": "7.22.0",
     "file-loader": "6.2.0",
     "flow-bin": "0.142.0",
-    "flow-typed": "3.3.0",
+    "flow-typed": "3.3.1",
     "handlebars": "4.7.7",
     "html-webpack-plugin": "4.5.1",
     "husky": "5.0.9",
