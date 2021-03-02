@@ -90,7 +90,7 @@
   },
   "dependencies": {
     "es6-promise": "4.2.8",
-    "jquery": "3.5.1",
+    "jquery": "3.6.0",
     "leaflet": "1.7.1",
     "leaflet-ajax": "2.1.0",
     "leaflet-dialog": "1.0.5",
