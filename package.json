@@ -54,7 +54,7 @@
     "css-module-flow": "1.0.0",
     "cssnano": "5.0.6",
     "cz-conventional-changelog": "3.3.0",
-    "eslint": "7.30.0",
+    "eslint": "7.31.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-flowtype": "5.8.0",
     "eslint-plugin-import": "2.23.4",
