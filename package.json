@@ -59,7 +59,7 @@
     "eslint-plugin-flowtype": "6.1.0",
     "eslint-plugin-import": "2.24.2",
     "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-react": "7.25.3",
+    "eslint-plugin-react": "7.26.0",
     "file-loader": "6.2.0",
     "flow-bin": "0.160.1",
     "flow-typed": "3.3.1",
