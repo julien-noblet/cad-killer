@@ -76,7 +76,7 @@
     "optimize-css-assets-webpack-plugin": "6.0.1",
     "postcss": "8.3.9",
     "postcss-import": "14.0.2",
-    "postcss-loader": "6.1.1",
+    "postcss-loader": "6.2.0",
     "postcss-preset-env": "6.7.0",
     "prettier": "2.4.1",
     "prettier-eslint": "13.0.0",
