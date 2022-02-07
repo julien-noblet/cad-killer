@@ -5,17 +5,38 @@
   "main": "index.html",
   "scripts": {
     "start": "webpack serve --https --mode development",
-    "build": "webpack --mode production --config webpack.config.js --progress --color",
+    "build": "npx webpack --mode production --config webpack.config.js --progress --color",
     "test": "flow && jest --runInBand"
   },
   "lint-staged": {
-    "*.js": ["prettier --write --insert-pragma", "git add"],
-    "*.json": ["prettier --parser json --write", "git add"],
-    "src/**.json": ["prettier --parser json --write", "git add"],
-    "src/**/*.js": ["prettier --parser flow --write", "git add"],
-    "src/**/*.flow": ["prettier --parser flow --write", "git add"],
-    "src/*.js": ["prettier --parser flow --write", "git add"],
-    "src/scss/*.scss": ["prettier --parser flow --write", "git add"]
+    "*.js": [
+      "prettier --write --insert-pragma",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --parser json --write",
+      "git add"
+    ],
+    "src/**.json": [
+      "prettier --parser json --write",
+      "git add"
+    ],
+    "src/**/*.js": [
+      "prettier --parser flow --write",
+      "git add"
+    ],
+    "src/**/*.flow": [
+      "prettier --parser flow --write",
+      "git add"
+    ],
+    "src/*.js": [
+      "prettier --parser flow --write",
+      "git add"
+    ],
+    "src/scss/*.scss": [
+      "prettier --parser flow --write",
+      "git add"
+    ]
   },
   "config": {
     "commitizen": {
@@ -26,7 +47,9 @@
     "type": "git",
     "url": "https://github.com/julien-noblet/cad-killer.git"
   },
-  "keywords": ["osm"],
+  "keywords": [
+    "osm"
+  ],
   "author": "Julien Noblet",
   "license": "ISC",
   "bugs": {
@@ -36,9 +59,9 @@
   "devDependencies": {
     "@babel/cli": "7.17.0",
     "@babel/core": "7.17.0",
+    "@babel/eslint-parser": "^7.17.0",
     "@babel/plugin-transform-flow-strip-types": "7.16.7",
     "@babel/plugin-transform-runtime": "7.17.0",
-    "@babel/polyfill": "7.12.1",
     "@babel/preset-env": "7.16.11",
     "@babel/preset-flow": "7.16.7",
     "@babel/preset-react": "7.16.7",
@@ -46,11 +69,11 @@
     "@babel/runtime": "7.17.0",
     "@babel/runtime-corejs2": "7.17.0",
     "babel-7-jest": "21.3.3",
-    "babel-eslint": "10.1.0",
     "babel-loader": "8.2.3",
     "commitizen": "4.2.4",
     "copy-webpack-plugin": "10.2.4",
     "css-loader": "6.6.0",
+    "css-minimizer-webpack-plugin": "^3.4.1",
     "css-module-flow": "1.0.0",
     "cssnano": "5.0.17",
     "cz-conventional-changelog": "3.3.0",
@@ -73,7 +96,6 @@
     "lint-staged": "12.3.3",
     "mini-css-extract-plugin": "2.5.3",
     "node-sass": "7.0.1",
-    "optimize-css-assets-webpack-plugin": "6.0.1",
     "postcss": "8.4.6",
     "postcss-import": "14.0.2",
     "postcss-loader": "6.2.1",
@@ -83,10 +105,7 @@
     "puppeteer": "13.2.0",
     "regenerator-runtime": "0.13.9",
     "sass-loader": "12.4.0",
-    "style-loader": "3.3.1",
-    "webpack": "4.46.0",
-    "webpack-cli": "4.9.2",
-    "webpack-dev-server": "4.7.4"
+    "style-loader": "3.3.1"
   },
   "dependencies": {
     "es6-promise": "4.2.8",
@@ -103,7 +122,9 @@
     "material-design-iconic-font": "2.2.0",
     "opensans-npm-webfont": "1.0.0",
     "pouchdb": "7.2.2",
-    "ua-parser-js": "0.8.1"
+    "ua-parser-js": "1.0.2",
+    "webpack": "^5.68.0",
+    "webpack-cli": "^4.9.2"
   },
   "jest": {
     "moduleNameMapper": {
@@ -113,7 +134,10 @@
     "verbose": true,
     "bail": false,
     "collectCoverage": false,
-    "modulePathIgnorePatterns": ["sandbox", "node_modules"],
+    "modulePathIgnorePatterns": [
+      "sandbox",
+      "node_modules"
+    ],
     "transform": {
       "^.+\\.js?$": "babel-7-jest"
     },
