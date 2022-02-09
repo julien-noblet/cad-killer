@@ -11,11 +11,9 @@
 /* harmony export */   "jq": function() { return /* binding */ SHORT_CITY_NAMES; },
 /* harmony export */   "NR": function() { return /* binding */ ATTRIBUTIONS; },
 /* harmony export */   "n2": function() { return /* binding */ IGN_KEY; },
-/* harmony export */   "GI": function() { return /* binding */ IGN_LAYER; },
-/* harmony export */   "cU": function() { return /* binding */ IGN_LAYER_LITE; },
-/* harmony export */   "ab": function() { return /* binding */ IGN_ORTHO; }
+/* harmony export */   "GI": function() { return /* binding */ IGN_LAYER; }
 /* harmony export */ });
-/* unused harmony exports MY_POUCHDB, LOCAL_POUCHDB, OSM_CREDITENTIALS, NOTE_API */
+/* unused harmony exports IGN_LAYER_LITE, IGN_ORTHO, MY_POUCHDB, LOCAL_POUCHDB, OSM_CREDITENTIALS, NOTE_API */
 /**
  * 
  *
@@ -89,16 +87,6 @@ var layerEsriWorldImagery = leaflet_src_default().tileLayer("//server.arcgisonli
 var layerIGN = leaflet_src_default().tileLayer("//wxs.ign.fr/".concat(config/* IGN_KEY */.n2, "/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=").concat(config/* IGN_LAYER */.GI, "&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg"), {
   maxZoom: 18,
   minZoom: 6,
-  attribution: 'IGN-F/Géoportail'
-});
-var layerIGNlite = leaflet_src_default().tileLayer("//wxs.ign.fr/".concat(config/* IGN_KEY */.n2, "/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=").concat(config/* IGN_LAYER_LITE */.cU, "&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg"), {
-  maxZoom: 18,
-  minZoom: 6,
-  attribution: 'IGN-F/Géoportail'
-});
-var layerIGNortho = leaflet_src_default().tileLayer("//wxs.ign.fr/".concat(config/* IGN_KEY */.n2, "/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=").concat(config/* IGN_ORTHO */.ab, "&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg"), {
-  maxZoom: 18,
-  minZoom: 0,
   attribution: 'IGN-F/Géoportail'
 });
 var overlayBAN = leaflet_src_default().tileLayer("//{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png", {
