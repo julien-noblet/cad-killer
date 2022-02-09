@@ -84,7 +84,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "7.28.0",
     "file-loader": "6.2.0",
-    "flow-bin": "^0.171.0",
+    "flow-bin": "0.171.0",
     "flow-typed": "3.6.1",
     "handlebars": "4.7.7",
     "html-webpack-plugin": "5.5.0",
@@ -106,7 +106,7 @@
     "regenerator-runtime": "0.13.9",
     "sass-loader": "12.4.0",
     "style-loader": "3.3.1",
-    "webpack-dev-server": "^4.7.4"
+    "webpack-dev-server": "4.7.4"
   },
   "dependencies": {
     "es6-promise": "4.2.8",
