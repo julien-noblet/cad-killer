@@ -27,9 +27,10 @@ export const SHORT_CITY_NAMES = [
 ];
 export const ATTRIBUTIONS =
   "&copy; <a href='http://www.openstreetmap.org/copyright'>Contributeurs de OpenStreetMap</a> | <a href='https://www.data.gouv.fr/fr/datasets/base-d-adresses-nationale-ouverte-bano/'>Adresses BAN</a> sous licence ODbL";
-export const IGN_KEY = "zh4iqh58bg7a17hqzo16nqfw";
+export const IGN_KEY = "3sk4po838nk0byb23gft0qs5";
 export const IGN_LAYER = "GEOGRAPHICALGRIDSYSTEMS.MAPS";
-export const IGN_LAYER_LITE = "GEOGRAPHICALGRIDSYSTEMS.PLANIGN";
+export const IGN_LAYER_LITE = "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2";
+export const IGN_ORTHO = "ORTHOIMAGERY.ORTHOPHOTOS";
 export const MY_POUCHDB =
   "//sidercomourellydiforteep:16f21a8ad23f32de280b36fc338a38a24c5d49b2@couchdb-112956.smileupps.com/stats";
 export const LOCAL_POUCHDB = "cad-killer";

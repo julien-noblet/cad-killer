@@ -5,7 +5,7 @@
  */
 
 import L from "leaflet";
-import { IGN_KEY, IGN_LAYER, IGN_LAYER_LITE } from "./config";
+import { IGN_KEY, IGN_LAYER, IGN_LAYER_LITE, IGN_ORTHO } from "./config";
 
 // Layers
 export const layerOSMfr: any = L.tileLayer(
@@ -26,23 +26,7 @@ export const layerOSM: any = L.tileLayer(
   }
 );
 
-export const layerMapsurfer: any = L.tileLayer(
-  "//korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}",
-  {
-    maxZoom: 19,
-    attribution:
-      'Fond de plan &copy; <a gref="http://openmapsurfer.uni-hd.de/">OpenMapSurfer</a>',
-  }
-);
 
-const overlayMapsurfer: any = L.tileLayer(
-  "//korona.geog.uni-heidelberg.de/tiles/hybrid/x={x}&y={y}&z={z}",
-  {
-    maxZoom: 19,
-    attribution:
-      'Surcouche &copy <a gref="http://openmapsurfer.uni-hd.de/">OpenMapSurfer</a>',
-  }
-);
 
 export const layerBing: any = L.tileLayer(
   "http://tile.stamen.com/bing-lite/{z}/{x}/{y}.jpg",
@@ -93,7 +77,7 @@ export const layerIGN: any = L.tileLayer(
   {
     maxZoom: 18,
     minZoom: 6,
-    attribution: 'Fond de plan &copy; <a href="https://www.ign.fr">IGN</a>',
+    attribution: 'IGN-F/Géoportail',
   }
 );
 
@@ -102,7 +86,16 @@ export const layerIGNlite: any = L.tileLayer(
   {
     maxZoom: 18,
     minZoom: 6,
-    attribution: 'Fond de plan &copy; <a href="https://www.ign.fr">IGN</a>',
+    attribution: 'IGN-F/Géoportail',
+  }
+);
+
+export const layerIGNortho: any = L.tileLayer(
+  `//wxs.ign.fr/${IGN_KEY}/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_ORTHO}&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg`,
+  {
+    maxZoom: 18,
+    minZoom: 0,
+    attribution: 'IGN-F/Géoportail',
   }
 );
 
@@ -119,7 +112,7 @@ export const baseMaps = {
   OpenStreetMap: layerOSM,
   "Carte IGN": layerIGN,
   "Plan IGN": layerIGNlite,
-  MapSurfer: layerMapsurfer,
+  "Orthophoto IGN": layerIGNortho,
   Bing: layerBing,
   "Bing+OSM": layerBoner,
   Cadastre: layerCadastre,
@@ -129,5 +122,4 @@ export const baseMaps = {
 export const overlayMaps = {
   Cadastre: overlayCadastre,
   "BAN(O)": overlayBAN,
-  MapSurfer: overlayMapsurfer,
 };
