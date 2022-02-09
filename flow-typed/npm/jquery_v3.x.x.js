@@ -1,5 +1,3 @@
-/** @format */
-
 // flow-typed signature: f91f6554ef55280d37051e9a9a87fb92
 // flow-typed version: c6154227d1/jquery_v3.x.x/flow_>=v0.104.x
 
@@ -431,9 +429,8 @@ declare class JQueryPromise<T> extends JQueryGenericPromise<T> {
    * @param progressCallbacks A function, or array of functions, to be called when the Deferred generates progress notifications.
    */
   progress(
-    progressCallback1?:
-      | JQueryPromiseCallback<any>
-      | JQueryPromiseCallback<any>[],
+    progressCallback1?: | JQueryPromiseCallback<any>
+    | JQueryPromiseCallback<any>[],
     ...progressCallbackN: Array<
       JQueryPromiseCallback<any> | JQueryPromiseCallback<any>[]
     >
@@ -497,9 +494,8 @@ declare class JQueryDeferred<T> extends JQueryGenericPromise<T> {
    * @param progressCallbacks A function, or array of functions, to be called when the Deferred generates progress notifications.
    */
   progress(
-    progressCallback1?:
-      | JQueryPromiseCallback<any>
-      | JQueryPromiseCallback<any>[],
+    progressCallback1?: | JQueryPromiseCallback<any>
+    | JQueryPromiseCallback<any>[],
     ...progressCallbackN: Array<
       JQueryPromiseCallback<any> | JQueryPromiseCallback<any>[]
     >
@@ -823,7 +819,7 @@ declare class JQueryStatic {
    */
   get(
     url: string,
-    data?: { ... } | string,
+    data?: {...} | string,
     success?: (data: any, textStatus: string, jqXHR: JQueryXHR) => any,
     dataType?: string
   ): JQueryXHR;
@@ -846,7 +842,7 @@ declare class JQueryStatic {
    */
   getJSON(
     url: string,
-    data?: { ... } | string,
+    data?: {...} | string,
     success?: (data: any, textStatus: string, jqXHR: JQueryXHR) => any
   ): JQueryXHR;
   /**
@@ -887,7 +883,7 @@ declare class JQueryStatic {
    */
   post(
     url: string,
-    data?: { ... } | string,
+    data?: {...} | string,
     success?: (data: any, textStatus: string, jqXHR: JQueryXHR) => any,
     dataType?: string
   ): JQueryXHR;
@@ -940,7 +936,7 @@ declare class JQueryStatic {
    *
    * @param object A plain object to wrap in a jQuery object.
    */
-  (object: { ... }): JQuery;
+  (object: {...}): JQuery;
 
   /**
    * Accepts a string containing a CSS selector which is then used to match a set of elements.
@@ -968,7 +964,7 @@ declare class JQueryStatic {
    * @param html A string defining a single, standalone, HTML element (e.g. <div/> or <div></div>).
    * @param attributes An object of attributes, events, and methods to call on the newly-created element.
    */
-  (html: string, attributes: { ... }): JQuery;
+  (html: string, attributes: {...}): JQuery;
 
   /**
    * Relinquish jQuery's control of the $ variable.
@@ -1077,23 +1073,23 @@ declare class JQueryStatic {
   easing: JQueryEasingFunctions;
 
   fx: {
-    tick: () => void,
-    /**
-     * The rate (in milliseconds) at which animations fire.
-     */
-    interval: number,
-    stop: () => void,
-    speeds: {
-      slow: number,
-      fast: number,
-      ...
-    },
-    /**
-     * Globally disable all animations.
-     */
-    off: boolean,
-    step: any,
+   tick: () => void,
+   /**
+    * The rate (in milliseconds) at which animations fire.
+    */
+   interval: number,
+   stop: () => void,
+   speeds: {
+    slow: number,
+    fast: number,
     ...
+   },
+   /**
+    * Globally disable all animations.
+    */
+   off: boolean,
+   step: any,
+   ...
   };
 
   /**
@@ -1426,7 +1422,7 @@ declare class JQuery {
    */
   load(
     url: string,
-    data?: string | { ... },
+    data?: string | {...},
     complete?: (
       responseText: string,
       textStatus: string,
@@ -1483,7 +1479,7 @@ declare class JQuery {
    *
    * @param attributes An object of attribute-value pairs to set.
    */
-  attr(attributes: { ... }): JQuery;
+  attr(attributes: {...}): JQuery;
   /**
    * Get the value of an attribute for the first element in the set of matched elements.
    *
@@ -1533,7 +1529,7 @@ declare class JQuery {
    *
    * @param properties An object of property-value pairs to set.
    */
-  prop(properties: { ... }): JQuery;
+  prop(properties: {...}): JQuery;
   /**
    * Set one or more properties for the set of matched elements.
    *
@@ -1635,7 +1631,7 @@ declare class JQuery {
    *
    * @param properties An object of property-value pairs to set.
    */
-  css(properties: { ... }): JQuery;
+  css(properties: {...}): JQuery;
   /**
    * Get the value of style properties for the first element in the set of matched elements.
    *
@@ -1846,7 +1842,7 @@ declare class JQuery {
    * @param complete A function to call once the animation is complete.
    */
   animate(
-    properties: { ... },
+    properties: {...},
     duration?: string | number,
     complete?: Function
   ): JQuery;
@@ -1859,7 +1855,7 @@ declare class JQuery {
    * @param complete A function to call once the animation is complete.
    */
   animate(
-    properties: { ... },
+    properties: {...},
     duration?: string | number,
     easing?: string,
     complete?: Function
@@ -1870,7 +1866,7 @@ declare class JQuery {
    * @param properties An object of CSS properties and values that the animation will move toward.
    * @param options A map of additional options to pass to the method.
    */
-  animate(properties: { ... }, options: JQueryAnimationOptions): JQuery;
+  animate(properties: {...}, options: JQueryAnimationOptions): JQuery;
 
   /**
    * Set a timer to delay execution of subsequent items in the queue.
@@ -2645,7 +2641,10 @@ declare class JQuery {
    * @param events One or more space-separated event types and optional namespaces, or just namespaces, such as "click", "keydown.myPlugin", or ".myPlugin".
    * @param selector A selector which should match the one originally passed to .on() when attaching event handlers.
    */
-  off(events: string, selector: string): JQuery;
+  off(
+    events: string,
+    selector: string
+  ): JQuery;
   /**
    * Remove an event handler.
    *
@@ -2662,7 +2661,10 @@ declare class JQuery {
    * @param events: any An object where the string keys represent one or more space-separated event types and optional namespaces, and the values represent handler functions previously attached for the event(s).
    * @param selector A selector which should match the one originally passed to .on() when attaching event handlers.
    */
-  off(events: { [key: string]: any, ... }, selector?: string): JQuery;
+  off(
+    events: { [key: string]: any, ... },
+    selector?: string
+  ): JQuery;
 
   /**
    * Attach an event handler function for one or more events to the selected elements.
@@ -2730,7 +2732,10 @@ declare class JQuery {
    * @param events: any An object in which the string keys represent one or more space-separated event types and optional namespaces, and the values represent a handler function to be called for the event(s).
    * @param data Data to be passed to the handler in event.data when an event occurs.
    */
-  on(events: { [key: string]: any, ... }, data?: any): JQuery;
+  on(
+    events: { [key: string]: any, ... },
+    data?: any
+  ): JQuery;
 
   /**
    * Attach a handler to an event for the elements. The handler is executed at most once per element per event type.
@@ -2798,7 +2803,10 @@ declare class JQuery {
    * @param events: any An object in which the string keys represent one or more space-separated event types and optional namespaces, and the values represent a handler function to be called for the event(s).
    * @param data Data to be passed to the handler in event.data when an event occurs.
    */
-  one(events: { [key: string]: any, ... }, data?: any): JQuery;
+  one(
+    events: { [key: string]: any, ... },
+    data?: any
+  ): JQuery;
 
   /**
    * Specify a function to execute when the DOM is fully loaded.
@@ -2897,14 +2905,14 @@ declare class JQuery {
    * @param eventType A string containing a JavaScript event type, such as click or submit.
    * @param extraParameters Additional parameters to pass along to the event handler.
    */
-  trigger(eventType: string, extraParameters?: any[] | { ... }): JQuery;
+  trigger(eventType: string, extraParameters?: any[] | {...}): JQuery;
   /**
    * Execute all handlers and behaviors attached to the matched elements for the given event type.
    *
    * @param event A jQuery.Event object.
    * @param extraParameters Additional parameters to pass along to the event handler.
    */
-  trigger(event: JQueryEventObject, extraParameters?: any[] | { ... }): JQuery;
+  trigger(event: JQueryEventObject, extraParameters?: any[] | {...}): JQuery;
 
   /**
    * Execute all handlers attached to an element for an event.
