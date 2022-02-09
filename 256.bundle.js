@@ -1,196 +1,669 @@
-/******/ (function() { // webpackBootstrap
-/******/ 	var __webpack_modules__ = ({
+(self["webpackChunkcad_killer"] = self["webpackChunkcad_killer"] || []).push([[256,567],{
 
-/***/ 705:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ 92:
+/***/ (function() {
 
-"use strict";
+(function(window) {
+	var HAS_HASHCHANGE = (function() {
+		var doc_mode = window.documentMode;
+		return ('onhashchange' in window) &&
+			(doc_mode === undefined || doc_mode > 7);
+	})();
 
-var Mutation = __webpack_require__.g.MutationObserver || __webpack_require__.g.WebKitMutationObserver;
+	L.Hash = function(map) {
+		this.onHashChange = L.Util.bind(this.onHashChange, this);
 
-var scheduleDrain;
+		if (map) {
+			this.init(map);
+		}
+	};
 
-{
-  if (Mutation) {
-    var called = 0;
-    var observer = new Mutation(nextTick);
-    var element = __webpack_require__.g.document.createTextNode('');
-    observer.observe(element, {
-      characterData: true
-    });
-    scheduleDrain = function () {
-      element.data = (called = ++called % 2);
-    };
-  } else if (!__webpack_require__.g.setImmediate && typeof __webpack_require__.g.MessageChannel !== 'undefined') {
-    var channel = new __webpack_require__.g.MessageChannel();
-    channel.port1.onmessage = nextTick;
-    scheduleDrain = function () {
-      channel.port2.postMessage(0);
-    };
-  } else if ('document' in __webpack_require__.g && 'onreadystatechange' in __webpack_require__.g.document.createElement('script')) {
-    scheduleDrain = function () {
+	L.Hash.parseHash = function(hash) {
+		if(hash.indexOf('#') === 0) {
+			hash = hash.substr(1);
+		}
+		var args = hash.split("/");
+		if (args.length == 3) {
+			var zoom = parseInt(args[0], 10),
+			lat = parseFloat(args[1]),
+			lon = parseFloat(args[2]);
+			if (isNaN(zoom) || isNaN(lat) || isNaN(lon)) {
+				return false;
+			} else {
+				return {
+					center: new L.LatLng(lat, lon),
+					zoom: zoom
+				};
+			}
+		} else {
+			return false;
+		}
+	};
 
-      // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
-      // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
-      var scriptEl = __webpack_require__.g.document.createElement('script');
-      scriptEl.onreadystatechange = function () {
-        nextTick();
+	L.Hash.formatHash = function(map) {
+		var center = map.getCenter(),
+		    zoom = map.getZoom(),
+		    precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
 
-        scriptEl.onreadystatechange = null;
-        scriptEl.parentNode.removeChild(scriptEl);
-        scriptEl = null;
-      };
-      __webpack_require__.g.document.documentElement.appendChild(scriptEl);
-    };
-  } else {
-    scheduleDrain = function () {
-      setTimeout(nextTick, 0);
-    };
-  }
-}
+		return "#" + [zoom,
+			center.lat.toFixed(precision),
+			center.lng.toFixed(precision)
+		].join("/");
+	},
 
-var draining;
-var queue = [];
-//named nextTick for less confusing stack traces
-function nextTick() {
-  draining = true;
-  var i, oldQueue;
-  var len = queue.length;
-  while (len) {
-    oldQueue = queue;
-    queue = [];
-    i = -1;
-    while (++i < len) {
-      oldQueue[i]();
-    }
-    len = queue.length;
-  }
-  draining = false;
-}
+	L.Hash.prototype = {
+		map: null,
+		lastHash: null,
 
-module.exports = immediate;
-function immediate(task) {
-  if (queue.push(task) === 1 && !draining) {
-    scheduleDrain();
-  }
-}
+		parseHash: L.Hash.parseHash,
+		formatHash: L.Hash.formatHash,
+
+		init: function(map) {
+			this.map = map;
+
+			// reset the hash
+			this.lastHash = null;
+			this.onHashChange();
+
+			if (!this.isListening) {
+				this.startListening();
+			}
+		},
+
+		removeFrom: function(map) {
+			if (this.changeTimeout) {
+				clearTimeout(this.changeTimeout);
+			}
+
+			if (this.isListening) {
+				this.stopListening();
+			}
+
+			this.map = null;
+		},
+
+		onMapMove: function() {
+			// bail if we're moving the map (updating from a hash),
+			// or if the map is not yet loaded
+
+			if (this.movingMap || !this.map._loaded) {
+				return false;
+			}
+
+			var hash = this.formatHash(this.map);
+			if (this.lastHash != hash) {
+				location.replace(hash);
+				this.lastHash = hash;
+			}
+		},
+
+		movingMap: false,
+		update: function() {
+			var hash = location.hash;
+			if (hash === this.lastHash) {
+				return;
+			}
+			var parsed = this.parseHash(hash);
+			if (parsed) {
+				this.movingMap = true;
+
+				this.map.setView(parsed.center, parsed.zoom);
+
+				this.movingMap = false;
+			} else {
+				this.onMapMove(this.map);
+			}
+		},
+
+		// defer hash change updates every 100ms
+		changeDefer: 100,
+		changeTimeout: null,
+		onHashChange: function() {
+			// throttle calls to update() so that they only happen every
+			// `changeDefer` ms
+			if (!this.changeTimeout) {
+				var that = this;
+				this.changeTimeout = setTimeout(function() {
+					that.update();
+					that.changeTimeout = null;
+				}, this.changeDefer);
+			}
+		},
+
+		isListening: false,
+		hashChangeInterval: null,
+		startListening: function() {
+			this.map.on("moveend", this.onMapMove, this);
+
+			if (HAS_HASHCHANGE) {
+				L.DomEvent.addListener(window, "hashchange", this.onHashChange);
+			} else {
+				clearInterval(this.hashChangeInterval);
+				this.hashChangeInterval = setInterval(this.onHashChange, 50);
+			}
+			this.isListening = true;
+		},
+
+		stopListening: function() {
+			this.map.off("moveend", this.onMapMove, this);
+
+			if (HAS_HASHCHANGE) {
+				L.DomEvent.removeListener(window, "hashchange", this.onHashChange);
+			} else {
+				clearInterval(this.hashChangeInterval);
+			}
+			this.isListening = false;
+		}
+	};
+	L.hash = function(map) {
+		return new L.Hash(map);
+	};
+	L.Map.prototype.addHash = function() {
+		this._hash = L.hash(this);
+	};
+	L.Map.prototype.removeHash = function() {
+		this._hash.removeFrom();
+	};
+})(window);
 
 
 /***/ }),
 
-/***/ 805:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ 885:
+/***/ (function() {
 
-"use strict";
+/*!
+ * 
+ *  leaflet.browser.print - v2.0.0 (https://github.com/Igor-Vladyka/leaflet.browser.print) 
+ *  A leaflet plugin which allows users to print the map directly from the browser
+ *  
+ *  MIT (http://www.opensource.org/licenses/mit-license.php)
+ *  (c) 2021  Igor Vladyka <igor.vladyka@gmail.com> (https://github.com/Igor-Vladyka/)
+ * 
+ */!function(t){var e={};function i(n){if(e[n])return e[n].exports;var r=e[n]={i:n,l:!1,exports:{}};return t[n].call(r.exports,r,r.exports,i),r.l=!0,r.exports}i.m=t,i.c=e,i.d=function(t,e,n){i.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:n})},i.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},i.t=function(t,e){if(1&e&&(t=i(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(i.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var r in t)i.d(n,r,function(e){return t[e]}.bind(null,r));return n},i.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return i.d(e,"a",e),e},i.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},i.p="",i(i.s=0)}([function(t,e,i){i(1),i(2),i(3),i(4),i(5),t.exports=i(6)},function(t,e){L.BrowserPrint=L.Class.extend({options:{documentTitle:"",printLayer:null,closePopupsOnPrint:!0,contentSelector:"[leaflet-browser-print-content]",pagesSelector:"[leaflet-browser-print-pages]",manualMode:!1,customPrintStyle:{color:"gray",dashArray:"5, 10",pane:"customPrintPane"},cancelWithEsc:!0,printFunction:window.print,debug:!1},initialize:function(t,e){this._map=t,L.setOptions(this,e),this.options.customPrintStyle.pane&&!t.getPane(this.options.customPrintStyle.pane)&&(t.createPane(this.options.customPrintStyle.pane).style.zIndex=9999),document.getElementById("browser-print-css")||this._appendControlStyles(document.head)},cancel:function(){this._printCancel()},print:function(t){t.options.action(this,t)(t)},_getMode:function(t,e){return new L.BrowserPrint.Mode(t,e.options)},_printLandscape:function(t){this._addPrintClassToContainer(this._map,"leaflet-browser-print--landscape"),this._print(t)},_printPortrait:function(t){this._addPrintClassToContainer(this._map,"leaflet-browser-print--portrait"),this._print(t)},_printAuto:function(t){this._addPrintClassToContainer(this._map,"leaflet-browser-print--auto");var e,i=this._getBoundsForAllVisualLayers();e="Portrait"===t.options.orientation||"Landscape"===t.options.orientation?t.options.orientation:this._getPageSizeFromBounds(i),this._print(this._getMode(e,t),i)},_printCustom:function(t,e){this._addPrintClassToContainer(this._map,"leaflet-browser-print--custom"),this.options.custom={mode:t,options:e},this._map.on("mousedown",this._startAutoPolygon,this)},_addPrintClassToContainer:function(t,e){var i=t.getContainer();-1===i.className.indexOf(e)&&(i.className+=" "+e)},_removePrintClassFromContainer:function(t,e){var i=t.getContainer();i.className&&i.className.indexOf(e)>-1&&(i.className=i.className.replace(" "+e,""))},_startAutoPolygon:function(t){L.DomEvent.stop(t),this._map.dragging.disable(),this.options.custom.start=t.latlng,this._map.getPane(this.options.customPrintStyle.pane).style.display="initial",this._map.off("mousedown",this._startAutoPolygon,this),this._map.on("mousemove",this._moveAutoPolygon,this),this._map.on("mouseup",this._endAutoPolygon,this)},_moveAutoPolygon:function(t){this.options.custom&&(L.DomEvent.stop(t),this.options.custom.rectangle?this.options.custom.rectangle.setBounds(L.latLngBounds(this.options.custom.start,t.latlng)):this.options.custom.rectangle=L.rectangle([this.options.custom.start,t.latlng],this.options.customPrintStyle),this.options.custom.rectangle.addTo(this._map))},_endAutoPolygon:function(t){if(L.DomEvent.stop(t),this._removeAutoPolygon(),this.options.custom&&this.options.custom.rectangle){var e,i=this.options.custom.rectangle.getBounds();this._map.removeLayer(this.options.custom.rectangle),e="Portrait"===this.options.custom.mode.options.orientation||"Landscape"===this.options.custom.mode.options.orientation?this.options.custom.mode.options.orientation:this._getPageSizeFromBounds(i),this._print(this._getMode(e,this.options.custom.mode),i),delete this.options.custom}else this._clearPrint()},_removeAutoPolygon:function(){this._map.off("mousedown",this._startAutoPolygon,this),this._map.off("mousemove",this._moveAutoPolygon,this),this._map.off("mouseup",this._endAutoPolygon,this),this._map.dragging.enable(),this._map.getPane(this.options.customPrintStyle.pane).style.display="none"},_getPageSizeFromBounds:function(t){return Math.abs(t.getNorth()-t.getSouth())>Math.abs(t.getEast()-t.getWest())?"Portrait":"Landscape"},_setupPrintPagesWidth:function(t,e,i){t.style.width="Landscape"===i?e.Height:e.Width},_setupPrintMapHeight:function(t,e,i,n){var r=n.header&&n.header.enabled&&n.header.size&&!n.header.overTheMap?n.header.size+" - 1mm":"0mm",o=n.footer&&n.footer.enabled&&n.footer.size&&!n.footer.overTheMap?n.footer.size+" - 1mm":"0mm";t.style.height="calc("+("Landscape"===i?e.Width:e.Height)+" - "+r+" - "+o+")"},_printCancel(){clearInterval(self.printInterval),L.DomEvent.off(document,"keyup",this._keyUpCancel,this);var t=this.activeMode;delete this.options.custom,this._removeAutoPolygon(),this.activeMode=null,delete this.cancelNextPrinting,this._map.fire(L.BrowserPrint.Event.PrintCancel,{mode:t}),this._printEnd()},_keyUpCancel(t){27===t.which&&this.cancel()},_printMode:function(t){this._map.isPrinting?console.error("printing is already active"):(this._map.isPrinting=!0,this.cancelNextPrinting=!1,this.activeMode=t,this["_print"+t.mode](t))},_print:function(t,e){this._map.fire(L.BrowserPrint.Event.PrintInit,{mode:t}),this.options.cancelWithEsc&&L.DomEvent.on(document,"keyup",this._keyUpCancel,this),L.BrowserPrint.Utils.initialize();var i=this,n=this._map.getContainer(),r=t.options,o=r.orientation,s={bounds:e||this._map.getBounds(),width:n.style.width,height:n.style.height,documentTitle:document.title,printLayer:L.BrowserPrint.Utils.cloneLayer(this.options.printLayer),panes:[]},a=this._map.getPanes();for(var l in a)s.panes.push({name:l,container:void 0});if(s.printObjects=this._getPrintObjects(s.printLayer),this._map.fire(L.BrowserPrint.Event.PrePrint,{printLayer:s.printLayer,printObjects:s.printObjects,pageOrientation:o,printMode:r.mode,pageBounds:s.bounds}),this.cancelNextPrinting)this._printCancel();else{var p=this._addPrintMapOverlay(t,o,s);this.options.documentTitle&&(document.title=this.options.documentTitle),this._map.fire(L.BrowserPrint.Event.PrintStart,{printLayer:s.printLayer,printMap:p.map,printObjects:p.objects}),r.invalidateBounds?(p.map.fitBounds(s.bounds),p.map.invalidateSize({reset:!0,animate:!1,pan:!1})):p.map.setView(this._map.getCenter(),this._map.getZoom()),r.zoom?p.map.setZoom(r.zoom):r.enableZoom||p.map.setZoom(this._map.getZoom()),this.options.debug||(this.printInterval=setInterval((function(){i.cancelNextPrinting||!i._map.isPrinting?clearInterval(i.printInterval):i._map.isPrinting&&!i._isTilesLoading(p.map)&&(clearInterval(i.printInterval),i.options.manualMode?i._setupManualPrintButton(p.map,s,p.objects):i._completePrinting(p.map,s,p.objects))}),50))}},_completePrinting:function(t,e,i){var n=this;setTimeout((function(){if(n._map.isPrinting){n._map.fire(L.BrowserPrint.Event.Print,{printLayer:e.printLayer,printMap:t,printObjects:i});var r=(n.options.printFunction||window.print)();r?Promise.all([r]).then((function(){n._printEnd(e),n._map.fire(L.BrowserPrint.Event.PrintEnd,{printLayer:e.printLayer,printMap:t,printObjects:i})})):(n._printEnd(e),n._map.fire(L.BrowserPrint.Event.PrintEnd,{printLayer:e.printLayer,printMap:t,printObjects:i}))}}),1e3)},_getBoundsForAllVisualLayers:function(){var t=null;for(var e in this._map._layers){var i=this._map._layers[e];i._url||i._mutant||(t?i.getBounds?t.extend(i.getBounds()):i.getLatLng&&t.extend(i.getLatLng()):i.getBounds?t=i.getBounds():i.getLatLng&&(t=L.latLngBounds(i.getLatLng(),i.getLatLng())))}return t&&t._southWest||(t=this._map.getBounds()),t},_clearPrint:function(){this._removePrintClassFromContainer(this._map,"leaflet-browser-print--landscape"),this._removePrintClassFromContainer(this._map,"leaflet-browser-print--portrait"),this._removePrintClassFromContainer(this._map,"leaflet-browser-print--auto"),this._removePrintClassFromContainer(this._map,"leaflet-browser-print--custom")},_printEnd:function(t){this._clearPrint(),this.__overlay__&&(document.body.removeChild(this.__overlay__),this.__overlay__=null),document.body.className=document.body.className.replace(" leaflet--printing",""),this.options.documentTitle&&(document.title=t.documentTitle),this._map.invalidateSize({reset:!0,animate:!1,pan:!1}),this._map.isPrinting=!1},_getPrintObjects:function(t){var e={};for(var i in this._map._layers){var n=this._map._layers[i];if(!t||!n._url||n instanceof L.TileLayer.WMS){var r=L.BrowserPrint.Utils.getType(n);r&&(e[r]||(e[r]=[]),e[r].push(n))}}return e},_addPrintCss:function(t,e,i){var n=document.createElement("style");if(n.className="leaflet-browser-print-css",n.setAttribute("type","text/css"),n.innerHTML=" @media print { .leaflet-popup-content-wrapper, .leaflet-popup-tip { box-shadow: none; }",n.innerHTML+=" .leaflet-browser-print--manualMode-button { display: none; }",n.innerHTML+=" * { -webkit-print-color-adjust: exact!important; printer-colors: exact!important; color-adjust: exact!important; }",e){var r=e.top+" "+e.right+" "+e.bottom+" "+e.left;n.innerHTML+=" @page { margin: "+r+"; }"}switch(n.innerHTML+=" @page :first { page-break-after: always; }",i){case"Landscape":n.innerText+=" @page { size : "+t+" landscape; }";break;default:case"Portrait":n.innerText+=" @page { size : "+t+" portrait; }"}return n},_addPrintMapOverlay:function(t,e,i){if(this.__overlay__=document.createElement("div"),this.__overlay__.className=this._map.getContainer().className+" leaflet-print-overlay",document.body.appendChild(this.__overlay__),this.options.debug){var n=L.DomUtil.create("button","",this.__overlay__);n.innerHTML="Cancel",L.DomEvent.on(n,"click",()=>{this.cancel()})}var r=t.options,o=r.pageSize,s=L.BrowserPrint.Helper.getPageMargin(t,"mm"),a=L.BrowserPrint.Helper.getSize(t,e),l=r.rotate,p=r.scale;if(this.__overlay__.appendChild(this._addPrintCss(o,s,e)),r.header&&r.header.enabled){var d=document.createElement("div");d.id="print-header",r.header.overTheMap&&(d.className="over-the-map"),d.style.height=r.header.size,d.style.lineHeight=r.header.size;var c=document.createElement("span");c.innerHTML=r.header.text,d.appendChild(c),this._setupPrintPagesWidth(d,a,e),this.__overlay__.appendChild(d)}var u=document.createElement("div");if(u.className="grid-print-container",u.style.width="100%",u.style.display="grid",this._setupPrintMapHeight(u,a,e,r),this.options.contentSelector){var h=document.querySelectorAll(this.options.contentSelector);if(h&&h.length)for(var g=0;g<h.length;g++){var m=h[g].cloneNode(!0);u.appendChild(m)}}if(this.options.pagesSelector&&document.querySelectorAll(this.options.pagesSelector).length){var _=document.createElement("div");_.className="pages-print-container",_.style.margin="0!important",this._setupPrintPagesWidth(_,a,e),this.__overlay__.appendChild(_),_.appendChild(u);var f=document.querySelectorAll(this.options.pagesSelector);if(f&&f.length)for(g=0;g<f.length;g++){var y=f[g].cloneNode(!0);_.appendChild(y)}}else this._setupPrintPagesWidth(u,a,e),this.__overlay__.appendChild(u);var P=document.createElement("div");if(P.id=this._map.getContainer().id+"-print",P.className="grid-map-print",P.style.width="100%",P.style.height="100%",p&&1!==p&&(P.style.transform+=" scale("+p+")"),l&&(P.style.transform+=" rotate("+90*l+"deg)"),u.appendChild(P),r.footer&&r.footer.enabled){var v=document.createElement("div");v.id="print-footer",r.footer.overTheMap&&(v.className="over-the-map",v.style.bottom="0"),v.style.height=r.footer.size,v.style.lineHeight=r.footer.size;var b=document.createElement("span");b.innerHTML=r.footer.text,v.appendChild(b),this._setupPrintPagesWidth(v,a,e),this.__overlay__.appendChild(v)}document.body.className+=" leaflet--printing";var w=L.BrowserPrint.Utils.cloneBasicOptionsWithoutLayers(this._map.options);return w.maxZoom=this._map.getMaxZoom(),this._setupPrintMap(P.id,w,i.printLayer,i.printObjects,i.panes)},_setupPrintMap:function(t,e,i,n,r){e.zoomControl=!1,e.dragging=!1,e.zoomAnimation=!1,e.fadeAnimation=!1,e.markerZoomAnimation=!1,e.keyboard=!1,e.scrollWheelZoom=!1,e.tap=!1,e.touchZoom=!1;var o=L.map(t,e);i&&i.addTo(o),r.forEach((function(t){o.createPane(t.name,t.container)}));var s={},a=[];for(var l in n){var p=this.options.closePopupsOnPrint;n[l]=n[l].map((function(t){var e=L.BrowserPrint.Utils.cloneLayer(t);if(e){if(t instanceof L.Popup?(t.isOpen||(t.isOpen=function(){return this._isOpen}),t.isOpen()&&!p&&a.push({source:t._source,popup:e})):e.addTo(o),s[t._leaflet_id]=e,t instanceof L.Layer){var i=t.getTooltip();i&&(e.bindTooltip(i.getContent(),i.options),t.isTooltipOpen()&&e.openTooltip(i.getLatLng()))}return e}}))}for(var d=0;d<a.length;d++){var c=a[d];if(c.source){var u=s[c.source._leaflet_id];u&&u.bindPopup&&u.openPopup&&s[c.source._leaflet_id].bindPopup(c.popup).openPopup(c.popup.getLatLng())}}return{map:o,objects:n}},_isTilesLoading:function(t){return parseFloat(L.version)>1?this._getLoadingLayers(t):t._tilesToLoad||t._tileLayersToLoad},_getLoadingLayers:function(t){for(var e in t._layers){var i=t._layers[e];if((i._url||i._mutant)&&i._loading)return!0}return!1},_appendControlStyles:function(t){var e=document.createElement("style");e.setAttribute("type","text/css"),e.id="browser-print-css",e.innerHTML+=" .leaflet-control-browser-print { display: flex; } .leaflet-control-browser-print a { background: #fff url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gcCCi8Vjp+aNAAAAGhJREFUOMvFksENgDAMA68RC7BBN+Cf/ZU33QAmYAT6BolAGxB+RrrIsg1BpfNBVXcPMLMDI/ytpKozMHWwK7BJJ7yYWQbGdBea9wTIkRDzKy0MT7r2NiJACRgotCzxykFI34QY2Ea7KmtxGJ+uX4wfAAAAAElFTkSuQmCC') no-repeat 5px; background-size: 16px 16px; display: block; border-radius: 2px; }",e.innerHTML+=" .leaflet-control-browser-print a.leaflet-browser-print { background-position: center; }",e.innerHTML+=" .browser-print-holder { background-color: #919187; margin: 0px; padding: 0px; list-style: none; white-space: nowrap; align-items: center; display: flex; } .browser-print-holder-left li:last-child { border-top-right-radius: 2px; border-bottom-right-radius: 2px; } .browser-print-holder-right li:first-child { border-top-left-radius: 2px; border-bottom-left-radius: 2px; }",e.innerHTML+=" .browser-print-mode { display: none; color: #FFF; text-decoration: none; padding: 0 10px; text-align: center; } .browser-print-holder:hover { background-color: #757570; cursor: pointer; }",e.innerHTML+=" .leaflet-browser-print--custom, .leaflet-browser-print--custom path { cursor: crosshair!important; }",e.innerHTML+=" .leaflet-print-overlay { width: 100%; height:auto; min-height: 100%; position: absolute; top: 0; background-color: white!important; left: 0; z-index: 1001; display: block!important; } ",e.innerHTML+=" .leaflet--printing { height:auto; min-height: 100%; margin: 0px!important; padding: 0px!important; } body.leaflet--printing > * { display: none; box-sizing: border-box; }",e.innerHTML+=" .grid-print-container { grid-template: 1fr / 1fr; box-sizing: border-box; overflow: hidden; } .grid-map-print { grid-row: 1; grid-column: 1; } body.leaflet--printing .grid-print-container [leaflet-browser-print-content]:not(style) { display: unset!important; }",e.innerHTML+=" .pages-print-container { box-sizing: border-box; }",e.innerHTML+=" #print-header, #print-footer { text-align: center; font-size: 20px; }",e.innerHTML+=" .over-the-map { position: absolute; left: 0; z-index: 10000; }",t.appendChild(e)},_setupManualPrintButton:function(t,e,i){var n=document.createElement("button");n.className="leaflet-browser-print--manualMode-button",n.innerHTML="Print",n.style.position="absolute",n.style.top="20px",n.style.right="20px",this.__overlay__.appendChild(n);var r=this;L.DomEvent.on(n,"click",(function(){r.browserPrint._completePrinting(t,e,i)}))}}),L.browserPrint=function(t,e){return new L.BrowserPrint(t,e)},L.BrowserPrint.Event={PrintInit:"browser-print-init",PrePrint:"browser-pre-print",PrintStart:"browser-print-start",Print:"browser-print",PrintEnd:"browser-print-end",PrintCancel:"browser-print-cancel"}},function(t,e){L.Control.BrowserPrint=L.Control.extend({options:{title:"Print map",position:"topleft",printModes:["Portrait","Landscape","Auto","Custom"]},browserPrint:void 0,initialize:function(t,e){L.setOptions(this,t),e&&(this.browserPrint=e,L.setOptions(this.browserPrint,t))},onAdd:function(t){this.browserPrint||(this.browserPrint=new L.BrowserPrint(t,this.options));var e=L.DomUtil.create("div","leaflet-control-browser-print leaflet-bar leaflet-control");return L.DomEvent.disableClickPropagation(e),this.options.printModes.length>1?(L.DomEvent.on(e,"mouseover",this._displayPageSizeButtons,this),L.DomEvent.on(e,"mouseout",this._hidePageSizeButtons,this)):e.style.cursor="pointer",this.options.position.indexOf("left")>0?(this._createIcon(e),this._createMenu(e)):(this._createMenu(e),this._createIcon(e)),t.printControl=this,e},cancel(){this.browserPrint.cancel()},_createIcon:function(t){return this.__link__=L.DomUtil.create("a","",t),this.__link__.className="leaflet-browser-print",this.options.title&&(this.__link__.title=this.options.title),this.__link__},_createMenu:function(t){for(var e=[],i=0;i<this.options.printModes.length;i++){var n=this.options.printModes[i];if(n.length){var r=n[0].toUpperCase()+n.substring(1).toLowerCase();n=L.BrowserPrint.Mode[n]("A4",this._getDefaultTitle(r))}else if(!(n instanceof L.BrowserPrint.Mode))throw"Invalid Print Mode. Can't construct logic to print current map.";var o=t;1===this.options.printModes.length?n.Element=t:(o=L.DomUtil.create("ul","browser-print-holder",t),n.Element=L.DomUtil.create("li","browser-print-mode",o),n.Element.innerHTML=n.options.title),L.DomEvent.on(o,"click",n.options.action(this.browserPrint,n),this.browserPrint),e.push(n)}this.options.printModes=e},_getDefaultTitle:function(t){return this.options.printModesNames&&this.options.printModesNames[t]||t},_displayPageSizeButtons:function(){this.options.position.indexOf("left")>0?(this.__link__.style.borderTopRightRadius="0px",this.__link__.style.borderBottomRightRadius="0px"):(this.__link__.style.borderTopLeftRadius="0px",this.__link__.style.borderBottomLeftRadius="0px"),this.options.printModes.forEach((function(t){t.Element.style.display="inline-block"}))},_hidePageSizeButtons:function(){this.options.position.indexOf("left")>0?(this.__link__.style.borderTopRightRadius="",this.__link__.style.borderBottomRightRadius=""):(this.__link__.style.borderTopLeftRadius="",this.__link__.style.borderBottomLeftRadius=""),this.options.printModes.forEach((function(t){t.Element.style.display=""}))}}),L.control.browserPrint=function(t,e){if(t&&t.printModes||((t=t||{}).printModes=[L.BrowserPrint.Mode.Portrait(),L.BrowserPrint.Mode.Landscape(),L.BrowserPrint.Mode.Auto(),L.BrowserPrint.Mode.Custom()]),t&&t.printModes&&(!t.printModes.filter||!t.printModes.length))throw"Please specify valid print modes for Print action. Example: printModes: [L.BrowserPrint.Mode.Portrait(), L.control.BrowserPrint.Mode.Auto('Automatic'), 'Custom']";return new L.Control.BrowserPrint(t,e)}},function(t,e){L.BrowserPrint.Utils={_ignoreArray:[],_cloneFactoryArray:[],_cloneRendererArray:[],_knownRenderers:{},cloneOptions:function(t){var e={};for(var i in t){var n=t[i];n&&n.clone?e[i]=n.clone():n&&n.onAdd?e[i]=this.cloneLayer(n):e[i]=n}return e},cloneBasicOptionsWithoutLayers:function(t){var e={},i=Object.getOwnPropertyNames(t);if(i.length){for(var n=0;n<i.length;n++){var r=i[n];r&&"layers"!=r&&(e[r]=t[r])}return this.cloneOptions(e)}return e},cloneInnerLayers:function(t){var e=this,i=[];return t.eachLayer((function(t){var n=e.cloneLayer(t);n&&i.push(n)})),i},initialize:function(){this._knownRenderers={},this.registerRenderer(L.SVG,"L.SVG"),this.registerRenderer(L.Canvas,"L.Canvas"),this.registerLayer(L.TileLayer.WMS,"L.TileLayer.WMS",(function(t,e){return L.tileLayer.wms(t._url,e.cloneOptions(t.options))})),this.registerLayer(L.TileLayer,"L.TileLayer",(function(t,e){return L.tileLayer(t._url,e.cloneOptions(t.options))})),this.registerLayer(L.GridLayer,"L.GridLayer",(function(t,e){return L.gridLayer(e.cloneOptions(t.options))})),this.registerLayer(L.ImageOverlay,"L.ImageOverlay",(function(t,e){return L.imageOverlay(t._url,t._bounds,e.cloneOptions(t.options))})),this.registerLayer(L.Marker,"L.Marker",(function(t,e){return L.marker(t.getLatLng(),e.cloneOptions(t.options))})),this.registerLayer(L.Popup,"L.Popup",(function(t,e){return L.popup(e.cloneOptions(t.options)).setLatLng(t.getLatLng()).setContent(t.getContent())})),this.registerLayer(L.Circle,"L.Circle",(function(t,e){return L.circle(t.getLatLng(),t.getRadius(),e.cloneOptions(t.options))})),this.registerLayer(L.CircleMarker,"L.CircleMarker",(function(t,e){return L.circleMarker(t.getLatLng(),e.cloneOptions(t.options))})),this.registerLayer(L.Rectangle,"L.Rectangle",(function(t,e){return L.rectangle(t.getBounds(),e.cloneOptions(t.options))})),this.registerLayer(L.Polygon,"L.Polygon",(function(t,e){return L.polygon(t.getLatLngs(),e.cloneOptions(t.options))})),this.registerLayer(L.MultiPolyline,"L.MultiPolyline",(function(t,e){return L.polyline(t.getLatLngs(),e.cloneOptions(t.options))})),this.registerLayer(L.MultiPolygon,"L.MultiPolygon",(function(t,e){return L.multiPolygon(t.getLatLngs(),e.cloneOptions(t.options))})),this.registerLayer(L.Polyline,"L.Polyline",(function(t,e){return L.polyline(t.getLatLngs(),e.cloneOptions(t.options))})),this.registerLayer(L.GeoJSON,"L.GeoJSON",(function(t,e){return L.geoJson(t.toGeoJSON(),e.cloneOptions(t.options))})),this.registerIgnoreLayer(L.FeatureGroup,"L.FeatureGroup"),this.registerIgnoreLayer(L.LayerGroup,"L.LayerGroup"),this.registerLayer(L.Tooltip,"L.Tooltip",(function(){return null}))},_register:function(t,e,i,n){e&&!t.filter((function(t){return t.identifier===i})).length&&t.push({type:e,identifier:i,builder:n||function(t){return new e(t.options)}})},registerLayer:function(t,e,i){this._register(this._cloneFactoryArray,t,e,i)},registerRenderer:function(t,e,i){this._register(this._cloneRendererArray,t,e,i)},registerIgnoreLayer:function(t,e){this._register(this._ignoreArray,t,e)},cloneLayer:function(t){if(!t)return null;var e,i=this.__getRenderer(t);return i||((e=t._group?this.__getFactoryObject(t._group,!0):this.__getFactoryObject(t))&&(e=e.builder(t,this)),e)},getType:function(t){if(!t)return null;var e=this.__getFactoryObject(t);return e&&(e=e.identifier),e},__getRenderer:function(t){var e=this._knownRenderers[t._leaflet_id];if(!e){for(var i=0;i<this._cloneRendererArray.length;i++){var n=this._cloneRendererArray[i];if(t instanceof n.type){this._knownRenderers[t._leaflet_id]=n.builder(t.options);break}}e=this._knownRenderers[t._leaflet_id]}return e},__getFactoryObject:function(t,e){if(!e)for(var i=0;i<this._ignoreArray.length;i++){var n=this._ignoreArray[i];if(n.type&&t instanceof n.type)return null}for(i=0;i<this._cloneFactoryArray.length;i++){if((r=this._cloneFactoryArray[i]).type&&t instanceof r.type)return r}for(i=0;i<this._cloneRendererArray.length;i++){var r;if((r=this._cloneRendererArray[i]).type&&t instanceof r.type)return null}return this.__unknownLayer__(),null},__unknownLayer__:function(){console.warn("Unknown layer, cannot clone this layer. Leaflet version: "+L.version),console.info("For additional information please refer to documentation on: https://github.com/Igor-Vladyka/leaflet.browser.print."),console.info("-------------------------------------------------------------------------------------------------------------------")}}},function(t,e){L.BrowserPrint.Size={A:{Width:840,Height:1188},B:{Width:1e3,Height:1414},C:{Width:916,Height:1296},D:{Width:770,Height:1090},LETTER:{Width:216,Height:279},HALFLETTER:{Width:140,Height:216},LEGAL:{Width:216,Height:356},JUNIORLEGAL:{Width:127,Height:203},TABLOID:{Width:279,Height:432},LEDGER:{Width:432,Height:279}}},function(t,e){L.BrowserPrint.Mode=L.Class.extend({options:{title:"",invalidateBounds:!1,margin:{},enableZoom:!0,zoom:0,rotate:0,scale:1,orientation:"",pageSize:"A4",pageSeries:"",pageSeriesSize:"",action:null,header:{enabled:!1,text:"",size:"10mm",overTheMap:!1},footer:{enabled:!1,text:"",size:"10mm",overTheMap:!1}},initialize:function(t,e={}){if(!t)throw'Print mode have to be set. Default modes: "Portrait", "Landscape", "Auto" or "Custom". The shortcut functions "L.BrowserPrint.Mode.Portrait" are preferred.';this.mode=t,this.setOptions(e)},setOptions:function(t){L.setOptions(this,t),this.options.title||(this.options.title=this.mode),"Portrait"!==this.mode&&"Landscape"!==this.mode||(this.options.orientation=this.mode),this.options.pageSize=(this.options.pageSize||"A4").toUpperCase(),this.options.pageSeries=-1!==["A","B","C","D"].indexOf(this.options.pageSize[0])?this.options.pageSize[0]:"",this.options.pageSeriesSize=this.options.pageSize.substring(this.options.pageSeries.length),this.options.action=this.options.action||function(t,e){return function(){t._printMode(e)}}}}),L.browserPrint.mode=function(t,e){return new L.BrowserPrint.Mode(t,e)},L.BrowserPrint.Mode.Name={Landscape:"Landscape",Portrait:"Portrait",Auto:"Auto",Custom:"Custom"},L.BrowserPrint.Mode.Portrait=function(t,e={}){return e.pageSize=t,e.invalidateBounds=(!0===e.invalidateBounds||!1===e.invalidateBounds)&&e.invalidateBounds,new L.BrowserPrint.Mode(L.BrowserPrint.Mode.Name.Portrait,e)},L.BrowserPrint.Mode.Landscape=function(t,e={}){return e.pageSize=t,e.invalidateBounds=(!0===e.invalidateBounds||!1===e.invalidateBounds)&&e.invalidateBounds,new L.BrowserPrint.Mode(L.BrowserPrint.Mode.Name.Landscape,e)},L.BrowserPrint.Mode.Auto=function(t,e={}){return e.pageSize=t,e.invalidateBounds=!0!==e.invalidateBounds&&!1!==e.invalidateBounds||e.invalidateBounds,new L.BrowserPrint.Mode(L.BrowserPrint.Mode.Name.Auto,e)},L.BrowserPrint.Mode.Custom=function(t,e={}){return e.pageSize=t,e.invalidateBounds=!0!==e.invalidateBounds&&!1!==e.invalidateBounds||e.invalidateBounds,new L.BrowserPrint.Mode(L.BrowserPrint.Mode.Name.Custom,e)}},function(t,e){L.BrowserPrint.Helper={getPageMargin:function(t,e){var i=t.options.margin,n=this.getPaperSize(t),r=(n.Width+n.Height)/39.9;e||0===e||(e=""),i>=0?i={top:i,right:i,bottom:i,left:i}:i||(i={});var o=1;"in"===e&&(o=25.4);var s=i.top>=0?i.top:r,a=i.right>=0?i.right:r,l=i.bottom>=0?i.bottom:r,p=i.left>=0?i.left:r;return{top:(s/o).toFixed(2)+e,right:(a/o).toFixed(2)+e,bottom:(l/o).toFixed(2)+e,left:(p/o).toFixed(2)+e}},getPaperSize:function(t){if(t.options.pageSeries){var e=L.BrowserPrint.Size[t.options.pageSeries],i=e.Width,n=e.Height,r=!1;return t.options.pageSeriesSize&&"0"!==t.options.pageSeriesSize&&(t.options.pageSeriesSize=+t.options.pageSeriesSize,(r=t.options.pageSeriesSize%2==1)?(i/=t.options.pageSeriesSize-1||1,n/=t.options.pageSeriesSize+1):(i/=t.options.pageSeriesSize,n/=t.options.pageSeriesSize)),{Width:r?n:i,Height:r?i:n}}var o=L.BrowserPrint.Size[t.options.pageSeriesSize];return{Width:o.Width,Height:o.Height}},getSize:function(t,e="Portrait"){var i=this.getPaperSize(t),n=this.getPageMargin(t,0),r="Portrait"===e?parseFloat(n.top)+parseFloat(n.bottom):parseFloat(n.left)+parseFloat(n.right),o="Portrait"===e?parseFloat(n.left)+parseFloat(n.right):parseFloat(n.top)+parseFloat(n.bottom),s=Math.floor(i.Height-r),a=Math.floor(i.Width-o);return i.Width=a*(window.devicePixelRatio||1)+"mm",i.Height=s*(window.devicePixelRatio||1)+"mm",i}}}]);
 
-var jsonp = __webpack_require__(933);
-var Promise = __webpack_require__(389);
+/***/ }),
 
-module.exports = function (url, options) {
-  options = options || {};
-  if (options.jsonp) {
-    return jsonp(url, options);
-  }
-  var request;
-  var cancel;
-  var out = new Promise(function (resolve, reject) {
-    cancel = reject;
-    if (__webpack_require__.g.XMLHttpRequest === undefined) {
-      reject('XMLHttpRequest is not supported');
-    }
-    var response;
-    request = new __webpack_require__.g.XMLHttpRequest();
-    request.open('GET', url);
-    if (options.headers) {
-      Object.keys(options.headers).forEach(function (key) {
-        request.setRequestHeader(key, options.headers[key]);
-      });
-    }
-    request.onreadystatechange = function () {
-      if (request.readyState === 4) {
-        if ((request.status < 400 && options.local) || request.status === 200) {
-          if (__webpack_require__.g.JSON) {
-            response = JSON.parse(request.responseText);
-          } else {
-            reject(new Error('JSON is not supported'));
-          }
-          resolve(response);
-        } else {
-          if (!request.status) {
-            reject('Attempted cross origin request without CORS enabled');
-          } else {
-            reject(request.statusText);
-          }
+/***/ 430:
+/***/ (function() {
+
+L.PhotonBase = L.Class.extend({
+
+    forEach: function (els, callback) {
+        Array.prototype.forEach.call(els, callback);
+    },
+
+    ajax: function (callback, thisobj) {
+        if (typeof this.xhr === 'object') {
+            this.xhr.abort();
         }
-      }
-    };
-    request.send();
-  });
-  out.catch(function (reason) {
-    request.abort();
-    return reason;
-  });
-  out.abort = cancel;
-  return out;
-};
+        this.xhr = new XMLHttpRequest();
+        var self = this;
+        this.xhr.open('GET', this.options.url + this.buildQueryString(this.getParams()), true);
 
-
-/***/ }),
-
-/***/ 933:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-"use strict";
-
-var L = __webpack_require__.g.L || __webpack_require__(243);
-var Promise = __webpack_require__(389);
-
-module.exports = function (url, options) {
-  options = options || {};
-  var head = document.getElementsByTagName('head')[0];
-  var scriptNode = L.DomUtil.create('script', '', head);
-  var cbName, ourl, cbSuffix, cancel;
-  var out = new Promise(function (resolve, reject) {
-    cancel = reject;
-    var cbParam = options.cbParam || 'callback';
-    if (options.callbackName) {
-      cbName = options.callbackName;
-    } else {
-      cbSuffix = '_' + ('' + Math.random()).slice(2);
-      cbName = '_leafletJSONPcallbacks.' + cbSuffix;
-    }
-    scriptNode.type = 'text/javascript';
-    if (cbSuffix) {
-      if (!__webpack_require__.g._leafletJSONPcallbacks) {
-        __webpack_require__.g._leafletJSONPcallbacks = {
-          length: 0
+        this.xhr.onload = function(e) {
+            self.fire('ajax:return');
+            if (this.status === 200) {
+                if (callback) {
+                    var raw = this.response;
+                    raw = JSON.parse(raw);
+                    callback.call(thisobj || this, raw);
+                }
+            }
+            delete this.xhr;
         };
-      }
-      __webpack_require__.g._leafletJSONPcallbacks.length++;
-      __webpack_require__.g._leafletJSONPcallbacks[cbSuffix] = function (data) {
-        head.removeChild(scriptNode);
-        delete __webpack_require__.g._leafletJSONPcallbacks[cbSuffix];
-        __webpack_require__.g._leafletJSONPcallbacks.length--;
-        if (!__webpack_require__.g._leafletJSONPcallbacks.length) {
-          delete __webpack_require__.g._leafletJSONPcallbacks;
+
+        this.fire('ajax:send');
+        this.xhr.send();
+    },
+
+    buildQueryString: function (params) {
+        var queryString = [];
+        for (var key in params) {
+            if (params[key]) {
+                queryString.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]));
+            }
         }
-        resolve(data);
-      };
+        return queryString.join('&');
+    },
+
+    featureToPopupContent: function (feature) {
+        var container = L.DomUtil.create('div', 'leaflet-photon-popup'),
+            title = L.DomUtil.create('h3', '', container);
+        title.innerHTML = feature.properties.label;
+        return container;
     }
-    if (url.indexOf('?') === -1) {
-      ourl = url + '?' + cbParam + '=' + cbName;
-    } else {
-      ourl = url + '&' + cbParam + '=' + cbName;
+
+});
+
+
+L.PhotonBaseSearch = L.PhotonBase.extend({
+
+    includes: ((typeof L.Evented !== 'undefined' && L.Evented.prototype) || L.Mixin.Events),
+
+    options: {
+        url: 'https://photon.komoot.de/api/?',
+        placeholder: 'Start typing...',
+        minChar: 3,
+        limit: 5,
+        submitDelay: 300,
+        includePosition: true,
+        noResultLabel: 'No result',
+        feedbackEmail: 'photon@komoot.de',  // Set to null to remove feedback box
+        feedbackLabel: 'Feedback'
+    },
+
+    CACHE: '',
+    RESULTS: [],
+    KEYS: {
+        LEFT: 37,
+        UP: 38,
+        RIGHT: 39,
+        DOWN: 40,
+        TAB: 9,
+        RETURN: 13,
+        ESC: 27,
+        APPLE: 91,
+        SHIFT: 16,
+        ALT: 17,
+        CTRL: 18
+    },
+
+    initialize: function (input, options) {
+        this.input = input;
+        L.setOptions(this, options);
+        var CURRENT = null;
+
+        try {
+            Object.defineProperty(this, 'CURRENT', {
+                get: function () {
+                    return CURRENT;
+                },
+                set: function (index) {
+                    if (typeof index === 'object') {
+                        index = this.resultToIndex(index);
+                    }
+                    CURRENT = index;
+                }
+            });
+        } catch (e) {
+            // Hello IE8
+        }
+        this.input.type = L.Browser.ie ? 'text' : 'search';
+        this.input.placeholder = this.options.placeholder;
+        this.input.autocomplete = 'off';
+        this.input.autocorrect = 'off';
+        L.DomEvent.disableClickPropagation(this.input);
+
+        L.DomEvent.on(this.input, 'keydown', this.onKeyDown, this);
+        L.DomEvent.on(this.input, 'input', this.onInput, this);
+        L.DomEvent.on(this.input, 'blur', this.onBlur, this);
+        L.DomEvent.on(this.input, 'focus', this.onFocus, this);
+        this.createResultsContainer();
+    },
+
+    createResultsContainer: function () {
+        this.resultsContainer = this.options.resultsContainer || L.DomUtil.create('ul', 'photon-autocomplete', document.querySelector('body'));
+    },
+
+    resizeContainer: function()
+    {
+        var l = this.getLeft(this.input);
+        var t = this.getTop(this.input) + this.input.offsetHeight;
+        this.resultsContainer.style.left = l + 'px';
+        this.resultsContainer.style.top = t + 'px';
+        var width = this.options.width ? this.options.width : this.input.offsetWidth - 2;
+        this.resultsContainer.style.width = width + 'px';
+    },
+
+    onKeyDown: function (e) {
+        switch (e.keyCode) {
+            case this.KEYS.TAB:
+                if(this.CURRENT !== null)
+                {
+                    this.setChoice();
+                }
+                L.DomEvent.stop(e);
+                break;
+            case this.KEYS.RETURN:
+                L.DomEvent.stop(e);
+                this.setChoice();
+                break;
+            case this.KEYS.ESC:
+                L.DomEvent.stop(e);
+                this.hide();
+                this.input.blur();
+                break;
+            case this.KEYS.DOWN:
+                if(this.RESULTS.length > 0) {
+                    if(this.CURRENT !== null && this.CURRENT < this.RESULTS.length - 1) { // what if one resutl?
+                        this.CURRENT++;
+                        this.highlight();
+                    }
+                    else if(this.CURRENT === null) {
+                        this.CURRENT = 0;
+                        this.highlight();
+                    }
+                }
+                break;
+            case this.KEYS.UP:
+                if(this.CURRENT !== null) {
+                    L.DomEvent.stop(e);
+                }
+                if(this.RESULTS.length > 0) {
+                    if(this.CURRENT > 0) {
+                        this.CURRENT--;
+                        this.highlight();
+                    }
+                    else if(this.CURRENT === 0) {
+                        this.CURRENT = null;
+                        this.highlight();
+                    }
+                }
+                break;
+        }
+    },
+
+    onInput: function (e) {
+        if (typeof this.submitDelay === 'number') {
+            window.clearTimeout(this.submitDelay);
+            delete this.submitDelay;
+        }
+        this.submitDelay = window.setTimeout(L.Util.bind(this.search, this), this.options.submitDelay);
+    },
+
+    onBlur: function (e) {
+        this.fire('blur');
+        var self = this;
+        setTimeout(function () {
+            self.hide();
+        }, 100);
+    },
+
+    onFocus: function (e) {
+        this.fire('focus');
+        this.input.select();
+        this.search();  // In case we have a value from a previous search.
+    },
+
+    clear: function () {
+        this.RESULTS = [];
+        this.CURRENT = null;
+        this.CACHE = '';
+        this.resultsContainer.innerHTML = '';
+    },
+
+    hide: function() {
+        this.fire('hide');
+        this.clear();
+        this.resultsContainer.style.display = 'none';
+    },
+
+    setChoice: function (choice) {
+        choice = choice || this.RESULTS[this.CURRENT];
+        if (choice) {
+            this.hide();
+            this.fire('selected', {choice: choice.feature});
+            this.onSelected(choice.feature);
+            this.input.value = '';
+        }
+    },
+
+    search: function() {
+        var val = this.input.value;
+        var minChar = typeof this.options.minChar === 'function' ? this.options.minChar(val) : val.length >= this.options.minChar;
+        if (!val || !minChar) return this.clear();
+        if(val + '' === this.CACHE + '') return;
+        else this.CACHE = val;
+        this._doSearch();
+    },
+
+    _doSearch: function () {
+        this.ajax(this.handleResults, this);
+    },
+
+    _onSelected: function (feature) {
+    },
+
+    onSelected: function (choice) {
+        return (this.options.onSelected || this._onSelected).call(this, choice);
+    },
+
+    _formatResult: function (feature, el) {
+        var title = L.DomUtil.create('strong', '', el),
+            detailsContainer = L.DomUtil.create('small', '', el),
+            details = [],
+            type = this.formatType(feature);
+        if (feature.properties.name) {
+            title.innerHTML = feature.properties.name;
+        } else if (feature.properties.housenumber) {
+            title.innerHTML = feature.properties.housenumber;
+            if (feature.properties.street) {
+                title.innerHTML += ' ' + feature.properties.street;
+            }
+        }
+        if (type) details.push(type);
+        if (feature.properties.city && feature.properties.city !== feature.properties.name) {
+            details.push(feature.properties.city);
+        }
+        if (feature.properties.country) details.push(feature.properties.country);
+        detailsContainer.innerHTML = details.join(', ');
+    },
+
+    formatResult: function (feature, el) {
+        return (this.options.formatResult || this._formatResult).call(this, feature, el);
+    },
+
+    formatType: function (feature) {
+        return (this.options.formatType || this._formatType).call(this, feature);
+    },
+
+    _formatType: function (feature) {
+        return feature.properties.osm_value === 'yes'
+               ? feature.properties.osm_key
+               : feature.properties.osm_value;
+    },
+
+    createResult: function (feature) {
+        var el = L.DomUtil.create('li', '', this.resultsContainer);
+        this.formatResult(feature, el);
+        var result = {
+            feature: feature,
+            el: el
+        };
+        // Touch handling needed
+        L.DomEvent.on(el, 'mouseover', function (e) {
+            this.CURRENT = result;
+            this.highlight();
+        }, this);
+        L.DomEvent.on(el, 'mousedown', function (e) {
+            this.setChoice();
+        }, this);
+        return result;
+    },
+
+    resultToIndex: function (result) {
+        var out = null;
+        this.forEach(this.RESULTS, function (item, index) {
+            if (item === result) {
+                out = index;
+                return;
+            }
+        });
+        return out;
+    },
+
+    handleResults: function(geojson) {
+        var self = this;
+        this.clear();
+        this.resultsContainer.style.display = 'block';
+        this.resizeContainer();
+        this.forEach(geojson.features, function (feature) {
+            self.RESULTS.push(self.createResult(feature));
+        });
+        if (geojson.features.length === 0) {
+            var noresult = L.DomUtil.create('li', 'photon-no-result', this.resultsContainer);
+            noresult.innerHTML = this.options.noResultLabel;
+        }
+        if (this.options.feedbackEmail) {
+            var feedback = L.DomUtil.create('a', 'photon-feedback', this.resultsContainer);
+            feedback.href = 'mailto:' + this.options.feedbackEmail;
+            feedback.innerHTML = this.options.feedbackLabel;
+        }
+        this.CURRENT = 0;
+        this.highlight();
+        if (this.options.resultsHandler) {
+            this.options.resultsHandler(geojson);
+        }
+    },
+
+    highlight: function () {
+        var self = this;
+        this.forEach(this.RESULTS, function (item, index) {
+            if (index === self.CURRENT) {
+                L.DomUtil.addClass(item.el, 'on');
+            }
+            else {
+                L.DomUtil.removeClass(item.el, 'on');
+            }
+        });
+    },
+
+    getLeft: function (el) {
+        var tmp = el.offsetLeft;
+        el = el.offsetParent;
+        while(el) {
+            tmp += el.offsetLeft;
+            el = el.offsetParent;
+        }
+        return tmp;
+    },
+
+    getTop: function (el) {
+        var tmp = el.offsetTop;
+        el = el.offsetParent;
+        while(el) {
+            tmp += el.offsetTop;
+            el = el.offsetParent;
+        }
+        return tmp;
+    },
+
+    getParams: function () {
+        return {
+            q: this.CACHE,
+            lang: this.options.lang,
+            limit: this.options.limit,
+            osm_tag: this.options.osm_tag
+        };
     }
-    scriptNode.src = ourl;
-  }).then(null, function (reason) {
-    head.removeChild(scriptNode);
-    delete L.Util.ajax.cb[cbSuffix];
-    return reason;
-  });
-  out.abort = cancel;
-  return out;
-};
+
+});
+
+L.PhotonSearch = L.PhotonBaseSearch.extend({
+
+    initialize: function (map, input, options) {
+        this.map = map;
+        L.PhotonBaseSearch.prototype.initialize.call(this, input, options);
+    },
+
+    _onSelected: function (feature) {
+        this.map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], 16);
+    },
+
+    getParams: function () {
+        var params = L.PhotonBaseSearch.prototype.getParams.call(this);
+        if (this.options.includePosition) {
+            params.lat = this.map.getCenter().lat;
+            params.lon = this.map.getCenter().lng;
+        }
+        return params;
+    }
+
+});
+
+L.Control.Photon = L.Control.extend({
+
+    includes: ((typeof L.Evented !== 'undefined' && L.Evented.prototype) || L.Mixin.Events),
+
+    onAdd: function (map, options) {
+        this.map = map;
+        this.container = L.DomUtil.create('div', 'leaflet-photon');
+
+        this.options = L.Util.extend(this.options, options);
+
+        this.input = L.DomUtil.create('input', 'photon-input', this.container);
+        this.search = new L.PhotonSearch(map, this.input, this.options);
+        this.search.on('blur', this.forwardEvent, this);
+        this.search.on('focus', this.forwardEvent, this);
+        this.search.on('hide', this.forwardEvent, this);
+        this.search.on('selected', this.forwardEvent, this);
+        this.search.on('ajax:send', this.forwardEvent, this);
+        this.search.on('ajax:return', this.forwardEvent, this);
+        return this.container;
+    },
+
+    // TODO onRemove
+
+    forwardEvent: function (e) {
+        this.fire(e.type, e);
+    }
+
+});
+
+L.control.photon = function(options) {
+    return new L.Control.Photon(options);
+}
+
+L.Map.addInitHook(function () {
+    if (this.options.photonControl) {
+        this.photonControl = new L.Control.Photon(this.options.photonControlOptions || {});
+        this.addControl(this.photonControl);
+    }
+});
+
+L.PhotonReverse = L.PhotonBase.extend({
+
+    includes: ((typeof L.Evented !== 'undefined' && L.Evented.prototype) || L.Mixin.Events),
+
+    options: {
+        url: 'https://photon.komoot.de/reverse/?',
+        limit: 1,
+        handleResults: null
+    },
+
+    initialize: function (options) {
+        L.setOptions(this, options);
+    },
+
+    doReverse: function (latlng) {
+        latlng = L.latLng(latlng);
+        this.fire('reverse', {latlng: latlng});
+        this.latlng = latlng;
+        this.ajax(this.handleResults, this);
+    },
+
+    _handleResults: function (data) {
+        /*eslint-disable no-console */
+        console.log(data);
+        /*eslint-enable no-alert */
+    },
+
+    handleResults: function (data) {
+        return (this.options.handleResults || this._handleResults).call(this, data);
+    },
+
+    getParams: function () {
+        return {
+            lang: this.options.lang,
+            limit: this.options.limit,
+            lat: this.latlng.lat,
+            lon: this.latlng.lng,
+            osm_tag: this.options.osm_tag
+        };
+    }
+
+});
 
 
 /***/ }),
@@ -14261,634 +14734,7 @@ module.exports = function (url, options) {
 //# sourceMappingURL=leaflet-src.js.map
 
 
-/***/ }),
-
-/***/ 389:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-"use strict";
-
-var immediate = __webpack_require__(705);
-
-/* istanbul ignore next */
-function INTERNAL() {}
-
-var handlers = {};
-
-var REJECTED = ['REJECTED'];
-var FULFILLED = ['FULFILLED'];
-var PENDING = ['PENDING'];
-
-module.exports = Promise;
-
-function Promise(resolver) {
-  if (typeof resolver !== 'function') {
-    throw new TypeError('resolver must be a function');
-  }
-  this.state = PENDING;
-  this.queue = [];
-  this.outcome = void 0;
-  if (resolver !== INTERNAL) {
-    safelyResolveThenable(this, resolver);
-  }
-}
-
-Promise.prototype["finally"] = function (callback) {
-  if (typeof callback !== 'function') {
-    return this;
-  }
-  var p = this.constructor;
-  return this.then(resolve, reject);
-
-  function resolve(value) {
-    function yes () {
-      return value;
-    }
-    return p.resolve(callback()).then(yes);
-  }
-  function reject(reason) {
-    function no () {
-      throw reason;
-    }
-    return p.resolve(callback()).then(no);
-  }
-};
-Promise.prototype["catch"] = function (onRejected) {
-  return this.then(null, onRejected);
-};
-Promise.prototype.then = function (onFulfilled, onRejected) {
-  if (typeof onFulfilled !== 'function' && this.state === FULFILLED ||
-    typeof onRejected !== 'function' && this.state === REJECTED) {
-    return this;
-  }
-  var promise = new this.constructor(INTERNAL);
-  if (this.state !== PENDING) {
-    var resolver = this.state === FULFILLED ? onFulfilled : onRejected;
-    unwrap(promise, resolver, this.outcome);
-  } else {
-    this.queue.push(new QueueItem(promise, onFulfilled, onRejected));
-  }
-
-  return promise;
-};
-function QueueItem(promise, onFulfilled, onRejected) {
-  this.promise = promise;
-  if (typeof onFulfilled === 'function') {
-    this.onFulfilled = onFulfilled;
-    this.callFulfilled = this.otherCallFulfilled;
-  }
-  if (typeof onRejected === 'function') {
-    this.onRejected = onRejected;
-    this.callRejected = this.otherCallRejected;
-  }
-}
-QueueItem.prototype.callFulfilled = function (value) {
-  handlers.resolve(this.promise, value);
-};
-QueueItem.prototype.otherCallFulfilled = function (value) {
-  unwrap(this.promise, this.onFulfilled, value);
-};
-QueueItem.prototype.callRejected = function (value) {
-  handlers.reject(this.promise, value);
-};
-QueueItem.prototype.otherCallRejected = function (value) {
-  unwrap(this.promise, this.onRejected, value);
-};
-
-function unwrap(promise, func, value) {
-  immediate(function () {
-    var returnValue;
-    try {
-      returnValue = func(value);
-    } catch (e) {
-      return handlers.reject(promise, e);
-    }
-    if (returnValue === promise) {
-      handlers.reject(promise, new TypeError('Cannot resolve promise with itself'));
-    } else {
-      handlers.resolve(promise, returnValue);
-    }
-  });
-}
-
-handlers.resolve = function (self, value) {
-  var result = tryCatch(getThen, value);
-  if (result.status === 'error') {
-    return handlers.reject(self, result.value);
-  }
-  var thenable = result.value;
-
-  if (thenable) {
-    safelyResolveThenable(self, thenable);
-  } else {
-    self.state = FULFILLED;
-    self.outcome = value;
-    var i = -1;
-    var len = self.queue.length;
-    while (++i < len) {
-      self.queue[i].callFulfilled(value);
-    }
-  }
-  return self;
-};
-handlers.reject = function (self, error) {
-  self.state = REJECTED;
-  self.outcome = error;
-  var i = -1;
-  var len = self.queue.length;
-  while (++i < len) {
-    self.queue[i].callRejected(error);
-  }
-  return self;
-};
-
-function getThen(obj) {
-  // Make sure we only access the accessor once as required by the spec
-  var then = obj && obj.then;
-  if (obj && (typeof obj === 'object' || typeof obj === 'function') && typeof then === 'function') {
-    return function appyThen() {
-      then.apply(obj, arguments);
-    };
-  }
-}
-
-function safelyResolveThenable(self, thenable) {
-  // Either fulfill, reject or reject with error
-  var called = false;
-  function onError(value) {
-    if (called) {
-      return;
-    }
-    called = true;
-    handlers.reject(self, value);
-  }
-
-  function onSuccess(value) {
-    if (called) {
-      return;
-    }
-    called = true;
-    handlers.resolve(self, value);
-  }
-
-  function tryToUnwrap() {
-    thenable(onSuccess, onError);
-  }
-
-  var result = tryCatch(tryToUnwrap);
-  if (result.status === 'error') {
-    onError(result.value);
-  }
-}
-
-function tryCatch(func, value) {
-  var out = {};
-  try {
-    out.value = func(value);
-    out.status = 'success';
-  } catch (e) {
-    out.status = 'error';
-    out.value = e;
-  }
-  return out;
-}
-
-Promise.resolve = resolve;
-function resolve(value) {
-  if (value instanceof this) {
-    return value;
-  }
-  return handlers.resolve(new this(INTERNAL), value);
-}
-
-Promise.reject = reject;
-function reject(reason) {
-  var promise = new this(INTERNAL);
-  return handlers.reject(promise, reason);
-}
-
-Promise.all = all;
-function all(iterable) {
-  var self = this;
-  if (Object.prototype.toString.call(iterable) !== '[object Array]') {
-    return this.reject(new TypeError('must be an array'));
-  }
-
-  var len = iterable.length;
-  var called = false;
-  if (!len) {
-    return this.resolve([]);
-  }
-
-  var values = new Array(len);
-  var resolved = 0;
-  var i = -1;
-  var promise = new this(INTERNAL);
-
-  while (++i < len) {
-    allResolver(iterable[i], i);
-  }
-  return promise;
-  function allResolver(value, i) {
-    self.resolve(value).then(resolveFromAll, function (error) {
-      if (!called) {
-        called = true;
-        handlers.reject(promise, error);
-      }
-    });
-    function resolveFromAll(outValue) {
-      values[i] = outValue;
-      if (++resolved === len && !called) {
-        called = true;
-        handlers.resolve(promise, values);
-      }
-    }
-  }
-}
-
-Promise.race = race;
-function race(iterable) {
-  var self = this;
-  if (Object.prototype.toString.call(iterable) !== '[object Array]') {
-    return this.reject(new TypeError('must be an array'));
-  }
-
-  var len = iterable.length;
-  var called = false;
-  if (!len) {
-    return this.resolve([]);
-  }
-
-  var i = -1;
-  var promise = new this(INTERNAL);
-
-  while (++i < len) {
-    resolver(iterable[i]);
-  }
-  return promise;
-  function resolver(value) {
-    self.resolve(value).then(function (response) {
-      if (!called) {
-        called = true;
-        handlers.resolve(promise, response);
-      }
-    }, function (error) {
-      if (!called) {
-        called = true;
-        handlers.reject(promise, error);
-      }
-    });
-  }
-}
-
-
 /***/ })
 
-/******/ 	});
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/global */
-/******/ 	!function() {
-/******/ 		__webpack_require__.g = (function() {
-/******/ 			if (typeof globalThis === 'object') return globalThis;
-/******/ 			try {
-/******/ 				return this || new Function('return this')();
-/******/ 			} catch (e) {
-/******/ 				if (typeof window === 'object') return window;
-/******/ 			}
-/******/ 		})();
-/******/ 	}();
-/******/ 	
-/************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-!function() {
-"use strict";
-
-var L = __webpack_require__.g.L || __webpack_require__(243);
-var Promise = __webpack_require__(389);
-var ajax = __webpack_require__(805);
-L.GeoJSON.AJAX = L.GeoJSON.extend({
-  defaultAJAXparams: {
-    dataType: 'json',
-    callbackParam: 'callback',
-    local: false,
-    middleware: function (f) {
-      return f;
-    }
-  },
-  initialize: function (url, options) {
-    this.urls = [];
-    if (url) {
-      if (typeof url === 'string') {
-        this.urls.push(url);
-      } else if (typeof url.pop === 'function') {
-        this.urls = this.urls.concat(url);
-      } else {
-        options = url;
-        url = undefined;
-      }
-    }
-    var ajaxParams = L.Util.extend({}, this.defaultAJAXparams);
-
-    for (var i in options) {
-      if (this.defaultAJAXparams.hasOwnProperty(i)) {
-        ajaxParams[i] = options[i];
-      }
-    }
-    this.ajaxParams = ajaxParams;
-    this._layers = {};
-    L.Util.setOptions(this, options);
-    this.on('data:loaded', function () {
-      if (this.filter) {
-        this.refilter(this.filter);
-      }
-    }, this);
-    var self = this;
-    if (this.urls.length > 0) {
-      new Promise(function (resolve) {
-        resolve();
-      }).then(function () {
-        self.addUrl();
-      });
-    }
-  },
-  clearLayers: function () {
-    this.urls = [];
-    L.GeoJSON.prototype.clearLayers.call(this);
-    return this;
-  },
-  addUrl: function (url) {
-    var self = this;
-    if (url) {
-      if (typeof url === 'string') {
-        self.urls.push(url);
-      } else if (typeof url.pop === 'function') {
-        self.urls = self.urls.concat(url);
-      }
-    }
-    var loading = self.urls.length;
-    var done = 0;
-    self.fire('data:loading');
-    self.urls.forEach(function (url) {
-      if (self.ajaxParams.dataType.toLowerCase() === 'json') {
-        ajax(url, self.ajaxParams).then(function (d) {
-          var data = self.ajaxParams.middleware(d);
-          self.addData(data);
-          self.fire('data:progress', data);
-        }, function (err) {
-          self.fire('data:progress', {
-            error: err
-          });
-        });
-      } else if (self.ajaxParams.dataType.toLowerCase() === 'jsonp') {
-        L.Util.jsonp(url, self.ajaxParams).then(function (d) {
-          var data = self.ajaxParams.middleware(d);
-          self.addData(data);
-          self.fire('data:progress', data);
-        }, function (err) {
-          self.fire('data:progress', {
-            error: err
-          });
-        });
-      }
-    });
-    self.on('data:progress', function () {
-      if (++done === loading) {
-        self.fire('data:loaded');
-      }
-    });
-  },
-  refresh: function (url) {
-    url = url || this.urls;
-    this.clearLayers();
-    this.addUrl(url);
-  },
-  refilter: function (func) {
-    if (typeof func !== 'function') {
-      this.filter = false;
-      this.eachLayer(function (a) {
-        a.setStyle({
-          stroke: true,
-          clickable: true
-        });
-      });
-    } else {
-      this.filter = func;
-      this.eachLayer(function (a) {
-        if (func(a.feature)) {
-          a.setStyle({
-            stroke: true,
-            clickable: true
-          });
-        } else {
-          a.setStyle({
-            stroke: false,
-            clickable: false
-          });
-        }
-      });
-    }
-  }
-});
-L.Util.Promise = Promise;
-L.Util.ajax = ajax;
-L.Util.jsonp = __webpack_require__(933);
-L.geoJson.ajax = function (geojson, options) {
-  return new L.GeoJSON.AJAX(geojson, options);
-};
-
-}();
-// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
-!function() {
-(function(window) {
-	var HAS_HASHCHANGE = (function() {
-		var doc_mode = window.documentMode;
-		return ('onhashchange' in window) &&
-			(doc_mode === undefined || doc_mode > 7);
-	})();
-
-	L.Hash = function(map) {
-		this.onHashChange = L.Util.bind(this.onHashChange, this);
-
-		if (map) {
-			this.init(map);
-		}
-	};
-
-	L.Hash.parseHash = function(hash) {
-		if(hash.indexOf('#') === 0) {
-			hash = hash.substr(1);
-		}
-		var args = hash.split("/");
-		if (args.length == 3) {
-			var zoom = parseInt(args[0], 10),
-			lat = parseFloat(args[1]),
-			lon = parseFloat(args[2]);
-			if (isNaN(zoom) || isNaN(lat) || isNaN(lon)) {
-				return false;
-			} else {
-				return {
-					center: new L.LatLng(lat, lon),
-					zoom: zoom
-				};
-			}
-		} else {
-			return false;
-		}
-	};
-
-	L.Hash.formatHash = function(map) {
-		var center = map.getCenter(),
-		    zoom = map.getZoom(),
-		    precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
-
-		return "#" + [zoom,
-			center.lat.toFixed(precision),
-			center.lng.toFixed(precision)
-		].join("/");
-	},
-
-	L.Hash.prototype = {
-		map: null,
-		lastHash: null,
-
-		parseHash: L.Hash.parseHash,
-		formatHash: L.Hash.formatHash,
-
-		init: function(map) {
-			this.map = map;
-
-			// reset the hash
-			this.lastHash = null;
-			this.onHashChange();
-
-			if (!this.isListening) {
-				this.startListening();
-			}
-		},
-
-		removeFrom: function(map) {
-			if (this.changeTimeout) {
-				clearTimeout(this.changeTimeout);
-			}
-
-			if (this.isListening) {
-				this.stopListening();
-			}
-
-			this.map = null;
-		},
-
-		onMapMove: function() {
-			// bail if we're moving the map (updating from a hash),
-			// or if the map is not yet loaded
-
-			if (this.movingMap || !this.map._loaded) {
-				return false;
-			}
-
-			var hash = this.formatHash(this.map);
-			if (this.lastHash != hash) {
-				location.replace(hash);
-				this.lastHash = hash;
-			}
-		},
-
-		movingMap: false,
-		update: function() {
-			var hash = location.hash;
-			if (hash === this.lastHash) {
-				return;
-			}
-			var parsed = this.parseHash(hash);
-			if (parsed) {
-				this.movingMap = true;
-
-				this.map.setView(parsed.center, parsed.zoom);
-
-				this.movingMap = false;
-			} else {
-				this.onMapMove(this.map);
-			}
-		},
-
-		// defer hash change updates every 100ms
-		changeDefer: 100,
-		changeTimeout: null,
-		onHashChange: function() {
-			// throttle calls to update() so that they only happen every
-			// `changeDefer` ms
-			if (!this.changeTimeout) {
-				var that = this;
-				this.changeTimeout = setTimeout(function() {
-					that.update();
-					that.changeTimeout = null;
-				}, this.changeDefer);
-			}
-		},
-
-		isListening: false,
-		hashChangeInterval: null,
-		startListening: function() {
-			this.map.on("moveend", this.onMapMove, this);
-
-			if (HAS_HASHCHANGE) {
-				L.DomEvent.addListener(window, "hashchange", this.onHashChange);
-			} else {
-				clearInterval(this.hashChangeInterval);
-				this.hashChangeInterval = setInterval(this.onHashChange, 50);
-			}
-			this.isListening = true;
-		},
-
-		stopListening: function() {
-			this.map.off("moveend", this.onMapMove, this);
-
-			if (HAS_HASHCHANGE) {
-				L.DomEvent.removeListener(window, "hashchange", this.onHashChange);
-			} else {
-				clearInterval(this.hashChangeInterval);
-			}
-			this.isListening = false;
-		}
-	};
-	L.hash = function(map) {
-		return new L.Hash(map);
-	};
-	L.Map.prototype.addHash = function() {
-		this._hash = L.hash(this);
-	};
-	L.Map.prototype.removeHash = function() {
-		this._hash.removeFrom();
-	};
-})(window);
-
-}();
-/******/ })()
-;
-//# sourceMappingURL=leaflet_plugins_a_bundle.js.map
+}]);
+//# sourceMappingURL=256.bundle.js.map
