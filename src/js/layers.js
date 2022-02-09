@@ -5,7 +5,7 @@
  */
 
 import L from "leaflet";
-import { IGN_KEY, IGN_LAYER, IGN_LAYER_LITE, IGN_ORTHO } from "./config";
+import { IGN_KEY, IGN_LAYER } from "./config";
 
 // Layers
 export const layerOSMfr: any = L.tileLayer(
@@ -77,24 +77,6 @@ export const layerIGN: any = L.tileLayer(
   {
     maxZoom: 18,
     minZoom: 6,
-    attribution: 'IGN-F/Géoportail',
-  }
-);
-
-export const layerIGNlite: any = L.tileLayer(
-  `//wxs.ign.fr/${IGN_KEY}/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_LAYER_LITE}&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg`,
-  {
-    maxZoom: 18,
-    minZoom: 6,
-    attribution: 'IGN-F/Géoportail',
-  }
-);
-
-export const layerIGNortho: any = L.tileLayer(
-  `//wxs.ign.fr/${IGN_KEY}/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_ORTHO}&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg`,
-  {
-    maxZoom: 18,
-    minZoom: 0,
     attribution: 'IGN-F/Géoportail',
   }
 );
