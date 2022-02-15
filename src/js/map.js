@@ -66,7 +66,7 @@ require.ensure(["./notes"], function() {
 L.control
   .browserPrint({
     printModes: [
-      L.control.browserPrint.mode.portrait("Portrait", "A4"),
+      //L.control.browserPrint.mode.portrait("Portrait", "A4"),
       L.control.browserPrint.mode.landscape("Paysage", "A4"),
       L.control.browserPrint.mode.auto("Auto", "A4"),
       L.control.browserPrint.mode.custom("Séléctionnez la zone", "A4"),
