@@ -93,8 +93,6 @@ export const baseMaps = {
   "OpenStreetMap France": layerOSMfr,
   OpenStreetMap: layerOSM,
   "Carte IGN": layerIGN,
-  "Plan IGN": layerIGNlite,
-  "Orthophoto IGN": layerIGNortho,
   Bing: layerBing,
   "Bing+OSM": layerBoner,
   Cadastre: layerCadastre,
