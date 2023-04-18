@@ -71,7 +71,7 @@
     "babel-7-jest": "21.3.3",
     "babel-loader": "8.2.3",
     "commitizen": "4.2.4",
-    "copy-webpack-plugin": "10.2.4",
+    "copy-webpack-plugin": "11.0.0",
     "css-loader": "6.6.0",
     "css-minimizer-webpack-plugin": "3.4.1",
     "css-module-flow": "1.0.0",
