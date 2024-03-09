@@ -26,26 +26,6 @@ export const layerOSM: any = L.tileLayer(
   }
 );
 
-
-
-export const layerBing: any = L.tileLayer(
-  "http://tile.stamen.com/bing-lite/{z}/{x}/{y}.jpg",
-  {
-    maxZoom: 18,
-    attribution:
-      'Vue satellite &copy; <a href="https://bing.com/">Bing</a> via Stamen',
-  }
-);
-
-export const layerBoner: any = L.tileLayer(
-  "http://tile.stamen.com/boner/{z}/{x}/{y}.jpg",
-  {
-    maxZoom: 18,
-    attribution:
-      'Vue satellite &copy; <a href="https://bing.com/">Bing</a> via Stamen',
-  }
-);
-
 export const layerCadastre: any = L.tileLayer(
   "http://tms.cadastre.openstreetmap.fr/*/tout/{z}/{x}/{y}.png",
   {
@@ -72,12 +52,24 @@ export const layerEsriWorldImagery: any = L.tileLayer(
   }
 );
 
+
+export const layerEsriWorldStreetMap: any = L.tileLayer(
+  "//server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+  {
+    attribution:
+    'Tiles &copy; Esri &mdash; ' +
+    'Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+  }
+);
+
 export const layerIGN: any = L.tileLayer(
-  `//wxs.ign.fr/${IGN_KEY}/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_LAYER}&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg`,
+  `//data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_LAYER}&STYLE=normal&FORMAT=image/jpeg&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`,
+ // `//wxs.ign.fr/${IGN_KEY}/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_LAYER}&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg`,
   {
     maxZoom: 18,
     minZoom: 6,
     attribution: 'IGN-F/Géoportail',
+    tileSize : 256 // les tuiles du Géooportail font 256x256px
   }
 );
 
@@ -92,11 +84,10 @@ export const overlayBAN: any = L.tileLayer(
 export const baseMaps = {
   "OpenStreetMap France": layerOSMfr,
   OpenStreetMap: layerOSM,
-  "Carte IGN": layerIGN,
-  Bing: layerBing,
-  "Bing+OSM": layerBoner,
+  // "Carte IGN": layerIGN, // je n'arrive pas a renouveller la clé IGN pour le moment
   Cadastre: layerCadastre,
   Esri: layerEsriWorldImagery,
+  "World Street Map" : layerEsriWorldStreetMap,
 };
 
 export const overlayMaps = {
