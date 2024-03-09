@@ -84,7 +84,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "7.28.0",
     "file-loader": "6.2.0",
-    "flow-bin": "0.171.0",
+    "flow-bin": "0.230.0",
     "flow-typed": "3.6.1",
     "handlebars": "4.7.7",
     "html-webpack-plugin": "5.5.0",
