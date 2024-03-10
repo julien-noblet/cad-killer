@@ -1,0 +1,98 @@
+// *************************************************
+// ********************** FORMS ********************
+// *************************************************
+
+$input-text-color-background: $color-near-white;
+$input-border: 1px solid $input-text-color-border;
+$input-border-radius: 2px;
+$box-shadow: 0 1px 2px rgba(0, 0, 0, .1) inset;
+$input-text-color: rgba(51, 51, 51, .75);
+$display: block;
+$font-family: inherit;
+$font-size: 14px;
+$input-height: 56px;
+$input-margin: 0 0 14px;
+$padding: 7px;
+$width: 100%;
+
+input {
+  &[type="text"] {
+    background-color: $input-text-color-background;
+    border: $input-border;
+    border-radius: $input-border-radius;
+    box-shadow: $box-shadow;
+    color: $input-text-color;
+    display: $display;
+    font-family: $font-family;
+    font-size: $font-size;
+    height: $input-height;
+    margin: $input-margin;
+    padding: $padding;
+    width: $width;
+  }
+
+  &[type="search"] {
+    background-color: $input-text-color-background;
+    border: $input-border;
+    border-radius: $input-border-radius;
+    box-shadow: $box-shadow;
+    color: $input-text-color;
+    display: $display;
+    font-family: $font-family;
+    font-size: $font-size;
+    height: $input-height;
+    margin: $input-margin;
+    padding: $padding;
+    width: $width;
+  }
+
+  &[type="submit"] {
+    background-color: $color-button;
+    border: 0;
+    border-radius: $input-border-radius;
+    color: $color-near-white;
+    display: inline-block;
+    font-size: 1.1em;
+    height: 50px;
+    line-height: 50px;
+    margin-top: 20px;
+    padding: 0 20px;
+    text-align: center;
+    text-decoration: none;
+
+    &:hover {
+      background-color: $color-button-hover;
+      color: $color-near-white;
+    }
+  }
+}
+
+textarea {
+  background-color: $input-text-color-background;
+  border: $input-border;
+  border-radius: $input-border-radius;
+  box-shadow: $box-shadow;
+  color: $input-text-color;
+  display: $display;
+  font-family: $font-family;
+  font-size: $font-size;
+  height: 200px;
+  margin: $input-margin;
+  padding: $padding;
+  width: $width;
+}
+
+select {
+  background-color: $input-text-color-background;
+  border: $input-border;
+  border-color: $input-border;
+  color: $input-text-color;
+  height: 28px;
+  line-height: 28px;
+  margin-bottom: 15px;
+  width: $width;
+
+  &[multiple="multiple"] {
+    height: auto;
+  }
+}

@@ -1,0 +1,67 @@
+// *************************************************
+// *********************** FONT ********************
+// *************************************************
+
+$ff-arial: 'Arial';
+$ff-helvetica-neue: 'Helvetica Neue';
+$ff-helvetica: 'Helvetica';
+
+//@import "~/opensans-npm-webfont/style";
+
+@import "~material-design-iconic-font/scss/_variables";
+@import "~material-design-iconic-font/scss/_icons";
+//$ff-material: $zmdi-font-name;
+/*
+@mixin font($ff, $file) {
+  font-family: $ff;
+//  src: url('../fonts/'+$file+'.eot');
+  src: url('../fonts/'+$file+'.eot?#iefix') format('embedded-opentype'), url('../fonts/'+$file+'.woff') format('woff'), url('../fonts/'+$file+'.ttf') format('truetype'), url('../fonts/'+$file+'.svg#open_sanssemibold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+//@font-face {
+//
+//  @include font($ff-material, 'Material-Design-Iconic-Font')
+//}
+
+@font-face {
+  @include font('open_sanssemibold', 'Semibold/OpenSans-Semibold')
+}
+
+@font-face {
+  @include font('open_sansextrabold_italic', 'ExtraBoldItalic/OpenSans-ExtraBoldItalic')
+}
+
+@font-face {
+  @include font('open_sanssemibold_italic', 'SemiboldItalic/OpenSans-SemiboldItalic')
+}
+
+@font-face {
+  @include font('open_sansregular', 'Regular/OpenSans-Regular')
+}
+
+@font-face {
+  @include font('open_sanslight', 'Light/OpenSans-Light')
+}
+
+@font-face {
+  @include font('open_sanslight_italic', 'LightItalic/OpenSans-LightItalic')
+}
+
+@font-face {
+  @include font('open_sansitalic', 'Italic/OpenSans-Italic')
+}
+
+@font-face {
+  @include font('open_sansextrabold', 'ExtraBold/OpenSans-ExtraBold')
+}
+
+@font-face {
+  @include font('open_sansbold', 'Bold/OpenSans')
+}
+
+@font-face {
+  @include font('open_sansbold_italic', 'BoldItalic/OpenSans-BoldItalic')
+}
+*/

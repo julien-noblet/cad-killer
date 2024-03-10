@@ -20,8 +20,12 @@ var ImageminPlugin = require("imagemin-webpack-plugin").default;
 
 module.exports = {
   devtool: "source-map",
+
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
   entry: {
-    main: "./src/index.js",
+    main: "./src/index.ts",
     jquery: "jquery",
     leaflet: "leaflet",
     stats: ["pouchdb", "ua-parser-js", "leaflet-dialog", "leaflet-draw"],
@@ -35,6 +39,11 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
       {
         test: /\.js$/,
         loader: "babel-loader",

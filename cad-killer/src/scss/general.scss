@@ -1,0 +1,178 @@
+// *************************************************
+// ******************** GENERIC RULES **************
+// *************************************************
+
+// variables
+$smartphone: 8in;
+a {
+  box-sizing: border-box;
+  color: $color-dark-text;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font: 15px/20px 'open_sansregular', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+  @media print {
+    height: 100%;
+    margin: 0;
+  }
+}
+
+html {
+  @media print {
+    height: 100%;
+    margin: 0;
+  }
+}
+
+@media print {
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+}
+
+div {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+footer {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  box-sizing: border-box;
+  font-family: 'open_sansbold';
+  font-weight: normal;
+  line-height: 1em;
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  box-sizing: border-box;
+  font-family: 'open_sansbold';
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 0;
+  margin-bottom: 15px;
+  padding: 0;
+}
+
+h3 {
+  box-sizing: border-box;
+  font-family: 'open_sansbold';
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 0;
+  margin-bottom: 15px;
+  padding: 0;
+}
+
+h4 {
+  box-sizing: border-box;
+  font-family: 'open_sansbold';
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+}
+
+h5 {
+  box-sizing: border-box;
+  font-family: 'open_sansbold';
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+}
+
+h6 {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+hr {
+  -moz-border-bottom-colors: none;
+  // hack :)
+  border-color: $color-border;
+  border-image: none;
+  -moz-border-left-colors: none;
+  // est-il necessaire???
+  -moz-border-right-colors: none;
+  border-style: solid;
+  -moz-border-top-colors: none;
+  border-width: 1px 0 0;
+  box-sizing: border-box;
+  clear: both;
+  height: 0;
+  margin: 28px auto;
+  max-width: 980px;
+  padding: 0;
+  width: 100%;
+}
+
+input {
+  box-sizing: border-box;
+  color: $color-text;
+  font: 15px/20px 'open_sansregular', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ol {
+  list-style: none;
+}
+
+ul {
+  box-sizing: border-box;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+section {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+strong {
+  font-family: 'open_sansbold';
+  font-weight: normal;
+}
+
+textarea {
+  box-sizing: border-box;
+  color: $color-text;
+  font: 15px/20px 'open_sansregular', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+}
