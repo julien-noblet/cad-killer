@@ -2,10 +2,12 @@
  * @format
  */
 
-import L from "leaflet";
+import * as L from "leaflet";
 import { REVERSE_URL } from "./config";
+import { mymap as map } from "./map";
+import 'leaflet.photon';
 
-L.Control.ReverseLabel = L.Control.extend({
+const ReverseLabel = L.Control.extend({
   options: {
     position: "topright", // hack
   },
@@ -14,7 +16,7 @@ L.Control.ReverseLabel = L.Control.extend({
     const container = L.DomUtil.create("div", "reverse-label");
     const reverse = new L.PhotonReverse({
       url: REVERSE_URL,
-      handleResults: (data) => {
+      handleResults: (data: { features: { properties: { label: any; }; }[]; }) => {
         if (data.features !== null) {
           if (data.features[0] !== null) {
             if (data.features[0].properties !== null) {
@@ -25,16 +27,16 @@ L.Control.ReverseLabel = L.Control.extend({
       },
     });
 
-    window.map.on("moveend", () => {
-      if (window.map.getZoom() > 14) {
-        reverse.doReverse(window.map.getCenter());
+    map.on("moveend", () => {
+      if (map.getZoom() > 14) {
+        reverse.doReverse(map.getCenter());
         let head = document.getElementById("head");
-        let map = document.getElementById("map");
+        let newmap = document.getElementById("map");
         if (head !== null) {
           head.className += " headmasked";
         }
-        if (map !== null) {
-          map.className += " nohead";
+        if (newmap !== null) {
+          newmap.className += " nohead";
         }
       } else {
         container.innerHTML = "";
@@ -44,4 +46,4 @@ L.Control.ReverseLabel = L.Control.extend({
   },
 });
 
-new L.Control.ReverseLabel().addTo(window.map);
+new ReverseLabel().addTo(map);

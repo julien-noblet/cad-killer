@@ -2,8 +2,9 @@
  * @format
  */
 
-import L from "leaflet";
+import * as L from 'leaflet';
 import { IGN_KEY, IGN_LAYER } from "./config";
+import { tileLayer } from 'leaflet';
 
 // Layers
 export const layerOSMfr: any = L.tileLayer(
