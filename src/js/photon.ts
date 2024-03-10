@@ -2,18 +2,20 @@
  * @format
  */
 
-import L from "leaflet";
+import * as L from "leaflet";
 import { API_URL, SHORT_CITY_NAMES } from "./config";
 //import { sendClick, sendSearch } from "./stats";
 
-require("leaflet.photon");
+import {L as P} "leaflet.photon";
+import { mymap as map } from "./map";
+import { GeoJsonObject } from "geojson";
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
  * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
  */
 
 const searchPoints = L.geoJson(null, {
-  onEachFeature: (feature, layer) => {
+  onEachFeature: (feature , layer) => {
     layer.on("click", () => {
       let zoom = 16;
       switch (feature.properties.type) {
@@ -41,28 +43,28 @@ const searchPoints = L.geoJson(null, {
         default:
           zoom = 16;
       }
-      window.map.setView(
-        [feature.geometry.coordinates[1], feature.geometry.coordinates[0]],
+      map.setView(
+        [ feature.geometry.bbox[1], feature.geometry.bbox[0]],
         zoom
       );
       // sendClick(feature); // Stats are not working
     });
     layer.bindPopup(
-      `${feature.properties.name}<a class='geo' href='geo:${feature.geometry.coordinates[1]},${feature.geometry.coordinates[0]}'><i class='zmdi-navigation zmdi-2x'></i></a>`
+      `${feature.properties.name}<a class='geo' href='geo:${feature.geometry.bbox[1]},${feature.geometry.bbox[0]}'><i class='zmdi-navigation zmdi-2x'></i></a>`
     );
   },
 });
 
-function showSearchPoints(geojson) {
+function showSearchPoints(geojson: GeoJsonObject) {
   searchPoints.clearLayers();
   searchPoints.addData(geojson);
 }
 
-function formatResult(feature, el) {
+function formatResult(feature: { properties: { name: string; type: string ; city: any; context: any; }; }, el: HTMLElement) {
   const details = [];
   const detailsContainer = L.DomUtil.create("small", "", el);
   const title = L.DomUtil.create("strong", "", el);
-  const types = {
+  const level: { [key: string]: string } = {
     housenumber: "numéro",
     street: "rue",
     locality: "lieu-dit",
@@ -72,9 +74,9 @@ function formatResult(feature, el) {
     commune: "commune",
   };
   title.innerHTML = feature.properties.name;
-  if (types[feature.properties.type]) {
+  if (level[feature.properties.type]) {
     L.DomUtil.create("span", "type", title).innerHTML =
-      types[feature.properties.type];
+      level[feature.properties.type];
   }
   if (
     feature.properties.city &&
@@ -97,7 +99,7 @@ const photonControlOptions = {
   noResultLabel: "Aucun résultat",
   feedbackLabel: "Signaler",
   feedbackEmail: "julien.noblet+cad-killer@gmail.com",
-  minChar: (val) => SHORT_CITY_NAMES.indexOf(val) !== -1 || val.length >= 3,
+  minChar: (val :string) => SHORT_CITY_NAMES.indexOf(val) !== -1 || val.length >= 3,
   submitDelay: 200,
 };
 
@@ -113,14 +115,14 @@ const photonReverseControlOptions = {
 };
 */
 
-const myPhoton = new L.Control.Photon(photonControlOptions);
+const myPhoton = new P.Control.Photon(photonControlOptions);
 
 export function photon() {
-  searchPoints.addTo(window.map);
+  searchPoints.addTo(map);
 
-  window.map.addControl(myPhoton);
+  map.addControl(myPhoton);
   /* eslint-disable no-proto */
-  myPhoton.search.__proto__.setChoice = function setChoice(choice ) {
+  myPhoton.search.__proto__.setChoice = function setChoice(choice: any) {
     const c = choice || this.RESULTS[this.CURRENT];
     if (c) {
       // sendSearch(c.feature); // Stats are not working
