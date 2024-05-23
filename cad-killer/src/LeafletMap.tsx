@@ -1,29 +1,47 @@
-import React from 'react';
-import {  MapContainer, TileLayer } from 'react-leaflet';
-import { LatLngTuple } from 'leaflet';
-import Layers from './Layers';
-import { Search } from './Search';
-
-const defaultLatLng: LatLngTuple = [48.865572, 2.283523];
-const zoom: number = 8;
+import React, { useState, useEffect } from "react";
+import { MapContainer, useMapEvents } from "react-leaflet";
+import { LatLngTuple } from "leaflet";
+import Layers from "./Layers";
+import { Search } from "./Search";
+import Hash from "./Hash";
+//Component
 
 const LeafletMap: React.FC = () => {
- 
+
+  //Default coordinates
+
+  const [formData, setFormData] = useState({
+    latitude: 46.498,
+    longitude: 2.197,
+    zoom: 6,
+  });
+
+  const getLatLng = (): LatLngTuple => {
+    return [formData.latitude, formData.longitude];
+  };
+
+  
+
   return (
-    <MapContainer id="mapId"
-      style = {{height: "100vh"}}
-      center={defaultLatLng}
-      zoom={zoom}>
-        <Search />
-       <TileLayer
-                url="//{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"
-                maxZoom={20}
-                attribution='Fond de plan &copy; <a href="https://openstreetmap.fr/">OpenStreetMap France</a>'
-            />
+    <MapContainer
+      id="map"
+      style={{
+        height: "calc(100vh - 60px)",
+        bottom: 0,
+        margin: 0,
+        left: 0,
+        right: 0,
+        top: "50px",
+        width: "100%",
+      }}
+      center={getLatLng()}
+      zoom={formData.zoom}
+    >
+      <Hash  formData={formData} setFormData={setFormData} />
+      <Search />
       <Layers />
-      
     </MapContainer>
-  )
-}
+  );
+};
 
 export default LeafletMap;
