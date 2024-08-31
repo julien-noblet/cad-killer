@@ -4,7 +4,8 @@
   "description": "Visionneur de carte pour logisticiens pressés",
   "main": "index.html",
   "scripts": {
-    "start": "webpack serve --https --mode development",
+    "watch": "webpack --watch",
+    "start": "webpack serve --open",
     "build": "npx webpack --mode production --config webpack.config.js --progress --color",
     "test": "jest --runInBand"
   },
@@ -115,7 +116,7 @@
     "pouchdb": "7.3.1",
     "ua-parser-js": "1.0.33",
     "webpack": "^5.68.0",
-    "webpack-cli": "^4.9.2"
+    "webpack-cli": "^5.0.0"
   },
   "jest": {
     "moduleNameMapper": {
