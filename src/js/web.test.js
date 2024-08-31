@@ -21,7 +21,9 @@ const viewports = [
 ];
 
 describe("Web Render test", () => {
-  let server: WebpackDevServer;
+  let server;
+  let browser;
+  let page;
 
   /**
    * Initialize browser and server
