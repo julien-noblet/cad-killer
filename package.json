@@ -112,7 +112,7 @@
     "leaflet.photon": "0.8.0",
     "material-design-iconic-font": "2.2.0",
     "opensans-npm-webfont": "1.0.0",
-    "pouchdb": "7.2.2",
+    "pouchdb": "7.3.1",
     "ua-parser-js": "1.0.33",
     "webpack": "^5.68.0",
     "webpack-cli": "^4.9.2"
