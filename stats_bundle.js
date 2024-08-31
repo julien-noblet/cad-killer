@@ -961,7 +961,7 @@ this._selectedPathOptions&&(e instanceof L.Marker?this._toggleMarkerHighlight(e)
 
 /***/ }),
 
-/***/ 960:
+/***/ 876:
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -971,15 +971,92 @@ this._selectedPathOptions&&(e instanceof L.Marker?this._toggleMarkerHighlight(e)
 // EXTERNAL MODULE: ./node_modules/pouchdb/node_modules/immediate/lib/index.js
 var lib = __webpack_require__(835);
 var lib_default = /*#__PURE__*/__webpack_require__.n(lib);
-// EXTERNAL MODULE: ./node_modules/uuid/dist/index.js
-var dist = __webpack_require__(107);
-;// CONCATENATED MODULE: ./node_modules/uuid/wrapper.mjs
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/rng.js
+// Unique ID creation requires a high quality random # generator. In the browser we therefore
+// require the crypto API and do not support built-in fallback to lower quality random number
+// generators (like Math.random()).
+var getRandomValues;
+var rnds8 = new Uint8Array(16);
+function rng() {
+  // lazy load so that environments that need to polyfill have a chance to do so
+  if (!getRandomValues) {
+    // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
+    // find the complete implementation of crypto (msCrypto) on IE11.
+    getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
 
-const v1 = dist.v1;
-const v3 = dist.v3;
-const v4 = dist.v4;
-const v5 = dist.v5;
+    if (!getRandomValues) {
+      throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
+    }
+  }
 
+  return getRandomValues(rnds8);
+}
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/regex.js
+/* harmony default export */ var regex = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i);
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/validate.js
+
+
+function validate(uuid) {
+  return typeof uuid === 'string' && regex.test(uuid);
+}
+
+/* harmony default export */ var esm_browser_validate = (validate);
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/stringify.js
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+
+var byteToHex = [];
+
+for (var i = 0; i < 256; ++i) {
+  byteToHex.push((i + 0x100).toString(16).substr(1));
+}
+
+function stringify(arr) {
+  var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  // Note: Be careful editing this code!  It's been tuned for performance
+  // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
+  var uuid = (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + '-' + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + '-' + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + '-' + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + '-' + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase(); // Consistency check for valid UUID.  If this throws, it's likely due to one
+  // of the following:
+  // - One or more input array values don't map to a hex octet (leading to
+  // "undefined" in the uuid)
+  // - Invalid input values for the RFC `version` or `variant` fields
+
+  if (!esm_browser_validate(uuid)) {
+    throw TypeError('Stringified UUID is invalid');
+  }
+
+  return uuid;
+}
+
+/* harmony default export */ var esm_browser_stringify = (stringify);
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/v4.js
+
+
+
+function v4(options, buf, offset) {
+  options = options || {};
+  var rnds = options.random || (options.rng || rng)(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+
+  rnds[6] = rnds[6] & 0x0f | 0x40;
+  rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
+
+  if (buf) {
+    offset = offset || 0;
+
+    for (var i = 0; i < 16; ++i) {
+      buf[offset + i] = rnds[i];
+    }
+
+    return buf;
+  }
+
+  return esm_browser_stringify(rnds);
+}
+
+/* harmony default export */ var esm_browser_v4 = (v4);
 // EXTERNAL MODULE: ./node_modules/spark-md5/spark-md5.js
 var spark_md5 = __webpack_require__(735);
 var spark_md5_default = /*#__PURE__*/__webpack_require__.n(spark_md5);
@@ -1024,6 +1101,9 @@ Map$1.prototype.set = function (key, value) {
 Map$1.prototype.has = function (key) {
   var mangled = mangle(key);
   return mangled in this._store;
+};
+Map$1.prototype.keys = function () {
+  return Object.keys(this._store).map(k => unmangle(k));
 };
 Map$1.prototype.delete = function (key) {
   var mangled = mangle(key);
@@ -1073,7 +1153,6 @@ Object.defineProperty(Set$1.prototype, 'size', {
   }
 });
 
-/* global Map,Set,Symbol */
 // Based on https://kangax.github.io/compat-table/es6/ we can sniff out
 // incomplete Map/Set implementations which would otherwise cause our tests to fail.
 // Notably they fail in IE11 and iOS 8.4, which this prevents.
@@ -1168,7 +1247,7 @@ function clone(object) {
 
   // special case: to avoid inconsistencies between IndexedDB
   // and other backends, we automatically stringify Dates
-  if (object instanceof Date) {
+  if (object instanceof Date && isFinite(object)) {
     return object.toISOString();
   }
 
@@ -1662,6 +1741,11 @@ function createError(error, reason) {
         this[names[i]] = error[names[i]];
       }
     }
+
+    if (this.stack === undefined) {
+      this.stack = (new Error()).stack;
+    }
+
     /* jshint ignore:end */
     if (reason !== undefined) {
       this.reason = reason;
@@ -1694,6 +1778,10 @@ function generateErrorFromResponse(err) {
 
   if (!('message' in err)) {
     err.message = err.message || err.reason;
+  }
+
+  if (!('stack' in err)) {
+    err.stack = (new Error()).stack;
   }
 
   return err;
@@ -1735,7 +1823,7 @@ function filterChange(opts) {
     } else if (!opts.attachments) {
       for (var att in change.doc._attachments) {
         /* istanbul ignore else */
-        if (change.doc._attachments.hasOwnProperty(att)) {
+        if (Object.prototype.hasOwnProperty.call(change.doc._attachments, att)) {
           change.doc._attachments[att].stub = true;
         }
       }
@@ -1823,7 +1911,7 @@ var qName ="queryKey";
 var qParser = /(?:^|&)([^&=]*)=?([^&]*)/g;
 
 // use the "loose" parser
-/* eslint maxlen: 0, no-useless-escape: 0 */
+/* eslint no-useless-escape: 0 */
 var parser = /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
 
 function parseUri(str) {
@@ -1856,7 +1944,7 @@ function scopeEval(source, scope) {
   var keys = [];
   var values = [];
   for (var key in scope) {
-    if (scope.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(scope, key)) {
       keys.push(key);
       values.push(scope[key]);
     }
@@ -1869,16 +1957,15 @@ function scopeEval(source, scope) {
 // the diffFun tells us what delta to apply to the doc.  it either returns
 // the doc, or false if it doesn't need to do an update after all
 function upsert(db, docId, diffFun) {
-  return new Promise(function (fulfill, reject) {
-    db.get(docId, function (err, doc) {
-      if (err) {
-        /* istanbul ignore next */
-        if (err.status !== 404) {
-          return reject(err);
-        }
-        doc = {};
+  return db.get(docId)
+    .catch(function (err) {
+      /* istanbul ignore next */
+      if (err.status !== 404) {
+        throw err;
       }
-
+      return {};
+    })
+    .then(function (doc) {
       // the user might change the _rev, so save it for posterity
       var docRev = doc._rev;
       var newDoc = diffFun(doc);
@@ -1886,16 +1973,15 @@ function upsert(db, docId, diffFun) {
       if (!newDoc) {
         // if the diffFun returns falsy, we short-circuit as
         // an optimization
-        return fulfill({updated: false, rev: docRev});
+        return {updated: false, rev: docRev};
       }
 
       // users aren't allowed to modify these values,
       // so reset them here
       newDoc._id = docId;
       newDoc._rev = docRev;
-      fulfill(tryAndPut(db, newDoc, diffFun));
+      return tryAndPut(db, newDoc, diffFun);
     });
-  });
 }
 
 function tryAndPut(db, doc, diffFun) {
@@ -2093,17 +2179,21 @@ function stringMd5(string) {
   return spark_md5_default().hash(string);
 }
 
-function rev(doc, deterministic_revs) {
-  var clonedDoc = clone(doc);
+/**
+ * Creates a new revision string that does NOT include the revision height
+ * For example '56649f1b0506c6ca9fda0746eb0cacdf'
+ */
+function rev$$1(doc, deterministic_revs) {
   if (!deterministic_revs) {
-    return v4().replace(/-/g, '').toLowerCase();
+    return esm_browser_v4().replace(/-/g, '').toLowerCase();
   }
 
-  delete clonedDoc._rev_tree;
-  return stringMd5(JSON.stringify(clonedDoc));
+  var mutateableDoc = $inject_Object_assign({}, doc);
+  delete mutateableDoc._rev_tree;
+  return stringMd5(JSON.stringify(mutateableDoc));
 }
 
-var uuid = v4; // mimic old import, only v4 is ever used elsewhere
+var uuid = esm_browser_v4; // mimic old import, only v4 is ever used elsewhere
 
 // We fetch all leafs of the revision tree, and sort them based on tree length
 // and whether they were deleted, undeleted documents with the longest revision
@@ -2806,14 +2896,14 @@ function computeHeight(revs) {
   var height = {};
   var edges = [];
   traverseRevTree(revs, function (isLeaf, pos, id, prnt) {
-    var rev$$1 = pos + "-" + id;
+    var rev = pos + "-" + id;
     if (isLeaf) {
-      height[rev$$1] = 0;
+      height[rev] = 0;
     }
     if (prnt !== undefined) {
-      edges.push({from: prnt, to: rev$$1});
+      edges.push({from: prnt, to: rev});
     }
-    return rev$$1;
+    return rev;
   });
 
   edges.reverse();
@@ -2935,7 +3025,7 @@ AbstractPouchDB.prototype.put = adapterFun('put', function (doc, opts, cb) {
     var oldRevNum = parseInt(parts[0], 10);
 
     var newRevNum = oldRevNum + 1;
-    var newRevId = rev();
+    var newRevId = rev$$1();
 
     doc._revisions = {
       start: newRevNum,
@@ -2954,20 +3044,20 @@ AbstractPouchDB.prototype.put = adapterFun('put', function (doc, opts, cb) {
 });
 
 AbstractPouchDB.prototype.putAttachment =
-  adapterFun('putAttachment', function (docId, attachmentId, rev$$1,
+  adapterFun('putAttachment', function (docId, attachmentId, rev,
                                               blob, type) {
   var api = this;
   if (typeof type === 'function') {
     type = blob;
-    blob = rev$$1;
-    rev$$1 = null;
+    blob = rev;
+    rev = null;
   }
   // Lets fix in https://github.com/pouchdb/pouchdb/issues/3267
   /* istanbul ignore if */
   if (typeof type === 'undefined') {
     type = blob;
-    blob = rev$$1;
-    rev$$1 = null;
+    blob = rev;
+    rev = null;
   }
   if (!type) {
     guardedConsole('warn', 'Attachment', attachmentId, 'on document', docId, 'is missing content_type');
@@ -2985,7 +3075,7 @@ AbstractPouchDB.prototype.putAttachment =
   }
 
   return api.get(docId).then(function (doc) {
-    if (doc._rev !== rev$$1) {
+    if (doc._rev !== rev) {
       throw createError(REV_CONFLICT);
     }
 
@@ -3002,7 +3092,7 @@ AbstractPouchDB.prototype.putAttachment =
 });
 
 AbstractPouchDB.prototype.removeAttachment =
-  adapterFun('removeAttachment', function (docId, attachmentId, rev$$1,
+  adapterFun('removeAttachment', function (docId, attachmentId, rev,
                                                  callback) {
   var self = this;
   self.get(docId, function (err, obj) {
@@ -3011,7 +3101,7 @@ AbstractPouchDB.prototype.removeAttachment =
       callback(err);
       return;
     }
-    if (obj._rev !== rev$$1) {
+    if (obj._rev !== rev) {
       callback(createError(REV_CONFLICT));
       return;
     }
@@ -3088,8 +3178,8 @@ AbstractPouchDB.prototype.revsDiff =
     var missingForId = req[id].slice(0);
     traverseRevTree(rev_tree, function (isLeaf, pos, revHash, ctx,
       opts) {
-        var rev$$1 = pos + '-' + revHash;
-        var idx = missingForId.indexOf(rev$$1);
+        var rev = pos + '-' + revHash;
+        var idx = missingForId.indexOf(rev);
         if (idx === -1) {
           return;
         }
@@ -3097,14 +3187,14 @@ AbstractPouchDB.prototype.revsDiff =
         missingForId.splice(idx, 1);
         /* istanbul ignore if */
         if (opts.status !== 'available') {
-          addToMissing(id, rev$$1);
+          addToMissing(id, rev);
         }
       });
 
     // Traversing the tree is synchronous, so now `missingForId` contains
     // revisions that were not found in the tree
-    missingForId.forEach(function (rev$$1) {
-      addToMissing(id, rev$$1);
+    missingForId.forEach(function (rev) {
+      addToMissing(id, rev);
     });
   }
 
@@ -3157,16 +3247,16 @@ AbstractPouchDB.prototype.compactDocument =
     var height = computeHeight(revTree);
     var candidates = [];
     var revs = [];
-    Object.keys(height).forEach(function (rev$$1) {
-      if (height[rev$$1] > maxHeight) {
-        candidates.push(rev$$1);
+    Object.keys(height).forEach(function (rev) {
+      if (height[rev] > maxHeight) {
+        candidates.push(rev);
       }
     });
 
     traverseRevTree(revTree, function (isLeaf, pos, revHash, ctx, opts) {
-      var rev$$1 = pos + '-' + revHash;
-      if (opts.status === 'available' && candidates.indexOf(rev$$1) !== -1) {
-        revs.push(rev$$1);
+      var rev = pos + '-' + revHash;
+      if (opts.status === 'available' && candidates.indexOf(rev) !== -1) {
+        revs.push(rev);
       }
     });
     self._doCompaction(docId, revs, callback);
@@ -3363,18 +3453,18 @@ AbstractPouchDB.prototype.get = adapterFun('get', function (id, opts, cb) {
       if (opts.revs) {
         doc._revisions = {
           start: (path.pos + path.ids.length) - 1,
-          ids: path.ids.map(function (rev$$1) {
-            return rev$$1.id;
+          ids: path.ids.map(function (rev) {
+            return rev.id;
           })
         };
       }
       if (opts.revs_info) {
         var pos =  path.pos + path.ids.length;
-        doc._revs_info = path.ids.map(function (rev$$1) {
+        doc._revs_info = path.ids.map(function (rev) {
           pos--;
           return {
-            rev: pos + '-' + rev$$1.id,
-            status: rev$$1.opts.status
+            rev: pos + '-' + rev.id,
+            status: rev.opts.status
           };
         });
       }
@@ -3408,7 +3498,7 @@ AbstractPouchDB.prototype.get = adapterFun('get', function (id, opts, cb) {
       if (doc._attachments) {
         for (var key in doc._attachments) {
           /* istanbul ignore else */
-          if (doc._attachments.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(doc._attachments, key)) {
             doc._attachments[key].stub = true;
           }
         }
@@ -3616,7 +3706,12 @@ AbstractPouchDB.prototype.bulkDocs =
 AbstractPouchDB.prototype.registerDependentDatabase =
   adapterFun('registerDependentDatabase', function (dependentDb,
                                                           callback) {
-  var depDB = new this.constructor(dependentDb, this.__opts);
+  var dbOptions = clone(this.__opts);
+  if (this.__opts.view_adapter) {
+    dbOptions.adapter = this.__opts.view_adapter;
+  }
+
+  var depDB = new this.constructor(dependentDb, dbOptions);
 
   function diffFun(doc) {
     doc.dependentDbs = doc.dependentDbs || {};
@@ -3836,6 +3931,13 @@ function PouchDB(name, opts) {
     throw new Error('Invalid Adapter: ' + opts.adapter);
   }
 
+  if (opts.view_adapter) {
+    if (!PouchDB.adapters[opts.view_adapter] ||
+        !PouchDB.adapters[opts.view_adapter].valid()) {
+      throw new Error('Invalid View Adapter: ' + opts.view_adapter);
+    }
+  }
+
   AbstractPouchDB.call(self);
   self.taskqueue = new TaskQueue();
 
@@ -3986,7 +4088,7 @@ PouchDB.fetch = function (url, opts) {
 };
 
 // managed automatically by set-version.js
-var version = "7.2.2";
+var version = "7.3.1";
 
 // this would just be "return doc[field]", but fields
 // can be "deep" due to dot notation
@@ -4013,13 +4115,13 @@ function parseField(fieldName) {
   var current = '';
   for (var i = 0, len = fieldName.length; i < len; i++) {
     var ch = fieldName[i];
-    if (ch === '.') {
-      if (i > 0 && fieldName[i - 1] === '\\') { // escaped delimiter
-        current = current.substring(0, current.length - 1) + '.';
-      } else { // not escaped, so delimiter
-        fields.push(current);
-        current = '';
-      }
+    if (i > 0 && fieldName[i - 1] === '\\' && (ch === '$' || ch === '.')) {
+      // escaped delimiter
+      current = current.substring(0, current.length - 1) + ch;
+    } else if (ch === '.') {
+      // When `.` is not escaped (above), it is a field delimiter
+      fields.push(current);
+      current = '';
     } else { // normal character
       current += ch;
     }
@@ -4049,6 +4151,7 @@ function mergeAndedSelectors(selectors) {
   // $and: [{$gt: 'a'}, {$gt: 'b'}], then it's collapsed into
   // just {$gt: 'b'}
   var res = {};
+  var first = {$or: true, $nor: true};
 
   selectors.forEach(function (selector) {
     Object.keys(selector).forEach(function (field) {
@@ -4058,11 +4161,32 @@ function mergeAndedSelectors(selectors) {
       }
 
       if (isCombinationalField(field)) {
+        // or, nor
         if (matcher instanceof Array) {
-          res[field] = matcher.map(function (m) {
-            return mergeAndedSelectors([m]);
+          if (first[field]) {
+            first[field] = false;
+            res[field] = matcher;
+            return;
+          }
+
+          var entries = [];
+          res[field].forEach(function (existing) {
+            Object.keys(matcher).forEach(function (key) {
+              var m = matcher[key];
+              var longest = Math.max(Object.keys(existing).length, Object.keys(m).length);
+              var merged = mergeAndedSelectors([existing, m]);
+              if (Object.keys(merged).length <= longest) {
+                // we have a situation like: (a :{$eq :1} || ...) && (a {$eq: 2} || ...)
+                // merging would produce a $eq 2 when actually we shouldn't ever match against these merged conditions
+                // merged should always contain more values to be valid
+                return;
+              }
+              entries.push(merged);
+            });
           });
+          res[field] = entries;
         } else {
+          // not
           res[field] = mergeAndedSelectors([matcher]);
         }
       } else {
@@ -4078,6 +4202,8 @@ function mergeAndedSelectors(selectors) {
             return mergeNe(value, fieldMatchers);
           } else if (operator === '$eq') {
             return mergeEq(value, fieldMatchers);
+          } else if (operator === "$regex") {
+            return mergeRegex(value, fieldMatchers);
           }
           fieldMatchers[operator] = value;
         });
@@ -4176,6 +4302,16 @@ function mergeEq(value, fieldMatchers) {
   fieldMatchers.$eq = value;
 }
 
+// combine $regex values into one array
+function mergeRegex(value, fieldMatchers) {
+  if ('$regex' in fieldMatchers) {
+    // a value could match multiple regexes
+    fieldMatchers.$regex.push(value);
+  } else { // doesn't exist yet
+    fieldMatchers.$regex = [value];
+  }
+}
+
 //#7458: execute function mergeAndedSelectors on nested $and
 function mergeAndedSelectorsNested(obj) {
     for (var prop in obj) {
@@ -4254,10 +4390,15 @@ function massageSelector(input) {
 
     if (typeof matcher !== 'object' || matcher === null) {
       matcher = {$eq: matcher};
-    } else if ('$ne' in matcher && !wasAnded) {
-      // I put these in an array, since there may be more than one
-      // but in the "mergeAnded" operation, I already take care of that
-      matcher.$ne = [matcher.$ne];
+    } else if (!wasAnded) {
+      // These values must be placed in an array because these operators can be used multiple times on the same field
+      // when $and is used, mergeAndedSelectors takes care of putting them into arrays, otherwise it's done here:
+      if ('$ne' in matcher) {
+        matcher.$ne = [matcher.$ne];
+      }
+      if ('$regex' in matcher) {
+        matcher.$regex = [matcher.$regex];
+      }
     }
     result[field] = matcher;
   }
@@ -4282,7 +4423,7 @@ function padLeft(str, padWith, upToLength) {
 
 var MIN_MAGNITUDE = -324; // verified by -Number.MIN_VALUE
 var MAGNITUDE_DIGITS = 3; // ditto
-var SEP = ''; // set to '_' for easier debugging 
+var SEP = ''; // set to '_' for easier debugging
 
 function collate(a, b) {
 
@@ -4334,7 +4475,7 @@ function normalizeKey(key) {
       } else if (key !== null) { // generic object
         key = {};
         for (var k in origKey) {
-          if (origKey.hasOwnProperty(k)) {
+          if (Object.prototype.hasOwnProperty.call(origKey, k)) {
             var val = origKey[k];
             if (typeof val !== 'undefined') {
               key[k] = normalizeKey(val);
@@ -4711,9 +4852,33 @@ function matchSelector(matcher, doc, parsedField, docFieldValue) {
 
   // is matcher an object, if so continue recursion
   if (typeof matcher === 'object') {
-    return Object.keys(matcher).every(function (userOperator) {
-      var userValue = matcher[userOperator];
-      return match(userOperator, doc, userValue, parsedField, docFieldValue);
+    return Object.keys(matcher).every(function (maybeUserOperator) {
+      var userValue = matcher[ maybeUserOperator ];
+      // explicit operator
+      if (maybeUserOperator.indexOf("$") === 0) {
+        return match(maybeUserOperator, doc, userValue, parsedField, docFieldValue);
+      } else {
+        var subParsedField = parseField(maybeUserOperator);
+
+        if (
+          docFieldValue === undefined &&
+          typeof userValue !== "object" &&
+          subParsedField.length > 0
+        ) {
+          // the field does not exist, return or getFieldFromDoc will throw
+          return false;
+        }
+
+        var subDocFieldValue = getFieldFromDoc(docFieldValue, subParsedField);
+
+        if (typeof userValue === "object") {
+          // field value is an object that might contain more operators
+          return matchSelector(userValue, doc, parsedField, subDocFieldValue);
+        }
+
+        // implicit operator
+        return match("$eq", doc, userValue, subParsedField, subDocFieldValue);
+      }
     });
   }
 
@@ -4742,6 +4907,7 @@ function matchCominationalSelector(field, matcher, doc) {
 
 function match(userOperator, doc, userValue, parsedField, docFieldValue) {
   if (!matchers[userOperator]) {
+    /* istanbul ignore next */
     throw new Error('unknown operator "' + userOperator +
       '" - should be one of $eq, $lte, $lt, $gt, $gte, $exists, $ne, $in, ' +
       '$nin, $size, $mod, $regex, $elemMatch, $type, $allMatch or $all');
@@ -4758,23 +4924,13 @@ function fieldIsNotUndefined(docFieldValue) {
 }
 
 function modField(docFieldValue, userValue) {
-  var divisor = userValue[0];
-  var mod = userValue[1];
-  if (divisor === 0) {
-    throw new Error('Bad divisor, cannot divide by zero');
-  }
-
-  if (parseInt(divisor, 10) !== divisor ) {
-    throw new Error('Divisor is not an integer');
-  }
-
-  if (parseInt(mod, 10) !== mod ) {
-    throw new Error('Modulus is not an integer');
-  }
-
-  if (parseInt(docFieldValue, 10) !== docFieldValue) {
+  if (typeof docFieldValue !== "number" ||
+    parseInt(docFieldValue, 10) !== docFieldValue) {
     return false;
   }
+
+  var divisor = userValue[0];
+  var mod = userValue[1];
 
   return docFieldValue % divisor === mod;
 }
@@ -4782,16 +4938,20 @@ function modField(docFieldValue, userValue) {
 function arrayContainsValue(docFieldValue, userValue) {
   return userValue.some(function (val) {
     if (docFieldValue instanceof Array) {
-      return docFieldValue.indexOf(val) > -1;
+      return docFieldValue.some(function (docFieldValueItem) {
+        return collate(val, docFieldValueItem) === 0;
+      });
     }
 
-    return docFieldValue === val;
+    return collate(val, docFieldValue) === 0;
   });
 }
 
 function arrayContainsAllValues(docFieldValue, userValue) {
   return userValue.every(function (val) {
-    return docFieldValue.indexOf(val) > -1;
+    return docFieldValue.some(function (docFieldValueItem) {
+      return collate(val, docFieldValueItem) === 0;
+    });
   });
 }
 
@@ -4821,10 +4981,6 @@ function typeMatch(docFieldValue, userValue) {
     case 'object':
       return ({}).toString.call(docFieldValue) === '[object Object]';
   }
-
-  throw new Error(userValue + ' not supported as a type.' +
-                  'Please use one of object, string, array, number, boolean or null.');
-
 }
 
 var matchers = {
@@ -4838,7 +4994,7 @@ var matchers = {
       return false;
     }
 
-    if (typeof docFieldValue[0] === 'object') {
+    if (typeof docFieldValue[0] === 'object' &&  docFieldValue[0] !== null) {
       return docFieldValue.some(function (val) {
         return rowFilter(val, userValue, Object.keys(userValue));
       });
@@ -4859,7 +5015,7 @@ var matchers = {
       return false;
     }
 
-    if (typeof docFieldValue[0] === 'object') {
+    if (typeof docFieldValue[0] === 'object' &&  docFieldValue[0] !== null) {
       return docFieldValue.every(function (val) {
         return rowFilter(val, userValue, Object.keys(userValue));
       });
@@ -4917,7 +5073,9 @@ var matchers = {
   },
 
   '$size': function (doc, userValue, parsedField, docFieldValue) {
-    return fieldExists(docFieldValue) && arraySize(docFieldValue, userValue);
+    return fieldExists(docFieldValue) &&
+      Array.isArray(docFieldValue) &&
+      arraySize(docFieldValue, userValue);
   },
 
   '$all': function (doc, userValue, parsedField, docFieldValue) {
@@ -4925,7 +5083,11 @@ var matchers = {
   },
 
   '$regex': function (doc, userValue, parsedField, docFieldValue) {
-    return fieldExists(docFieldValue) && regexMatch(docFieldValue, userValue);
+    return fieldExists(docFieldValue) &&
+      typeof docFieldValue == "string" &&
+      userValue.every(function (regexValue) {
+        return regexMatch(docFieldValue, regexValue);
+      });
   },
 
   '$type': function (doc, userValue, parsedField, docFieldValue) {
@@ -4973,7 +5135,7 @@ function evalView(input) {
   return scopeEval(code, {});
 }
 
-function validate(opts, callback) {
+function index_browser_es_validate(opts, callback) {
   if (opts.selector) {
     if (opts.filter && opts.filter !== '_selector') {
       var filterName = typeof opts.filter === 'string' ?
@@ -5067,7 +5229,7 @@ function filter(changesHandler, opts) {
 
 function applyChangesFilterPlugin(PouchDB) {
   PouchDB._changesFilterPlugin = {
-    validate: validate,
+    validate: index_browser_es_validate,
     normalize: normalize,
     shouldFilter: shouldFilter,
     filter: filter
@@ -5089,6 +5251,7 @@ function toObject(array) {
 var reservedWords = toObject([
   '_id',
   '_rev',
+  '_access',
   '_attachments',
   '_deleted',
   '_revisions',
@@ -5097,7 +5260,7 @@ var reservedWords = toObject([
   '_deleted_conflicts',
   '_local_seq',
   '_rev_tree',
-  //replication documents
+  // replication documents
   '_replication_id',
   '_replication_state',
   '_replication_state_time',
@@ -5107,10 +5270,11 @@ var reservedWords = toObject([
   '_removed'
 ]);
 
-// List of reserved words that should end up the document
+// List of reserved words that should end up in the document
 var dataWords = toObject([
+  '_access',
   '_attachments',
-  //replication documents
+  // replication documents
   '_replication_id',
   '_replication_state',
   '_replication_state_time',
@@ -5118,13 +5282,13 @@ var dataWords = toObject([
   '_replication_stats'
 ]);
 
-function parseRevisionInfo(rev$$1) {
-  if (!/^\d+-/.test(rev$$1)) {
+function parseRevisionInfo(rev) {
+  if (!/^\d+-/.test(rev)) {
     return createError(INVALID_REV);
   }
-  var idx = rev$$1.indexOf('-');
-  var left = rev$$1.substring(0, idx);
-  var right = rev$$1.substring(idx + 1);
+  var idx = rev.indexOf('-');
+  var left = rev.substring(0, idx);
+  var right = rev.substring(idx + 1);
   return {
     prefix: parseInt(left, 10),
     id: right
@@ -5168,7 +5332,7 @@ function parseDoc(doc, newEdits, dbOpts) {
     if (!doc._id) {
       doc._id = uuid();
     }
-    newRevId = rev(doc, dbOpts.deterministic_revs);
+    newRevId = rev$$1(doc, dbOpts.deterministic_revs);
     if (doc._rev) {
       revInfo = parseRevisionInfo(doc._rev);
       if (revInfo.error) {
@@ -5318,7 +5482,7 @@ function preprocessAttachments(docInfos, blobType, callback) {
     }
 
     for (var key in docInfo.data._attachments) {
-      if (docInfo.data._attachments.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(docInfo.data._attachments, key)) {
         preprocessAttachment(docInfo.data._attachments[key],
           blobType, processedAttachment);
       }
@@ -5718,9 +5882,9 @@ function compactRevs(revs, docId, txn) {
     });
   }
 
-  revs.forEach(function (rev$$1) {
+  revs.forEach(function (rev) {
     var index = seqStore.index('_doc_id_rev');
-    var key = docId + "::" + rev$$1;
+    var key = docId + "::" + rev;
     index.getKey(key).onsuccess = function (e) {
       var seq = e.target.result;
       if (typeof seq !== 'number') {
@@ -6763,7 +6927,20 @@ function init(api, opts, callback) {
   var dbName = opts.name;
 
   var idb = null;
+  var idbGlobalFailureError = null;
   api._meta = null;
+
+  function enrichCallbackError(callback) {
+    return function (error, result) {
+      if (error && error instanceof Error && !error.reason) {
+        if (idbGlobalFailureError) {
+          error.reason = idbGlobalFailureError;
+        }
+      }
+
+      callback(error, result);
+    };
+  }
 
   // called when creating a fresh new database
   function createSchema(db) {
@@ -6827,9 +7004,9 @@ function init(api, opts, callback) {
         var metadata = cursor.value;
         var docId = metadata.id;
         var local = isLocalId(docId);
-        var rev$$1 = winningRev(metadata);
+        var rev = winningRev(metadata);
         if (local) {
-          var docIdRev = docId + "::" + rev$$1;
+          var docIdRev = docId + "::" + rev;
           // remove all seq entries
           // associated with this docId
           var start = docId + "::";
@@ -6995,7 +7172,7 @@ function init(api, opts, callback) {
   });
 
   api._bulkDocs = function idb_bulkDocs(req, reqOpts, callback) {
-    idbBulkDocs(opts, req, reqOpts, api, idb, callback);
+    idbBulkDocs(opts, req, reqOpts, api, idb, enrichCallbackError(callback));
   };
 
   // First we look up the metadata in the ids database, then we fetch the
@@ -7030,20 +7207,20 @@ function init(api, opts, callback) {
         return finish();
       }
 
-      var rev$$1;
+      var rev;
       if (!opts.rev) {
-        rev$$1 = metadata.winningRev;
+        rev = metadata.winningRev;
         var deleted = isDeleted(metadata);
         if (deleted) {
           err = createError(MISSING_DOC, "deleted");
           return finish();
         }
       } else {
-        rev$$1 = opts.latest ? latest(opts.rev, metadata) : opts.rev;
+        rev = opts.latest ? latest(opts.rev, metadata) : opts.rev;
       }
 
       var objectStore = txn.objectStore(BY_SEQ_STORE);
-      var key = metadata.id + '::' + rev$$1;
+      var key = metadata.id + '::' + rev;
 
       objectStore.index('_doc_id_rev').get(key).onsuccess = function (e) {
         doc = e.target.result;
@@ -7110,7 +7287,7 @@ function init(api, opts, callback) {
   };
 
   api._allDocs = function idb_allDocs(opts, callback) {
-    idbAllDocs(opts, idb, callback);
+    idbAllDocs(opts, idb, enrichCallbackError(callback));
   };
 
   api._changes = function idbChanges(opts) {
@@ -7164,8 +7341,8 @@ function init(api, opts, callback) {
       var metadata = decodeMetadata(event.target.result);
       traverseRevTree(metadata.rev_tree, function (isLeaf, pos,
                                                          revHash, ctx, opts) {
-        var rev$$1 = pos + '-' + revHash;
-        if (revs.indexOf(rev$$1) !== -1) {
+        var rev = pos + '-' + revHash;
+        if (revs.indexOf(rev) !== -1) {
           opts.status = 'missing';
         }
       });
@@ -7390,6 +7567,7 @@ function init(api, opts, callback) {
 
     idb.onabort = function (e) {
       guardedConsole('error', 'Database has a global failure', e.target.error);
+      idbGlobalFailureError = e.target.error;
       idb.close();
       cachedDBs.delete(dbName);
     };
@@ -8129,8 +8307,8 @@ function HttpPouch(opts, callback) {
       }
     }
 
-    var rev$$1 = (doc._rev || opts.rev);
-    var url = genDBUrl(host, encodeDocId(doc._id)) + '?rev=' + rev$$1;
+    var rev = (doc._rev || opts.rev);
+    var url = genDBUrl(host, encodeDocId(doc._id)) + '?rev=' + rev;
 
     fetchJSON(url, {method: 'DELETE'}, cb).catch(cb);
   });
@@ -8165,7 +8343,10 @@ function HttpPouch(opts, callback) {
     }).then(function (blob) {
       // TODO: also remove
       if (typeof process !== 'undefined' && !process.browser) {
-        blob.type = contentType;
+        var typeFieldDescriptor = Object.getOwnPropertyDescriptor(blob.__proto__, 'type');
+        if (!typeFieldDescriptor || typeFieldDescriptor.set) {
+          blob.type = contentType;
+        }
       }
       callback(null, blob);
     }).catch(function (err) {
@@ -8176,10 +8357,10 @@ function HttpPouch(opts, callback) {
   // Remove the attachment given by the id and rev
   api.removeAttachment =  adapterFun$$1('removeAttachment', function (docId,
                                                                    attachmentId,
-                                                                   rev$$1,
+                                                                   rev,
                                                                    callback) {
     var url = genDBUrl(host, encodeDocId(docId) + '/' +
-                       encodeAttachmentId(attachmentId)) + '?rev=' + rev$$1;
+                       encodeAttachmentId(attachmentId)) + '?rev=' + rev;
     fetchJSON(url, {method: 'DELETE'}, callback).catch(callback);
   });
 
@@ -8187,18 +8368,18 @@ function HttpPouch(opts, callback) {
   // to the document with the given id, the revision given by rev, and
   // add it to the database given by host.
   api.putAttachment = adapterFun$$1('putAttachment', function (docId, attachmentId,
-                                                            rev$$1, blob,
+                                                            rev, blob,
                                                             type, callback) {
     if (typeof type === 'function') {
       callback = type;
       type = blob;
-      blob = rev$$1;
-      rev$$1 = null;
+      blob = rev;
+      rev = null;
     }
     var id = encodeDocId(docId) + '/' + encodeAttachmentId(attachmentId);
     var url = genDBUrl(host, id);
-    if (rev$$1) {
-      url += '?rev=' + rev$$1;
+    if (rev) {
+      url += '?rev=' + rev;
     }
 
     if (typeof blob === 'string') {
@@ -8438,7 +8619,7 @@ function HttpPouch(opts, callback) {
     if (opts.query_params && typeof opts.query_params === 'object') {
       for (var param_name in opts.query_params) {
         /* istanbul ignore else */
-        if (opts.query_params.hasOwnProperty(param_name)) {
+        if (Object.prototype.hasOwnProperty.call(opts.query_params, param_name)) {
           params[param_name] = opts.query_params[param_name];
         }
       }
@@ -8812,7 +8993,7 @@ TaskQueue$1.prototype.finish = function () {
   return this.promise;
 };
 
-function stringify(input) {
+function index_browser_es_stringify(input) {
   if (!input) {
     return 'undefined'; // backwards compat for empty reduce
   }
@@ -8834,7 +9015,7 @@ function stringify(input) {
 /* create a string signature for a view so we can cache it and uniq it */
 function createViewSignature(mapFun, reduceFun) {
   // the "undefined" part is for backwards compatibility
-  return stringify(mapFun) + stringify(reduceFun) + 'undefined';
+  return index_browser_es_stringify(mapFun) + index_browser_es_stringify(reduceFun) + 'undefined';
 }
 
 function createView(sourceDB, viewName, mapFun, reduceFun, temporary, localDocName) {
@@ -8922,7 +9103,7 @@ function isGenOne(changes) {
   return changes.length === 1 && /^1-/.test(changes[0].rev);
 }
 
-function emitError(db, e) {
+function emitError(db, e, data) {
   try {
     db.emit('error', e);
   } catch (err) {
@@ -8931,7 +9112,7 @@ function emitError(db, e) {
       'You can debug this error by doing:\n' +
       'myDatabase.on(\'error\', function (err) { debugger; });\n' +
       'Please double-check your map/reduce function.');
-    guardedConsole('error', e);
+    guardedConsole('error', e, data);
   }
 }
 
@@ -8969,7 +9150,7 @@ function createAbstractMapReduce(localDocName, mapper, reducer, ddocValidator) {
     try {
       fun(doc);
     } catch (e) {
-      emitError(db, e);
+      emitError(db, e, {fun: fun, doc: doc});
     }
   }
 
@@ -8981,7 +9162,7 @@ function createAbstractMapReduce(localDocName, mapper, reducer, ddocValidator) {
     try {
       return {output : fun(keys, values, rereduce)};
     } catch (e) {
-      emitError(db, e);
+      emitError(db, e, {fun: fun, keys: keys, values: values, rereduce: rereduce});
       return {error: e};
     }
   }
@@ -9355,13 +9536,13 @@ function createAbstractMapReduce(localDocName, mapper, reducer, ddocValidator) {
     return queue;
   }
 
-  function updateView(view) {
+  function updateView(view, opts) {
     return sequentialize(getQueue(view), function () {
-      return updateViewInQueue(view);
+      return updateViewInQueue(view, opts);
     })();
   }
 
-  function updateViewInQueue(view) {
+  function updateViewInQueue(view, opts) {
     // bind the emit function once
     var mapResults;
     var doc;
@@ -9386,6 +9567,13 @@ function createAbstractMapReduce(localDocName, mapper, reducer, ddocValidator) {
       };
     }
 
+    let indexed_docs = 0;
+    let progress = {
+      view: view.name,
+      indexed_docs: indexed_docs
+    };
+    view.sourceDB.emit('indexing', progress);
+
     var queue = new TaskQueue$1();
 
     function processNextBatch() {
@@ -9395,7 +9583,7 @@ function createAbstractMapReduce(localDocName, mapper, reducer, ddocValidator) {
         include_docs: true,
         style: 'all_docs',
         since: currentSeq,
-        limit: CHANGES_BATCH_SIZE$1
+        limit: opts.changes_batch_size
       }).then(processBatch);
     }
 
@@ -9406,7 +9594,17 @@ function createAbstractMapReduce(localDocName, mapper, reducer, ddocValidator) {
       }
       var docIdsToChangesAndEmits = createDocIdsToChangesAndEmits(results);
       queue.add(processChange(docIdsToChangesAndEmits, currentSeq));
-      if (results.length < CHANGES_BATCH_SIZE$1) {
+
+      indexed_docs = indexed_docs + results.length;
+      let progress = {
+        view: view.name,
+        last_seq: response.last_seq,
+        results_count: results.length,
+        indexed_docs: indexed_docs
+      };
+      view.sourceDB.emit('indexing', progress);
+      
+      if (results.length < opts.changes_batch_size) {
         return;
       }
       return processNextBatch();
@@ -9559,11 +9757,18 @@ function createAbstractMapReduce(localDocName, mapper, reducer, ddocValidator) {
       var finalResults;
       if (shouldReduce) {
         finalResults = reduceView(view, rows, opts);
-      } else {
+      } else if (typeof opts.keys === 'undefined') {
         finalResults = {
           total_rows: totalRows,
           offset: skip,
           rows: rows
+        };
+      } else {
+        // support limit, skip for keys query
+        finalResults = {
+          total_rows: totalRows,
+          offset: skip,
+          rows: sliceResults(rows,opts.limit,opts.skip)
         };
       }
       /* istanbul ignore if */
@@ -9741,6 +9946,10 @@ function createAbstractMapReduce(localDocName, mapper, reducer, ddocValidator) {
       return httpQuery(db, fun, opts);
     }
 
+    var updateViewOpts = {
+      changes_batch_size: db.__opts.view_update_changes_batch_size || CHANGES_BATCH_SIZE$1
+    };
+
     if (typeof fun !== 'string') {
       // temp_view
       checkQueryParseError(opts, fun);
@@ -9754,7 +9963,7 @@ function createAbstractMapReduce(localDocName, mapper, reducer, ddocValidator) {
           /* temporary */ true,
           /* localDocName */ localDocName);
         return createViewPromise.then(function (view) {
-          return fin(updateView(view).then(function () {
+          return fin(updateView(view, updateViewOpts).then(function () {
             return queryView(view, opts);
           }), function () {
             return view.db.destroy();
@@ -9791,12 +10000,12 @@ function createAbstractMapReduce(localDocName, mapper, reducer, ddocValidator) {
           if (opts.stale === 'ok' || opts.stale === 'update_after') {
             if (opts.stale === 'update_after') {
               lib_default()(function () {
-                updateView(view);
+                updateView(view, updateViewOpts);
               });
             }
             return queryView(view, opts);
           } else { // stale not ok
-            return updateView(view).then(function () {
+            return updateView(view, updateViewOpts).then(function () {
               return queryView(view, opts);
             });
           }
@@ -9930,8 +10139,8 @@ var mapreduce = {
   viewCleanup: viewCleanup
 };
 
-function isGenOne$1(rev$$1) {
-  return /^1-/.test(rev$$1);
+function isGenOne$1(rev) {
+  return /^1-/.test(rev);
 }
 
 function fileHasChanged(localDoc, remoteDoc, filename) {
@@ -10467,6 +10676,7 @@ function replicate(src, target, opts, returnValue, result) {
   var continuous = opts.continuous || opts.live || false;
   var batch_size = opts.batch_size || 100;
   var batches_limit = opts.batches_limit || 10;
+  var style = opts.style || 'all_docs';
   var changesPending = false;     // true while src.changes is running
   var doc_ids = opts.doc_ids;
   var selector = opts.selector;
@@ -10525,7 +10735,7 @@ function replicate(src, target, opts, returnValue, result) {
         throw new Error('cancelled');
       }
 
-      // `res` doesn't include full documents (which live in `docs`), so we create a map of 
+      // `res` doesn't include full documents (which live in `docs`), so we create a map of
       // (id -> error), and check for errors while iterating over `docs`
       var errorsById = Object.create(null);
       res.forEach(function (res) {
@@ -10579,6 +10789,7 @@ function replicate(src, target, opts, returnValue, result) {
     writingCheckpoint = true;
     return checkpointer.writeCheckpoint(currentBatch.seq,
         session).then(function () {
+      returnValue.emit('checkpoint', { 'checkpoint': currentBatch.seq });
       writingCheckpoint = false;
       /* istanbul ignore if */
       if (returnValue.cancelled) {
@@ -10596,6 +10807,7 @@ function replicate(src, target, opts, returnValue, result) {
   function getDiffs() {
     var diff = {};
     currentBatch.changes.forEach(function (change) {
+      returnValue.emit('checkpoint', { 'revs_diff': change });
       // Couchbase Sync Gateway emits these, but we can ignore them
       /* istanbul ignore if */
       if (change.id === "_user/") {
@@ -10636,6 +10848,7 @@ function replicate(src, target, opts, returnValue, result) {
       return;
     }
     currentBatch = batches.shift();
+    returnValue.emit('checkpoint', { 'start_next_batch': currentBatch.seq });
     getDiffs()
       .then(getBatchDocs)
       .then(writeDocs)
@@ -10754,6 +10967,7 @@ function replicate(src, target, opts, returnValue, result) {
     }
     pendingBatch.seq = change.seq || lastSeq;
     pendingBatch.changes.push(change);
+    returnValue.emit('checkpoint', { 'pending_batch': pendingBatch.seq });
     lib_default()(function () {
       processPendingBatch(batches.length === 0 && changesOpts.live);
     });
@@ -10861,7 +11075,7 @@ function replicate(src, target, opts, returnValue, result) {
           since: last_seq,
           limit: batch_size,
           batch_size: batch_size,
-          style: 'all_docs',
+          style: style,
           doc_ids: doc_ids,
           selector: selector,
           return_docs: true // required so we know when we're done
@@ -10982,6 +11196,7 @@ Replication.prototype.ready = function (src, target) {
     target.removeListener('destroyed', onDestroy);
   }
   self.once('complete', cleanup);
+  self.once('error', cleanup);
 };
 
 function toPouch(db, opts) {
@@ -13132,745 +13347,6 @@ var __WEBPACK_AMD_DEFINE_RESULT__;//////////////////////////////////////////////
 
 /***/ }),
 
-/***/ 906:
-/***/ (function(__unused_webpack_module, exports) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-/**
- * Convert array of 16 byte values to UUID string format of the form:
- * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
- */
-const byteToHex = [];
-
-for (let i = 0; i < 256; ++i) {
-  byteToHex.push((i + 0x100).toString(16).substr(1));
-}
-
-function bytesToUuid(buf, offset) {
-  const i = offset || 0;
-  const bth = byteToHex; // Note: Be careful editing this code!  It's been tuned for performance
-  // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
-
-  return (bth[buf[i + 0]] + bth[buf[i + 1]] + bth[buf[i + 2]] + bth[buf[i + 3]] + '-' + bth[buf[i + 4]] + bth[buf[i + 5]] + '-' + bth[buf[i + 6]] + bth[buf[i + 7]] + '-' + bth[buf[i + 8]] + bth[buf[i + 9]] + '-' + bth[buf[i + 10]] + bth[buf[i + 11]] + bth[buf[i + 12]] + bth[buf[i + 13]] + bth[buf[i + 14]] + bth[buf[i + 15]]).toLowerCase();
-}
-
-var _default = bytesToUuid;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 107:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-var __webpack_unused_export__;
-
-
-__webpack_unused_export__ = ({
-  value: true
-});
-Object.defineProperty(exports, "v1", ({
-  enumerable: true,
-  get: function () {
-    return _v.default;
-  }
-}));
-Object.defineProperty(exports, "v3", ({
-  enumerable: true,
-  get: function () {
-    return _v2.default;
-  }
-}));
-Object.defineProperty(exports, "v4", ({
-  enumerable: true,
-  get: function () {
-    return _v3.default;
-  }
-}));
-Object.defineProperty(exports, "v5", ({
-  enumerable: true,
-  get: function () {
-    return _v4.default;
-  }
-}));
-
-var _v = _interopRequireDefault(__webpack_require__(610));
-
-var _v2 = _interopRequireDefault(__webpack_require__(208));
-
-var _v3 = _interopRequireDefault(__webpack_require__(61));
-
-var _v4 = _interopRequireDefault(__webpack_require__(358));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/***/ }),
-
-/***/ 882:
-/***/ (function(__unused_webpack_module, exports) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-/*
- * Browser-compatible JavaScript MD5
- *
- * Modification of JavaScript MD5
- * https://github.com/blueimp/JavaScript-MD5
- *
- * Copyright 2011, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * https://opensource.org/licenses/MIT
- *
- * Based on
- * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
- * Digest Algorithm, as defined in RFC 1321.
- * Version 2.2 Copyright (C) Paul Johnston 1999 - 2009
- * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
- * Distributed under the BSD License
- * See http://pajhome.org.uk/crypt/md5 for more info.
- */
-function md5(bytes) {
-  if (typeof bytes === 'string') {
-    const msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
-
-    bytes = new Uint8Array(msg.length);
-
-    for (let i = 0; i < msg.length; ++i) {
-      bytes[i] = msg.charCodeAt(i);
-    }
-  }
-
-  return md5ToHexEncodedArray(wordsToMd5(bytesToWords(bytes), bytes.length * 8));
-}
-/*
- * Convert an array of little-endian words to an array of bytes
- */
-
-
-function md5ToHexEncodedArray(input) {
-  const output = [];
-  const length32 = input.length * 32;
-  const hexTab = '0123456789abcdef';
-
-  for (let i = 0; i < length32; i += 8) {
-    const x = input[i >> 5] >>> i % 32 & 0xff;
-    const hex = parseInt(hexTab.charAt(x >>> 4 & 0x0f) + hexTab.charAt(x & 0x0f), 16);
-    output.push(hex);
-  }
-
-  return output;
-}
-/**
- * Calculate output length with padding and bit length
- */
-
-
-function getOutputLength(inputLength8) {
-  return (inputLength8 + 64 >>> 9 << 4) + 14 + 1;
-}
-/*
- * Calculate the MD5 of an array of little-endian words, and a bit length.
- */
-
-
-function wordsToMd5(x, len) {
-  /* append padding */
-  x[len >> 5] |= 0x80 << len % 32;
-  x[getOutputLength(len) - 1] = len;
-  let a = 1732584193;
-  let b = -271733879;
-  let c = -1732584194;
-  let d = 271733878;
-
-  for (let i = 0; i < x.length; i += 16) {
-    const olda = a;
-    const oldb = b;
-    const oldc = c;
-    const oldd = d;
-    a = md5ff(a, b, c, d, x[i], 7, -680876936);
-    d = md5ff(d, a, b, c, x[i + 1], 12, -389564586);
-    c = md5ff(c, d, a, b, x[i + 2], 17, 606105819);
-    b = md5ff(b, c, d, a, x[i + 3], 22, -1044525330);
-    a = md5ff(a, b, c, d, x[i + 4], 7, -176418897);
-    d = md5ff(d, a, b, c, x[i + 5], 12, 1200080426);
-    c = md5ff(c, d, a, b, x[i + 6], 17, -1473231341);
-    b = md5ff(b, c, d, a, x[i + 7], 22, -45705983);
-    a = md5ff(a, b, c, d, x[i + 8], 7, 1770035416);
-    d = md5ff(d, a, b, c, x[i + 9], 12, -1958414417);
-    c = md5ff(c, d, a, b, x[i + 10], 17, -42063);
-    b = md5ff(b, c, d, a, x[i + 11], 22, -1990404162);
-    a = md5ff(a, b, c, d, x[i + 12], 7, 1804603682);
-    d = md5ff(d, a, b, c, x[i + 13], 12, -40341101);
-    c = md5ff(c, d, a, b, x[i + 14], 17, -1502002290);
-    b = md5ff(b, c, d, a, x[i + 15], 22, 1236535329);
-    a = md5gg(a, b, c, d, x[i + 1], 5, -165796510);
-    d = md5gg(d, a, b, c, x[i + 6], 9, -1069501632);
-    c = md5gg(c, d, a, b, x[i + 11], 14, 643717713);
-    b = md5gg(b, c, d, a, x[i], 20, -373897302);
-    a = md5gg(a, b, c, d, x[i + 5], 5, -701558691);
-    d = md5gg(d, a, b, c, x[i + 10], 9, 38016083);
-    c = md5gg(c, d, a, b, x[i + 15], 14, -660478335);
-    b = md5gg(b, c, d, a, x[i + 4], 20, -405537848);
-    a = md5gg(a, b, c, d, x[i + 9], 5, 568446438);
-    d = md5gg(d, a, b, c, x[i + 14], 9, -1019803690);
-    c = md5gg(c, d, a, b, x[i + 3], 14, -187363961);
-    b = md5gg(b, c, d, a, x[i + 8], 20, 1163531501);
-    a = md5gg(a, b, c, d, x[i + 13], 5, -1444681467);
-    d = md5gg(d, a, b, c, x[i + 2], 9, -51403784);
-    c = md5gg(c, d, a, b, x[i + 7], 14, 1735328473);
-    b = md5gg(b, c, d, a, x[i + 12], 20, -1926607734);
-    a = md5hh(a, b, c, d, x[i + 5], 4, -378558);
-    d = md5hh(d, a, b, c, x[i + 8], 11, -2022574463);
-    c = md5hh(c, d, a, b, x[i + 11], 16, 1839030562);
-    b = md5hh(b, c, d, a, x[i + 14], 23, -35309556);
-    a = md5hh(a, b, c, d, x[i + 1], 4, -1530992060);
-    d = md5hh(d, a, b, c, x[i + 4], 11, 1272893353);
-    c = md5hh(c, d, a, b, x[i + 7], 16, -155497632);
-    b = md5hh(b, c, d, a, x[i + 10], 23, -1094730640);
-    a = md5hh(a, b, c, d, x[i + 13], 4, 681279174);
-    d = md5hh(d, a, b, c, x[i], 11, -358537222);
-    c = md5hh(c, d, a, b, x[i + 3], 16, -722521979);
-    b = md5hh(b, c, d, a, x[i + 6], 23, 76029189);
-    a = md5hh(a, b, c, d, x[i + 9], 4, -640364487);
-    d = md5hh(d, a, b, c, x[i + 12], 11, -421815835);
-    c = md5hh(c, d, a, b, x[i + 15], 16, 530742520);
-    b = md5hh(b, c, d, a, x[i + 2], 23, -995338651);
-    a = md5ii(a, b, c, d, x[i], 6, -198630844);
-    d = md5ii(d, a, b, c, x[i + 7], 10, 1126891415);
-    c = md5ii(c, d, a, b, x[i + 14], 15, -1416354905);
-    b = md5ii(b, c, d, a, x[i + 5], 21, -57434055);
-    a = md5ii(a, b, c, d, x[i + 12], 6, 1700485571);
-    d = md5ii(d, a, b, c, x[i + 3], 10, -1894986606);
-    c = md5ii(c, d, a, b, x[i + 10], 15, -1051523);
-    b = md5ii(b, c, d, a, x[i + 1], 21, -2054922799);
-    a = md5ii(a, b, c, d, x[i + 8], 6, 1873313359);
-    d = md5ii(d, a, b, c, x[i + 15], 10, -30611744);
-    c = md5ii(c, d, a, b, x[i + 6], 15, -1560198380);
-    b = md5ii(b, c, d, a, x[i + 13], 21, 1309151649);
-    a = md5ii(a, b, c, d, x[i + 4], 6, -145523070);
-    d = md5ii(d, a, b, c, x[i + 11], 10, -1120210379);
-    c = md5ii(c, d, a, b, x[i + 2], 15, 718787259);
-    b = md5ii(b, c, d, a, x[i + 9], 21, -343485551);
-    a = safeAdd(a, olda);
-    b = safeAdd(b, oldb);
-    c = safeAdd(c, oldc);
-    d = safeAdd(d, oldd);
-  }
-
-  return [a, b, c, d];
-}
-/*
- * Convert an array bytes to an array of little-endian words
- * Characters >255 have their high-byte silently ignored.
- */
-
-
-function bytesToWords(input) {
-  if (input.length === 0) {
-    return [];
-  }
-
-  const length8 = input.length * 8;
-  const output = new Uint32Array(getOutputLength(length8));
-
-  for (let i = 0; i < length8; i += 8) {
-    output[i >> 5] |= (input[i / 8] & 0xff) << i % 32;
-  }
-
-  return output;
-}
-/*
- * Add integers, wrapping at 2^32. This uses 16-bit operations internally
- * to work around bugs in some JS interpreters.
- */
-
-
-function safeAdd(x, y) {
-  const lsw = (x & 0xffff) + (y & 0xffff);
-  const msw = (x >> 16) + (y >> 16) + (lsw >> 16);
-  return msw << 16 | lsw & 0xffff;
-}
-/*
- * Bitwise rotate a 32-bit number to the left.
- */
-
-
-function bitRotateLeft(num, cnt) {
-  return num << cnt | num >>> 32 - cnt;
-}
-/*
- * These functions implement the four basic operations the algorithm uses.
- */
-
-
-function md5cmn(q, a, b, x, s, t) {
-  return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
-}
-
-function md5ff(a, b, c, d, x, s, t) {
-  return md5cmn(b & c | ~b & d, a, b, x, s, t);
-}
-
-function md5gg(a, b, c, d, x, s, t) {
-  return md5cmn(b & d | c & ~d, a, b, x, s, t);
-}
-
-function md5hh(a, b, c, d, x, s, t) {
-  return md5cmn(b ^ c ^ d, a, b, x, s, t);
-}
-
-function md5ii(a, b, c, d, x, s, t) {
-  return md5cmn(c ^ (b | ~d), a, b, x, s, t);
-}
-
-var _default = md5;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 975:
-/***/ (function(__unused_webpack_module, exports) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = rng;
-// Unique ID creation requires a high quality random # generator. In the browser we therefore
-// require the crypto API and do not support built-in fallback to lower quality random number
-// generators (like Math.random()).
-// getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
-// find the complete implementation of crypto (msCrypto) on IE11.
-const getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
-const rnds8 = new Uint8Array(16);
-
-function rng() {
-  if (!getRandomValues) {
-    throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
-  }
-
-  return getRandomValues(rnds8);
-}
-
-/***/ }),
-
-/***/ 135:
-/***/ (function(__unused_webpack_module, exports) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-// Adapted from Chris Veness' SHA1 code at
-// http://www.movable-type.co.uk/scripts/sha1.html
-function f(s, x, y, z) {
-  switch (s) {
-    case 0:
-      return x & y ^ ~x & z;
-
-    case 1:
-      return x ^ y ^ z;
-
-    case 2:
-      return x & y ^ x & z ^ y & z;
-
-    case 3:
-      return x ^ y ^ z;
-  }
-}
-
-function ROTL(x, n) {
-  return x << n | x >>> 32 - n;
-}
-
-function sha1(bytes) {
-  const K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
-  const H = [0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0];
-
-  if (typeof bytes === 'string') {
-    const msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
-
-    bytes = [];
-
-    for (let i = 0; i < msg.length; ++i) {
-      bytes.push(msg.charCodeAt(i));
-    }
-  }
-
-  bytes.push(0x80);
-  const l = bytes.length / 4 + 2;
-  const N = Math.ceil(l / 16);
-  const M = new Array(N);
-
-  for (let i = 0; i < N; ++i) {
-    const arr = new Uint32Array(16);
-
-    for (let j = 0; j < 16; ++j) {
-      arr[j] = bytes[i * 64 + j * 4] << 24 | bytes[i * 64 + j * 4 + 1] << 16 | bytes[i * 64 + j * 4 + 2] << 8 | bytes[i * 64 + j * 4 + 3];
-    }
-
-    M[i] = arr;
-  }
-
-  M[N - 1][14] = (bytes.length - 1) * 8 / Math.pow(2, 32);
-  M[N - 1][14] = Math.floor(M[N - 1][14]);
-  M[N - 1][15] = (bytes.length - 1) * 8 & 0xffffffff;
-
-  for (let i = 0; i < N; ++i) {
-    const W = new Uint32Array(80);
-
-    for (let t = 0; t < 16; ++t) {
-      W[t] = M[i][t];
-    }
-
-    for (let t = 16; t < 80; ++t) {
-      W[t] = ROTL(W[t - 3] ^ W[t - 8] ^ W[t - 14] ^ W[t - 16], 1);
-    }
-
-    let a = H[0];
-    let b = H[1];
-    let c = H[2];
-    let d = H[3];
-    let e = H[4];
-
-    for (let t = 0; t < 80; ++t) {
-      const s = Math.floor(t / 20);
-      const T = ROTL(a, 5) + f(s, b, c, d) + e + K[s] + W[t] >>> 0;
-      e = d;
-      d = c;
-      c = ROTL(b, 30) >>> 0;
-      b = a;
-      a = T;
-    }
-
-    H[0] = H[0] + a >>> 0;
-    H[1] = H[1] + b >>> 0;
-    H[2] = H[2] + c >>> 0;
-    H[3] = H[3] + d >>> 0;
-    H[4] = H[4] + e >>> 0;
-  }
-
-  return [H[0] >> 24 & 0xff, H[0] >> 16 & 0xff, H[0] >> 8 & 0xff, H[0] & 0xff, H[1] >> 24 & 0xff, H[1] >> 16 & 0xff, H[1] >> 8 & 0xff, H[1] & 0xff, H[2] >> 24 & 0xff, H[2] >> 16 & 0xff, H[2] >> 8 & 0xff, H[2] & 0xff, H[3] >> 24 & 0xff, H[3] >> 16 & 0xff, H[3] >> 8 & 0xff, H[3] & 0xff, H[4] >> 24 & 0xff, H[4] >> 16 & 0xff, H[4] >> 8 & 0xff, H[4] & 0xff];
-}
-
-var _default = sha1;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 610:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _rng = _interopRequireDefault(__webpack_require__(975));
-
-var _bytesToUuid = _interopRequireDefault(__webpack_require__(906));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// **`v1()` - Generate time-based UUID**
-//
-// Inspired by https://github.com/LiosK/UUID.js
-// and http://docs.python.org/library/uuid.html
-let _nodeId;
-
-let _clockseq; // Previous uuid creation time
-
-
-let _lastMSecs = 0;
-let _lastNSecs = 0; // See https://github.com/uuidjs/uuid for API details
-
-function v1(options, buf, offset) {
-  let i = buf && offset || 0;
-  const b = buf || [];
-  options = options || {};
-  let node = options.node || _nodeId;
-  let clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq; // node and clockseq need to be initialized to random values if they're not
-  // specified.  We do this lazily to minimize issues related to insufficient
-  // system entropy.  See #189
-
-  if (node == null || clockseq == null) {
-    const seedBytes = options.random || (options.rng || _rng.default)();
-
-    if (node == null) {
-      // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
-      node = _nodeId = [seedBytes[0] | 0x01, seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]];
-    }
-
-    if (clockseq == null) {
-      // Per 4.2.2, randomize (14 bit) clockseq
-      clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 0x3fff;
-    }
-  } // UUID timestamps are 100 nano-second units since the Gregorian epoch,
-  // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
-  // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
-  // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
-
-
-  let msecs = options.msecs !== undefined ? options.msecs : Date.now(); // Per 4.2.1.2, use count of uuid's generated during the current clock
-  // cycle to simulate higher resolution clock
-
-  let nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1; // Time since last uuid creation (in msecs)
-
-  const dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 10000; // Per 4.2.1.2, Bump clockseq on clock regression
-
-  if (dt < 0 && options.clockseq === undefined) {
-    clockseq = clockseq + 1 & 0x3fff;
-  } // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
-  // time interval
-
-
-  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
-    nsecs = 0;
-  } // Per 4.2.1.2 Throw error if too many uuids are requested
-
-
-  if (nsecs >= 10000) {
-    throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
-  }
-
-  _lastMSecs = msecs;
-  _lastNSecs = nsecs;
-  _clockseq = clockseq; // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
-
-  msecs += 12219292800000; // `time_low`
-
-  const tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
-  b[i++] = tl >>> 24 & 0xff;
-  b[i++] = tl >>> 16 & 0xff;
-  b[i++] = tl >>> 8 & 0xff;
-  b[i++] = tl & 0xff; // `time_mid`
-
-  const tmh = msecs / 0x100000000 * 10000 & 0xfffffff;
-  b[i++] = tmh >>> 8 & 0xff;
-  b[i++] = tmh & 0xff; // `time_high_and_version`
-
-  b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
-
-  b[i++] = tmh >>> 16 & 0xff; // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
-
-  b[i++] = clockseq >>> 8 | 0x80; // `clock_seq_low`
-
-  b[i++] = clockseq & 0xff; // `node`
-
-  for (let n = 0; n < 6; ++n) {
-    b[i + n] = node[n];
-  }
-
-  return buf || (0, _bytesToUuid.default)(b);
-}
-
-var _default = v1;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 208:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _v = _interopRequireDefault(__webpack_require__(525));
-
-var _md = _interopRequireDefault(__webpack_require__(882));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const v3 = (0, _v.default)('v3', 0x30, _md.default);
-var _default = v3;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 525:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = _default;
-exports.URL = exports.DNS = void 0;
-
-var _bytesToUuid = _interopRequireDefault(__webpack_require__(906));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function uuidToBytes(uuid) {
-  // Note: We assume we're being passed a valid uuid string
-  const bytes = [];
-  uuid.replace(/[a-fA-F0-9]{2}/g, function (hex) {
-    bytes.push(parseInt(hex, 16));
-  });
-  return bytes;
-}
-
-function stringToBytes(str) {
-  str = unescape(encodeURIComponent(str)); // UTF8 escape
-
-  const bytes = [];
-
-  for (let i = 0; i < str.length; ++i) {
-    bytes.push(str.charCodeAt(i));
-  }
-
-  return bytes;
-}
-
-const DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
-exports.DNS = DNS;
-const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
-exports.URL = URL;
-
-function _default(name, version, hashfunc) {
-  function generateUUID(value, namespace, buf, offset) {
-    const off = buf && offset || 0;
-    if (typeof value === 'string') value = stringToBytes(value);
-    if (typeof namespace === 'string') namespace = uuidToBytes(namespace);
-
-    if (!Array.isArray(value)) {
-      throw TypeError('value must be an array of bytes');
-    }
-
-    if (!Array.isArray(namespace) || namespace.length !== 16) {
-      throw TypeError('namespace must be uuid string or an Array of 16 byte values');
-    } // Per 4.3
-
-
-    const bytes = hashfunc(namespace.concat(value));
-    bytes[6] = bytes[6] & 0x0f | version;
-    bytes[8] = bytes[8] & 0x3f | 0x80;
-
-    if (buf) {
-      for (let idx = 0; idx < 16; ++idx) {
-        buf[off + idx] = bytes[idx];
-      }
-    }
-
-    return buf || (0, _bytesToUuid.default)(bytes);
-  } // Function#name is not settable on some platforms (#270)
-
-
-  try {
-    generateUUID.name = name; // eslint-disable-next-line no-empty
-  } catch (err) {} // For CommonJS default export support
-
-
-  generateUUID.DNS = DNS;
-  generateUUID.URL = URL;
-  return generateUUID;
-}
-
-/***/ }),
-
-/***/ 61:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _rng = _interopRequireDefault(__webpack_require__(975));
-
-var _bytesToUuid = _interopRequireDefault(__webpack_require__(906));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function v4(options, buf, offset) {
-  if (typeof options === 'string') {
-    buf = options === 'binary' ? new Uint8Array(16) : null;
-    options = null;
-  }
-
-  options = options || {};
-
-  const rnds = options.random || (options.rng || _rng.default)(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-
-
-  rnds[6] = rnds[6] & 0x0f | 0x40;
-  rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
-
-  if (buf) {
-    const start = offset || 0;
-
-    for (let i = 0; i < 16; ++i) {
-      buf[start + i] = rnds[i];
-    }
-
-    return buf;
-  }
-
-  return (0, _bytesToUuid.default)(rnds);
-}
-
-var _default = v4;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ 358:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports["default"] = void 0;
-
-var _v = _interopRequireDefault(__webpack_require__(525));
-
-var _sha = _interopRequireDefault(__webpack_require__(135));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const v5 = (0, _v.default)('v5', 0x50, _sha.default);
-var _default = v5;
-exports["default"] = _default;
-
-/***/ }),
-
 /***/ 655:
 /***/ (function(__unused_webpack_module, exports) {
 
@@ -14136,7 +13612,7 @@ exports.parse = function (str) {
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	__webpack_require__(960);
+/******/ 	__webpack_require__(876);
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	__webpack_require__(232);
 /******/ 	__webpack_require__(311);

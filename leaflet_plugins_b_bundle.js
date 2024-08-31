@@ -427,12 +427,13 @@ L.PhotonBaseSearch = L.PhotonBase.extend({
     includes: ((typeof L.Evented !== 'undefined' && L.Evented.prototype) || L.Mixin.Events),
 
     options: {
-        url: 'https://photon.komoot.de/api/?',
+        url: 'https://photon.komoot.io/api/?',
         placeholder: 'Start typing...',
         minChar: 3,
         limit: 5,
         submitDelay: 300,
         includePosition: true,
+        bbox: null,
         noResultLabel: 'No result',
         feedbackEmail: 'photon@komoot.de',  // Set to null to remove feedback box
         feedbackLabel: 'Feedback'
@@ -761,6 +762,12 @@ L.PhotonSearch = L.PhotonBaseSearch.extend({
         if (this.options.includePosition) {
             params.lat = this.map.getCenter().lat;
             params.lon = this.map.getCenter().lng;
+            if (this.options.location_bias_scale) {
+                params.location_bias_scale = this.options.location_bias_scale;
+            }
+        }
+        if (this.options.bbox && this.options.bbox.length === 4) {
+            params.bbox = this.options.bbox.join(',');
         }
         return params;
     }
@@ -812,7 +819,7 @@ L.PhotonReverse = L.PhotonBase.extend({
     includes: ((typeof L.Evented !== 'undefined' && L.Evented.prototype) || L.Mixin.Events),
 
     options: {
-        url: 'https://photon.komoot.de/reverse/?',
+        url: 'https://photon.komoot.io/reverse/?',
         limit: 1,
         handleResults: null
     },
@@ -857,16 +864,16 @@ L.PhotonReverse = L.PhotonBase.extend({
 /***/ (function(__unused_webpack_module, exports) {
 
 /* @preserve
- * Leaflet 1.7.1, a JS library for interactive maps. http://leafletjs.com
- * (c) 2010-2019 Vladimir Agafonkin, (c) 2010-2011 CloudMade
+ * Leaflet 1.9.4, a JS library for interactive maps. https://leafletjs.com
+ * (c) 2010-2023 Vladimir Agafonkin, (c) 2010-2011 CloudMade
  */
 
 (function (global, factory) {
    true ? factory(exports) :
   0;
-}(this, (function (exports) { 'use strict';
+})(this, (function (exports) { 'use strict';
 
-  var version = "1.7.1";
+  var version = "1.9.4";
 
   /*
    * @namespace Util
@@ -890,7 +897,7 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   // @function create(proto: Object, properties?: Object): Object
   // Compatibility polyfill for [Object.create](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/create)
-  var create = Object.create || (function () {
+  var create$2 = Object.create || (function () {
   	function F() {}
   	return function (proto) {
   		F.prototype = proto;
@@ -922,10 +929,10 @@ L.PhotonReverse = L.PhotonBase.extend({
   // @function stamp(obj: Object): Number
   // Returns the unique ID of an object, assigning it one if it doesn't have it.
   function stamp(obj) {
-  	/*eslint-disable */
-  	obj._leaflet_id = obj._leaflet_id || ++lastId;
+  	if (!('_leaflet_id' in obj)) {
+  		obj['_leaflet_id'] = ++lastId;
+  	}
   	return obj._leaflet_id;
-  	/* eslint-enable */
   }
 
   // @function throttle(fn: Function, time: Number, context: Object): Function
@@ -978,10 +985,13 @@ L.PhotonReverse = L.PhotonBase.extend({
   // Returns a function which always returns `false`.
   function falseFn() { return false; }
 
-  // @function formatNum(num: Number, digits?: Number): Number
-  // Returns the number `num` rounded to `digits` decimals, or to 6 decimals by default.
-  function formatNum(num, digits) {
-  	var pow = Math.pow(10, (digits === undefined ? 6 : digits));
+  // @function formatNum(num: Number, precision?: Number|false): Number
+  // Returns the number `num` rounded with specified `precision`.
+  // The default `precision` value is 6 decimal places.
+  // `false` can be passed to skip any processing (can be useful to avoid round-off errors).
+  function formatNum(num, precision) {
+  	if (precision === false) { return num; }
+  	var pow = Math.pow(10, precision === undefined ? 6 : precision);
   	return Math.round(num * pow) / pow;
   }
 
@@ -1001,7 +1011,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   // Merges the given properties to the `options` of the `obj` object, returning the resulting options. See `Class options`. Has an `L.setOptions` shortcut.
   function setOptions(obj, options) {
   	if (!Object.prototype.hasOwnProperty.call(obj, 'options')) {
-  		obj.options = obj.options ? create(obj.options) : {};
+  		obj.options = obj.options ? create$2(obj.options) : {};
   	}
   	for (var i in options) {
   		obj.options[i] = options[i];
@@ -1022,7 +1032,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	return ((!existingUrl || existingUrl.indexOf('?') === -1) ? '?' : '&') + params.join('&');
   }
 
-  var templateRe = /\{ *([\w_-]+) *\}/g;
+  var templateRe = /\{ *([\w_ -]+) *\}/g;
 
   // @function template(str: String, data: Object): String
   // Simple templating facility, accepts a template string of the form `'Hello {a}, {b}'`
@@ -1064,7 +1074,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   // mobile devices (by setting image `src` to this string).
   var emptyImageUrl = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
 
-  // inspired by http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+  // inspired by https://paulirish.com/2011/requestanimationframe-for-smart-animating/
 
   function getPrefixed(name) {
   	return window['webkit' + name] || window['moz' + name] || window['ms' + name];
@@ -1107,11 +1117,12 @@ L.PhotonReverse = L.PhotonBase.extend({
   	}
   }
 
-  var Util = ({
+  var Util = {
+    __proto__: null,
     extend: extend,
-    create: create,
+    create: create$2,
     bind: bind,
-    lastId: lastId,
+    get lastId () { return lastId; },
     stamp: stamp,
     throttle: throttle,
     wrapNum: wrapNum,
@@ -1129,7 +1140,7 @@ L.PhotonReverse = L.PhotonBase.extend({
     cancelFn: cancelFn,
     requestAnimFrame: requestAnimFrame,
     cancelAnimFrame: cancelAnimFrame
-  });
+  };
 
   // @class Class
   // @aka L.Class
@@ -1148,6 +1159,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// Returns a Javascript function that is a class constructor (to be called with `new`).
   	var NewClass = function () {
 
+  		setOptions(this);
+
   		// call the constructor
   		if (this.initialize) {
   			this.initialize.apply(this, arguments);
@@ -1159,7 +1172,7 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   	var parentProto = NewClass.__super__ = this.prototype;
 
-  	var proto = create(parentProto);
+  	var proto = create$2(parentProto);
   	proto.constructor = NewClass;
 
   	NewClass.prototype = proto;
@@ -1174,23 +1187,24 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// mix static properties into the class
   	if (props.statics) {
   		extend(NewClass, props.statics);
-  		delete props.statics;
   	}
 
   	// mix includes into the prototype
   	if (props.includes) {
   		checkDeprecatedMixinEvents(props.includes);
   		extend.apply(null, [proto].concat(props.includes));
-  		delete props.includes;
-  	}
-
-  	// merge options
-  	if (proto.options) {
-  		props.options = extend(create(proto.options), props.options);
   	}
 
   	// mix given properties into the prototype
   	extend(proto, props);
+  	delete proto.statics;
+  	delete proto.includes;
+
+  	// merge options
+  	if (proto.options) {
+  		proto.options = parentProto.options ? create$2(parentProto.options) : {};
+  		extend(proto.options, props.options);
+  	}
 
   	proto._initHooks = [];
 
@@ -1217,7 +1231,12 @@ L.PhotonReverse = L.PhotonBase.extend({
   // @function include(properties: Object): this
   // [Includes a mixin](#class-includes) into the current class.
   Class.include = function (props) {
+  	var parentOptions = this.prototype.options;
   	extend(this.prototype, props);
+  	if (props.options) {
+  		this.prototype.options = parentOptions;
+  		this.mergeOptions(props.options);
+  	}
   	return this;
   };
 
@@ -1243,6 +1262,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   };
 
   function checkDeprecatedMixinEvents(includes) {
+  	/* global L: true */
   	if (typeof L === 'undefined' || !L || !L.Mixin) { return; }
 
   	includes = isArray(includes) ? includes : [includes];
@@ -1324,7 +1344,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	 */
   	off: function (types, fn, context) {
 
-  		if (!types) {
+  		if (!arguments.length) {
   			// clear all listeners if called without arguments
   			delete this._events;
 
@@ -1336,8 +1356,13 @@ L.PhotonReverse = L.PhotonBase.extend({
   		} else {
   			types = splitWords(types);
 
+  			var removeAll = arguments.length === 1;
   			for (var i = 0, len = types.length; i < len; i++) {
-  				this._off(types[i], fn, context);
+  				if (removeAll) {
+  					this._off(types[i]);
+  				} else {
+  					this._off(types[i], fn, context);
+  				}
   			}
   		}
 
@@ -1345,31 +1370,30 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	// attach listener (without syntactic sugar now)
-  	_on: function (type, fn, context) {
-  		this._events = this._events || {};
+  	_on: function (type, fn, context, _once) {
+  		if (typeof fn !== 'function') {
+  			console.warn('wrong listener type: ' + typeof fn);
+  			return;
+  		}
 
-  		/* get/init listeners for type */
-  		var typeListeners = this._events[type];
-  		if (!typeListeners) {
-  			typeListeners = [];
-  			this._events[type] = typeListeners;
+  		// check if fn already there
+  		if (this._listens(type, fn, context) !== false) {
+  			return;
   		}
 
   		if (context === this) {
   			// Less memory footprint.
   			context = undefined;
   		}
-  		var newListener = {fn: fn, ctx: context},
-  		    listeners = typeListeners;
 
-  		// check if fn already there
-  		for (var i = 0, len = listeners.length; i < len; i++) {
-  			if (listeners[i].fn === fn && listeners[i].ctx === context) {
-  				return;
-  			}
+  		var newListener = {fn: fn, ctx: context};
+  		if (_once) {
+  			newListener.once = true;
   		}
 
-  		listeners.push(newListener);
+  		this._events = this._events || {};
+  		this._events[type] = this._events[type] || [];
+  		this._events[type].push(newListener);
   	},
 
   	_off: function (type, fn, context) {
@@ -1377,53 +1401,50 @@ L.PhotonReverse = L.PhotonBase.extend({
   		    i,
   		    len;
 
-  		if (!this._events) { return; }
+  		if (!this._events) {
+  			return;
+  		}
 
   		listeners = this._events[type];
-
   		if (!listeners) {
   			return;
   		}
 
-  		if (!fn) {
-  			// Set all removed listeners to noop so they are not called if remove happens in fire
-  			for (i = 0, len = listeners.length; i < len; i++) {
-  				listeners[i].fn = falseFn;
+  		if (arguments.length === 1) { // remove all
+  			if (this._firingCount) {
+  				// Set all removed listeners to noop
+  				// so they are not called if remove happens in fire
+  				for (i = 0, len = listeners.length; i < len; i++) {
+  					listeners[i].fn = falseFn;
+  				}
   			}
   			// clear all listeners for a type if function isn't specified
   			delete this._events[type];
   			return;
   		}
 
-  		if (context === this) {
-  			context = undefined;
+  		if (typeof fn !== 'function') {
+  			console.warn('wrong listener type: ' + typeof fn);
+  			return;
   		}
 
-  		if (listeners) {
+  		// find fn and remove it
+  		var index = this._listens(type, fn, context);
+  		if (index !== false) {
+  			var listener = listeners[index];
+  			if (this._firingCount) {
+  				// set the removed listener to noop so that's not called if remove happens in fire
+  				listener.fn = falseFn;
 
-  			// find fn and remove it
-  			for (i = 0, len = listeners.length; i < len; i++) {
-  				var l = listeners[i];
-  				if (l.ctx !== context) { continue; }
-  				if (l.fn === fn) {
-
-  					// set the removed listener to noop so that's not called if remove happens in fire
-  					l.fn = falseFn;
-
-  					if (this._firingCount) {
-  						/* copy array in case events are being fired */
-  						this._events[type] = listeners = listeners.slice();
-  					}
-  					listeners.splice(i, 1);
-
-  					return;
-  				}
+  				/* copy array in case events are being fired */
+  				this._events[type] = listeners = listeners.slice();
   			}
+  			listeners.splice(index, 1);
   		}
   	},
 
   	// @method fire(type: String, data?: Object, propagate?: Boolean): this
-  	// Fires an event of the specified type. You can optionally provide an data
+  	// Fires an event of the specified type. You can optionally provide a data
   	// object — the first argument of the listener function will contain its
   	// properties. The event can optionally be propagated to event parents.
   	fire: function (type, data, propagate) {
@@ -1437,12 +1458,16 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		if (this._events) {
   			var listeners = this._events[type];
-
   			if (listeners) {
   				this._firingCount = (this._firingCount + 1) || 1;
   				for (var i = 0, len = listeners.length; i < len; i++) {
   					var l = listeners[i];
-  					l.fn.call(l.ctx || this, event);
+  					// off overwrites l.fn, so we need to copy fn to a var
+  					var fn = l.fn;
+  					if (l.once) {
+  						this.off(type, fn, l.ctx);
+  					}
+  					fn.call(l.ctx || this, event);
   				}
 
   				this._firingCount--;
@@ -1457,42 +1482,86 @@ L.PhotonReverse = L.PhotonBase.extend({
   		return this;
   	},
 
-  	// @method listens(type: String): Boolean
+  	// @method listens(type: String, propagate?: Boolean): Boolean
+  	// @method listens(type: String, fn: Function, context?: Object, propagate?: Boolean): Boolean
   	// Returns `true` if a particular event type has any listeners attached to it.
-  	listens: function (type, propagate) {
+  	// The verification can optionally be propagated, it will return `true` if parents have the listener attached to it.
+  	listens: function (type, fn, context, propagate) {
+  		if (typeof type !== 'string') {
+  			console.warn('"string" type argument expected');
+  		}
+
+  		// we don't overwrite the input `fn` value, because we need to use it for propagation
+  		var _fn = fn;
+  		if (typeof fn !== 'function') {
+  			propagate = !!fn;
+  			_fn = undefined;
+  			context = undefined;
+  		}
+
   		var listeners = this._events && this._events[type];
-  		if (listeners && listeners.length) { return true; }
+  		if (listeners && listeners.length) {
+  			if (this._listens(type, _fn, context) !== false) {
+  				return true;
+  			}
+  		}
 
   		if (propagate) {
   			// also check parents for listeners if event propagates
   			for (var id in this._eventParents) {
-  				if (this._eventParents[id].listens(type, propagate)) { return true; }
+  				if (this._eventParents[id].listens(type, fn, context, propagate)) { return true; }
   			}
   		}
   		return false;
+  	},
+
+  	// returns the index (number) or false
+  	_listens: function (type, fn, context) {
+  		if (!this._events) {
+  			return false;
+  		}
+
+  		var listeners = this._events[type] || [];
+  		if (!fn) {
+  			return !!listeners.length;
+  		}
+
+  		if (context === this) {
+  			// Less memory footprint.
+  			context = undefined;
+  		}
+
+  		for (var i = 0, len = listeners.length; i < len; i++) {
+  			if (listeners[i].fn === fn && listeners[i].ctx === context) {
+  				return i;
+  			}
+  		}
+  		return false;
+
   	},
 
   	// @method once(…): this
   	// Behaves as [`on(…)`](#evented-on), except the listener will only get fired once and then removed.
   	once: function (types, fn, context) {
 
+  		// types can be a map of types/handlers
   		if (typeof types === 'object') {
   			for (var type in types) {
-  				this.once(type, types[type], fn);
+  				// we don't process space-separated events here for performance;
+  				// it's a hot path since Layer uses the on(obj) syntax
+  				this._on(type, types[type], fn, true);
   			}
-  			return this;
+
+  		} else {
+  			// types can be a string of space-separated words
+  			types = splitWords(types);
+
+  			for (var i = 0, len = types.length; i < len; i++) {
+  				this._on(types[i], fn, context, true);
+  			}
   		}
 
-  		var handler = bind(function () {
-  			this
-  			    .off(types, fn, context)
-  			    .off(types, handler, context);
-  		}, this);
-
-  		// add a listener that's executed once and removed after that
-  		return this
-  		    .on(types, fn, context)
-  		    .on(types, handler, context);
+  		return this;
   	},
 
   	// @method addEventParent(obj: Evented): this
@@ -1808,21 +1877,36 @@ L.PhotonReverse = L.PhotonBase.extend({
   Bounds.prototype = {
   	// @method extend(point: Point): this
   	// Extends the bounds to contain the given point.
-  	extend: function (point) { // (Point)
-  		point = toPoint(point);
+
+  	// @alternative
+  	// @method extend(otherBounds: Bounds): this
+  	// Extend the bounds to contain the given bounds
+  	extend: function (obj) {
+  		var min2, max2;
+  		if (!obj) { return this; }
+
+  		if (obj instanceof Point || typeof obj[0] === 'number' || 'x' in obj) {
+  			min2 = max2 = toPoint(obj);
+  		} else {
+  			obj = toBounds(obj);
+  			min2 = obj.min;
+  			max2 = obj.max;
+
+  			if (!min2 || !max2) { return this; }
+  		}
 
   		// @property min: Point
   		// The top left corner of the rectangle.
   		// @property max: Point
   		// The bottom right corner of the rectangle.
   		if (!this.min && !this.max) {
-  			this.min = point.clone();
-  			this.max = point.clone();
+  			this.min = min2.clone();
+  			this.max = max2.clone();
   		} else {
-  			this.min.x = Math.min(point.x, this.min.x);
-  			this.max.x = Math.max(point.x, this.max.x);
-  			this.min.y = Math.min(point.y, this.min.y);
-  			this.max.y = Math.max(point.y, this.max.y);
+  			this.min.x = Math.min(min2.x, this.min.x);
+  			this.max.x = Math.max(max2.x, this.max.x);
+  			this.min.y = Math.min(min2.y, this.min.y);
+  			this.max.y = Math.max(max2.y, this.max.y);
   		}
   		return this;
   	},
@@ -1830,7 +1914,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// @method getCenter(round?: Boolean): Point
   	// Returns the center point of the bounds.
   	getCenter: function (round) {
-  		return new Point(
+  		return toPoint(
   		        (this.min.x + this.max.x) / 2,
   		        (this.min.y + this.max.y) / 2, round);
   	},
@@ -1838,13 +1922,13 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// @method getBottomLeft(): Point
   	// Returns the bottom-left point of the bounds.
   	getBottomLeft: function () {
-  		return new Point(this.min.x, this.max.y);
+  		return toPoint(this.min.x, this.max.y);
   	},
 
   	// @method getTopRight(): Point
   	// Returns the top-right point of the bounds.
   	getTopRight: function () { // -> Point
-  		return new Point(this.max.x, this.min.y);
+  		return toPoint(this.max.x, this.min.y);
   	},
 
   	// @method getTopLeft(): Point
@@ -1924,9 +2008,40 @@ L.PhotonReverse = L.PhotonBase.extend({
   		return xOverlaps && yOverlaps;
   	},
 
+  	// @method isValid(): Boolean
+  	// Returns `true` if the bounds are properly initialized.
   	isValid: function () {
   		return !!(this.min && this.max);
-  	}
+  	},
+
+
+  	// @method pad(bufferRatio: Number): Bounds
+  	// Returns bounds created by extending or retracting the current bounds by a given ratio in each direction.
+  	// For example, a ratio of 0.5 extends the bounds by 50% in each direction.
+  	// Negative values will retract the bounds.
+  	pad: function (bufferRatio) {
+  		var min = this.min,
+  		max = this.max,
+  		heightBuffer = Math.abs(min.x - max.x) * bufferRatio,
+  		widthBuffer = Math.abs(min.y - max.y) * bufferRatio;
+
+
+  		return toBounds(
+  			toPoint(min.x - heightBuffer, min.y - widthBuffer),
+  			toPoint(max.x + heightBuffer, max.y + widthBuffer));
+  	},
+
+
+  	// @method equals(otherBounds: Bounds): Boolean
+  	// Returns `true` if the rectangle is equivalent to the given bounds.
+  	equals: function (bounds) {
+  		if (!bounds) { return false; }
+
+  		bounds = toBounds(bounds);
+
+  		return this.min.equals(bounds.getTopLeft()) &&
+  			this.max.equals(bounds.getBottomRight());
+  	},
   };
 
 
@@ -2332,7 +2447,7 @@ L.PhotonReverse = L.PhotonBase.extend({
    * Object that defines coordinate reference systems for projecting
    * geographical points into pixel (screen) coordinates and back (and to
    * coordinates in other units for [WMS](https://en.wikipedia.org/wiki/Web_Map_Service) services). See
-   * [spatial reference system](http://en.wikipedia.org/wiki/Coordinate_reference_system).
+   * [spatial reference system](https://en.wikipedia.org/wiki/Spatial_reference_system).
    *
    * Leaflet defines the most usual CRSs by default. If you want to use a
    * CRS not defined by default, take a look at the
@@ -2475,7 +2590,7 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   	// Mean Earth Radius, as recommended for use by
   	// the International Union of Geodesy and Geophysics,
-  	// see http://rosettacode.org/wiki/Haversine_formula
+  	// see https://rosettacode.org/wiki/Haversine_formula
   	R: 6371000,
 
   	// distance between two geographical points using spherical law of cosines approximation
@@ -2659,7 +2774,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		}
 
   		// closes the ring for polygons; "x" is VML syntax
-  		str += closed ? (svg ? 'z' : 'x') : '';
+  		str += closed ? (Browser.svg ? 'z' : 'x') : '';
   	}
 
   	// SVG complains about empty path strings
@@ -2681,7 +2796,7 @@ L.PhotonReverse = L.PhotonBase.extend({
    * ```
    */
 
-  var style$1 = document.documentElement.style;
+  var style = document.documentElement.style;
 
   // @property ie: Boolean; `true` for all Internet Explorer versions (not Edge).
   var ie = 'ActiveXObject' in window;
@@ -2697,15 +2812,15 @@ L.PhotonReverse = L.PhotonBase.extend({
   var webkit = userAgentContains('webkit');
 
   // @property android: Boolean
-  // `true` for any browser running on an Android platform.
+  // **Deprecated.** `true` for any browser running on an Android platform.
   var android = userAgentContains('android');
 
-  // @property android23: Boolean; `true` for browsers running on Android 2 or Android 3.
+  // @property android23: Boolean; **Deprecated.** `true` for browsers running on Android 2 or Android 3.
   var android23 = userAgentContains('android 2') || userAgentContains('android 3');
 
   /* See https://stackoverflow.com/a/17961266 for details on detecting stock Android */
   var webkitVer = parseInt(/WebKit\/([0-9]+)|$/.exec(navigator.userAgent)[1], 10); // also matches AppleWebKit
-  // @property androidStock: Boolean; `true` for the Android stock browser (i.e. not Chrome)
+  // @property androidStock: Boolean; **Deprecated.** `true` for the Android stock browser (i.e. not Chrome)
   var androidStock = android && userAgentContains('Google') && webkitVer < 537 && !('AudioNode' in window);
 
   // @property opera: Boolean; `true` for the Opera browser
@@ -2724,19 +2839,19 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   // @property opera12: Boolean
   // `true` for the Opera browser supporting CSS transforms (version 12 or later).
-  var opera12 = 'OTransition' in style$1;
+  var opera12 = 'OTransition' in style;
 
   // @property win: Boolean; `true` when the browser is running in a Windows platform
   var win = navigator.platform.indexOf('Win') === 0;
 
   // @property ie3d: Boolean; `true` for all Internet Explorer versions supporting CSS transforms.
-  var ie3d = ie && ('transition' in style$1);
+  var ie3d = ie && ('transition' in style);
 
   // @property webkit3d: Boolean; `true` for webkit-based browsers supporting CSS transforms.
   var webkit3d = ('WebKitCSSMatrix' in window) && ('m11' in new window.WebKitCSSMatrix()) && !android23;
 
   // @property gecko3d: Boolean; `true` for gecko-based browsers supporting CSS transforms.
-  var gecko3d = 'MozPerspective' in style$1;
+  var gecko3d = 'MozPerspective' in style;
 
   // @property any3d: Boolean
   // `true` for all browsers supporting CSS transforms.
@@ -2760,13 +2875,17 @@ L.PhotonReverse = L.PhotonBase.extend({
   // `true` for all browsers supporting [pointer events](https://msdn.microsoft.com/en-us/library/dn433244%28v=vs.85%29.aspx).
   var pointer = !!(window.PointerEvent || msPointer);
 
-  // @property touch: Boolean
+  // @property touchNative: Boolean
   // `true` for all browsers supporting [touch events](https://developer.mozilla.org/docs/Web/API/Touch_events).
-  // This does not necessarily mean that the browser is running in a computer with
+  // **This does not necessarily mean** that the browser is running in a computer with
   // a touchscreen, it only means that the browser is capable of understanding
   // touch events.
-  var touch = !window.L_NO_TOUCH && (pointer || 'ontouchstart' in window ||
-  		(window.DocumentTouch && document instanceof window.DocumentTouch));
+  var touchNative = 'ontouchstart' in window || !!window.TouchEvent;
+
+  // @property touch: Boolean
+  // `true` for all browsers supporting either [touch](#browser-touch) or [pointer](#browser-pointer) events.
+  // Note: pointer events will be preferred (if available), and processed for all `touch*` listeners.
+  var touch = !window.L_NO_TOUCH && (touchNative || pointer);
 
   // @property mobileOpera: Boolean; `true` for the Opera browser in a mobile device.
   var mobileOpera = mobile && opera;
@@ -2799,17 +2918,23 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   // @property canvas: Boolean
   // `true` when the browser supports [`<canvas>`](https://developer.mozilla.org/docs/Web/API/Canvas_API).
-  var canvas = (function () {
+  var canvas$1 = (function () {
   	return !!document.createElement('canvas').getContext;
   }());
 
   // @property svg: Boolean
   // `true` when the browser supports [SVG](https://developer.mozilla.org/docs/Web/SVG).
-  var svg = !!(document.createElementNS && svgCreate('svg').createSVGRect);
+  var svg$1 = !!(document.createElementNS && svgCreate('svg').createSVGRect);
+
+  var inlineSvg = !!svg$1 && (function () {
+  	var div = document.createElement('div');
+  	div.innerHTML = '<svg/>';
+  	return (div.firstChild && div.firstChild.namespaceURI) === 'http://www.w3.org/2000/svg';
+  })();
 
   // @property vml: Boolean
   // `true` if the browser supports [VML](https://en.wikipedia.org/wiki/Vector_Markup_Language).
-  var vml = !svg && (function () {
+  var vml = !svg$1 && (function () {
   	try {
   		var div = document.createElement('div');
   		div.innerHTML = '<v:shape adj="1"/>';
@@ -2825,114 +2950,100 @@ L.PhotonReverse = L.PhotonBase.extend({
   }());
 
 
+  // @property mac: Boolean; `true` when the browser is running in a Mac platform
+  var mac = navigator.platform.indexOf('Mac') === 0;
+
+  // @property mac: Boolean; `true` when the browser is running in a Linux platform
+  var linux = navigator.platform.indexOf('Linux') === 0;
+
   function userAgentContains(str) {
   	return navigator.userAgent.toLowerCase().indexOf(str) >= 0;
   }
 
-  var Browser = ({
-    ie: ie,
-    ielt9: ielt9,
-    edge: edge,
-    webkit: webkit,
-    android: android,
-    android23: android23,
-    androidStock: androidStock,
-    opera: opera,
-    chrome: chrome,
-    gecko: gecko,
-    safari: safari,
-    phantom: phantom,
-    opera12: opera12,
-    win: win,
-    ie3d: ie3d,
-    webkit3d: webkit3d,
-    gecko3d: gecko3d,
-    any3d: any3d,
-    mobile: mobile,
-    mobileWebkit: mobileWebkit,
-    mobileWebkit3d: mobileWebkit3d,
-    msPointer: msPointer,
-    pointer: pointer,
-    touch: touch,
-    mobileOpera: mobileOpera,
-    mobileGecko: mobileGecko,
-    retina: retina,
-    passiveEvents: passiveEvents,
-    canvas: canvas,
-    svg: svg,
-    vml: vml
-  });
+
+  var Browser = {
+  	ie: ie,
+  	ielt9: ielt9,
+  	edge: edge,
+  	webkit: webkit,
+  	android: android,
+  	android23: android23,
+  	androidStock: androidStock,
+  	opera: opera,
+  	chrome: chrome,
+  	gecko: gecko,
+  	safari: safari,
+  	phantom: phantom,
+  	opera12: opera12,
+  	win: win,
+  	ie3d: ie3d,
+  	webkit3d: webkit3d,
+  	gecko3d: gecko3d,
+  	any3d: any3d,
+  	mobile: mobile,
+  	mobileWebkit: mobileWebkit,
+  	mobileWebkit3d: mobileWebkit3d,
+  	msPointer: msPointer,
+  	pointer: pointer,
+  	touch: touch,
+  	touchNative: touchNative,
+  	mobileOpera: mobileOpera,
+  	mobileGecko: mobileGecko,
+  	retina: retina,
+  	passiveEvents: passiveEvents,
+  	canvas: canvas$1,
+  	svg: svg$1,
+  	vml: vml,
+  	inlineSvg: inlineSvg,
+  	mac: mac,
+  	linux: linux
+  };
 
   /*
    * Extends L.DomEvent to provide touch support for Internet Explorer and Windows-based devices.
    */
 
-
-  var POINTER_DOWN =   msPointer ? 'MSPointerDown'   : 'pointerdown';
-  var POINTER_MOVE =   msPointer ? 'MSPointerMove'   : 'pointermove';
-  var POINTER_UP =     msPointer ? 'MSPointerUp'     : 'pointerup';
-  var POINTER_CANCEL = msPointer ? 'MSPointerCancel' : 'pointercancel';
-
+  var POINTER_DOWN =   Browser.msPointer ? 'MSPointerDown'   : 'pointerdown';
+  var POINTER_MOVE =   Browser.msPointer ? 'MSPointerMove'   : 'pointermove';
+  var POINTER_UP =     Browser.msPointer ? 'MSPointerUp'     : 'pointerup';
+  var POINTER_CANCEL = Browser.msPointer ? 'MSPointerCancel' : 'pointercancel';
+  var pEvent = {
+  	touchstart  : POINTER_DOWN,
+  	touchmove   : POINTER_MOVE,
+  	touchend    : POINTER_UP,
+  	touchcancel : POINTER_CANCEL
+  };
+  var handle = {
+  	touchstart  : _onPointerStart,
+  	touchmove   : _handlePointer,
+  	touchend    : _handlePointer,
+  	touchcancel : _handlePointer
+  };
   var _pointers = {};
   var _pointerDocListener = false;
 
   // Provides a touch events wrapper for (ms)pointer events.
-  // ref http://www.w3.org/TR/pointerevents/ https://www.w3.org/Bugs/Public/show_bug.cgi?id=22890
+  // ref https://www.w3.org/TR/pointerevents/ https://www.w3.org/Bugs/Public/show_bug.cgi?id=22890
 
-  function addPointerListener(obj, type, handler, id) {
+  function addPointerListener(obj, type, handler) {
   	if (type === 'touchstart') {
-  		_addPointerStart(obj, handler, id);
-
-  	} else if (type === 'touchmove') {
-  		_addPointerMove(obj, handler, id);
-
-  	} else if (type === 'touchend') {
-  		_addPointerEnd(obj, handler, id);
+  		_addPointerDocListener();
   	}
-
-  	return this;
+  	if (!handle[type]) {
+  		console.warn('wrong event specified:', type);
+  		return falseFn;
+  	}
+  	handler = handle[type].bind(this, handler);
+  	obj.addEventListener(pEvent[type], handler, false);
+  	return handler;
   }
 
-  function removePointerListener(obj, type, id) {
-  	var handler = obj['_leaflet_' + type + id];
-
-  	if (type === 'touchstart') {
-  		obj.removeEventListener(POINTER_DOWN, handler, false);
-
-  	} else if (type === 'touchmove') {
-  		obj.removeEventListener(POINTER_MOVE, handler, false);
-
-  	} else if (type === 'touchend') {
-  		obj.removeEventListener(POINTER_UP, handler, false);
-  		obj.removeEventListener(POINTER_CANCEL, handler, false);
+  function removePointerListener(obj, type, handler) {
+  	if (!pEvent[type]) {
+  		console.warn('wrong event specified:', type);
+  		return;
   	}
-
-  	return this;
-  }
-
-  function _addPointerStart(obj, handler, id) {
-  	var onDown = bind(function (e) {
-  		// IE10 specific: MsTouch needs preventDefault. See #2000
-  		if (e.MSPOINTER_TYPE_TOUCH && e.pointerType === e.MSPOINTER_TYPE_TOUCH) {
-  			preventDefault(e);
-  		}
-
-  		_handlePointer(e, handler);
-  	});
-
-  	obj['_leaflet_touchstart' + id] = onDown;
-  	obj.addEventListener(POINTER_DOWN, onDown, false);
-
-  	// need to keep track of what pointers and how many are active to provide e.touches emulation
-  	if (!_pointerDocListener) {
-  		// we listen document as any drags that end by moving the touch off the screen get fired there
-  		document.addEventListener(POINTER_DOWN, _globalPointerDown, true);
-  		document.addEventListener(POINTER_MOVE, _globalPointerMove, true);
-  		document.addEventListener(POINTER_UP, _globalPointerUp, true);
-  		document.addEventListener(POINTER_CANCEL, _globalPointerUp, true);
-
-  		_pointerDocListener = true;
-  	}
+  	obj.removeEventListener(pEvent[type], handler, false);
   }
 
   function _globalPointerDown(e) {
@@ -2949,7 +3060,22 @@ L.PhotonReverse = L.PhotonBase.extend({
   	delete _pointers[e.pointerId];
   }
 
-  function _handlePointer(e, handler) {
+  function _addPointerDocListener() {
+  	// need to keep track of what pointers and how many are active to provide e.touches emulation
+  	if (!_pointerDocListener) {
+  		// we listen document as any drags that end by moving the touch off the screen get fired there
+  		document.addEventListener(POINTER_DOWN, _globalPointerDown, true);
+  		document.addEventListener(POINTER_MOVE, _globalPointerMove, true);
+  		document.addEventListener(POINTER_UP, _globalPointerUp, true);
+  		document.addEventListener(POINTER_CANCEL, _globalPointerUp, true);
+
+  		_pointerDocListener = true;
+  	}
+  }
+
+  function _handlePointer(handler, e) {
+  	if (e.pointerType === (e.MSPOINTER_TYPE_MOUSE || 'mouse')) { return; }
+
   	e.touches = [];
   	for (var i in _pointers) {
   		e.touches.push(_pointers[i]);
@@ -2959,108 +3085,102 @@ L.PhotonReverse = L.PhotonBase.extend({
   	handler(e);
   }
 
-  function _addPointerMove(obj, handler, id) {
-  	var onMove = function (e) {
-  		// don't fire touch moves when mouse isn't down
-  		if ((e.pointerType === (e.MSPOINTER_TYPE_MOUSE || 'mouse')) && e.buttons === 0) {
-  			return;
-  		}
-
-  		_handlePointer(e, handler);
-  	};
-
-  	obj['_leaflet_touchmove' + id] = onMove;
-  	obj.addEventListener(POINTER_MOVE, onMove, false);
-  }
-
-  function _addPointerEnd(obj, handler, id) {
-  	var onUp = function (e) {
-  		_handlePointer(e, handler);
-  	};
-
-  	obj['_leaflet_touchend' + id] = onUp;
-  	obj.addEventListener(POINTER_UP, onUp, false);
-  	obj.addEventListener(POINTER_CANCEL, onUp, false);
+  function _onPointerStart(handler, e) {
+  	// IE10 specific: MsTouch needs preventDefault. See #2000
+  	if (e.MSPOINTER_TYPE_TOUCH && e.pointerType === e.MSPOINTER_TYPE_TOUCH) {
+  		preventDefault(e);
+  	}
+  	_handlePointer(handler, e);
   }
 
   /*
    * Extends the event handling code with double tap support for mobile browsers.
+   *
+   * Note: currently most browsers fire native dblclick, with only a few exceptions
+   * (see https://github.com/Leaflet/Leaflet/issues/7012#issuecomment-595087386)
    */
 
-  var _touchstart = msPointer ? 'MSPointerDown' : pointer ? 'pointerdown' : 'touchstart';
-  var _touchend = msPointer ? 'MSPointerUp' : pointer ? 'pointerup' : 'touchend';
-  var _pre = '_leaflet_';
+  function makeDblclick(event) {
+  	// in modern browsers `type` cannot be just overridden:
+  	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Getter_only
+  	var newEvent = {},
+  	    prop, i;
+  	for (i in event) {
+  		prop = event[i];
+  		newEvent[i] = prop && prop.bind ? prop.bind(event) : prop;
+  	}
+  	event = newEvent;
+  	newEvent.type = 'dblclick';
+  	newEvent.detail = 2;
+  	newEvent.isTrusted = false;
+  	newEvent._simulated = true; // for debug purposes
+  	return newEvent;
+  }
 
-  // inspired by Zepto touch code by Thomas Fuchs
-  function addDoubleTapListener(obj, handler, id) {
-  	var last, touch$$1,
-  	    doubleTap = false,
-  	    delay = 250;
+  var delay = 200;
+  function addDoubleTapListener(obj, handler) {
+  	// Most browsers handle double tap natively
+  	obj.addEventListener('dblclick', handler);
 
-  	function onTouchStart(e) {
-
-  		if (pointer) {
-  			if (!e.isPrimary) { return; }
-  			if (e.pointerType === 'mouse') { return; } // mouse fires native dblclick
-  		} else if (e.touches.length > 1) {
+  	// On some platforms the browser doesn't fire native dblclicks for touch events.
+  	// It seems that in all such cases `detail` property of `click` event is always `1`.
+  	// So here we rely on that fact to avoid excessive 'dblclick' simulation when not needed.
+  	var last = 0,
+  	    detail;
+  	function simDblclick(e) {
+  		if (e.detail !== 1) {
+  			detail = e.detail; // keep in sync to avoid false dblclick in some cases
   			return;
   		}
 
-  		var now = Date.now(),
-  		    delta = now - (last || now);
+  		if (e.pointerType === 'mouse' ||
+  			(e.sourceCapabilities && !e.sourceCapabilities.firesTouchEvents)) {
 
-  		touch$$1 = e.touches ? e.touches[0] : e;
-  		doubleTap = (delta > 0 && delta <= delay);
+  			return;
+  		}
+
+  		// When clicking on an <input>, the browser generates a click on its
+  		// <label> (and vice versa) triggering two clicks in quick succession.
+  		// This ignores clicks on elements which are a label with a 'for'
+  		// attribute (or children of such a label), but not children of
+  		// a <input>.
+  		var path = getPropagationPath(e);
+  		if (path.some(function (el) {
+  			return el instanceof HTMLLabelElement && el.attributes.for;
+  		}) &&
+  			!path.some(function (el) {
+  				return (
+  					el instanceof HTMLInputElement ||
+  					el instanceof HTMLSelectElement
+  				);
+  			})
+  		) {
+  			return;
+  		}
+
+  		var now = Date.now();
+  		if (now - last <= delay) {
+  			detail++;
+  			if (detail === 2) {
+  				handler(makeDblclick(e));
+  			}
+  		} else {
+  			detail = 1;
+  		}
   		last = now;
   	}
 
-  	function onTouchEnd(e) {
-  		if (doubleTap && !touch$$1.cancelBubble) {
-  			if (pointer) {
-  				if (e.pointerType === 'mouse') { return; }
-  				// work around .type being readonly with MSPointer* events
-  				var newTouch = {},
-  				    prop, i;
+  	obj.addEventListener('click', simDblclick);
 
-  				for (i in touch$$1) {
-  					prop = touch$$1[i];
-  					newTouch[i] = prop && prop.bind ? prop.bind(touch$$1) : prop;
-  				}
-  				touch$$1 = newTouch;
-  			}
-  			touch$$1.type = 'dblclick';
-  			touch$$1.button = 0;
-  			handler(touch$$1);
-  			last = null;
-  		}
-  	}
-
-  	obj[_pre + _touchstart + id] = onTouchStart;
-  	obj[_pre + _touchend + id] = onTouchEnd;
-  	obj[_pre + 'dblclick' + id] = handler;
-
-  	obj.addEventListener(_touchstart, onTouchStart, passiveEvents ? {passive: false} : false);
-  	obj.addEventListener(_touchend, onTouchEnd, passiveEvents ? {passive: false} : false);
-
-  	// On some platforms (notably, chrome<55 on win10 + touchscreen + mouse),
-  	// the browser doesn't fire touchend/pointerup events but does fire
-  	// native dblclicks. See #4127.
-  	// Edge 14 also fires native dblclicks, but only for pointerType mouse, see #5180.
-  	obj.addEventListener('dblclick', handler, false);
-
-  	return this;
+  	return {
+  		dblclick: handler,
+  		simDblclick: simDblclick
+  	};
   }
 
-  function removeDoubleTapListener(obj, id) {
-  	var touchstart = obj[_pre + _touchstart + id],
-  	    touchend = obj[_pre + _touchend + id],
-  	    dblclick = obj[_pre + 'dblclick' + id];
-
-  	obj.removeEventListener(_touchstart, touchstart, passiveEvents ? {passive: false} : false);
-  	obj.removeEventListener(_touchend, touchend, passiveEvents ? {passive: false} : false);
-  	obj.removeEventListener('dblclick', dblclick, false);
-
-  	return this;
+  function removeDoubleTapListener(obj, handlers) {
+  	obj.removeEventListener('dblclick', handlers.dblclick);
+  	obj.removeEventListener('click', handlers.simDblclick);
   }
 
   /*
@@ -3274,7 +3394,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	var pos = offset || new Point(0, 0);
 
   	el.style[TRANSFORM] =
-  		(ie3d ?
+  		(Browser.ie3d ?
   			'translate(' + pos.x + 'px,' + pos.y + 'px)' :
   			'translate3d(' + pos.x + 'px,' + pos.y + 'px,0)') +
   		(scale ? ' scale(' + scale + ')' : '');
@@ -3290,7 +3410,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	el._leaflet_pos = point;
   	/* eslint-enable */
 
-  	if (any3d) {
+  	if (Browser.any3d) {
   		setTransform(el, point);
   	} else {
   		el.style.left = point.x + 'px';
@@ -3370,8 +3490,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   	if (!element.style) { return; }
   	restoreOutline();
   	_outlineElement = element;
-  	_outlineStyle = element.style.outline;
-  	element.style.outline = 'none';
+  	_outlineStyle = element.style.outlineStyle;
+  	element.style.outlineStyle = 'none';
   	on(window, 'keydown', restoreOutline);
   }
 
@@ -3379,7 +3499,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   // Cancels the effects of a previous [`L.DomUtil.preventOutline`]().
   function restoreOutline() {
   	if (!_outlineElement) { return; }
-  	_outlineElement.style.outline = _outlineStyle;
+  	_outlineElement.style.outlineStyle = _outlineStyle;
   	_outlineElement = undefined;
   	_outlineStyle = undefined;
   	off(window, 'keydown', restoreOutline);
@@ -3408,7 +3528,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   	};
   }
 
-  var DomUtil = ({
+  var DomUtil = {
+    __proto__: null,
     TRANSFORM: TRANSFORM,
     TRANSITION: TRANSITION,
     TRANSITION_END: TRANSITION_END,
@@ -3429,15 +3550,15 @@ L.PhotonReverse = L.PhotonBase.extend({
     setTransform: setTransform,
     setPosition: setPosition,
     getPosition: getPosition,
-    disableTextSelection: disableTextSelection,
-    enableTextSelection: enableTextSelection,
+    get disableTextSelection () { return disableTextSelection; },
+    get enableTextSelection () { return enableTextSelection; },
     disableImageDrag: disableImageDrag,
     enableImageDrag: enableImageDrag,
     preventOutline: preventOutline,
     restoreOutline: restoreOutline,
     getSizedParentNode: getSizedParentNode,
     getScale: getScale
-  });
+  };
 
   /*
    * @namespace DomEvent
@@ -3457,7 +3578,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   // Adds a set of type/listener pairs, e.g. `{click: onClick, mousemove: onMouseMove}`
   function on(obj, types, fn, context) {
 
-  	if (typeof types === 'object') {
+  	if (types && typeof types === 'object') {
   		for (var type in types) {
   			addOne(obj, type, types[type], fn);
   		}
@@ -3482,32 +3603,48 @@ L.PhotonReverse = L.PhotonBase.extend({
   // @alternative
   // @function off(el: HTMLElement, eventMap: Object, context?: Object): this
   // Removes a set of type/listener pairs, e.g. `{click: onClick, mousemove: onMouseMove}`
+
+  // @alternative
+  // @function off(el: HTMLElement, types: String): this
+  // Removes all previously added listeners of given types.
+
+  // @alternative
+  // @function off(el: HTMLElement): this
+  // Removes all previously added listeners from given HTMLElement
   function off(obj, types, fn, context) {
 
-  	if (typeof types === 'object') {
+  	if (arguments.length === 1) {
+  		batchRemove(obj);
+  		delete obj[eventsKey];
+
+  	} else if (types && typeof types === 'object') {
   		for (var type in types) {
   			removeOne(obj, type, types[type], fn);
   		}
-  	} else if (types) {
+
+  	} else {
   		types = splitWords(types);
 
-  		for (var i = 0, len = types.length; i < len; i++) {
-  			removeOne(obj, types[i], fn, context);
+  		if (arguments.length === 2) {
+  			batchRemove(obj, function (type) {
+  				return indexOf(types, type) !== -1;
+  			});
+  		} else {
+  			for (var i = 0, len = types.length; i < len; i++) {
+  				removeOne(obj, types[i], fn, context);
+  			}
   		}
-  	} else {
-  		for (var j in obj[eventsKey]) {
-  			removeOne(obj, j, obj[eventsKey][j]);
-  		}
-  		delete obj[eventsKey];
   	}
 
   	return this;
   }
 
-  function browserFiresNativeDblClick() {
-  	// See https://github.com/w3c/pointerevents/issues/171
-  	if (pointer) {
-  		return !(edge || safari);
+  function batchRemove(obj, filterFn) {
+  	for (var id in obj[eventsKey]) {
+  		var type = id.split(/\d/)[0];
+  		if (!filterFn || filterFn(type)) {
+  			removeOne(obj, type, null, null, id);
+  		}
   	}
   }
 
@@ -3528,17 +3665,17 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   	var originalHandler = handler;
 
-  	if (pointer && type.indexOf('touch') === 0) {
+  	if (!Browser.touchNative && Browser.pointer && type.indexOf('touch') === 0) {
   		// Needs DomEvent.Pointer.js
-  		addPointerListener(obj, type, handler, id);
+  		handler = addPointerListener(obj, type, handler);
 
-  	} else if (touch && (type === 'dblclick') && !browserFiresNativeDblClick()) {
-  		addDoubleTapListener(obj, handler, id);
+  	} else if (Browser.touch && (type === 'dblclick')) {
+  		handler = addDoubleTapListener(obj, handler);
 
   	} else if ('addEventListener' in obj) {
 
   		if (type === 'touchstart' || type === 'touchmove' || type === 'wheel' ||  type === 'mousewheel') {
-  			obj.addEventListener(mouseSubst[type] || type, handler, passiveEvents ? {passive: false} : false);
+  			obj.addEventListener(mouseSubst[type] || type, handler, Browser.passiveEvents ? {passive: false} : false);
 
   		} else if (type === 'mouseenter' || type === 'mouseleave') {
   			handler = function (e) {
@@ -3553,7 +3690,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   			obj.addEventListener(type, originalHandler, false);
   		}
 
-  	} else if ('attachEvent' in obj) {
+  	} else {
   		obj.attachEvent('on' + type, handler);
   	}
 
@@ -3561,24 +3698,23 @@ L.PhotonReverse = L.PhotonBase.extend({
   	obj[eventsKey][id] = handler;
   }
 
-  function removeOne(obj, type, fn, context) {
-
-  	var id = type + stamp(fn) + (context ? '_' + stamp(context) : ''),
-  	    handler = obj[eventsKey] && obj[eventsKey][id];
+  function removeOne(obj, type, fn, context, id) {
+  	id = id || type + stamp(fn) + (context ? '_' + stamp(context) : '');
+  	var handler = obj[eventsKey] && obj[eventsKey][id];
 
   	if (!handler) { return this; }
 
-  	if (pointer && type.indexOf('touch') === 0) {
-  		removePointerListener(obj, type, id);
+  	if (!Browser.touchNative && Browser.pointer && type.indexOf('touch') === 0) {
+  		removePointerListener(obj, type, handler);
 
-  	} else if (touch && (type === 'dblclick') && !browserFiresNativeDblClick()) {
-  		removeDoubleTapListener(obj, id);
+  	} else if (Browser.touch && (type === 'dblclick')) {
+  		removeDoubleTapListener(obj, handler);
 
   	} else if ('removeEventListener' in obj) {
 
   		obj.removeEventListener(mouseSubst[type] || type, handler, false);
 
-  	} else if ('detachEvent' in obj) {
+  	} else {
   		obj.detachEvent('on' + type, handler);
   	}
 
@@ -3601,7 +3737,6 @@ L.PhotonReverse = L.PhotonBase.extend({
   	} else {
   		e.cancelBubble = true;
   	}
-  	skipped(e);
 
   	return this;
   }
@@ -3614,11 +3749,11 @@ L.PhotonReverse = L.PhotonBase.extend({
   }
 
   // @function disableClickPropagation(el: HTMLElement): this
-  // Adds `stopPropagation` to the element's `'click'`, `'doubleclick'`,
+  // Adds `stopPropagation` to the element's `'click'`, `'dblclick'`, `'contextmenu'`,
   // `'mousedown'` and `'touchstart'` events (plus browser variants).
   function disableClickPropagation(el) {
-  	on(el, 'mousedown touchstart dblclick', stopPropagation);
-  	addOne(el, 'click', fakeStop);
+  	on(el, 'mousedown touchstart dblclick contextmenu', stopPropagation);
+  	el['_leaflet_disable_click'] = true;
   	return this;
   }
 
@@ -3644,6 +3779,26 @@ L.PhotonReverse = L.PhotonBase.extend({
   	return this;
   }
 
+  // @function getPropagationPath(ev: DOMEvent): Array
+  // Compatibility polyfill for [`Event.composedPath()`](https://developer.mozilla.org/en-US/docs/Web/API/Event/composedPath).
+  // Returns an array containing the `HTMLElement`s that the given DOM event
+  // should propagate to (if not stopped).
+  function getPropagationPath(ev) {
+  	if (ev.composedPath) {
+  		return ev.composedPath();
+  	}
+
+  	var path = [];
+  	var el = ev.target;
+
+  	while (el) {
+  		path.push(el);
+  		el = el.parentNode;
+  	}
+  	return path;
+  }
+
+
   // @function getMousePosition(ev: DOMEvent, container?: HTMLElement): Point
   // Gets normalized mouse position from a DOM event relative to the
   // `container` (border excluded) or to the whole page if not specified.
@@ -3663,19 +3818,22 @@ L.PhotonReverse = L.PhotonBase.extend({
   	);
   }
 
-  // Chrome on Win scrolls double the pixels as in other platforms (see #4538),
-  // and Firefox scrolls device pixels, not CSS pixels
-  var wheelPxFactor =
-  	(win && chrome) ? 2 * window.devicePixelRatio :
-  	gecko ? window.devicePixelRatio : 1;
 
+  //  except , Safari and
+  // We need double the scroll pixels (see #7403 and #4538) for all Browsers
+  // except OSX (Mac) -> 3x, Chrome running on Linux 1x
+
+  var wheelPxFactor =
+  	(Browser.linux && Browser.chrome) ? window.devicePixelRatio :
+  	Browser.mac ? window.devicePixelRatio * 3 :
+  	window.devicePixelRatio > 0 ? 2 * window.devicePixelRatio : 1;
   // @function getWheelDelta(ev: DOMEvent): Number
   // Gets normalized wheel delta from a wheel DOM event, in vertical
   // pixels scrolled (negative if scrolling down).
   // Events from pointing devices without precise scrolling are mapped to
   // a best guess of 60 pixels.
   function getWheelDelta(e) {
-  	return (edge) ? e.wheelDeltaY / 2 : // Don't trust window-geometry-based delta
+  	return (Browser.edge) ? e.wheelDeltaY / 2 : // Don't trust window-geometry-based delta
   	       (e.deltaY && e.deltaMode === 0) ? -e.deltaY / wheelPxFactor : // Pixels
   	       (e.deltaY && e.deltaMode === 1) ? -e.deltaY * 20 : // Lines
   	       (e.deltaY && e.deltaMode === 2) ? -e.deltaY * 60 : // Pages
@@ -3684,20 +3842,6 @@ L.PhotonReverse = L.PhotonBase.extend({
   	       (e.detail && Math.abs(e.detail) < 32765) ? -e.detail * 20 : // Legacy Moz lines
   	       e.detail ? e.detail / -32765 * 60 : // Legacy Moz pages
   	       0;
-  }
-
-  var skipEvents = {};
-
-  function fakeStop(e) {
-  	// fakes stopPropagation by setting a special event flag, checked/reset with skipped(e)
-  	skipEvents[e.type] = true;
-  }
-
-  function skipped(e) {
-  	var events = skipEvents[e.type];
-  	// reset when checking, as it's only used in map container and propagates outside of the map
-  	skipEvents[e.type] = false;
-  	return events;
   }
 
   // check if element really left/entered the event target (for mouseenter/mouseleave)
@@ -3717,7 +3861,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   	return (related !== el);
   }
 
-  var DomEvent = ({
+  var DomEvent = {
+    __proto__: null,
     on: on,
     off: off,
     stopPropagation: stopPropagation,
@@ -3725,14 +3870,13 @@ L.PhotonReverse = L.PhotonBase.extend({
     disableClickPropagation: disableClickPropagation,
     preventDefault: preventDefault,
     stop: stop,
+    getPropagationPath: getPropagationPath,
     getMousePosition: getMousePosition,
     getWheelDelta: getWheelDelta,
-    fakeStop: fakeStop,
-    skipped: skipped,
     isExternalTarget: isExternalTarget,
     addListener: on,
     removeListener: off
-  });
+  };
 
   /*
    * @class PosAnimation
@@ -3742,8 +3886,21 @@ L.PhotonReverse = L.PhotonBase.extend({
    *
    * @example
    * ```js
-   * var fx = new L.PosAnimation();
-   * fx.run(el, [300, 500], 0.5);
+   * var myPositionMarker = L.marker([48.864716, 2.294694]).addTo(map);
+   *
+   * myPositionMarker.on("click", function() {
+   * 	var pos = map.latLngToLayerPoint(myPositionMarker.getLatLng());
+   * 	pos.y -= 25;
+   * 	var fx = new L.PosAnimation();
+   *
+   * 	fx.once('end',function() {
+   * 		pos.y += 25;
+   * 		fx.run(myPositionMarker._icon, pos, 0.8);
+   * 	});
+   *
+   * 	fx.run(myPositionMarker._icon, pos, 0.3);
+   * });
+   *
    * ```
    *
    * @constructor L.PosAnimation()
@@ -3756,7 +3913,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// @method run(el: HTMLElement, newPos: Point, duration?: Number, easeLinearity?: Number)
   	// Run an animation of a given element to a new position, optionally setting
   	// duration in seconds (`0.25` by default) and easing linearity factor (3rd
-  	// argument of the [cubic bezier curve](http://cubic-bezier.com/#0,0,.5,1),
+  	// argument of the [cubic bezier curve](https://cubic-bezier.com/#0,0,.5,1),
   	// `0.5` by default).
   	run: function (el, newPos, duration, easeLinearity) {
   		this.stop();
@@ -3976,7 +4133,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		this.callInitHooks();
 
   		// don't animate on browsers without hardware-accelerated transitions or old Android/Opera
-  		this._zoomAnimated = TRANSITION && any3d && !mobileOpera &&
+  		this._zoomAnimated = TRANSITION && Browser.any3d && !Browser.mobileOpera &&
   				this.options.zoomAnimation;
 
   		// zoom transitions run with the same duration for all layers, so if one of transitionend events
@@ -4023,7 +4180,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		}
 
   		// animation didn't start, just reset the map view
-  		this._resetView(center, zoom);
+  		this._resetView(center, zoom, options.pan && options.pan.noMoveStart);
 
   		return this;
   	},
@@ -4041,14 +4198,14 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// @method zoomIn(delta?: Number, options?: Zoom options): this
   	// Increases the zoom of the map by `delta` ([`zoomDelta`](#map-zoomdelta) by default).
   	zoomIn: function (delta, options) {
-  		delta = delta || (any3d ? this.options.zoomDelta : 1);
+  		delta = delta || (Browser.any3d ? this.options.zoomDelta : 1);
   		return this.setZoom(this._zoom + delta, options);
   	},
 
   	// @method zoomOut(delta?: Number, options?: Zoom options): this
   	// Decreases the zoom of the map by `delta` ([`zoomDelta`](#map-zoomdelta) by default).
   	zoomOut: function (delta, options) {
-  		delta = delta || (any3d ? this.options.zoomDelta : 1);
+  		delta = delta || (Browser.any3d ? this.options.zoomDelta : 1);
   		return this.setZoom(this._zoom - delta, options);
   	},
 
@@ -4178,7 +4335,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	flyTo: function (targetCenter, targetZoom, options) {
 
   		options = options || {};
-  		if (options.animate === false || !any3d) {
+  		if (options.animate === false || !Browser.any3d) {
   			return this.setView(targetCenter, targetZoom, options);
   		}
 
@@ -4266,11 +4423,13 @@ L.PhotonReverse = L.PhotonBase.extend({
   	setMaxBounds: function (bounds) {
   		bounds = toLatLngBounds(bounds);
 
+  		if (this.listens('moveend', this._panInsideMaxBounds)) {
+  			this.off('moveend', this._panInsideMaxBounds);
+  		}
+
   		if (!bounds.isValid()) {
   			this.options.maxBounds = null;
-  			return this.off('moveend', this._panInsideMaxBounds);
-  		} else if (this.options.maxBounds) {
-  			this.off('moveend', this._panInsideMaxBounds);
+  			return this;
   		}
 
   		this.options.maxBounds = bounds;
@@ -4331,10 +4490,9 @@ L.PhotonReverse = L.PhotonBase.extend({
   		return this;
   	},
 
-  	// @method panInside(latlng: LatLng, options?: options): this
+  	// @method panInside(latlng: LatLng, options?: padding options): this
   	// Pans the map the minimum amount to make the `latlng` visible. Use
-  	// `padding`, `paddingTopLeft` and `paddingTopRight` options to fit
-  	// the display to more restricted bounds, like [`fitBounds`](#map-fitbounds).
+  	// padding options to fit the display to more restricted bounds.
   	// If `latlng` is already within the (optionally padded) display bounds,
   	// the map will not be panned.
   	panInside: function (latlng, options) {
@@ -4342,35 +4500,19 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		var paddingTL = toPoint(options.paddingTopLeft || options.padding || [0, 0]),
   		    paddingBR = toPoint(options.paddingBottomRight || options.padding || [0, 0]),
-  		    center = this.getCenter(),
-  		    pixelCenter = this.project(center),
+  		    pixelCenter = this.project(this.getCenter()),
   		    pixelPoint = this.project(latlng),
   		    pixelBounds = this.getPixelBounds(),
-  		    halfPixelBounds = pixelBounds.getSize().divideBy(2),
-  		    paddedBounds = toBounds([pixelBounds.min.add(paddingTL), pixelBounds.max.subtract(paddingBR)]);
+  		    paddedBounds = toBounds([pixelBounds.min.add(paddingTL), pixelBounds.max.subtract(paddingBR)]),
+  		    paddedSize = paddedBounds.getSize();
 
   		if (!paddedBounds.contains(pixelPoint)) {
   			this._enforcingBounds = true;
-  			var diff = pixelCenter.subtract(pixelPoint),
-  			    newCenter = toPoint(pixelPoint.x + diff.x, pixelPoint.y + diff.y);
-
-  			if (pixelPoint.x < paddedBounds.min.x || pixelPoint.x > paddedBounds.max.x) {
-  				newCenter.x = pixelCenter.x - diff.x;
-  				if (diff.x > 0) {
-  					newCenter.x += halfPixelBounds.x - paddingTL.x;
-  				} else {
-  					newCenter.x -= halfPixelBounds.x - paddingBR.x;
-  				}
-  			}
-  			if (pixelPoint.y < paddedBounds.min.y || pixelPoint.y > paddedBounds.max.y) {
-  				newCenter.y = pixelCenter.y - diff.y;
-  				if (diff.y > 0) {
-  					newCenter.y += halfPixelBounds.y - paddingTL.y;
-  				} else {
-  					newCenter.y -= halfPixelBounds.y - paddingBR.y;
-  				}
-  			}
-  			this.panTo(this.unproject(newCenter), options);
+  			var centerOffset = pixelPoint.subtract(paddedBounds.getCenter());
+  			var offset = paddedBounds.extend(pixelPoint).getSize().subtract(paddedSize);
+  			pixelCenter.x += centerOffset.x < 0 ? -offset.x : offset.x;
+  			pixelCenter.y += centerOffset.y < 0 ? -offset.y : offset.y;
+  			this.panTo(this.unproject(pixelCenter), options);
   			this._enforcingBounds = false;
   		}
   		return this;
@@ -4501,6 +4643,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	_handleGeolocationError: function (error) {
+  		if (!this._container._leaflet_id) { return; }
+
   		var c = error.code,
   		    message = error.message ||
   		            (c === 1 ? 'permission denied' :
@@ -4520,6 +4664,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	_handleGeolocationResponse: function (pos) {
+  		if (!this._container._leaflet_id) { return; }
+
   		var lat = pos.coords.latitude,
   		    lng = pos.coords.longitude,
   		    latlng = new LatLng(lat, lng),
@@ -4572,7 +4718,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	remove: function () {
 
   		this._initEvents(true);
-  		this.off('moveend', this._panInsideMaxBounds);
+  		if (this.options.maxBounds) { this.off('moveend', this._panInsideMaxBounds); }
 
   		if (this._containerId !== this._container._leaflet_id) {
   			throw new Error('Map container is being reused by another instance');
@@ -4653,7 +4799,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		this._checkIfLoaded();
 
   		if (this._lastCenter && !this._moved()) {
-  			return this._lastCenter;
+  			return this._lastCenter.clone();
   		}
   		return this.layerPointToLatLng(this._getCenterLayerPoint());
   	},
@@ -4704,7 +4850,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		    se = bounds.getSouthEast(),
   		    size = this.getSize().subtract(padding),
   		    boundsSize = toBounds(this.project(se, zoom), this.project(nw, zoom)).getSize(),
-  		    snap = any3d ? this.options.zoomSnap : 1,
+  		    snap = Browser.any3d ? this.options.zoomSnap : 1,
   		    scalex = size.x / boundsSize.x,
   		    scaley = size.y / boundsSize.y,
   		    scale = inside ? Math.max(scalex, scaley) : Math.min(scalex, scaley);
@@ -4932,18 +5078,18 @@ L.PhotonReverse = L.PhotonBase.extend({
   	_initLayout: function () {
   		var container = this._container;
 
-  		this._fadeAnimated = this.options.fadeAnimation && any3d;
+  		this._fadeAnimated = this.options.fadeAnimation && Browser.any3d;
 
   		addClass(container, 'leaflet-container' +
-  			(touch ? ' leaflet-touch' : '') +
-  			(retina ? ' leaflet-retina' : '') +
-  			(ielt9 ? ' leaflet-oldie' : '') +
-  			(safari ? ' leaflet-safari' : '') +
+  			(Browser.touch ? ' leaflet-touch' : '') +
+  			(Browser.retina ? ' leaflet-retina' : '') +
+  			(Browser.ielt9 ? ' leaflet-oldie' : '') +
+  			(Browser.safari ? ' leaflet-safari' : '') +
   			(this._fadeAnimated ? ' leaflet-fade-anim' : ''));
 
   		var position = getStyle(container, 'position');
 
-  		if (position !== 'absolute' && position !== 'relative' && position !== 'fixed') {
+  		if (position !== 'absolute' && position !== 'relative' && position !== 'fixed' && position !== 'sticky') {
   			container.style.position = 'relative';
   		}
 
@@ -4977,11 +5123,11 @@ L.PhotonReverse = L.PhotonBase.extend({
   		// Pane for `GridLayer`s and `TileLayer`s
   		this.createPane('tilePane');
   		// @pane overlayPane: HTMLElement = 400
-  		// Pane for overlay shadows (e.g. `Marker` shadows)
-  		this.createPane('shadowPane');
-  		// @pane shadowPane: HTMLElement = 500
   		// Pane for vectors (`Path`s, like `Polyline`s and `Polygon`s), `ImageOverlay`s and `VideoOverlay`s
   		this.createPane('overlayPane');
+  		// @pane shadowPane: HTMLElement = 500
+  		// Pane for overlay shadows (e.g. `Marker` shadows)
+  		this.createPane('shadowPane');
   		// @pane markerPane: HTMLElement = 600
   		// Pane for `Icon`s of `Marker`s
   		this.createPane('markerPane');
@@ -5002,7 +5148,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// private methods that modify map state
 
   	// @section Map state change events
-  	_resetView: function (center, zoom) {
+  	_resetView: function (center, zoom, noMoveStart) {
   		setPosition(this._mapPane, new Point(0, 0));
 
   		var loading = !this._loaded;
@@ -5013,7 +5159,7 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		var zoomChanged = this._zoom !== zoom;
   		this
-  			._moveStart(zoomChanged, false)
+  			._moveStart(zoomChanged, noMoveStart)
   			._move(center, zoom)
   			._moveEnd(zoomChanged);
 
@@ -5044,7 +5190,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		return this;
   	},
 
-  	_move: function (center, zoom, data) {
+  	_move: function (center, zoom, data, supressEvent) {
   		if (zoom === undefined) {
   			zoom = this._zoom;
   		}
@@ -5054,29 +5200,34 @@ L.PhotonReverse = L.PhotonBase.extend({
   		this._lastCenter = center;
   		this._pixelOrigin = this._getNewPixelOrigin(center);
 
-  		// @event zoom: Event
-  		// Fired repeatedly during any change in zoom level, including zoom
-  		// and fly animations.
-  		if (zoomChanged || (data && data.pinch)) {	// Always fire 'zoom' if pinching because #3530
+  		if (!supressEvent) {
+  			// @event zoom: Event
+  			// Fired repeatedly during any change in zoom level,
+  			// including zoom and fly animations.
+  			if (zoomChanged || (data && data.pinch)) {	// Always fire 'zoom' if pinching because #3530
+  				this.fire('zoom', data);
+  			}
+
+  			// @event move: Event
+  			// Fired repeatedly during any movement of the map,
+  			// including pan and fly animations.
+  			this.fire('move', data);
+  		} else if (data && data.pinch) {	// Always fire 'zoom' if pinching because #3530
   			this.fire('zoom', data);
   		}
-
-  		// @event move: Event
-  		// Fired repeatedly during any movement of the map, including pan and
-  		// fly animations.
-  		return this.fire('move', data);
+  		return this;
   	},
 
   	_moveEnd: function (zoomChanged) {
   		// @event zoomend: Event
-  		// Fired when the map has changed, after any animations.
+  		// Fired when the map zoom changed, after any animations.
   		if (zoomChanged) {
   			this.fire('zoomend');
   		}
 
   		// @event moveend: Event
-  		// Fired when the center of the map stops changing (e.g. user stopped
-  		// dragging the map).
+  		// Fired when the center of the map stops changing
+  		// (e.g. user stopped dragging the map or after non-centered zoom).
   		return this.fire('moveend');
   	},
 
@@ -5111,11 +5262,11 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// DOM event handling
 
   	// @section Interaction events
-  	_initEvents: function (remove$$1) {
+  	_initEvents: function (remove) {
   		this._targets = {};
   		this._targets[stamp(this._container)] = this;
 
-  		var onOff = remove$$1 ? off : on;
+  		var onOff = remove ? off : on;
 
   		// @event click: MouseEvent
   		// Fired when the user clicks (or taps) the map.
@@ -5151,8 +5302,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   			onOff(window, 'resize', this._onResize, this);
   		}
 
-  		if (any3d && this.options.transform3DLimit) {
-  			(remove$$1 ? this.off : this.on).call(this, 'moveend', this._onMoveEnd);
+  		if (Browser.any3d && this.options.transform3DLimit) {
+  			(remove ? this.off : this.on).call(this, 'moveend', this._onMoveEnd);
   		}
   	},
 
@@ -5171,7 +5322,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		var pos = this._getMapPanePos();
   		if (Math.max(Math.abs(pos.x), Math.abs(pos.y)) >= this.options.transform3DLimit) {
   			// https://bugzilla.mozilla.org/show_bug.cgi?id=1203873 but Webkit also have
-  			// a pixel offset on very high values, see: http://jsfiddle.net/dg6r5hhb/
+  			// a pixel offset on very high values, see: https://jsfiddle.net/dg6r5hhb/
   			this._resetView(this.getCenter(), this.getZoom());
   		}
   	},
@@ -5185,7 +5336,7 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		while (src) {
   			target = this._targets[stamp(src)];
-  			if (target && (type === 'click' || type === 'preclick') && !e._simulated && this._draggableMoved(target)) {
+  			if (target && (type === 'click' || type === 'preclick') && this._draggableMoved(target)) {
   				// Prevent firing click after you just dragged an object.
   				dragging = true;
   				break;
@@ -5198,20 +5349,30 @@ L.PhotonReverse = L.PhotonBase.extend({
   			if (src === this._container) { break; }
   			src = src.parentNode;
   		}
-  		if (!targets.length && !dragging && !isHover && isExternalTarget(src, e)) {
+  		if (!targets.length && !dragging && !isHover && this.listens(type, true)) {
   			targets = [this];
   		}
   		return targets;
   	},
 
+  	_isClickDisabled: function (el) {
+  		while (el && el !== this._container) {
+  			if (el['_leaflet_disable_click']) { return true; }
+  			el = el.parentNode;
+  		}
+  	},
+
   	_handleDOMEvent: function (e) {
-  		if (!this._loaded || skipped(e)) { return; }
+  		var el = (e.target || e.srcElement);
+  		if (!this._loaded || el['_leaflet_disable_events'] || e.type === 'click' && this._isClickDisabled(el)) {
+  			return;
+  		}
 
   		var type = e.type;
 
-  		if (type === 'mousedown' || type === 'keypress' || type === 'keyup' || type === 'keydown') {
+  		if (type === 'mousedown') {
   			// prevents outline when clicking on keyboard-focusable element
-  			preventOutline(e.target || e.srcElement);
+  			preventOutline(el);
   		}
 
   		this._fireDOMEvent(e, type);
@@ -5219,7 +5380,7 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   	_mouseEvents: ['click', 'dblclick', 'mouseover', 'mouseout', 'contextmenu'],
 
-  	_fireDOMEvent: function (e, type, targets) {
+  	_fireDOMEvent: function (e, type, canvasTargets) {
 
   		if (e.type === 'click') {
   			// Fire a synthetic 'preclick' event which propagates up (mainly for closing popups).
@@ -5229,21 +5390,29 @@ L.PhotonReverse = L.PhotonBase.extend({
   			// handlers start running).
   			var synth = extend({}, e);
   			synth.type = 'preclick';
-  			this._fireDOMEvent(synth, synth.type, targets);
+  			this._fireDOMEvent(synth, synth.type, canvasTargets);
   		}
 
-  		if (e._stopped) { return; }
-
   		// Find the layer the event is propagating from and its parents.
-  		targets = (targets || []).concat(this._findEventTargets(e, type));
+  		var targets = this._findEventTargets(e, type);
+
+  		if (canvasTargets) {
+  			var filtered = []; // pick only targets with listeners
+  			for (var i = 0; i < canvasTargets.length; i++) {
+  				if (canvasTargets[i].listens(type, true)) {
+  					filtered.push(canvasTargets[i]);
+  				}
+  			}
+  			targets = filtered.concat(targets);
+  		}
 
   		if (!targets.length) { return; }
 
-  		var target = targets[0];
-  		if (type === 'contextmenu' && target.listens(type, true)) {
+  		if (type === 'contextmenu') {
   			preventDefault(e);
   		}
 
+  		var target = targets[0];
   		var data = {
   			originalEvent: e
   		};
@@ -5256,7 +5425,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   			data.latlng = isMarker ? target.getLatLng() : this.layerPointToLatLng(data.layerPoint);
   		}
 
-  		for (var i = 0; i < targets.length; i++) {
+  		for (i = 0; i < targets.length; i++) {
   			targets[i].fire(type, data, true);
   			if (data.originalEvent._stopped ||
   				(targets[i].options.bubblingMouseEvents === false && indexOf(this._mouseEvents, type) !== -1)) { return; }
@@ -5351,7 +5520,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		// If offset is less than a pixel, ignore.
   		// This prevents unstable projections from getting into
   		// an infinite loop of tiny offsets.
-  		if (offset.round().equals([0, 0])) {
+  		if (Math.abs(offset.x) <= 1 && Math.abs(offset.y) <= 1) {
   			return center;
   		}
 
@@ -5392,7 +5561,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	_limitZoom: function (zoom) {
   		var min = this.getMinZoom(),
   		    max = this.getMaxZoom(),
-  		    snap = any3d ? this.options.zoomSnap : 1;
+  		    snap = Browser.any3d ? this.options.zoomSnap : 1;
   		if (snap) {
   			zoom = Math.round(zoom / snap) * snap;
   		}
@@ -5483,7 +5652,7 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		requestAnimFrame(function () {
   			this
-  			    ._moveStart(true, false)
+  			    ._moveStart(true, options.noMoveStart || false)
   			    ._animateZoom(center, zoom, true);
   		}, this);
 
@@ -5512,6 +5681,12 @@ L.PhotonReverse = L.PhotonBase.extend({
   			noUpdate: noUpdate
   		});
 
+  		if (!this._tempFireZoomEvent) {
+  			this._tempFireZoomEvent = this._zoom !== this._animateToZoom;
+  		}
+
+  		this._move(this._animateToCenter, this._animateToZoom, undefined, true);
+
   		// Work around webkit not firing 'transitionend', see https://github.com/Leaflet/Leaflet/issues/3689, 2693
   		setTimeout(bind(this._onZoomTransitionEnd, this), 250);
   	},
@@ -5525,12 +5700,16 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		this._animatingZoom = false;
 
-  		this._move(this._animateToCenter, this._animateToZoom);
+  		this._move(this._animateToCenter, this._animateToZoom, undefined, true);
 
-  		// This anim frame should prevent an obscure iOS webkit tile loading race condition.
-  		requestAnimFrame(function () {
-  			this._moveEnd(true);
-  		}, this);
+  		if (this._tempFireZoomEvent) {
+  			this.fire('zoom');
+  		}
+  		delete this._tempFireZoomEvent;
+
+  		this.fire('move');
+
+  		this._moveEnd(true);
   	}
   });
 
@@ -5559,7 +5738,7 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   var Control = Class.extend({
   	// @section
-  	// @aka Control options
+  	// @aka Control Options
   	options: {
   		// @option position: String = 'topright'
   		// The position of the control (one of the map corners). Possible values are `'topleft'`,
@@ -5722,7 +5901,7 @@ L.PhotonReverse = L.PhotonBase.extend({
    * @aka L.Control.Layers
    * @inherits Control
    *
-   * The layers control gives users the ability to switch between different base layers and switch overlays on/off (check out the [detailed example](http://leafletjs.com/examples/layers-control/)). Extends `Control`.
+   * The layers control gives users the ability to switch between different base layers and switch overlays on/off (check out the [detailed example](https://leafletjs.com/examples/layers-control/)). Extends `Control`.
    *
    * @example
    *
@@ -5761,7 +5940,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// @aka Control.Layers options
   	options: {
   		// @option collapsed: Boolean = true
-  		// If `true`, the control will be collapsed into an icon and expanded on mouse hover or touch.
+  		// If `true`, the control will be collapsed into an icon and expanded on mouse hover, touch, or keyboard activation.
   		collapsed: true,
   		position: 'topright',
 
@@ -5796,6 +5975,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		this._layers = [];
   		this._lastZIndex = 0;
   		this._handlingClick = false;
+  		this._preventClick = false;
 
   		for (var i in baseLayers) {
   			this._addLayer(baseLayers[i], i);
@@ -5899,24 +6079,29 @@ L.PhotonReverse = L.PhotonBase.extend({
   		if (collapsed) {
   			this._map.on('click', this.collapse, this);
 
-  			if (!android) {
-  				on(container, {
-  					mouseenter: this.expand,
-  					mouseleave: this.collapse
-  				}, this);
-  			}
+  			on(container, {
+  				mouseenter: this._expandSafely,
+  				mouseleave: this.collapse
+  			}, this);
   		}
 
   		var link = this._layersLink = create$1('a', className + '-toggle', container);
   		link.href = '#';
   		link.title = 'Layers';
+  		link.setAttribute('role', 'button');
 
-  		if (touch) {
-  			on(link, 'click', stop);
-  			on(link, 'click', this.expand, this);
-  		} else {
-  			on(link, 'focus', this.expand, this);
-  		}
+  		on(link, {
+  			keydown: function (e) {
+  				if (e.keyCode === 13) {
+  					this._expandSafely();
+  				}
+  			},
+  			// Certain screen readers intercept the key event and instead send a click event
+  			click: function (e) {
+  				preventDefault(e);
+  				this._expandSafely();
+  			}
+  		}, this);
 
   		if (!collapsed) {
   			this.expand();
@@ -6016,7 +6201,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		}
   	},
 
-  	// IE7 bugs out if you create a radio dynamically, so you have to do it this hacky way (see http://bit.ly/PqYLBe)
+  	// IE7 bugs out if you create a radio dynamically, so you have to do it this hacky way (see https://stackoverflow.com/a/119079)
   	_createRadioElement: function (name, checked) {
 
   		var radioHtml = '<input type="radio" class="leaflet-control-layers-selector" name="' +
@@ -6052,7 +6237,7 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		// Helps from preventing layer control flicker when checkboxes are disabled
   		// https://github.com/Leaflet/Leaflet/issues/2771
-  		var holder = document.createElement('div');
+  		var holder = document.createElement('span');
 
   		label.appendChild(holder);
   		holder.appendChild(input);
@@ -6066,6 +6251,11 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	_onInputClick: function () {
+  		// expanding the control on mobile with a click can cause adding a layer - we don't want this
+  		if (this._preventClick) {
+  			return;
+  		}
+
   		var inputs = this._layerControlInputs,
   		    input, layer;
   		var addedLayers = [],
@@ -6123,14 +6313,16 @@ L.PhotonReverse = L.PhotonBase.extend({
   		return this;
   	},
 
-  	_expand: function () {
-  		// Backward compatibility, remove me in 1.1.
-  		return this.expand();
-  	},
-
-  	_collapse: function () {
-  		// Backward compatibility, remove me in 1.1.
-  		return this.collapse();
+  	_expandSafely: function () {
+  		var section = this._section;
+  		this._preventClick = true;
+  		on(section, 'click', preventDefault);
+  		this.expand();
+  		var that = this;
+  		setTimeout(function () {
+  			off(section, 'click', preventDefault);
+  			that._preventClick = false;
+  		});
   	}
 
   });
@@ -6156,17 +6348,17 @@ L.PhotonReverse = L.PhotonBase.extend({
   	options: {
   		position: 'topleft',
 
-  		// @option zoomInText: String = '+'
+  		// @option zoomInText: String = '<span aria-hidden="true">+</span>'
   		// The text set on the 'zoom in' button.
-  		zoomInText: '+',
+  		zoomInText: '<span aria-hidden="true">+</span>',
 
   		// @option zoomInTitle: String = 'Zoom in'
   		// The title set on the 'zoom in' button.
   		zoomInTitle: 'Zoom in',
 
-  		// @option zoomOutText: String = '&#x2212;'
+  		// @option zoomOutText: String = '<span aria-hidden="true">&#x2212;</span>'
   		// The text set on the 'zoom out' button.
-  		zoomOutText: '&#x2212;',
+  		zoomOutText: '<span aria-hidden="true">&#x2212;</span>',
 
   		// @option zoomOutTitle: String = 'Zoom out'
   		// The title set on the 'zoom out' button.
@@ -6243,12 +6435,16 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		removeClass(this._zoomInButton, className);
   		removeClass(this._zoomOutButton, className);
+  		this._zoomInButton.setAttribute('aria-disabled', 'false');
+  		this._zoomOutButton.setAttribute('aria-disabled', 'false');
 
   		if (this._disabled || map._zoom === map.getMinZoom()) {
   			addClass(this._zoomOutButton, className);
+  			this._zoomOutButton.setAttribute('aria-disabled', 'true');
   		}
   		if (this._disabled || map._zoom === map.getMaxZoom()) {
   			addClass(this._zoomInButton, className);
+  			this._zoomInButton.setAttribute('aria-disabled', 'true');
   		}
   	}
   });
@@ -6408,6 +6604,9 @@ L.PhotonReverse = L.PhotonBase.extend({
   	return new Scale(options);
   };
 
+  var ukrainianFlag = '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"/><path fill="#FFD500" d="M0 4h12v3H0z"/><path fill="#E0BC00" d="M0 7h12v1H0z"/></svg>';
+
+
   /*
    * @class Control.Attribution
    * @aka L.Control.Attribution
@@ -6422,9 +6621,9 @@ L.PhotonReverse = L.PhotonBase.extend({
   	options: {
   		position: 'bottomright',
 
-  		// @option prefix: String = 'Leaflet'
+  		// @option prefix: String|false = 'Leaflet'
   		// The HTML text shown before the attributions. Pass `false` to disable.
-  		prefix: '<a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>'
+  		prefix: '<a href="https://leafletjs.com" title="A JavaScript library for interactive maps">' + (Browser.inlineSvg ? ukrainianFlag + ' ' : '') + 'Leaflet</a>'
   	},
 
   	initialize: function (options) {
@@ -6447,11 +6646,26 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		this._update();
 
+  		map.on('layeradd', this._addAttribution, this);
+
   		return this._container;
   	},
 
-  	// @method setPrefix(prefix: String): this
-  	// Sets the text before the attributions.
+  	onRemove: function (map) {
+  		map.off('layeradd', this._addAttribution, this);
+  	},
+
+  	_addAttribution: function (ev) {
+  		if (ev.layer.getAttribution) {
+  			this.addAttribution(ev.layer.getAttribution());
+  			ev.layer.once('remove', function () {
+  				this.removeAttribution(ev.layer.getAttribution());
+  			}, this);
+  		}
+  	},
+
+  	// @method setPrefix(prefix: String|false): this
+  	// The HTML text shown before the attributions. Pass `false` to disable.
   	setPrefix: function (prefix) {
   		this.options.prefix = prefix;
   		this._update();
@@ -6459,7 +6673,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	// @method addAttribution(text: String): this
-  	// Adds an attribution text (e.g. `'Vector data &copy; Mapbox'`).
+  	// Adds an attribution text (e.g. `'&copy; OpenStreetMap contributors'`).
   	addAttribution: function (text) {
   		if (!text) { return this; }
 
@@ -6506,7 +6720,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   			prefixAndAttribs.push(attribs.join(', '));
   		}
 
-  		this._container.innerHTML = prefixAndAttribs.join(' | ');
+  		this._container.innerHTML = prefixAndAttribs.join(' <span aria-hidden="true">|</span> ');
   	}
   });
 
@@ -6615,20 +6829,7 @@ L.PhotonReverse = L.PhotonBase.extend({
    * ```
    */
 
-  var START = touch ? 'touchstart mousedown' : 'mousedown';
-  var END = {
-  	mousedown: 'mouseup',
-  	touchstart: 'touchend',
-  	pointerdown: 'touchend',
-  	MSPointerDown: 'touchend'
-  };
-  var MOVE = {
-  	mousedown: 'mousemove',
-  	touchstart: 'touchmove',
-  	pointerdown: 'touchmove',
-  	MSPointerDown: 'touchmove'
-  };
-
+  var START = Browser.touch ? 'touchstart mousedown' : 'mousedown';
 
   var Draggable = Evented.extend({
 
@@ -6643,12 +6844,12 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   	// @constructor L.Draggable(el: HTMLElement, dragHandle?: HTMLElement, preventOutline?: Boolean, options?: Draggable options)
   	// Creates a `Draggable` object for moving `el` when you start dragging the `dragHandle` element (equals `el` itself by default).
-  	initialize: function (element, dragStartTarget, preventOutline$$1, options) {
+  	initialize: function (element, dragStartTarget, preventOutline, options) {
   		setOptions(this, options);
 
   		this._element = element;
   		this._dragStartTarget = dragStartTarget || element;
-  		this._preventOutline = preventOutline$$1;
+  		this._preventOutline = preventOutline;
   	},
 
   	// @method enable()
@@ -6669,7 +6870,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		// If we're currently dragging this draggable,
   		// disabling it counts as first ending the drag.
   		if (Draggable._dragging === this) {
-  			this.finishDrag();
+  			this.finishDrag(true);
   		}
 
   		off(this._dragStartTarget, START, this._onDown, this);
@@ -6679,16 +6880,21 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	_onDown: function (e) {
-  		// Ignore simulated events, since we handle both touch and
-  		// mouse explicitly; otherwise we risk getting duplicates of
-  		// touch events, see #4315.
-  		// Also ignore the event if disabled; this happens in IE11
+  		// Ignore the event if disabled; this happens in IE11
   		// under some circumstances, see #3666.
-  		if (e._simulated || !this._enabled) { return; }
+  		if (!this._enabled) { return; }
 
   		this._moved = false;
 
   		if (hasClass(this._element, 'leaflet-zoom-anim')) { return; }
+
+  		if (e.touches && e.touches.length !== 1) {
+  			// Finish dragging to avoid conflict with touchZoom
+  			if (Draggable._dragging === this) {
+  				this.finishDrag();
+  			}
+  			return;
+  		}
 
   		if (Draggable._dragging || e.shiftKey || ((e.which !== 1) && (e.button !== 1) && !e.touches)) { return; }
   		Draggable._dragging = this;  // Prevent dragging multiple objects at once.
@@ -6710,21 +6916,20 @@ L.PhotonReverse = L.PhotonBase.extend({
   		    sizedParent = getSizedParentNode(this._element);
 
   		this._startPoint = new Point(first.clientX, first.clientY);
+  		this._startPos = getPosition(this._element);
 
   		// Cache the scale, so that we can continuously compensate for it during drag (_onMove).
   		this._parentScale = getScale(sizedParent);
 
-  		on(document, MOVE[e.type], this._onMove, this);
-  		on(document, END[e.type], this._onUp, this);
+  		var mouseevent = e.type === 'mousedown';
+  		on(document, mouseevent ? 'mousemove' : 'touchmove', this._onMove, this);
+  		on(document, mouseevent ? 'mouseup' : 'touchend touchcancel', this._onUp, this);
   	},
 
   	_onMove: function (e) {
-  		// Ignore simulated events, since we handle both touch and
-  		// mouse explicitly; otherwise we risk getting duplicates of
-  		// touch events, see #4315.
-  		// Also ignore the event if disabled; this happens in IE11
+  		// Ignore the event if disabled; this happens in IE11
   		// under some circumstances, see #3666.
-  		if (e._simulated || !this._enabled) { return; }
+  		if (!this._enabled) { return; }
 
   		if (e.touches && e.touches.length > 1) {
   			this._moved = true;
@@ -6751,7 +6956,6 @@ L.PhotonReverse = L.PhotonBase.extend({
   			this.fire('dragstart');
 
   			this._moved = true;
-  			this._startPos = getPosition(this._element).subtract(offset);
 
   			addClass(document.body, 'leaflet-dragging');
 
@@ -6767,9 +6971,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   		this._newPos = this._startPos.add(offset);
   		this._moving = true;
 
-  		cancelAnimFrame(this._animRequest);
   		this._lastEvent = e;
-  		this._animRequest = requestAnimFrame(this._updatePosition, this, true);
+  		this._updatePosition();
   	},
 
   	_updatePosition: function () {
@@ -6786,17 +6989,14 @@ L.PhotonReverse = L.PhotonBase.extend({
   		this.fire('drag', e);
   	},
 
-  	_onUp: function (e) {
-  		// Ignore simulated events, since we handle both touch and
-  		// mouse explicitly; otherwise we risk getting duplicates of
-  		// touch events, see #4315.
-  		// Also ignore the event if disabled; this happens in IE11
+  	_onUp: function () {
+  		// Ignore the event if disabled; this happens in IE11
   		// under some circumstances, see #3666.
-  		if (e._simulated || !this._enabled) { return; }
+  		if (!this._enabled) { return; }
   		this.finishDrag();
   	},
 
-  	finishDrag: function () {
+  	finishDrag: function (noInertia) {
   		removeClass(document.body, 'leaflet-dragging');
 
   		if (this._lastTarget) {
@@ -6804,30 +7004,161 @@ L.PhotonReverse = L.PhotonBase.extend({
   			this._lastTarget = null;
   		}
 
-  		for (var i in MOVE) {
-  			off(document, MOVE[i], this._onMove, this);
-  			off(document, END[i], this._onUp, this);
-  		}
+  		off(document, 'mousemove touchmove', this._onMove, this);
+  		off(document, 'mouseup touchend touchcancel', this._onUp, this);
 
   		enableImageDrag();
   		enableTextSelection();
 
-  		if (this._moved && this._moving) {
-  			// ensure drag is not fired after dragend
-  			cancelAnimFrame(this._animRequest);
-
-  			// @event dragend: DragEndEvent
-  			// Fired when the drag ends.
-  			this.fire('dragend', {
-  				distance: this._newPos.distanceTo(this._startPos)
-  			});
-  		}
+  		var fireDragend = this._moved && this._moving;
 
   		this._moving = false;
   		Draggable._dragging = false;
+
+  		if (fireDragend) {
+  			// @event dragend: DragEndEvent
+  			// Fired when the drag ends.
+  			this.fire('dragend', {
+  				noInertia: noInertia,
+  				distance: this._newPos.distanceTo(this._startPos)
+  			});
+  		}
   	}
 
   });
+
+  /*
+   * @namespace PolyUtil
+   * Various utility functions for polygon geometries.
+   */
+
+  /* @function clipPolygon(points: Point[], bounds: Bounds, round?: Boolean): Point[]
+   * Clips the polygon geometry defined by the given `points` by the given bounds (using the [Sutherland-Hodgman algorithm](https://en.wikipedia.org/wiki/Sutherland%E2%80%93Hodgman_algorithm)).
+   * Used by Leaflet to only show polygon points that are on the screen or near, increasing
+   * performance. Note that polygon points needs different algorithm for clipping
+   * than polyline, so there's a separate method for it.
+   */
+  function clipPolygon(points, bounds, round) {
+  	var clippedPoints,
+  	    edges = [1, 4, 2, 8],
+  	    i, j, k,
+  	    a, b,
+  	    len, edge, p;
+
+  	for (i = 0, len = points.length; i < len; i++) {
+  		points[i]._code = _getBitCode(points[i], bounds);
+  	}
+
+  	// for each edge (left, bottom, right, top)
+  	for (k = 0; k < 4; k++) {
+  		edge = edges[k];
+  		clippedPoints = [];
+
+  		for (i = 0, len = points.length, j = len - 1; i < len; j = i++) {
+  			a = points[i];
+  			b = points[j];
+
+  			// if a is inside the clip window
+  			if (!(a._code & edge)) {
+  				// if b is outside the clip window (a->b goes out of screen)
+  				if (b._code & edge) {
+  					p = _getEdgeIntersection(b, a, edge, bounds, round);
+  					p._code = _getBitCode(p, bounds);
+  					clippedPoints.push(p);
+  				}
+  				clippedPoints.push(a);
+
+  			// else if b is inside the clip window (a->b enters the screen)
+  			} else if (!(b._code & edge)) {
+  				p = _getEdgeIntersection(b, a, edge, bounds, round);
+  				p._code = _getBitCode(p, bounds);
+  				clippedPoints.push(p);
+  			}
+  		}
+  		points = clippedPoints;
+  	}
+
+  	return points;
+  }
+
+  /* @function polygonCenter(latlngs: LatLng[], crs: CRS): LatLng
+   * Returns the center ([centroid](http://en.wikipedia.org/wiki/Centroid)) of the passed LatLngs (first ring) from a polygon.
+   */
+  function polygonCenter(latlngs, crs) {
+  	var i, j, p1, p2, f, area, x, y, center;
+
+  	if (!latlngs || latlngs.length === 0) {
+  		throw new Error('latlngs not passed');
+  	}
+
+  	if (!isFlat(latlngs)) {
+  		console.warn('latlngs are not flat! Only the first ring will be used');
+  		latlngs = latlngs[0];
+  	}
+
+  	var centroidLatLng = toLatLng([0, 0]);
+
+  	var bounds = toLatLngBounds(latlngs);
+  	var areaBounds = bounds.getNorthWest().distanceTo(bounds.getSouthWest()) * bounds.getNorthEast().distanceTo(bounds.getNorthWest());
+  	// tests showed that below 1700 rounding errors are happening
+  	if (areaBounds < 1700) {
+  		// getting a inexact center, to move the latlngs near to [0, 0] to prevent rounding errors
+  		centroidLatLng = centroid(latlngs);
+  	}
+
+  	var len = latlngs.length;
+  	var points = [];
+  	for (i = 0; i < len; i++) {
+  		var latlng = toLatLng(latlngs[i]);
+  		points.push(crs.project(toLatLng([latlng.lat - centroidLatLng.lat, latlng.lng - centroidLatLng.lng])));
+  	}
+
+  	area = x = y = 0;
+
+  	// polygon centroid algorithm;
+  	for (i = 0, j = len - 1; i < len; j = i++) {
+  		p1 = points[i];
+  		p2 = points[j];
+
+  		f = p1.y * p2.x - p2.y * p1.x;
+  		x += (p1.x + p2.x) * f;
+  		y += (p1.y + p2.y) * f;
+  		area += f * 3;
+  	}
+
+  	if (area === 0) {
+  		// Polygon is so small that all points are on same pixel.
+  		center = points[0];
+  	} else {
+  		center = [x / area, y / area];
+  	}
+
+  	var latlngCenter = crs.unproject(toPoint(center));
+  	return toLatLng([latlngCenter.lat + centroidLatLng.lat, latlngCenter.lng + centroidLatLng.lng]);
+  }
+
+  /* @function centroid(latlngs: LatLng[]): LatLng
+   * Returns the 'center of mass' of the passed LatLngs.
+   */
+  function centroid(coords) {
+  	var latSum = 0;
+  	var lngSum = 0;
+  	var len = 0;
+  	for (var i = 0; i < coords.length; i++) {
+  		var latlng = toLatLng(coords[i]);
+  		latSum += latlng.lat;
+  		lngSum += latlng.lng;
+  		len++;
+  	}
+  	return toLatLng([latSum / len, lngSum / len]);
+  }
+
+  var PolyUtil = {
+    __proto__: null,
+    clipPolygon: clipPolygon,
+    polygonCenter: polygonCenter,
+    centroid: centroid
+  };
 
   /*
    * @namespace LineUtil
@@ -6841,11 +7172,11 @@ L.PhotonReverse = L.PhotonBase.extend({
   // @function simplify(points: Point[], tolerance: Number): Point[]
   // Dramatically reduces the number of points in a polyline while retaining
   // its shape and returns a new array of simplified points, using the
-  // [Douglas-Peucker algorithm](http://en.wikipedia.org/wiki/Douglas-Peucker_algorithm).
+  // [Ramer-Douglas-Peucker algorithm](https://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm).
   // Used for a huge performance boost when processing/displaying Leaflet polylines for
   // each zoom level and also reducing visual noise. tolerance affects the amount of
   // simplification (lesser value means higher quality but slower and with more points).
-  // Also released as a separated micro-library [Simplify.js](http://mourner.github.com/simplify-js/).
+  // Also released as a separated micro-library [Simplify.js](https://mourner.github.io/simplify-js/).
   function simplify(points, tolerance) {
   	if (!tolerance || !points.length) {
   		return points.slice();
@@ -6874,7 +7205,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	return _sqClosestPointOnSegment(p, p1, p2);
   }
 
-  // Douglas-Peucker simplification, see http://en.wikipedia.org/wiki/Douglas-Peucker_algorithm
+  // Ramer-Douglas-Peucker simplification, see https://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm
   function _simplifyDP(points, sqTolerance) {
 
   	var len = points.length,
@@ -7068,7 +7399,69 @@ L.PhotonReverse = L.PhotonBase.extend({
   	return isFlat(latlngs);
   }
 
-  var LineUtil = ({
+  /* @function polylineCenter(latlngs: LatLng[], crs: CRS): LatLng
+   * Returns the center ([centroid](http://en.wikipedia.org/wiki/Centroid)) of the passed LatLngs (first ring) from a polyline.
+   */
+  function polylineCenter(latlngs, crs) {
+  	var i, halfDist, segDist, dist, p1, p2, ratio, center;
+
+  	if (!latlngs || latlngs.length === 0) {
+  		throw new Error('latlngs not passed');
+  	}
+
+  	if (!isFlat(latlngs)) {
+  		console.warn('latlngs are not flat! Only the first ring will be used');
+  		latlngs = latlngs[0];
+  	}
+
+  	var centroidLatLng = toLatLng([0, 0]);
+
+  	var bounds = toLatLngBounds(latlngs);
+  	var areaBounds = bounds.getNorthWest().distanceTo(bounds.getSouthWest()) * bounds.getNorthEast().distanceTo(bounds.getNorthWest());
+  	// tests showed that below 1700 rounding errors are happening
+  	if (areaBounds < 1700) {
+  		// getting a inexact center, to move the latlngs near to [0, 0] to prevent rounding errors
+  		centroidLatLng = centroid(latlngs);
+  	}
+
+  	var len = latlngs.length;
+  	var points = [];
+  	for (i = 0; i < len; i++) {
+  		var latlng = toLatLng(latlngs[i]);
+  		points.push(crs.project(toLatLng([latlng.lat - centroidLatLng.lat, latlng.lng - centroidLatLng.lng])));
+  	}
+
+  	for (i = 0, halfDist = 0; i < len - 1; i++) {
+  		halfDist += points[i].distanceTo(points[i + 1]) / 2;
+  	}
+
+  	// The line is so small in the current view that all points are on the same pixel.
+  	if (halfDist === 0) {
+  		center = points[0];
+  	} else {
+  		for (i = 0, dist = 0; i < len - 1; i++) {
+  			p1 = points[i];
+  			p2 = points[i + 1];
+  			segDist = p1.distanceTo(p2);
+  			dist += segDist;
+
+  			if (dist > halfDist) {
+  				ratio = (dist - halfDist) / segDist;
+  				center = [
+  					p2.x - ratio * (p2.x - p1.x),
+  					p2.y - ratio * (p2.y - p1.y)
+  				];
+  				break;
+  			}
+  		}
+  	}
+
+  	var latlngCenter = crs.unproject(toPoint(center));
+  	return toLatLng([latlngCenter.lat + centroidLatLng.lat, latlngCenter.lng + centroidLatLng.lng]);
+  }
+
+  var LineUtil = {
+    __proto__: null,
     simplify: simplify,
     pointToSegmentDistance: pointToSegmentDistance,
     closestPointOnSegment: closestPointOnSegment,
@@ -7077,66 +7470,9 @@ L.PhotonReverse = L.PhotonBase.extend({
     _getBitCode: _getBitCode,
     _sqClosestPointOnSegment: _sqClosestPointOnSegment,
     isFlat: isFlat,
-    _flat: _flat
-  });
-
-  /*
-   * @namespace PolyUtil
-   * Various utility functions for polygon geometries.
-   */
-
-  /* @function clipPolygon(points: Point[], bounds: Bounds, round?: Boolean): Point[]
-   * Clips the polygon geometry defined by the given `points` by the given bounds (using the [Sutherland-Hodgman algorithm](https://en.wikipedia.org/wiki/Sutherland%E2%80%93Hodgman_algorithm)).
-   * Used by Leaflet to only show polygon points that are on the screen or near, increasing
-   * performance. Note that polygon points needs different algorithm for clipping
-   * than polyline, so there's a separate method for it.
-   */
-  function clipPolygon(points, bounds, round) {
-  	var clippedPoints,
-  	    edges = [1, 4, 2, 8],
-  	    i, j, k,
-  	    a, b,
-  	    len, edge, p;
-
-  	for (i = 0, len = points.length; i < len; i++) {
-  		points[i]._code = _getBitCode(points[i], bounds);
-  	}
-
-  	// for each edge (left, bottom, right, top)
-  	for (k = 0; k < 4; k++) {
-  		edge = edges[k];
-  		clippedPoints = [];
-
-  		for (i = 0, len = points.length, j = len - 1; i < len; j = i++) {
-  			a = points[i];
-  			b = points[j];
-
-  			// if a is inside the clip window
-  			if (!(a._code & edge)) {
-  				// if b is outside the clip window (a->b goes out of screen)
-  				if (b._code & edge) {
-  					p = _getEdgeIntersection(b, a, edge, bounds, round);
-  					p._code = _getBitCode(p, bounds);
-  					clippedPoints.push(p);
-  				}
-  				clippedPoints.push(a);
-
-  			// else if b is inside the clip window (a->b enters the screen)
-  			} else if (!(b._code & edge)) {
-  				p = _getEdgeIntersection(b, a, edge, bounds, round);
-  				p._code = _getBitCode(p, bounds);
-  				clippedPoints.push(p);
-  			}
-  		}
-  		points = clippedPoints;
-  	}
-
-  	return points;
-  }
-
-  var PolyUtil = ({
-    clipPolygon: clipPolygon
-  });
+    _flat: _flat,
+    polylineCenter: polylineCenter
+  };
 
   /*
    * @namespace Projection
@@ -7213,7 +7549,7 @@ L.PhotonReverse = L.PhotonBase.extend({
    * @class Projection
 
    * An object with methods for projecting geographical coordinates of the world onto
-   * a flat surface (and back). See [Map projection](http://en.wikipedia.org/wiki/Map_projection).
+   * a flat surface (and back). See [Map projection](https://en.wikipedia.org/wiki/Map_projection).
 
    * @property bounds: Bounds
    * The bounds (specified in CRS units) where the projection is valid
@@ -7232,11 +7568,12 @@ L.PhotonReverse = L.PhotonBase.extend({
 
    */
 
-  var index = ({
+  var index = {
+    __proto__: null,
     LonLat: LonLat,
     Mercator: Mercator,
     SphericalMercator: SphericalMercator
-  });
+  };
 
   /*
    * @namespace CRS
@@ -7423,10 +7760,6 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		this.onAdd(map);
 
-  		if (this.getAttribution && map.attributionControl) {
-  			map.attributionControl.addAttribution(this.getAttribution());
-  		}
-
   		this.fire('add');
   		map.fire('layeradd', {layer: this});
   	}
@@ -7499,10 +7832,6 @@ L.PhotonReverse = L.PhotonBase.extend({
   			layer.onRemove(this);
   		}
 
-  		if (layer.getAttribution && this.attributionControl) {
-  			this.attributionControl.removeAttribution(layer.getAttribution());
-  		}
-
   		delete this._layers[id];
 
   		if (this._loaded) {
@@ -7518,7 +7847,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// @method hasLayer(layer: Layer): Boolean
   	// Returns `true` if the given layer is currently added to the map
   	hasLayer: function (layer) {
-  		return !!layer && (stamp(layer) in this._layers);
+  		return stamp(layer) in this._layers;
   	},
 
   	/* @method eachLayer(fn: Function, context?: Object): this
@@ -7545,7 +7874,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	_addZoomLimit: function (layer) {
-  		if (isNaN(layer.options.maxZoom) || !isNaN(layer.options.minZoom)) {
+  		if (!isNaN(layer.options.maxZoom) || !isNaN(layer.options.minZoom)) {
   			this._zoomBoundLayers[stamp(layer)] = layer;
   			this._updateZoomLevels();
   		}
@@ -7595,7 +7924,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   /*
    * @class LayerGroup
    * @aka L.LayerGroup
-   * @inherits Layer
+   * @inherits Interactive layer
    *
    * Used to group several layers and handle them as one. If you add it to the map,
    * any layers added or removed from the group will be added/removed on the map as
@@ -7663,7 +7992,6 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// @method hasLayer(id: Number): Boolean
   	// Returns `true` if the given internal ID is currently added to the group.
   	hasLayer: function (layer) {
-  		if (!layer) { return false; }
   		var layerId = typeof layer === 'number' ? layer : this.getLayerId(layer);
   		return layerId in this._layers;
   	},
@@ -7913,7 +8241,13 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   	options: {
   		popupAnchor: [0, 0],
-  		tooltipAnchor: [0, 0]
+  		tooltipAnchor: [0, 0],
+
+  		// @option crossOrigin: Boolean|String = false
+  		// Whether the crossOrigin attribute will be added to the tiles.
+  		// If a String is provided, all tiles will have their crossOrigin attribute set to the String provided. This is needed if you want to access tile pixel data.
+  		// Refer to [CORS Settings](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) for valid String values.
+  		crossOrigin: false
   	},
 
   	initialize: function (options) {
@@ -7945,6 +8279,10 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		var img = this._createImg(src, oldIcon && oldIcon.tagName === 'IMG' ? oldIcon : null);
   		this._setIconStyles(img, name);
+
+  		if (this.options.crossOrigin || this.options.crossOrigin === '') {
+  			img.crossOrigin = this.options.crossOrigin === true ? '' : this.options.crossOrigin;
+  		}
 
   		return img;
   	},
@@ -7981,7 +8319,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	_getIconUrl: function (name) {
-  		return retina && this.options[name + 'RetinaUrl'] || this.options[name + 'Url'];
+  		return Browser.retina && this.options[name + 'RetinaUrl'] || this.options[name + 'Url'];
   	}
   });
 
@@ -8022,7 +8360,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	_getIconUrl: function (name) {
-  		if (!IconDefault.imagePath) {	// Deprecated, backwards-compatibility only
+  		if (typeof IconDefault.imagePath !== 'string') {	// Deprecated, backwards-compatibility only
   			IconDefault.imagePath = this._detectIconPath();
   		}
 
@@ -8033,20 +8371,26 @@ L.PhotonReverse = L.PhotonBase.extend({
   		return (this.options.imagePath || IconDefault.imagePath) + Icon.prototype._getIconUrl.call(this, name);
   	},
 
+  	_stripUrl: function (path) {	// separate function to use in tests
+  		var strip = function (str, re, idx) {
+  			var match = re.exec(str);
+  			return match && match[idx];
+  		};
+  		path = strip(path, /^url\((['"])?(.+)\1\)$/, 2);
+  		return path && strip(path, /^(.*)marker-icon\.png$/, 1);
+  	},
+
   	_detectIconPath: function () {
   		var el = create$1('div',  'leaflet-default-icon-path', document.body);
   		var path = getStyle(el, 'background-image') ||
   		           getStyle(el, 'backgroundImage');	// IE8
 
   		document.body.removeChild(el);
-
-  		if (path === null || path.indexOf('url') !== 0) {
-  			path = '';
-  		} else {
-  			path = path.replace(/^url\(["']?/, '').replace(/marker-icon\.png["']?\)$/, '');
-  		}
-
-  		return path;
+  		path = this._stripUrl(path);
+  		if (path) { return path; }
+  		var link = document.querySelector('link[href$="leaflet.css"]');
+  		if (!link) { return ''; }
+  		return link.href.substring(0, link.href.length - 'leaflet.css'.length - 1);
   	}
   });
 
@@ -8238,11 +8582,13 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		// @option title: String = ''
   		// Text for the browser tooltip that appear on marker hover (no tooltip by default).
+  		// [Useful for accessibility](https://leafletjs.com/examples/accessibility/#markers-must-be-labelled).
   		title: '',
 
-  		// @option alt: String = ''
-  		// Text for the `alt` attribute of the icon image (useful for accessibility).
-  		alt: '',
+  		// @option alt: String = 'Marker'
+  		// Text for the `alt` attribute of the icon image.
+  		// [Useful for accessibility](https://leafletjs.com/examples/accessibility/#markers-must-be-labelled).
+  		alt: 'Marker',
 
   		// @option zIndexOffset: Number = 0
   		// By default, marker images zIndex is set automatically based on its latitude. Use this option if you want to put the marker on top of all others (or below), specifying a high value like `1000` (or high negative value, respectively).
@@ -8272,6 +8618,12 @@ L.PhotonReverse = L.PhotonBase.extend({
   		// When `true`, a mouse event on this marker will trigger the same event on the map
   		// (unless [`L.DomEvent.stopPropagation`](#domevent-stoppropagation) is used).
   		bubblingMouseEvents: false,
+
+  		// @option autoPanOnFocus: Boolean = true
+  		// When `true`, the map will pan whenever the marker is focused (via
+  		// e.g. pressing `tab` on the keyboard) to ensure the marker is
+  		// visible within the map's bounds
+  		autoPanOnFocus: true,
 
   		// @section Draggable marker options
   		// @option draggable: Boolean = false
@@ -8425,6 +8777,7 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		if (options.keyboard) {
   			icon.tabIndex = '0';
+  			icon.setAttribute('role', 'button');
   		}
 
   		this._icon = icon;
@@ -8434,6 +8787,10 @@ L.PhotonReverse = L.PhotonBase.extend({
   				mouseover: this._bringToFront,
   				mouseout: this._resetZIndex
   			});
+  		}
+
+  		if (this.options.autoPanOnFocus) {
+  			on(icon, 'focus', this._panOnFocus, this);
   		}
 
   		var newShadow = options.icon.createShadow(this._shadow),
@@ -8471,6 +8828,10 @@ L.PhotonReverse = L.PhotonBase.extend({
   				mouseover: this._bringToFront,
   				mouseout: this._resetZIndex
   			});
+  		}
+
+  		if (this.options.autoPanOnFocus) {
+  			off(this._icon, 'focus', this._panOnFocus, this);
   		}
 
   		remove(this._icon);
@@ -8565,6 +8926,20 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   	_resetZIndex: function () {
   		this._updateZIndex(0);
+  	},
+
+  	_panOnFocus: function () {
+  		var map = this._map;
+  		if (!map) { return; }
+
+  		var iconOpts = this.options.icon.options;
+  		var size = iconOpts.iconSize ? toPoint(iconOpts.iconSize) : toPoint(0, 0);
+  		var anchor = iconOpts.iconAnchor ? toPoint(iconOpts.iconAnchor) : toPoint(0, 0);
+
+  		map.panInside(this._latlng, {
+  			paddingTopLeft: anchor,
+  			paddingBottomRight: size.subtract(anchor)
+  		});
   	},
 
   	_getPopupAnchor: function () {
@@ -8726,7 +9101,8 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   	_clickTolerance: function () {
   		// used when doing hit detection for Canvas layers
-  		return (this.options.stroke ? this.options.weight / 2 : 0) + this._renderer.options.tolerance;
+  		return (this.options.stroke ? this.options.weight / 2 : 0) +
+  		  (this._renderer.options.tolerance || 0);
   	}
   });
 
@@ -9048,44 +9424,13 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	// @method getCenter(): LatLng
-  	// Returns the center ([centroid](http://en.wikipedia.org/wiki/Centroid)) of the polyline.
+  	// Returns the center ([centroid](https://en.wikipedia.org/wiki/Centroid)) of the polyline.
   	getCenter: function () {
   		// throws error when not yet added to map as this center calculation requires projected coordinates
   		if (!this._map) {
   			throw new Error('Must add layer to map before using getCenter()');
   		}
-
-  		var i, halfDist, segDist, dist, p1, p2, ratio,
-  		    points = this._rings[0],
-  		    len = points.length;
-
-  		if (!len) { return null; }
-
-  		// polyline centroid algorithm; only uses the first ring if there are multiple
-
-  		for (i = 0, halfDist = 0; i < len - 1; i++) {
-  			halfDist += points[i].distanceTo(points[i + 1]) / 2;
-  		}
-
-  		// The line is so small in the current view that all points are on the same pixel.
-  		if (halfDist === 0) {
-  			return this._map.layerPointToLatLng(points[0]);
-  		}
-
-  		for (i = 0, dist = 0; i < len - 1; i++) {
-  			p1 = points[i];
-  			p2 = points[i + 1];
-  			segDist = p1.distanceTo(p2);
-  			dist += segDist;
-
-  			if (dist > halfDist) {
-  				ratio = (dist - halfDist) / segDist;
-  				return this._map.layerPointToLatLng([
-  					p2.x - ratio * (p2.x - p1.x),
-  					p2.y - ratio * (p2.y - p1.y)
-  				]);
-  			}
-  		}
+  		return polylineCenter(this._defaultShape(), this._map.options.crs);
   	},
 
   	// @method getBounds(): LatLngBounds
@@ -9146,6 +9491,11 @@ L.PhotonReverse = L.PhotonBase.extend({
   	_updateBounds: function () {
   		var w = this._clickTolerance(),
   		    p = new Point(w, w);
+
+  		if (!this._rawPxBounds) {
+  			return;
+  		}
+
   		this._pxBounds = new Bounds([
   			this._rawPxBounds.min.subtract(p),
   			this._rawPxBounds.max.add(p)
@@ -9322,39 +9672,14 @@ L.PhotonReverse = L.PhotonBase.extend({
   		return !this._latlngs.length || !this._latlngs[0].length;
   	},
 
+  	// @method getCenter(): LatLng
+  	// Returns the center ([centroid](http://en.wikipedia.org/wiki/Centroid)) of the Polygon.
   	getCenter: function () {
   		// throws error when not yet added to map as this center calculation requires projected coordinates
   		if (!this._map) {
   			throw new Error('Must add layer to map before using getCenter()');
   		}
-
-  		var i, j, p1, p2, f, area, x, y, center,
-  		    points = this._rings[0],
-  		    len = points.length;
-
-  		if (!len) { return null; }
-
-  		// polygon centroid algorithm; only uses the first ring if there are multiple
-
-  		area = x = y = 0;
-
-  		for (i = 0, j = len - 1; i < len; j = i++) {
-  			p1 = points[i];
-  			p2 = points[j];
-
-  			f = p1.y * p2.x - p2.y * p1.x;
-  			x += (p1.x + p2.x) * f;
-  			y += (p1.y + p2.y) * f;
-  			area += f * 3;
-  		}
-
-  		if (area === 0) {
-  			// Polygon is so small that all points are on same pixel.
-  			center = points[0];
-  		} else {
-  			center = [x / area, y / area];
-  		}
-  		return this._map.layerPointToLatLng(center);
+  		return polygonCenter(this._defaultShape(), this._map.options.crs);
   	},
 
   	_convertLatLngs: function (latlngs) {
@@ -9639,14 +9964,24 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   	case 'GeometryCollection':
   		for (i = 0, len = geometry.geometries.length; i < len; i++) {
-  			var layer = geometryToLayer({
+  			var geoLayer = geometryToLayer({
   				geometry: geometry.geometries[i],
   				type: 'Feature',
   				properties: geojson.properties
   			}, options);
 
-  			if (layer) {
-  				layers.push(layer);
+  			if (geoLayer) {
+  				layers.push(geoLayer);
+  			}
+  		}
+  		return new FeatureGroup(layers);
+
+  	case 'FeatureCollection':
+  		for (i = 0, len = geometry.features.length; i < len; i++) {
+  			var featureLayer = geometryToLayer(geometry.features[i], options);
+
+  			if (featureLayer) {
+  				layers.push(featureLayer);
   			}
   		}
   		return new FeatureGroup(layers);
@@ -9687,29 +10022,32 @@ L.PhotonReverse = L.PhotonBase.extend({
   	return latlngs;
   }
 
-  // @function latLngToCoords(latlng: LatLng, precision?: Number): Array
+  // @function latLngToCoords(latlng: LatLng, precision?: Number|false): Array
   // Reverse of [`coordsToLatLng`](#geojson-coordstolatlng)
+  // Coordinates values are rounded with [`formatNum`](#util-formatnum) function.
   function latLngToCoords(latlng, precision) {
-  	precision = typeof precision === 'number' ? precision : 6;
+  	latlng = toLatLng(latlng);
   	return latlng.alt !== undefined ?
   		[formatNum(latlng.lng, precision), formatNum(latlng.lat, precision), formatNum(latlng.alt, precision)] :
   		[formatNum(latlng.lng, precision), formatNum(latlng.lat, precision)];
   }
 
-  // @function latLngsToCoords(latlngs: Array, levelsDeep?: Number, closed?: Boolean): Array
+  // @function latLngsToCoords(latlngs: Array, levelsDeep?: Number, closed?: Boolean, precision?: Number|false): Array
   // Reverse of [`coordsToLatLngs`](#geojson-coordstolatlngs)
   // `closed` determines whether the first point should be appended to the end of the array to close the feature, only used when `levelsDeep` is 0. False by default.
+  // Coordinates values are rounded with [`formatNum`](#util-formatnum) function.
   function latLngsToCoords(latlngs, levelsDeep, closed, precision) {
   	var coords = [];
 
   	for (var i = 0, len = latlngs.length; i < len; i++) {
+  		// Check for flat arrays required to ensure unbalanced arrays are correctly converted in recursion
   		coords.push(levelsDeep ?
-  			latLngsToCoords(latlngs[i], levelsDeep - 1, closed, precision) :
+  			latLngsToCoords(latlngs[i], isFlat(latlngs[i]) ? 0 : levelsDeep - 1, closed, precision) :
   			latLngToCoords(latlngs[i], precision));
   	}
 
-  	if (!levelsDeep && closed) {
-  		coords.push(coords[0]);
+  	if (!levelsDeep && closed && coords.length > 0) {
+  		coords.push(coords[0].slice());
   	}
 
   	return coords;
@@ -9746,26 +10084,23 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   // @namespace Marker
   // @section Other methods
-  // @method toGeoJSON(precision?: Number): Object
-  // `precision` is the number of decimal places for coordinates.
-  // The default value is 6 places.
-  // Returns a [`GeoJSON`](http://en.wikipedia.org/wiki/GeoJSON) representation of the marker (as a GeoJSON `Point` Feature).
+  // @method toGeoJSON(precision?: Number|false): Object
+  // Coordinates values are rounded with [`formatNum`](#util-formatnum) function with given `precision`.
+  // Returns a [`GeoJSON`](https://en.wikipedia.org/wiki/GeoJSON) representation of the marker (as a GeoJSON `Point` Feature).
   Marker.include(PointToGeoJSON);
 
   // @namespace CircleMarker
-  // @method toGeoJSON(precision?: Number): Object
-  // `precision` is the number of decimal places for coordinates.
-  // The default value is 6 places.
-  // Returns a [`GeoJSON`](http://en.wikipedia.org/wiki/GeoJSON) representation of the circle marker (as a GeoJSON `Point` Feature).
+  // @method toGeoJSON(precision?: Number|false): Object
+  // Coordinates values are rounded with [`formatNum`](#util-formatnum) function with given `precision`.
+  // Returns a [`GeoJSON`](https://en.wikipedia.org/wiki/GeoJSON) representation of the circle marker (as a GeoJSON `Point` Feature).
   Circle.include(PointToGeoJSON);
   CircleMarker.include(PointToGeoJSON);
 
 
   // @namespace Polyline
-  // @method toGeoJSON(precision?: Number): Object
-  // `precision` is the number of decimal places for coordinates.
-  // The default value is 6 places.
-  // Returns a [`GeoJSON`](http://en.wikipedia.org/wiki/GeoJSON) representation of the polyline (as a GeoJSON `LineString` or `MultiLineString` Feature).
+  // @method toGeoJSON(precision?: Number|false): Object
+  // Coordinates values are rounded with [`formatNum`](#util-formatnum) function with given `precision`.
+  // Returns a [`GeoJSON`](https://en.wikipedia.org/wiki/GeoJSON) representation of the polyline (as a GeoJSON `LineString` or `MultiLineString` Feature).
   Polyline.include({
   	toGeoJSON: function (precision) {
   		var multi = !isFlat(this._latlngs);
@@ -9780,10 +10115,9 @@ L.PhotonReverse = L.PhotonBase.extend({
   });
 
   // @namespace Polygon
-  // @method toGeoJSON(precision?: Number): Object
-  // `precision` is the number of decimal places for coordinates.
-  // The default value is 6 places.
-  // Returns a [`GeoJSON`](http://en.wikipedia.org/wiki/GeoJSON) representation of the polygon (as a GeoJSON `Polygon` or `MultiPolygon` Feature).
+  // @method toGeoJSON(precision?: Number|false): Object
+  // Coordinates values are rounded with [`formatNum`](#util-formatnum) function with given `precision`.
+  // Returns a [`GeoJSON`](https://en.wikipedia.org/wiki/GeoJSON) representation of the polygon (as a GeoJSON `Polygon` or `MultiPolygon` Feature).
   Polygon.include({
   	toGeoJSON: function (precision) {
   		var holes = !isFlat(this._latlngs),
@@ -9818,10 +10152,9 @@ L.PhotonReverse = L.PhotonBase.extend({
   		});
   	},
 
-  	// @method toGeoJSON(precision?: Number): Object
-  	// `precision` is the number of decimal places for coordinates.
-  	// The default value is 6 places.
-  	// Returns a [`GeoJSON`](http://en.wikipedia.org/wiki/GeoJSON) representation of the layer group (as a GeoJSON `FeatureCollection`, `GeometryCollection`, or `MultiPoint`).
+  	// @method toGeoJSON(precision?: Number|false): Object
+  	// Coordinates values are rounded with [`formatNum`](#util-formatnum) function with given `precision`.
+  	// Returns a [`GeoJSON`](https://en.wikipedia.org/wiki/GeoJSON) representation of the layer group (as a GeoJSON `FeatureCollection`, `GeometryCollection`, or `MultiPoint`).
   	toGeoJSON: function (precision) {
 
   		var type = this.feature && this.feature.geometry && this.feature.geometry.type;
@@ -9886,7 +10219,7 @@ L.PhotonReverse = L.PhotonBase.extend({
    * @example
    *
    * ```js
-   * var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg',
+   * var imageUrl = 'https://maps.lib.utexas.edu/maps/historical/newark_nj_1922.jpg',
    * 	imageBounds = [[40.712216, -74.22655], [40.773941, -74.12544]];
    * L.imageOverlay(imageUrl, imageBounds).addTo(map);
    * ```
@@ -10125,6 +10458,12 @@ L.PhotonReverse = L.PhotonBase.extend({
   			this._url = errorUrl;
   			this._image.src = errorUrl;
   		}
+  	},
+
+  	// @method getCenter(): LatLng
+  	// Returns the center of the ImageOverlay.
+  	getCenter: function () {
+  		return this._bounds.getCenter();
   	}
   });
 
@@ -10161,6 +10500,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	options: {
   		// @option autoplay: Boolean = true
   		// Whether the video starts playing automatically when loaded.
+  		// On some browsers autoplay will only work with `muted: true`
   		autoplay: true,
 
   		// @option loop: Boolean = true
@@ -10169,12 +10509,16 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		// @option keepAspectRatio: Boolean = true
   		// Whether the video will save aspect ratio after the projection.
-  		// Relevant for supported browsers. Browser compatibility- https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
+  		// Relevant for supported browsers. See [browser compatibility](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit)
   		keepAspectRatio: true,
 
   		// @option muted: Boolean = false
   		// Whether the video starts on mute when loaded.
-  		muted: false
+  		muted: false,
+
+  		// @option playsInline: Boolean = true
+  		// Mobile browsers will play the video right where it is instead of open it up in fullscreen mode.
+  		playsInline: true
   	},
 
   	_initImage: function () {
@@ -10211,6 +10555,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		vid.autoplay = !!this.options.autoplay;
   		vid.loop = !!this.options.loop;
   		vid.muted = !!this.options.muted;
+  		vid.playsInline = !!this.options.playsInline;
   		for (var i = 0; i < this._url.length; i++) {
   			var source = create$1('source');
   			source.src = this._url[i];
@@ -10281,9 +10626,9 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   /*
    * @class DivOverlay
-   * @inherits Layer
+   * @inherits Interactive layer
    * @aka L.DivOverlay
-   * Base model for L.Popup and L.Tooltip. Inherit from it for custom popup like plugins.
+   * Base model for L.Popup and L.Tooltip. Inherit from it for custom overlays like plugins.
    */
 
   // @namespace DivOverlay
@@ -10292,24 +10637,82 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// @section
   	// @aka DivOverlay options
   	options: {
-  		// @option offset: Point = Point(0, 7)
-  		// The offset of the popup position. Useful to control the anchor
-  		// of the popup when opening it on some overlays.
-  		offset: [0, 7],
+  		// @option interactive: Boolean = false
+  		// If true, the popup/tooltip will listen to the mouse events.
+  		interactive: false,
+
+  		// @option offset: Point = Point(0, 0)
+  		// The offset of the overlay position.
+  		offset: [0, 0],
 
   		// @option className: String = ''
-  		// A custom CSS class name to assign to the popup.
+  		// A custom CSS class name to assign to the overlay.
   		className: '',
 
-  		// @option pane: String = 'popupPane'
-  		// `Map pane` where the popup will be added.
-  		pane: 'popupPane'
+  		// @option pane: String = undefined
+  		// `Map pane` where the overlay will be added.
+  		pane: undefined,
+
+  		// @option content: String|HTMLElement|Function = ''
+  		// Sets the HTML content of the overlay while initializing. If a function is passed the source layer will be
+  		// passed to the function. The function should return a `String` or `HTMLElement` to be used in the overlay.
+  		content: ''
   	},
 
   	initialize: function (options, source) {
-  		setOptions(this, options);
+  		if (options && (options instanceof LatLng || isArray(options))) {
+  			this._latlng = toLatLng(options);
+  			setOptions(this, source);
+  		} else {
+  			setOptions(this, options);
+  			this._source = source;
+  		}
+  		if (this.options.content) {
+  			this._content = this.options.content;
+  		}
+  	},
 
-  		this._source = source;
+  	// @method openOn(map: Map): this
+  	// Adds the overlay to the map.
+  	// Alternative to `map.openPopup(popup)`/`.openTooltip(tooltip)`.
+  	openOn: function (map) {
+  		map = arguments.length ? map : this._source._map; // experimental, not the part of public api
+  		if (!map.hasLayer(this)) {
+  			map.addLayer(this);
+  		}
+  		return this;
+  	},
+
+  	// @method close(): this
+  	// Closes the overlay.
+  	// Alternative to `map.closePopup(popup)`/`.closeTooltip(tooltip)`
+  	// and `layer.closePopup()`/`.closeTooltip()`.
+  	close: function () {
+  		if (this._map) {
+  			this._map.removeLayer(this);
+  		}
+  		return this;
+  	},
+
+  	// @method toggle(layer?: Layer): this
+  	// Opens or closes the overlay bound to layer depending on its current state.
+  	// Argument may be omitted only for overlay bound to layer.
+  	// Alternative to `layer.togglePopup()`/`.toggleTooltip()`.
+  	toggle: function (layer) {
+  		if (this._map) {
+  			this.close();
+  		} else {
+  			if (arguments.length) {
+  				this._source = layer;
+  			} else {
+  				layer = this._source;
+  			}
+  			this._prepareOpen();
+
+  			// open the overlay on the map
+  			this.openOn(layer._map);
+  		}
+  		return this;
   	},
 
   	onAdd: function (map) {
@@ -10332,6 +10735,11 @@ L.PhotonReverse = L.PhotonBase.extend({
   		}
 
   		this.bringToFront();
+
+  		if (this.options.interactive) {
+  			addClass(this._container, 'leaflet-interactive');
+  			this.addInteractiveTarget(this._container);
+  		}
   	},
 
   	onRemove: function (map) {
@@ -10341,17 +10749,22 @@ L.PhotonReverse = L.PhotonBase.extend({
   		} else {
   			remove(this._container);
   		}
+
+  		if (this.options.interactive) {
+  			removeClass(this._container, 'leaflet-interactive');
+  			this.removeInteractiveTarget(this._container);
+  		}
   	},
 
-  	// @namespace Popup
+  	// @namespace DivOverlay
   	// @method getLatLng: LatLng
-  	// Returns the geographical point of popup.
+  	// Returns the geographical point of the overlay.
   	getLatLng: function () {
   		return this._latlng;
   	},
 
   	// @method setLatLng(latlng: LatLng): this
-  	// Sets the geographical point where the popup will open.
+  	// Sets the geographical point where the overlay will open.
   	setLatLng: function (latlng) {
   		this._latlng = toLatLng(latlng);
   		if (this._map) {
@@ -10362,13 +10775,14 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	// @method getContent: String|HTMLElement
-  	// Returns the content of the popup.
+  	// Returns the content of the overlay.
   	getContent: function () {
   		return this._content;
   	},
 
   	// @method setContent(htmlContent: String|HTMLElement|Function): this
-  	// Sets the HTML content of the popup. If a function is passed the source layer will be passed to the function. The function should return a `String` or `HTMLElement` to be used in the popup.
+  	// Sets the HTML content of the overlay. If a function is passed the source layer will be passed to the function.
+  	// The function should return a `String` or `HTMLElement` to be used in the overlay.
   	setContent: function (content) {
   		this._content = content;
   		this.update();
@@ -10376,13 +10790,13 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	// @method getElement: String|HTMLElement
-  	// Returns the HTML container of the popup.
+  	// Returns the HTML container of the overlay.
   	getElement: function () {
   		return this._container;
   	},
 
   	// @method update: null
-  	// Updates the popup content, layout and position. Useful for updating the popup after something inside changed, e.g. image loaded.
+  	// Updates the overlay content, layout and position. Useful for updating the overlay after something inside changed, e.g. image loaded.
   	update: function () {
   		if (!this._map) { return; }
 
@@ -10410,13 +10824,13 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	// @method isOpen: Boolean
-  	// Returns `true` when the popup is visible on the map.
+  	// Returns `true` when the overlay is visible on the map.
   	isOpen: function () {
   		return !!this._map && this._map.hasLayer(this);
   	},
 
   	// @method bringToFront: this
-  	// Brings this popup in front of other popups (in the same map pane).
+  	// Brings this overlay in front of other overlays (in the same map pane).
   	bringToFront: function () {
   		if (this._map) {
   			toFront(this._container);
@@ -10425,7 +10839,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	// @method bringToBack: this
-  	// Brings this popup to the back of other popups (in the same map pane).
+  	// Brings this overlay to the back of other overlays (in the same map pane).
   	bringToBack: function () {
   		if (this._map) {
   			toBack(this._container);
@@ -10433,36 +10847,45 @@ L.PhotonReverse = L.PhotonBase.extend({
   		return this;
   	},
 
-  	_prepareOpen: function (parent, layer, latlng) {
-  		if (!(layer instanceof Layer)) {
-  			latlng = layer;
-  			layer = parent;
-  		}
+  	// prepare bound overlay to open: update latlng pos / content source (for FeatureGroup)
+  	_prepareOpen: function (latlng) {
+  		var source = this._source;
+  		if (!source._map) { return false; }
 
-  		if (layer instanceof FeatureGroup) {
-  			for (var id in parent._layers) {
-  				layer = parent._layers[id];
-  				break;
+  		if (source instanceof FeatureGroup) {
+  			source = null;
+  			var layers = this._source._layers;
+  			for (var id in layers) {
+  				if (layers[id]._map) {
+  					source = layers[id];
+  					break;
+  				}
   			}
+  			if (!source) { return false; } // Unable to get source layer.
+
+  			// set overlay source to this layer
+  			this._source = source;
   		}
 
   		if (!latlng) {
-  			if (layer.getCenter) {
-  				latlng = layer.getCenter();
-  			} else if (layer.getLatLng) {
-  				latlng = layer.getLatLng();
+  			if (source.getCenter) {
+  				latlng = source.getCenter();
+  			} else if (source.getLatLng) {
+  				latlng = source.getLatLng();
+  			} else if (source.getBounds) {
+  				latlng = source.getBounds().getCenter();
   			} else {
   				throw new Error('Unable to get source layer LatLng.');
   			}
   		}
+  		this.setLatLng(latlng);
 
-  		// set overlay source to this layer
-  		this._source = layer;
+  		if (this._map) {
+  			// update the overlay (content, layout, etc...)
+  			this.update();
+  		}
 
-  		// update the overlay (content, layout, ect...)
-  		this.update();
-
-  		return latlng;
+  		return true;
   	},
 
   	_updateContent: function () {
@@ -10479,6 +10902,11 @@ L.PhotonReverse = L.PhotonBase.extend({
   			}
   			node.appendChild(content);
   		}
+
+  		// @namespace DivOverlay
+  		// @section DivOverlay events
+  		// @event contentupdate: Event
+  		// Fired when the content of the overlay is updated
   		this.fire('contentupdate');
   	},
 
@@ -10498,7 +10926,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		var bottom = this._containerBottom = -offset.y,
   		    left = this._containerLeft = -Math.round(this._containerWidth / 2) + offset.x;
 
-  		// bottom position the popup in case the height of the popup changes (images loading etc)
+  		// bottom position the overlay in case the height of the overlay changes (images loading etc)
   		this._container.style.bottom = bottom + 'px';
   		this._container.style.left = left + 'px';
   	},
@@ -10507,6 +10935,34 @@ L.PhotonReverse = L.PhotonBase.extend({
   		return [0, 0];
   	}
 
+  });
+
+  Map.include({
+  	_initOverlay: function (OverlayClass, content, latlng, options) {
+  		var overlay = content;
+  		if (!(overlay instanceof OverlayClass)) {
+  			overlay = new OverlayClass(options).setContent(content);
+  		}
+  		if (latlng) {
+  			overlay.setLatLng(latlng);
+  		}
+  		return overlay;
+  	}
+  });
+
+
+  Layer.include({
+  	_initOverlay: function (OverlayClass, old, content, options) {
+  		var overlay = content;
+  		if (overlay instanceof OverlayClass) {
+  			setOptions(overlay, options);
+  			overlay._source = this;
+  		} else {
+  			overlay = (old && !options) ? old : new OverlayClass(options, this);
+  			overlay.setContent(content);
+  		}
+  		return overlay;
+  	}
   });
 
   /*
@@ -10525,12 +10981,18 @@ L.PhotonReverse = L.PhotonBase.extend({
    * marker.bindPopup(popupContent).openPopup();
    * ```
    * Path overlays like polylines also have a `bindPopup` method.
-   * Here's a more complicated way to open a popup on a map:
+   *
+   * A popup can be also standalone:
    *
    * ```js
    * var popup = L.popup()
    * 	.setLatLng(latlng)
    * 	.setContent('<p>Hello world!<br />This is a nice popup.</p>')
+   * 	.openOn(map);
+   * ```
+   * or
+   * ```js
+   * var popup = L.popup(latlng, {content: '<p>Hello world!<br />This is a nice popup.</p>')
    * 	.openOn(map);
    * ```
    */
@@ -10542,6 +11004,14 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// @section
   	// @aka Popup options
   	options: {
+  		// @option pane: String = 'popupPane'
+  		// `Map pane` where the popup will be added.
+  		pane: 'popupPane',
+
+  		// @option offset: Point = Point(0, 7)
+  		// The offset of the popup position.
+  		offset: [0, 7],
+
   		// @option maxWidth: Number = 300
   		// Max width of the popup, in pixels.
   		maxWidth: 300,
@@ -10553,6 +11023,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   		// @option maxHeight: Number = null
   		// If set, creates a scrollable container of the given height
   		// inside a popup if its content exceeds it.
+  		// The scrollable container can be styled using the
+  		// `leaflet-popup-scrolled` CSS class selector.
   		maxHeight: null,
 
   		// @option autoPan: Boolean = true
@@ -10604,10 +11076,17 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   	// @namespace Popup
   	// @method openOn(map: Map): this
-  	// Adds the popup to the map and closes the previous one. The same as `map.openPopup(popup)`.
+  	// Alternative to `map.openPopup(popup)`.
+  	// Adds the popup to the map and closes the previous one.
   	openOn: function (map) {
-  		map.openPopup(this);
-  		return this;
+  		map = arguments.length ? map : this._source._map; // experimental, not the part of public api
+
+  		if (!map.hasLayer(this) && map._popup && map._popup.options.autoClose) {
+  			map.removeLayer(map._popup);
+  		}
+  		map._popup = this;
+
+  		return DivOverlay.prototype.openOn.call(this, map);
   	},
 
   	onAdd: function (map) {
@@ -10658,7 +11137,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		var events = DivOverlay.prototype.getEvents.call(this);
 
   		if (this.options.closeOnClick !== undefined ? this.options.closeOnClick : this._map.options.closePopupOnClick) {
-  			events.preclick = this._close;
+  			events.preclick = this.close;
   		}
 
   		if (this.options.keepInView) {
@@ -10666,12 +11145,6 @@ L.PhotonReverse = L.PhotonBase.extend({
   		}
 
   		return events;
-  	},
-
-  	_close: function () {
-  		if (this._map) {
-  			this._map.closePopup(this);
-  		}
   	},
 
   	_initLayout: function () {
@@ -10692,10 +11165,15 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		if (this.options.closeButton) {
   			var closeButton = this._closeButton = create$1('a', prefix + '-close-button', container);
+  			closeButton.setAttribute('role', 'button'); // overrides the implicit role=link of <a> elements #7399
+  			closeButton.setAttribute('aria-label', 'Close popup');
   			closeButton.href = '#close';
-  			closeButton.innerHTML = '&#215;';
+  			closeButton.innerHTML = '<span aria-hidden="true">&#215;</span>';
 
-  			on(closeButton, 'click', this._onCloseButtonClick, this);
+  			on(closeButton, 'click', function (ev) {
+  				preventDefault(ev);
+  				this.close();
+  			}, this);
   		}
   	},
 
@@ -10739,6 +11217,13 @@ L.PhotonReverse = L.PhotonBase.extend({
   		if (!this.options.autoPan) { return; }
   		if (this._map._panAnim) { this._map._panAnim.stop(); }
 
+  		// We can endlessly recurse if keepInView is set and the view resets.
+  		// Let's guard against that by exiting early if we're responding to our own autopan.
+  		if (this._autopanning) {
+  			this._autopanning = false;
+  			return;
+  		}
+
   		var map = this._map,
   		    marginBottom = parseInt(getStyle(this._container, 'marginBottom'), 10) || 0,
   		    containerHeight = this._container.offsetHeight + marginBottom,
@@ -10773,15 +11258,15 @@ L.PhotonReverse = L.PhotonBase.extend({
   		// @event autopanstart: Event
   		// Fired when the map starts autopanning when opening a popup.
   		if (dx || dy) {
+  			// Track that we're autopanning, as this function will be re-ran on moveend
+  			if (this.options.keepInView) {
+  				this._autopanning = true;
+  			}
+
   			map
   			    .fire('autopanstart')
   			    .panBy([dx, dy]);
   		}
-  	},
-
-  	_onCloseButtonClick: function (e) {
-  		this._close();
-  		stop(e);
   	},
 
   	_getAnchor: function () {
@@ -10794,6 +11279,9 @@ L.PhotonReverse = L.PhotonBase.extend({
   // @namespace Popup
   // @factory L.popup(options?: Popup options, source?: Layer)
   // Instantiates a `Popup` object given an optional `options` object that describes its appearance and location and an optional `source` object that is used to tag the popup with a reference to the Layer to which it refers.
+  // @alternative
+  // @factory L.popup(latlng: LatLng, options?: Popup options)
+  // Instantiates a `Popup` object given `latlng` where the popup will open and an optional `options` object that describes its appearance and location.
   var popup = function (options, source) {
   	return new Popup(options, source);
   };
@@ -10818,35 +11306,18 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// @method openPopup(content: String|HTMLElement, latlng: LatLng, options?: Popup options): this
   	// Creates a popup with the specified content and options and opens it in the given point on a map.
   	openPopup: function (popup, latlng, options) {
-  		if (!(popup instanceof Popup)) {
-  			popup = new Popup(options).setContent(popup);
-  		}
+  		this._initOverlay(Popup, popup, latlng, options)
+  		  .openOn(this);
 
-  		if (latlng) {
-  			popup.setLatLng(latlng);
-  		}
-
-  		if (this.hasLayer(popup)) {
-  			return this;
-  		}
-
-  		if (this._popup && this._popup.options.autoClose) {
-  			this.closePopup();
-  		}
-
-  		this._popup = popup;
-  		return this.addLayer(popup);
+  		return this;
   	},
 
   	// @method closePopup(popup?: Popup): this
   	// Closes the popup previously opened with [openPopup](#map-openpopup) (or the given one).
   	closePopup: function (popup) {
-  		if (!popup || popup === this._popup) {
-  			popup = this._popup;
-  			this._popup = null;
-  		}
+  		popup = arguments.length ? popup : this._popup;
   		if (popup) {
-  			this.removeLayer(popup);
+  			popup.close();
   		}
   		return this;
   	}
@@ -10875,18 +11346,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// necessary event listeners. If a `Function` is passed it will receive
   	// the layer as the first argument and should return a `String` or `HTMLElement`.
   	bindPopup: function (content, options) {
-
-  		if (content instanceof Popup) {
-  			setOptions(content, options);
-  			this._popup = content;
-  			content._source = this;
-  		} else {
-  			if (!this._popup || options) {
-  				this._popup = new Popup(options, this);
-  			}
-  			this._popup.setContent(content);
-  		}
-
+  		this._popup = this._initOverlay(Popup, this._popup, content, options);
   		if (!this._popupHandlersAdded) {
   			this.on({
   				click: this._openPopup,
@@ -10918,14 +11378,16 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   	// @method openPopup(latlng?: LatLng): this
   	// Opens the bound popup at the specified `latlng` or at the default popup anchor if no `latlng` is passed.
-  	openPopup: function (layer, latlng) {
-  		if (this._popup && this._map) {
-  			latlng = this._popup._prepareOpen(this, layer, latlng);
-
-  			// open the popup on the map
-  			this._map.openPopup(this._popup, latlng);
+  	openPopup: function (latlng) {
+  		if (this._popup) {
+  			if (!(this instanceof FeatureGroup)) {
+  				this._popup._source = this;
+  			}
+  			if (this._popup._prepareOpen(latlng || this._latlng)) {
+  				// open the popup on the map
+  				this._popup.openOn(this._map);
+  			}
   		}
-
   		return this;
   	},
 
@@ -10933,20 +11395,16 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// Closes the popup bound to this layer if it is open.
   	closePopup: function () {
   		if (this._popup) {
-  			this._popup._close();
+  			this._popup.close();
   		}
   		return this;
   	},
 
   	// @method togglePopup(): this
   	// Opens or closes the popup bound to this layer depending on its current state.
-  	togglePopup: function (target) {
+  	togglePopup: function () {
   		if (this._popup) {
-  			if (this._popup._map) {
-  				this.closePopup();
-  			} else {
-  				this.openPopup(target);
-  			}
+  			this._popup.toggle(this);
   		}
   		return this;
   	},
@@ -10973,33 +11431,25 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	_openPopup: function (e) {
-  		var layer = e.layer || e.target;
-
-  		if (!this._popup) {
+  		if (!this._popup || !this._map) {
   			return;
   		}
-
-  		if (!this._map) {
-  			return;
-  		}
-
   		// prevent map click
   		stop(e);
 
-  		// if this inherits from Path its a vector and we can just
-  		// open the popup at the new location
-  		if (layer instanceof Path) {
-  			this.openPopup(e.layer || e.target, e.latlng);
+  		var target = e.layer || e.target;
+  		if (this._popup._source === target && !(target instanceof Path)) {
+  			// treat it like a marker and figure out
+  			// if we should toggle it open/closed
+  			if (this._map.hasLayer(this._popup)) {
+  				this.closePopup();
+  			} else {
+  				this.openPopup(e.latlng);
+  			}
   			return;
   		}
-
-  		// otherwise treat it like a marker and figure out
-  		// if we should toggle it open/closed
-  		if (this._map.hasLayer(this._popup) && this._popup._source === layer) {
-  			this.closePopup();
-  		} else {
-  			this.openPopup(layer, e.latlng);
-  		}
+  		this._popup._source = target;
+  		this.openPopup(e.latlng);
   	},
 
   	_movePopup: function (e) {
@@ -11020,10 +11470,28 @@ L.PhotonReverse = L.PhotonBase.extend({
    * Used to display small texts on top of map layers.
    *
    * @example
+   * If you want to just bind a tooltip to marker:
    *
    * ```js
    * marker.bindTooltip("my tooltip text").openTooltip();
    * ```
+   * Path overlays like polylines also have a `bindTooltip` method.
+   *
+   * A tooltip can be also standalone:
+   *
+   * ```js
+   * var tooltip = L.tooltip()
+   * 	.setLatLng(latlng)
+   * 	.setContent('Hello world!<br />This is a nice tooltip.')
+   * 	.addTo(map);
+   * ```
+   * or
+   * ```js
+   * var tooltip = L.tooltip(latlng, {content: 'Hello world!<br />This is a nice tooltip.'})
+   * 	.addTo(map);
+   * ```
+   *
+   *
    * Note about tooltip offset. Leaflet takes two options in consideration
    * for computing tooltip offsetting:
    * - the `offset` Tooltip option: it defaults to [0, 0], and it's specific to one tooltip.
@@ -11063,10 +11531,6 @@ L.PhotonReverse = L.PhotonBase.extend({
   		// If true, the tooltip will follow the mouse instead of being fixed at the feature center.
   		sticky: false,
 
-  		// @option interactive: Boolean = false
-  		// If true, the tooltip will listen to the feature events.
-  		interactive: false,
-
   		// @option opacity: Number = 0.9
   		// Tooltip container opacity.
   		opacity: 0.9
@@ -11083,6 +11547,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   		map.fire('tooltipopen', {tooltip: this});
 
   		if (this._source) {
+  			this.addEventParent(this._source);
+
   			// @namespace Layer
   			// @section Tooltip events
   			// @event tooltipopen: TooltipEvent
@@ -11101,6 +11567,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   		map.fire('tooltipclose', {tooltip: this});
 
   		if (this._source) {
+  			this.removeEventParent(this._source);
+
   			// @namespace Layer
   			// @section Tooltip events
   			// @event tooltipclose: TooltipEvent
@@ -11112,17 +11580,11 @@ L.PhotonReverse = L.PhotonBase.extend({
   	getEvents: function () {
   		var events = DivOverlay.prototype.getEvents.call(this);
 
-  		if (touch && !this.options.permanent) {
-  			events.preclick = this._close;
+  		if (!this.options.permanent) {
+  			events.preclick = this.close;
   		}
 
   		return events;
-  	},
-
-  	_close: function () {
-  		if (this._map) {
-  			this._map.closeTooltip(this);
-  		}
   	},
 
   	_initLayout: function () {
@@ -11130,6 +11592,9 @@ L.PhotonReverse = L.PhotonBase.extend({
   		    className = prefix + ' ' + (this.options.className || '') + ' leaflet-zoom-' + (this._zoomAnimated ? 'animated' : 'hide');
 
   		this._contentNode = this._container = create$1('div', className);
+
+  		this._container.setAttribute('role', 'tooltip');
+  		this._container.setAttribute('id', 'leaflet-tooltip-' + stamp(this));
   	},
 
   	_updateLayout: function () {},
@@ -11210,7 +11675,10 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   // @namespace Tooltip
   // @factory L.tooltip(options?: Tooltip options, source?: Layer)
-  // Instantiates a Tooltip object given an optional `options` object that describes its appearance and location and an optional `source` object that is used to tag the tooltip with a reference to the Layer to which it refers.
+  // Instantiates a `Tooltip` object given an optional `options` object that describes its appearance and location and an optional `source` object that is used to tag the tooltip with a reference to the Layer to which it refers.
+  // @alternative
+  // @factory L.tooltip(latlng: LatLng, options?: Tooltip options)
+  // Instantiates a `Tooltip` object given `latlng` where the tooltip will open and an optional `options` object that describes its appearance and location.
   var tooltip = function (options, source) {
   	return new Tooltip(options, source);
   };
@@ -11225,27 +11693,16 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// @method openTooltip(content: String|HTMLElement, latlng: LatLng, options?: Tooltip options): this
   	// Creates a tooltip with the specified content and options and open it.
   	openTooltip: function (tooltip, latlng, options) {
-  		if (!(tooltip instanceof Tooltip)) {
-  			tooltip = new Tooltip(options).setContent(tooltip);
-  		}
+  		this._initOverlay(Tooltip, tooltip, latlng, options)
+  		  .openOn(this);
 
-  		if (latlng) {
-  			tooltip.setLatLng(latlng);
-  		}
-
-  		if (this.hasLayer(tooltip)) {
-  			return this;
-  		}
-
-  		return this.addLayer(tooltip);
+  		return this;
   	},
 
-  	// @method closeTooltip(tooltip?: Tooltip): this
+  	// @method closeTooltip(tooltip: Tooltip): this
   	// Closes the tooltip given as parameter.
   	closeTooltip: function (tooltip) {
-  		if (tooltip) {
-  			this.removeLayer(tooltip);
-  		}
+  		tooltip.close();
   		return this;
   	}
 
@@ -11273,18 +11730,11 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// the layer as the first argument and should return a `String` or `HTMLElement`.
   	bindTooltip: function (content, options) {
 
-  		if (content instanceof Tooltip) {
-  			setOptions(content, options);
-  			this._tooltip = content;
-  			content._source = this;
-  		} else {
-  			if (!this._tooltip || options) {
-  				this._tooltip = new Tooltip(options, this);
-  			}
-  			this._tooltip.setContent(content);
-
+  		if (this._tooltip && this.isTooltipOpen()) {
+  			this.unbindTooltip();
   		}
 
+  		this._tooltip = this._initOverlay(Tooltip, this._tooltip, content, options);
   		this._initTooltipInteractions();
 
   		if (this._tooltip.options.permanent && this._map && this._map.hasLayer(this)) {
@@ -11305,9 +11755,9 @@ L.PhotonReverse = L.PhotonBase.extend({
   		return this;
   	},
 
-  	_initTooltipInteractions: function (remove$$1) {
-  		if (!remove$$1 && this._tooltipHandlersAdded) { return; }
-  		var onOff = remove$$1 ? 'off' : 'on',
+  	_initTooltipInteractions: function (remove) {
+  		if (!remove && this._tooltipHandlersAdded) { return; }
+  		var onOff = remove ? 'off' : 'on',
   		    events = {
   			remove: this.closeTooltip,
   			move: this._moveTooltip
@@ -11315,36 +11765,40 @@ L.PhotonReverse = L.PhotonBase.extend({
   		if (!this._tooltip.options.permanent) {
   			events.mouseover = this._openTooltip;
   			events.mouseout = this.closeTooltip;
-  			if (this._tooltip.options.sticky) {
-  				events.mousemove = this._moveTooltip;
-  			}
-  			if (touch) {
-  				events.click = this._openTooltip;
+  			events.click = this._openTooltip;
+  			if (this._map) {
+  				this._addFocusListeners();
+  			} else {
+  				events.add = this._addFocusListeners;
   			}
   		} else {
   			events.add = this._openTooltip;
   		}
+  		if (this._tooltip.options.sticky) {
+  			events.mousemove = this._moveTooltip;
+  		}
   		this[onOff](events);
-  		this._tooltipHandlersAdded = !remove$$1;
+  		this._tooltipHandlersAdded = !remove;
   	},
 
   	// @method openTooltip(latlng?: LatLng): this
   	// Opens the bound tooltip at the specified `latlng` or at the default tooltip anchor if no `latlng` is passed.
-  	openTooltip: function (layer, latlng) {
-  		if (this._tooltip && this._map) {
-  			latlng = this._tooltip._prepareOpen(this, layer, latlng);
+  	openTooltip: function (latlng) {
+  		if (this._tooltip) {
+  			if (!(this instanceof FeatureGroup)) {
+  				this._tooltip._source = this;
+  			}
+  			if (this._tooltip._prepareOpen(latlng)) {
+  				// open the tooltip on the map
+  				this._tooltip.openOn(this._map);
 
-  			// open the tooltip on the map
-  			this._map.openTooltip(this._tooltip, latlng);
-
-  			// Tooltip container may not be defined if not permanent and never
-  			// opened.
-  			if (this._tooltip.options.interactive && this._tooltip._container) {
-  				addClass(this._tooltip._container, 'leaflet-clickable');
-  				this.addInteractiveTarget(this._tooltip._container);
+  				if (this.getElement) {
+  					this._setAriaDescribedByOnLayer(this);
+  				} else if (this.eachLayer) {
+  					this.eachLayer(this._setAriaDescribedByOnLayer, this);
+  				}
   			}
   		}
-
   		return this;
   	},
 
@@ -11352,24 +11806,15 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// Closes the tooltip bound to this layer if it is open.
   	closeTooltip: function () {
   		if (this._tooltip) {
-  			this._tooltip._close();
-  			if (this._tooltip.options.interactive && this._tooltip._container) {
-  				removeClass(this._tooltip._container, 'leaflet-clickable');
-  				this.removeInteractiveTarget(this._tooltip._container);
-  			}
+  			return this._tooltip.close();
   		}
-  		return this;
   	},
 
   	// @method toggleTooltip(): this
   	// Opens or closes the tooltip bound to this layer depending on its current state.
-  	toggleTooltip: function (target) {
+  	toggleTooltip: function () {
   		if (this._tooltip) {
-  			if (this._tooltip._map) {
-  				this.closeTooltip();
-  			} else {
-  				this.openTooltip(target);
-  			}
+  			this._tooltip.toggle(this);
   		}
   		return this;
   	},
@@ -11395,13 +11840,52 @@ L.PhotonReverse = L.PhotonBase.extend({
   		return this._tooltip;
   	},
 
-  	_openTooltip: function (e) {
-  		var layer = e.layer || e.target;
+  	_addFocusListeners: function () {
+  		if (this.getElement) {
+  			this._addFocusListenersOnLayer(this);
+  		} else if (this.eachLayer) {
+  			this.eachLayer(this._addFocusListenersOnLayer, this);
+  		}
+  	},
 
+  	_addFocusListenersOnLayer: function (layer) {
+  		var el = typeof layer.getElement === 'function' && layer.getElement();
+  		if (el) {
+  			on(el, 'focus', function () {
+  				this._tooltip._source = layer;
+  				this.openTooltip();
+  			}, this);
+  			on(el, 'blur', this.closeTooltip, this);
+  		}
+  	},
+
+  	_setAriaDescribedByOnLayer: function (layer) {
+  		var el = typeof layer.getElement === 'function' && layer.getElement();
+  		if (el) {
+  			el.setAttribute('aria-describedby', this._tooltip._container.id);
+  		}
+  	},
+
+
+  	_openTooltip: function (e) {
   		if (!this._tooltip || !this._map) {
   			return;
   		}
-  		this.openTooltip(layer, this._tooltip.options.sticky ? e.latlng : undefined);
+
+  		// If the map is moving, we will show the tooltip after it's done.
+  		if (this._map.dragging && this._map.dragging.moving() && !this._openOnceFlag) {
+  			this._openOnceFlag = true;
+  			var that = this;
+  			this._map.once('moveend', function () {
+  				that._openOnceFlag = false;
+  				that._openTooltip(e);
+  			});
+  			return;
+  		}
+
+  		this._tooltip._source = e.layer || e.target;
+
+  		this.openTooltip(this._tooltip.options.sticky ? e.latlng : undefined);
   	},
 
   	_moveTooltip: function (e) {
@@ -11572,7 +12056,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		// `true` by default on mobile browsers, in order to avoid too many requests and keep smooth navigation.
   		// `false` otherwise in order to display new tiles _during_ panning, since it is easy to pan outside the
   		// [`keepBuffer`](#gridlayer-keepbuffer) option in desktop browsers.
-  		updateWhenIdle: mobile,
+  		updateWhenIdle: Browser.mobile,
 
   		// @option updateWhenZooming: Boolean = true
   		// By default, a smooth zoom animation (during a [touch zoom](#map-touchzoom) or a [`flyTo()`](#map-flyto)) will update grid layers every integer zoom level. Setting this option to `false` will update the grid layer only when the smooth animation ends.
@@ -11641,8 +12125,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		this._levels = {};
   		this._tiles = {};
 
-  		this._resetView();
-  		this._update();
+  		this._resetView(); // implicit _update() call
   	},
 
   	beforeAdd: function (map) {
@@ -11711,6 +12194,11 @@ L.PhotonReverse = L.PhotonBase.extend({
   	redraw: function () {
   		if (this._map) {
   			this._removeAllTiles();
+  			var tileZoom = this._clampZoom(this._map.getZoom());
+  			if (tileZoom !== this._tileZoom) {
+  				this._tileZoom = tileZoom;
+  				this._updateLevels();
+  			}
   			this._update();
   		}
   		return this;
@@ -11789,7 +12277,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		if (!this._map) { return; }
 
   		// IE doesn't inherit filter opacity properly, so we're forced to set it on tiles
-  		if (ielt9) { return; }
+  		if (Browser.ielt9) { return; }
 
   		setOpacity(this._container, this.options.opacity);
 
@@ -12075,7 +12563,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		    translate = level.origin.multiplyBy(scale)
   		        .subtract(this._map._getNewPixelOrigin(center, zoom)).round();
 
-  		if (any3d) {
+  		if (Browser.any3d) {
   			setTransform(level.el, translate, scale);
   		} else {
   			setPosition(level.el, translate);
@@ -12276,14 +12764,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   		tile.onmousemove = falseFn;
 
   		// update opacity on tiles in IE7-8 because of filter inheritance problems
-  		if (ielt9 && this.options.opacity < 1) {
+  		if (Browser.ielt9 && this.options.opacity < 1) {
   			setOpacity(tile, this.options.opacity);
-  		}
-
-  		// without this hack, tiles disappear after zoom on Chrome for Android
-  		// https://github.com/Leaflet/Leaflet/issues/2078
-  		if (android && !android23) {
-  			tile.style.WebkitBackfaceVisibility = 'hidden';
   		}
   	},
 
@@ -12363,7 +12845,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   			// Fired when the grid layer loaded all visible tiles.
   			this.fire('load');
 
-  			if (ielt9 || !this._map._fadeAnimated) {
+  			if (Browser.ielt9 || !this._map._fadeAnimated) {
   				requestAnimFrame(this._pruneTiles, this);
   			} else {
   				// Wait a bit more than 0.2 secs (the duration of the tile fade-in)
@@ -12415,7 +12897,7 @@ L.PhotonReverse = L.PhotonBase.extend({
    * @example
    *
    * ```js
-   * L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar', attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'}).addTo(map);
+   * L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
    * ```
    *
    * @section URL template
@@ -12424,7 +12906,7 @@ L.PhotonReverse = L.PhotonBase.extend({
    * A string of the following form:
    *
    * ```
-   * 'http://{s}.somedomain.com/blabla/{z}/{x}/{y}{r}.png'
+   * 'https://{s}.somedomain.com/blabla/{z}/{x}/{y}{r}.png'
    * ```
    *
    * `{s}` means one of the available subdomains (used sequentially to help with browser parallel requests per domain limitation; subdomain values are specified in options; `a`, `b` or `c` by default, can be omitted), `{z}` — zoom level, `{x}` and `{y}` — tile coordinates. `{r}` can be used to add "&commat;2x" to the URL to load retina tiles.
@@ -12432,7 +12914,7 @@ L.PhotonReverse = L.PhotonBase.extend({
    * You can use custom keys in the template, which will be [evaluated](#util-template) from TileLayer options, like this:
    *
    * ```
-   * L.tileLayer('http://{s}.somedomain.com/{foo}/{z}/{x}/{y}.png', {foo: 'bar'});
+   * L.tileLayer('https://{s}.somedomain.com/{foo}/{z}/{x}/{y}.png', {foo: 'bar'});
    * ```
    */
 
@@ -12478,7 +12960,15 @@ L.PhotonReverse = L.PhotonBase.extend({
   		// Whether the crossOrigin attribute will be added to the tiles.
   		// If a String is provided, all tiles will have their crossOrigin attribute set to the String provided. This is needed if you want to access tile pixel data.
   		// Refer to [CORS Settings](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) for valid String values.
-  		crossOrigin: false
+  		crossOrigin: false,
+
+  		// @option referrerPolicy: Boolean|String = false
+  		// Whether the referrerPolicy attribute will be added to the tiles.
+  		// If a String is provided, all tiles will have their referrerPolicy attribute set to the String provided.
+  		// This may be needed if your map's rendering context has a strict default but your tile provider expects a valid referrer
+  		// (e.g. to validate an API token).
+  		// Refer to [HTMLImageElement.referrerPolicy](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/referrerPolicy) for valid String values.
+  		referrerPolicy: false
   	},
 
   	initialize: function (url, options) {
@@ -12488,29 +12978,32 @@ L.PhotonReverse = L.PhotonBase.extend({
   		options = setOptions(this, options);
 
   		// detecting retina displays, adjusting tileSize and zoom levels
-  		if (options.detectRetina && retina && options.maxZoom > 0) {
+  		if (options.detectRetina && Browser.retina && options.maxZoom > 0) {
 
   			options.tileSize = Math.floor(options.tileSize / 2);
 
   			if (!options.zoomReverse) {
   				options.zoomOffset++;
-  				options.maxZoom--;
+  				options.maxZoom = Math.max(options.minZoom, options.maxZoom - 1);
   			} else {
   				options.zoomOffset--;
-  				options.minZoom++;
+  				options.minZoom = Math.min(options.maxZoom, options.minZoom + 1);
   			}
 
   			options.minZoom = Math.max(0, options.minZoom);
+  		} else if (!options.zoomReverse) {
+  			// make sure maxZoom is gte minZoom
+  			options.maxZoom = Math.max(options.minZoom, options.maxZoom);
+  		} else {
+  			// make sure minZoom is lte maxZoom
+  			options.minZoom = Math.min(options.maxZoom, options.minZoom);
   		}
 
   		if (typeof options.subdomains === 'string') {
   			options.subdomains = options.subdomains.split('');
   		}
 
-  		// for https://github.com/Leaflet/Leaflet/issues/137
-  		if (!android) {
-  			this.on('tileunload', this._onTileRemove);
-  		}
+  		this.on('tileunload', this._onTileRemove);
   	},
 
   	// @method setUrl(url: String, noRedraw?: Boolean): this
@@ -12544,17 +13037,17 @@ L.PhotonReverse = L.PhotonBase.extend({
   			tile.crossOrigin = this.options.crossOrigin === true ? '' : this.options.crossOrigin;
   		}
 
-  		/*
-  		 Alt tag is set to empty string to keep screen readers from reading URL and for compliance reasons
-  		 http://www.w3.org/TR/WCAG20-TECHS/H67
-  		*/
-  		tile.alt = '';
+  		// for this new option we follow the documented behavior
+  		// more closely by only setting the property when string
+  		if (typeof this.options.referrerPolicy === 'string') {
+  			tile.referrerPolicy = this.options.referrerPolicy;
+  		}
 
-  		/*
-  		 Set role="presentation" to force screen readers to ignore this
-  		 https://www.w3.org/TR/wai-aria/roles#textalternativecomputation
-  		*/
-  		tile.setAttribute('role', 'presentation');
+  		// The alt attribute is set to the empty string,
+  		// allowing screen readers to ignore the decorative image tiles.
+  		// https://www.w3.org/WAI/tutorials/images/decorative/
+  		// https://www.w3.org/TR/html-aria/#el-img-empty-alt
+  		tile.alt = '';
 
   		tile.src = this.getTileUrl(coords);
 
@@ -12569,7 +13062,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// Classes extending `TileLayer` can override this function to provide custom tile URL naming schemes.
   	getTileUrl: function (coords) {
   		var data = {
-  			r: retina ? '@2x' : '',
+  			r: Browser.retina ? '@2x' : '',
   			s: this._getSubdomain(coords),
   			x: coords.x,
   			y: coords.y,
@@ -12588,7 +13081,7 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   	_tileOnLoad: function (done, tile) {
   		// For https://github.com/Leaflet/Leaflet/issues/3332
-  		if (ielt9) {
+  		if (Browser.ielt9) {
   			setTimeout(bind(done, this, null, tile), 0);
   		} else {
   			done(null, tile);
@@ -12637,8 +13130,15 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   				if (!tile.complete) {
   					tile.src = emptyImageUrl;
+  					var coords = this._tiles[i].coords;
   					remove(tile);
   					delete this._tiles[i];
+  					// @event tileabort: TileEvent
+  					// Fired when a tile was loading but is now not wanted.
+  					this.fire('tileabort', {
+  						tile: tile,
+  						coords: coords
+  					});
   				}
   			}
   		}
@@ -12649,11 +13149,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		if (!tile) { return; }
 
   		// Cancels any pending http requests associated with the tile
-  		// unless we're on Android's stock browser,
-  		// see https://github.com/Leaflet/Leaflet/issues/137
-  		if (!androidStock) {
-  			tile.el.setAttribute('src', emptyImageUrl);
-  		}
+  		tile.el.setAttribute('src', emptyImageUrl);
 
   		return GridLayer.prototype._removeTile.call(this, key);
   	},
@@ -12699,7 +13195,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// @aka TileLayer.WMS options
   	// If any custom options not documented here are used, they will be sent to the
   	// WMS server as extra parameters in each request URL. This can be useful for
-  	// [non-standard vendor WMS parameters](http://docs.geoserver.org/stable/en/user/services/wms/vendor.html).
+  	// [non-standard vendor WMS parameters](https://docs.geoserver.org/stable/en/user/services/wms/vendor.html).
   	defaultWmsParams: {
   		service: 'WMS',
   		request: 'GetMap',
@@ -12751,7 +13247,7 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		options = setOptions(this, options);
 
-  		var realRetina = options.detectRetina && retina ? 2 : 1;
+  		var realRetina = options.detectRetina && Browser.retina ? 2 : 1;
   		var tileSize = this.getTileSize();
   		wmsParams.width = tileSize.x * realRetina;
   		wmsParams.height = tileSize.y * realRetina;
@@ -12838,11 +13334,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		// @option padding: Number = 0.1
   		// How much to extend the clip area around the map view (relative to its size)
   		// e.g. 0.1 would be 10% of map view in each direction
-  		padding: 0.1,
-
-  		// @option tolerance: Number = 0
-  		// How much to extend click tolerance round a path/object on the map
-  		tolerance : 0
+  		padding: 0.1
   	},
 
   	initialize: function (options) {
@@ -12855,9 +13347,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   		if (!this._container) {
   			this._initContainer(); // defined by renderer implementations
 
-  			if (this._zoomAnimated) {
-  				addClass(this._container, 'leaflet-zoom-animated');
-  			}
+  			// always keep transform-origin as 0 0
+  			addClass(this._container, 'leaflet-zoom-animated');
   		}
 
   		this.getPane().appendChild(this._container);
@@ -12893,15 +13384,13 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   	_updateTransform: function (center, zoom) {
   		var scale = this._map.getZoomScale(zoom, this._zoom),
-  		    position = getPosition(this._container),
   		    viewHalf = this._map.getSize().multiplyBy(0.5 + this.options.padding),
   		    currentCenterPoint = this._map.project(this._center, zoom),
-  		    destCenterPoint = this._map.project(center, zoom),
-  		    centerOffset = destCenterPoint.subtract(currentCenterPoint),
 
-  		    topLeftOffset = viewHalf.multiplyBy(-scale).add(position).add(viewHalf).subtract(centerOffset);
+  		    topLeftOffset = viewHalf.multiplyBy(-scale).add(currentCenterPoint)
+  				  .subtract(this._map._getNewPixelOrigin(center, zoom));
 
-  		if (any3d) {
+  		if (Browser.any3d) {
   			setTransform(this._container, topLeftOffset, scale);
   		} else {
   			setPosition(this._container, topLeftOffset);
@@ -12951,7 +13440,7 @@ L.PhotonReverse = L.PhotonBase.extend({
    * Allows vector layers to be displayed with [`<canvas>`](https://developer.mozilla.org/docs/Web/API/Canvas_API).
    * Inherits `Renderer`.
    *
-   * Due to [technical limitations](http://caniuse.com/#search=canvas), Canvas is not
+   * Due to [technical limitations](https://caniuse.com/canvas), Canvas is not
    * available in all web browsers, notably IE8, and overlapping geometries might
    * not display properly in some edge cases.
    *
@@ -12976,6 +13465,15 @@ L.PhotonReverse = L.PhotonBase.extend({
    */
 
   var Canvas = Renderer.extend({
+
+  	// @section
+  	// @aka Canvas options
+  	options: {
+  		// @option tolerance: Number = 0
+  		// How much to extend the click tolerance around a path/object on the map.
+  		tolerance: 0
+  	},
+
   	getEvents: function () {
   		var events = Renderer.prototype.getEvents.call(this);
   		events.viewprereset = this._onViewPreReset;
@@ -13001,6 +13499,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		on(container, 'mousemove', this._onMouseMove, this);
   		on(container, 'click dblclick mousedown mouseup contextmenu', this._onClick, this);
   		on(container, 'mouseout', this._handleMouseOut, this);
+  		container['_leaflet_disable_events'] = true;
 
   		this._ctx = container.getContext('2d');
   	},
@@ -13033,7 +13532,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		var b = this._bounds,
   		    container = this._container,
   		    size = b.getSize(),
-  		    m = retina ? 2 : 1;
+  		    m = Browser.retina ? 2 : 1;
 
   		setPosition(container, b.min);
 
@@ -13043,7 +13542,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		container.style.width = size.x + 'px';
   		container.style.height = size.y + 'px';
 
-  		if (retina) {
+  		if (Browser.retina) {
   			this._ctx.scale(2, 2);
   		}
 
@@ -13287,15 +13786,12 @@ L.PhotonReverse = L.PhotonBase.extend({
   		for (var order = this._drawFirst; order; order = order.next) {
   			layer = order.layer;
   			if (layer.options.interactive && layer._containsPoint(point)) {
-  				if (!(e.type === 'click' || e.type !== 'preclick') || !this._map._draggableMoved(layer)) {
+  				if (!(e.type === 'click' || e.type === 'preclick') || !this._map._draggableMoved(layer)) {
   					clickedLayer = layer;
   				}
   			}
   		}
-  		if (clickedLayer)  {
-  			fakeStop(e);
-  			this._fireEvent([clickedLayer], e);
-  		}
+  		this._fireEvent(clickedLayer ? [clickedLayer] : false, e);
   	},
 
   	_onMouseMove: function (e) {
@@ -13341,9 +13837,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   			}
   		}
 
-  		if (this._hoveredLayer) {
-  			this._fireEvent([this._hoveredLayer], e);
-  		}
+  		this._fireEvent(this._hoveredLayer ? [this._hoveredLayer] : false, e);
 
   		this._mouseHoverThrottled = true;
   		setTimeout(bind(function () {
@@ -13420,8 +13914,8 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   // @factory L.canvas(options?: Renderer options)
   // Creates a Canvas renderer with the given options.
-  function canvas$1(options) {
-  	return canvas ? new Canvas(options) : null;
+  function canvas(options) {
+  	return Browser.canvas ? new Canvas(options) : null;
   }
 
   /*
@@ -13436,10 +13930,12 @@ L.PhotonReverse = L.PhotonBase.extend({
   			return document.createElement('<lvml:' + name + ' class="lvml">');
   		};
   	} catch (e) {
-  		return function (name) {
-  			return document.createElement('<' + name + ' xmlns="urn:schemas-microsoft.com:vml" class="lvml">');
-  		};
+  		// Do not return fn from catch block so `e` can be garbage collected
+  		// See https://github.com/Leaflet/Leaflet/pull/7279
   	}
+  	return function (name) {
+  		return document.createElement('<' + name + ' xmlns="urn:schemas-microsoft.com:vml" class="lvml">');
+  	};
   })();
 
 
@@ -13563,7 +14059,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	}
   };
 
-  var create$2 = vml ? vmlCreate : svgCreate;
+  var create = Browser.vml ? vmlCreate : svgCreate;
 
   /*
    * @class SVG
@@ -13573,7 +14069,7 @@ L.PhotonReverse = L.PhotonBase.extend({
    * Allows vector layers to be displayed with [SVG](https://developer.mozilla.org/docs/Web/SVG).
    * Inherits `Renderer`.
    *
-   * Due to [technical limitations](http://caniuse.com/#search=svg), SVG is not
+   * Due to [technical limitations](https://caniuse.com/svg), SVG is not
    * available in all web browsers, notably Android 2.x and 3.x.
    *
    * Although SVG is not available on IE7 and IE8, these browsers support
@@ -13603,19 +14099,13 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   var SVG = Renderer.extend({
 
-  	getEvents: function () {
-  		var events = Renderer.prototype.getEvents.call(this);
-  		events.zoomstart = this._onZoomStart;
-  		return events;
-  	},
-
   	_initContainer: function () {
-  		this._container = create$2('svg');
+  		this._container = create('svg');
 
   		// makes it possible to click through svg root; we'll reset it back in individual paths
   		this._container.setAttribute('pointer-events', 'none');
 
-  		this._rootGroup = create$2('g');
+  		this._rootGroup = create('g');
   		this._container.appendChild(this._rootGroup);
   	},
 
@@ -13625,13 +14115,6 @@ L.PhotonReverse = L.PhotonBase.extend({
   		delete this._container;
   		delete this._rootGroup;
   		delete this._svgSize;
-  	},
-
-  	_onZoomStart: function () {
-  		// Drag-then-pinch interactions might mess up the center and zoom.
-  		// In this case, the easiest way to prevent this is re-do the renderer
-  		//   bounds and padding when the zooming starts.
-  		this._update();
   	},
 
   	_update: function () {
@@ -13660,7 +14143,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// methods below are called by vector layers implementations
 
   	_initPath: function (layer) {
-  		var path = layer._path = create$2('path');
+  		var path = layer._path = create('path');
 
   		// @namespace Path
   		// @option className: String = null
@@ -13764,15 +14247,15 @@ L.PhotonReverse = L.PhotonBase.extend({
   	}
   });
 
-  if (vml) {
+  if (Browser.vml) {
   	SVG.include(vmlMixin);
   }
 
   // @namespace SVG
   // @factory L.svg(options?: Renderer options)
   // Creates a SVG renderer with the given options.
-  function svg$1(options) {
-  	return svg || vml ? new SVG(options) : null;
+  function svg(options) {
+  	return Browser.svg || Browser.vml ? new SVG(options) : null;
   }
 
   Map.include({
@@ -13813,7 +14296,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		// @namespace Map; @option preferCanvas: Boolean = false
   		// Whether `Path`s should be rendered on a `Canvas` renderer.
   		// By default, all `Path`s are rendered in a `SVG` renderer.
-  		return (this.options.preferCanvas && canvas$1(options)) || svg$1(options);
+  		return (this.options.preferCanvas && canvas(options)) || svg(options);
   	}
   });
 
@@ -13872,7 +14355,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	return new Rectangle(latLngBounds, options);
   }
 
-  SVG.create = create$2;
+  SVG.create = create;
   SVG.pointsToPath = pointsToPath;
 
   GeoJSON.geometryToLayer = geometryToLayer;
@@ -14017,6 +14500,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   	_onKeyDown: function (e) {
   		if (e.keyCode === 27) {
   			this._finish();
+  			this._clearDeferredResetState();
+  			this._resetState();
   		}
   	}
   });
@@ -14087,7 +14572,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   // @section Interaction Options
   Map.mergeOptions({
   	// @option dragging: Boolean = true
-  	// Whether the map be draggable with mouse/touch or not.
+  	// Whether the map is draggable with mouse/touch or not.
   	dragging: true,
 
   	// @section Panning Inertia Options
@@ -14095,8 +14580,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// If enabled, panning of the map will have an inertia effect where
   	// the map builds momentum while dragging and continues moving in
   	// the same direction for some time. Feels especially nice on touch
-  	// devices. Enabled by default unless running on old Android devices.
-  	inertia: !android23,
+  	// devices. Enabled by default.
+  	inertia: true,
 
   	// @option inertiaDeceleration: Number = 3000
   	// The rate with which the inertial movement slows down, in pixels/second².
@@ -14260,7 +14745,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		var map = this._map,
   		    options = map.options,
 
-  		    noInertia = !options.inertia || this._times.length < 2;
+  		    noInertia = !options.inertia || e.noInertia || this._times.length < 2;
 
   		map.fire('dragend', e);
 
@@ -14454,10 +14939,15 @@ L.PhotonReverse = L.PhotonBase.extend({
   					offset = toPoint(offset).multiplyBy(3);
   				}
 
-  				map.panBy(offset);
-
   				if (map.options.maxBounds) {
-  					map.panInsideBounds(map.options.maxBounds);
+  					offset = map._limitOffset(toPoint(offset), map.options.maxBounds);
+  				}
+
+  				if (map.options.worldCopyJump) {
+  					var newLatLng = map.wrapLatLng(map.unproject(map.project(map.getCenter()).add(offset)));
+  					map.panTo(newLatLng);
+  				} else {
+  					map.panBy(offset);
   				}
   			}
   		} else if (key in this._zoomKeys) {
@@ -14568,17 +15058,19 @@ L.PhotonReverse = L.PhotonBase.extend({
   Map.addInitHook('addHandler', 'scrollWheelZoom', ScrollWheelZoom);
 
   /*
-   * L.Map.Tap is used to enable mobile hacks like quick taps and long hold.
+   * L.Map.TapHold is used to simulate `contextmenu` event on long hold,
+   * which otherwise is not fired by mobile Safari.
    */
+
+  var tapHoldDelay = 600;
 
   // @namespace Map
   // @section Interaction Options
   Map.mergeOptions({
   	// @section Touch interaction options
-  	// @option tap: Boolean = true
-  	// Enables mobile hacks for supporting instant taps (fixing 200ms click
-  	// delay on iOS/Android) and touch holds (fired as `contextmenu` events).
-  	tap: true,
+  	// @option tapHold: Boolean
+  	// Enables simulation of `contextmenu` event, default is `true` for mobile Safari.
+  	tapHold: Browser.touchNative && Browser.safari && Browser.mobile,
 
   	// @option tapTolerance: Number = 15
   	// The max number of pixels a user can shift his finger during touch
@@ -14586,7 +15078,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   	tapTolerance: 15
   });
 
-  var Tap = Handler.extend({
+  var TapHold = Handler.extend({
   	addHooks: function () {
   		on(this._map._container, 'touchstart', this._onDown, this);
   	},
@@ -14596,104 +15088,70 @@ L.PhotonReverse = L.PhotonBase.extend({
   	},
 
   	_onDown: function (e) {
-  		if (!e.touches) { return; }
+  		clearTimeout(this._holdTimeout);
+  		if (e.touches.length !== 1) { return; }
 
-  		preventDefault(e);
-
-  		this._fireClick = true;
-
-  		// don't simulate click or track longpress if more than 1 touch
-  		if (e.touches.length > 1) {
-  			this._fireClick = false;
-  			clearTimeout(this._holdTimeout);
-  			return;
-  		}
-
-  		var first = e.touches[0],
-  		    el = first.target;
-
+  		var first = e.touches[0];
   		this._startPos = this._newPos = new Point(first.clientX, first.clientY);
 
-  		// if touching a link, highlight it
-  		if (el.tagName && el.tagName.toLowerCase() === 'a') {
-  			addClass(el, 'leaflet-active');
-  		}
-
-  		// simulate long hold but setting a timeout
   		this._holdTimeout = setTimeout(bind(function () {
-  			if (this._isTapValid()) {
-  				this._fireClick = false;
-  				this._onUp();
-  				this._simulateEvent('contextmenu', first);
-  			}
-  		}, this), 1000);
+  			this._cancel();
+  			if (!this._isTapValid()) { return; }
 
-  		this._simulateEvent('mousedown', first);
+  			// prevent simulated mouse events https://w3c.github.io/touch-events/#mouse-events
+  			on(document, 'touchend', preventDefault);
+  			on(document, 'touchend touchcancel', this._cancelClickPrevent);
+  			this._simulateEvent('contextmenu', first);
+  		}, this), tapHoldDelay);
 
-  		on(document, {
-  			touchmove: this._onMove,
-  			touchend: this._onUp
-  		}, this);
+  		on(document, 'touchend touchcancel contextmenu', this._cancel, this);
+  		on(document, 'touchmove', this._onMove, this);
   	},
 
-  	_onUp: function (e) {
+  	_cancelClickPrevent: function cancelClickPrevent() {
+  		off(document, 'touchend', preventDefault);
+  		off(document, 'touchend touchcancel', cancelClickPrevent);
+  	},
+
+  	_cancel: function () {
   		clearTimeout(this._holdTimeout);
+  		off(document, 'touchend touchcancel contextmenu', this._cancel, this);
+  		off(document, 'touchmove', this._onMove, this);
+  	},
 
-  		off(document, {
-  			touchmove: this._onMove,
-  			touchend: this._onUp
-  		}, this);
-
-  		if (this._fireClick && e && e.changedTouches) {
-
-  			var first = e.changedTouches[0],
-  			    el = first.target;
-
-  			if (el && el.tagName && el.tagName.toLowerCase() === 'a') {
-  				removeClass(el, 'leaflet-active');
-  			}
-
-  			this._simulateEvent('mouseup', first);
-
-  			// simulate click if the touch didn't move too much
-  			if (this._isTapValid()) {
-  				this._simulateEvent('click', first);
-  			}
-  		}
+  	_onMove: function (e) {
+  		var first = e.touches[0];
+  		this._newPos = new Point(first.clientX, first.clientY);
   	},
 
   	_isTapValid: function () {
   		return this._newPos.distanceTo(this._startPos) <= this._map.options.tapTolerance;
   	},
 
-  	_onMove: function (e) {
-  		var first = e.touches[0];
-  		this._newPos = new Point(first.clientX, first.clientY);
-  		this._simulateEvent('mousemove', first);
-  	},
-
   	_simulateEvent: function (type, e) {
-  		var simulatedEvent = document.createEvent('MouseEvents');
+  		var simulatedEvent = new MouseEvent(type, {
+  			bubbles: true,
+  			cancelable: true,
+  			view: window,
+  			// detail: 1,
+  			screenX: e.screenX,
+  			screenY: e.screenY,
+  			clientX: e.clientX,
+  			clientY: e.clientY,
+  			// button: 2,
+  			// buttons: 2
+  		});
 
   		simulatedEvent._simulated = true;
-  		e.target._simulatedClick = true;
-
-  		simulatedEvent.initMouseEvent(
-  		        type, true, true, window, 1,
-  		        e.screenX, e.screenY,
-  		        e.clientX, e.clientY,
-  		        false, false, false, false, 0, null);
 
   		e.target.dispatchEvent(simulatedEvent);
   	}
   });
 
   // @section Handlers
-  // @property tap: Handler
-  // Mobile touch hacks (quick tap and touch hold) handler.
-  if (touch && (!pointer || safari)) {
-  	Map.addInitHook('addHandler', 'tap', Tap);
-  }
+  // @property tapHold: Handler
+  // Long tap handler to simulate `contextmenu` event (useful in mobile Safari).
+  Map.addInitHook('addHandler', 'tapHold', TapHold);
 
   /*
    * L.Handler.TouchZoom is used by L.Map to add pinch zoom on supported mobile browsers.
@@ -14707,8 +15165,8 @@ L.PhotonReverse = L.PhotonBase.extend({
   	// Whether the map can be zoomed by touch-dragging with two fingers. If
   	// passed `'center'`, it will zoom to the center of the view regardless of
   	// where the touch events (fingers) were. Enabled for touch-capable web
-  	// browsers except for old Androids.
-  	touchZoom: touch && !android23,
+  	// browsers.
+  	touchZoom: Browser.touch,
 
   	// @option bounceAtZoomLimits: Boolean = true
   	// Set it to false if you don't want the map to zoom beyond min/max zoom
@@ -14749,7 +15207,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		map._stop();
 
   		on(document, 'touchmove', this._onTouchMove, this);
-  		on(document, 'touchend', this._onTouchEnd, this);
+  		on(document, 'touchend touchcancel', this._onTouchEnd, this);
 
   		preventDefault(e);
   	},
@@ -14787,7 +15245,7 @@ L.PhotonReverse = L.PhotonBase.extend({
 
   		cancelAnimFrame(this._animRequest);
 
-  		var moveFn = bind(map._move, map, this._center, this._zoom, {pinch: true, round: false});
+  		var moveFn = bind(map._move, map, this._center, this._zoom, {pinch: true, round: false}, undefined);
   		this._animRequest = requestAnimFrame(moveFn, this, true);
 
   		preventDefault(e);
@@ -14803,7 +15261,7 @@ L.PhotonReverse = L.PhotonBase.extend({
   		cancelAnimFrame(this._animRequest);
 
   		off(document, 'touchmove', this._onTouchMove, this);
-  		off(document, 'touchend', this._onTouchEnd, this);
+  		off(document, 'touchend touchcancel', this._onTouchEnd, this);
 
   		// Pinch updates GridLayers' levels only when zoomSnap is off, so zoomSnap becomes noUpdate.
   		if (this._map.options.zoomAnimation) {
@@ -14824,98 +15282,97 @@ L.PhotonReverse = L.PhotonBase.extend({
   Map.Drag = Drag;
   Map.Keyboard = Keyboard;
   Map.ScrollWheelZoom = ScrollWheelZoom;
-  Map.Tap = Tap;
+  Map.TapHold = TapHold;
   Map.TouchZoom = TouchZoom;
 
-  exports.version = version;
-  exports.Control = Control;
-  exports.control = control;
+  exports.Bounds = Bounds;
   exports.Browser = Browser;
-  exports.Evented = Evented;
-  exports.Mixin = Mixin;
-  exports.Util = Util;
+  exports.CRS = CRS;
+  exports.Canvas = Canvas;
+  exports.Circle = Circle;
+  exports.CircleMarker = CircleMarker;
   exports.Class = Class;
-  exports.Handler = Handler;
-  exports.extend = extend;
-  exports.bind = bind;
-  exports.stamp = stamp;
-  exports.setOptions = setOptions;
+  exports.Control = Control;
+  exports.DivIcon = DivIcon;
+  exports.DivOverlay = DivOverlay;
   exports.DomEvent = DomEvent;
   exports.DomUtil = DomUtil;
-  exports.PosAnimation = PosAnimation;
   exports.Draggable = Draggable;
-  exports.LineUtil = LineUtil;
-  exports.PolyUtil = PolyUtil;
-  exports.Point = Point;
-  exports.point = toPoint;
-  exports.Bounds = Bounds;
-  exports.bounds = toBounds;
-  exports.Transformation = Transformation;
-  exports.transformation = toTransformation;
-  exports.Projection = index;
-  exports.LatLng = LatLng;
-  exports.latLng = toLatLng;
-  exports.LatLngBounds = LatLngBounds;
-  exports.latLngBounds = toLatLngBounds;
-  exports.CRS = CRS;
+  exports.Evented = Evented;
+  exports.FeatureGroup = FeatureGroup;
   exports.GeoJSON = GeoJSON;
-  exports.geoJSON = geoJSON;
-  exports.geoJson = geoJson;
+  exports.GridLayer = GridLayer;
+  exports.Handler = Handler;
+  exports.Icon = Icon;
+  exports.ImageOverlay = ImageOverlay;
+  exports.LatLng = LatLng;
+  exports.LatLngBounds = LatLngBounds;
   exports.Layer = Layer;
   exports.LayerGroup = LayerGroup;
-  exports.layerGroup = layerGroup;
-  exports.FeatureGroup = FeatureGroup;
-  exports.featureGroup = featureGroup;
-  exports.ImageOverlay = ImageOverlay;
-  exports.imageOverlay = imageOverlay;
-  exports.VideoOverlay = VideoOverlay;
-  exports.videoOverlay = videoOverlay;
-  exports.SVGOverlay = SVGOverlay;
-  exports.svgOverlay = svgOverlay;
-  exports.DivOverlay = DivOverlay;
-  exports.Popup = Popup;
-  exports.popup = popup;
-  exports.Tooltip = Tooltip;
-  exports.tooltip = tooltip;
-  exports.Icon = Icon;
-  exports.icon = icon;
-  exports.DivIcon = DivIcon;
-  exports.divIcon = divIcon;
-  exports.Marker = Marker;
-  exports.marker = marker;
-  exports.TileLayer = TileLayer;
-  exports.tileLayer = tileLayer;
-  exports.GridLayer = GridLayer;
-  exports.gridLayer = gridLayer;
-  exports.SVG = SVG;
-  exports.svg = svg$1;
-  exports.Renderer = Renderer;
-  exports.Canvas = Canvas;
-  exports.canvas = canvas$1;
-  exports.Path = Path;
-  exports.CircleMarker = CircleMarker;
-  exports.circleMarker = circleMarker;
-  exports.Circle = Circle;
-  exports.circle = circle;
-  exports.Polyline = Polyline;
-  exports.polyline = polyline;
-  exports.Polygon = Polygon;
-  exports.polygon = polygon;
-  exports.Rectangle = Rectangle;
-  exports.rectangle = rectangle;
+  exports.LineUtil = LineUtil;
   exports.Map = Map;
+  exports.Marker = Marker;
+  exports.Mixin = Mixin;
+  exports.Path = Path;
+  exports.Point = Point;
+  exports.PolyUtil = PolyUtil;
+  exports.Polygon = Polygon;
+  exports.Polyline = Polyline;
+  exports.Popup = Popup;
+  exports.PosAnimation = PosAnimation;
+  exports.Projection = index;
+  exports.Rectangle = Rectangle;
+  exports.Renderer = Renderer;
+  exports.SVG = SVG;
+  exports.SVGOverlay = SVGOverlay;
+  exports.TileLayer = TileLayer;
+  exports.Tooltip = Tooltip;
+  exports.Transformation = Transformation;
+  exports.Util = Util;
+  exports.VideoOverlay = VideoOverlay;
+  exports.bind = bind;
+  exports.bounds = toBounds;
+  exports.canvas = canvas;
+  exports.circle = circle;
+  exports.circleMarker = circleMarker;
+  exports.control = control;
+  exports.divIcon = divIcon;
+  exports.extend = extend;
+  exports.featureGroup = featureGroup;
+  exports.geoJSON = geoJSON;
+  exports.geoJson = geoJson;
+  exports.gridLayer = gridLayer;
+  exports.icon = icon;
+  exports.imageOverlay = imageOverlay;
+  exports.latLng = toLatLng;
+  exports.latLngBounds = toLatLngBounds;
+  exports.layerGroup = layerGroup;
   exports.map = createMap;
+  exports.marker = marker;
+  exports.point = toPoint;
+  exports.polygon = polygon;
+  exports.polyline = polyline;
+  exports.popup = popup;
+  exports.rectangle = rectangle;
+  exports.setOptions = setOptions;
+  exports.stamp = stamp;
+  exports.svg = svg;
+  exports.svgOverlay = svgOverlay;
+  exports.tileLayer = tileLayer;
+  exports.tooltip = tooltip;
+  exports.transformation = toTransformation;
+  exports.version = version;
+  exports.videoOverlay = videoOverlay;
 
   var oldL = window.L;
   exports.noConflict = function() {
   	window.L = oldL;
   	return this;
   }
-
   // Always export us to window global (see #2364)
   window.L = exports;
 
-})));
+}));
 //# sourceMappingURL=leaflet-src.js.map
 
 
