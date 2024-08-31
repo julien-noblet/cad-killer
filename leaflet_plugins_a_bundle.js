@@ -14589,10 +14589,10 @@ var __webpack_exports__ = {};
 !function() {
 "use strict";
 
-var L = __webpack_require__.g.L || __webpack_require__(481);
+var src_L = __webpack_require__.g.L || __webpack_require__(481);
 var Promise = __webpack_require__(457);
 var ajax = __webpack_require__(826);
-L.GeoJSON.AJAX = L.GeoJSON.extend({
+src_L.GeoJSON.AJAX = src_L.GeoJSON.extend({
   defaultAJAXparams: {
     dataType: 'json',
     callbackParam: 'callback',
@@ -14613,7 +14613,7 @@ L.GeoJSON.AJAX = L.GeoJSON.extend({
         url = undefined;
       }
     }
-    var ajaxParams = L.Util.extend({}, this.defaultAJAXparams);
+    var ajaxParams = src_L.Util.extend({}, this.defaultAJAXparams);
 
     for (var i in options) {
       if (this.defaultAJAXparams.hasOwnProperty(i)) {
@@ -14622,7 +14622,7 @@ L.GeoJSON.AJAX = L.GeoJSON.extend({
     }
     this.ajaxParams = ajaxParams;
     this._layers = {};
-    L.Util.setOptions(this, options);
+    src_L.Util.setOptions(this, options);
     this.on('data:loaded', function () {
       if (this.filter) {
         this.refilter(this.filter);
@@ -14639,7 +14639,7 @@ L.GeoJSON.AJAX = L.GeoJSON.extend({
   },
   clearLayers: function () {
     this.urls = [];
-    L.GeoJSON.prototype.clearLayers.call(this);
+    src_L.GeoJSON.prototype.clearLayers.call(this);
     return this;
   },
   addUrl: function (url) {
@@ -14666,7 +14666,7 @@ L.GeoJSON.AJAX = L.GeoJSON.extend({
           });
         });
       } else if (self.ajaxParams.dataType.toLowerCase() === 'jsonp') {
-        L.Util.jsonp(url, self.ajaxParams).then(function (d) {
+        src_L.Util.jsonp(url, self.ajaxParams).then(function (d) {
           var data = self.ajaxParams.middleware(d);
           self.addData(data);
           self.fire('data:progress', data);
@@ -14715,11 +14715,11 @@ L.GeoJSON.AJAX = L.GeoJSON.extend({
     }
   }
 });
-L.Util.Promise = Promise;
-L.Util.ajax = ajax;
-L.Util.jsonp = __webpack_require__(4);
-L.geoJson.ajax = function (geojson, options) {
-  return new L.GeoJSON.AJAX(geojson, options);
+src_L.Util.Promise = Promise;
+src_L.Util.ajax = ajax;
+src_L.Util.jsonp = __webpack_require__(4);
+src_L.geoJson.ajax = function (geojson, options) {
+  return new src_L.GeoJSON.AJAX(geojson, options);
 };
 
 }();

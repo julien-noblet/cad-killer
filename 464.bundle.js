@@ -34,10 +34,8 @@ var NOTE_API = "//api.openstreetmap.org/api/0.6/notes";
 /***/ }),
 
 /***/ 464:
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: ./node_modules/leaflet/dist/leaflet-src.js
 var leaflet_src = __webpack_require__(481);
