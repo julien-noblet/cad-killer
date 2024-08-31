@@ -74,7 +74,7 @@
     "eslint-config-prettier": "8.10.0",
     "eslint-plugin-import": "2.29.1",
     "eslint-plugin-prettier": "5.2.1",
-    "eslint-plugin-react": "7.28.0",
+    "eslint-plugin-react": "7.35.0",
     "file-loader": "6.2.0",
     "handlebars": "4.7.8",
     "html-webpack-plugin": "5.5.0",
