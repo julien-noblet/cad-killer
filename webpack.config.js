@@ -20,8 +20,13 @@ var ImageminPlugin = require("imagemin-webpack-plugin").default;
 
 module.exports = {
   devtool: "source-map",
+  mode: "development",
+  devServer: {
+    static: path.resolve(__dirname, 'dist'),
+    port: 9000
+  },
   entry: {
-    main: "./src/index.js",
+    index: "./src/index.js",
     jquery: "jquery",
     leaflet: "leaflet",
     stats: ["pouchdb", "ua-parser-js", "leaflet-dialog", "leaflet-draw"],
