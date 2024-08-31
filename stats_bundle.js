@@ -1,7 +1,7 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 105:
+/***/ 737:
 /***/ (function(module) {
 
 "use strict";
@@ -27,7 +27,7 @@ function argsArray(fun) {
 
 /***/ }),
 
-/***/ 187:
+/***/ 7:
 /***/ (function(module) {
 
 "use strict";
@@ -532,7 +532,7 @@ function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
 
 /***/ }),
 
-/***/ 717:
+/***/ 698:
 /***/ (function(module) {
 
 if (typeof Object.create === 'function') {
@@ -566,7 +566,7 @@ if (typeof Object.create === 'function') {
 
 /***/ }),
 
-/***/ 797:
+/***/ 311:
 /***/ (function() {
 
 L.Control.Dialog = L.Control.extend({
@@ -945,7 +945,7 @@ L.control.dialog = function(options) {
 
 /***/ }),
 
-/***/ 787:
+/***/ 269:
 /***/ (function() {
 
 /*
@@ -961,7 +961,7 @@ this._selectedPathOptions&&(e instanceof L.Marker?this._toggleMarkerHighlight(e)
 
 /***/ }),
 
-/***/ 447:
+/***/ 960:
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -969,10 +969,10 @@ this._selectedPathOptions&&(e instanceof L.Marker?this._toggleMarkerHighlight(e)
 // UNUSED EXPORTS: default
 
 // EXTERNAL MODULE: ./node_modules/pouchdb/node_modules/immediate/lib/index.js
-var lib = __webpack_require__(982);
+var lib = __webpack_require__(835);
 var lib_default = /*#__PURE__*/__webpack_require__.n(lib);
 // EXTERNAL MODULE: ./node_modules/uuid/dist/index.js
-var dist = __webpack_require__(593);
+var dist = __webpack_require__(107);
 ;// CONCATENATED MODULE: ./node_modules/uuid/wrapper.mjs
 
 const v1 = dist.v1;
@@ -981,18 +981,18 @@ const v4 = dist.v4;
 const v5 = dist.v5;
 
 // EXTERNAL MODULE: ./node_modules/spark-md5/spark-md5.js
-var spark_md5 = __webpack_require__(322);
+var spark_md5 = __webpack_require__(735);
 var spark_md5_default = /*#__PURE__*/__webpack_require__.n(spark_md5);
 // EXTERNAL MODULE: ./node_modules/vuvuzela/index.js
-var vuvuzela = __webpack_require__(684);
+var vuvuzela = __webpack_require__(655);
 // EXTERNAL MODULE: ./node_modules/argsarray/index.js
-var argsarray = __webpack_require__(105);
+var argsarray = __webpack_require__(737);
 var argsarray_default = /*#__PURE__*/__webpack_require__.n(argsarray);
 // EXTERNAL MODULE: ./node_modules/inherits/inherits_browser.js
-var inherits_browser = __webpack_require__(717);
+var inherits_browser = __webpack_require__(698);
 var inherits_browser_default = /*#__PURE__*/__webpack_require__.n(inherits_browser);
 // EXTERNAL MODULE: ./node_modules/events/events.js
-var events = __webpack_require__(187);
+var events = __webpack_require__(7);
 var events_default = /*#__PURE__*/__webpack_require__.n(events);
 ;// CONCATENATED MODULE: ./node_modules/pouchdb/lib/index-browser.es.js
 
@@ -11268,18 +11268,18 @@ PouchDB.plugin(IDBPouch)
 
 /***/ }),
 
-/***/ 982:
+/***/ 835:
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 "use strict";
 
 var types = [
-  __webpack_require__(961),
-  __webpack_require__(73),
-  __webpack_require__(629),
-  __webpack_require__(994),
-  __webpack_require__(960),
-  __webpack_require__(571)
+  __webpack_require__(8),
+  __webpack_require__(899),
+  __webpack_require__(924),
+  __webpack_require__(625),
+  __webpack_require__(414),
+  __webpack_require__(736)
 ];
 var draining;
 var currentQueue;
@@ -11373,7 +11373,7 @@ function immediate(task) {
 
 /***/ }),
 
-/***/ 994:
+/***/ 625:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -11398,7 +11398,7 @@ exports.install = function (func) {
 
 /***/ }),
 
-/***/ 629:
+/***/ 924:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -11427,7 +11427,7 @@ exports.install = function (handle) {
 
 /***/ }),
 
-/***/ 73:
+/***/ 899:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -11445,7 +11445,7 @@ exports.install = function (func) {
 
 /***/ }),
 
-/***/ 960:
+/***/ 414:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -11476,7 +11476,7 @@ exports.install = function (handle) {
 
 /***/ }),
 
-/***/ 571:
+/***/ 736:
 /***/ (function(__unused_webpack_module, exports) {
 
 "use strict";
@@ -11493,7 +11493,7 @@ exports.install = function (t) {
 
 /***/ }),
 
-/***/ 322:
+/***/ 735:
 /***/ (function(module) {
 
 (function (factory) {
@@ -12237,7 +12237,7 @@ exports.install = function (t) {
 
 /***/ }),
 
-/***/ 238:
+/***/ 232:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/////////////////////////////////////////////////////////////////////////////////
@@ -13119,7 +13119,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;//////////////////////////////////////////////
 
 /***/ }),
 
-/***/ 825:
+/***/ 906:
 /***/ (function(__unused_webpack_module, exports) {
 
 "use strict";
@@ -13153,7 +13153,7 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 593:
+/***/ 107:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -13188,19 +13188,19 @@ Object.defineProperty(exports, "v5", ({
   }
 }));
 
-var _v = _interopRequireDefault(__webpack_require__(922));
+var _v = _interopRequireDefault(__webpack_require__(610));
 
-var _v2 = _interopRequireDefault(__webpack_require__(964));
+var _v2 = _interopRequireDefault(__webpack_require__(208));
 
-var _v3 = _interopRequireDefault(__webpack_require__(509));
+var _v3 = _interopRequireDefault(__webpack_require__(61));
 
-var _v4 = _interopRequireDefault(__webpack_require__(669));
+var _v4 = _interopRequireDefault(__webpack_require__(358));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
 
-/***/ 489:
+/***/ 882:
 /***/ (function(__unused_webpack_module, exports) {
 
 "use strict";
@@ -13430,7 +13430,7 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 827:
+/***/ 975:
 /***/ (function(__unused_webpack_module, exports) {
 
 "use strict";
@@ -13458,7 +13458,7 @@ function rng() {
 
 /***/ }),
 
-/***/ 558:
+/***/ 135:
 /***/ (function(__unused_webpack_module, exports) {
 
 "use strict";
@@ -13566,7 +13566,7 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 922:
+/***/ 610:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -13577,9 +13577,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports["default"] = void 0;
 
-var _rng = _interopRequireDefault(__webpack_require__(827));
+var _rng = _interopRequireDefault(__webpack_require__(975));
 
-var _bytesToUuid = _interopRequireDefault(__webpack_require__(825));
+var _bytesToUuid = _interopRequireDefault(__webpack_require__(906));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13680,7 +13680,7 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 964:
+/***/ 208:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -13691,9 +13691,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports["default"] = void 0;
 
-var _v = _interopRequireDefault(__webpack_require__(137));
+var _v = _interopRequireDefault(__webpack_require__(525));
 
-var _md = _interopRequireDefault(__webpack_require__(489));
+var _md = _interopRequireDefault(__webpack_require__(882));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13703,7 +13703,7 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 137:
+/***/ 525:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -13715,7 +13715,7 @@ Object.defineProperty(exports, "__esModule", ({
 exports["default"] = _default;
 exports.URL = exports.DNS = void 0;
 
-var _bytesToUuid = _interopRequireDefault(__webpack_require__(825));
+var _bytesToUuid = _interopRequireDefault(__webpack_require__(906));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13786,7 +13786,7 @@ function _default(name, version, hashfunc) {
 
 /***/ }),
 
-/***/ 509:
+/***/ 61:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -13797,9 +13797,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports["default"] = void 0;
 
-var _rng = _interopRequireDefault(__webpack_require__(827));
+var _rng = _interopRequireDefault(__webpack_require__(975));
 
-var _bytesToUuid = _interopRequireDefault(__webpack_require__(825));
+var _bytesToUuid = _interopRequireDefault(__webpack_require__(906));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13835,7 +13835,7 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 669:
+/***/ 358:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -13846,9 +13846,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports["default"] = void 0;
 
-var _v = _interopRequireDefault(__webpack_require__(137));
+var _v = _interopRequireDefault(__webpack_require__(525));
 
-var _sha = _interopRequireDefault(__webpack_require__(558));
+var _sha = _interopRequireDefault(__webpack_require__(135));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13858,7 +13858,7 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 684:
+/***/ 655:
 /***/ (function(__unused_webpack_module, exports) {
 
 "use strict";
@@ -14039,7 +14039,7 @@ exports.parse = function (str) {
 
 /***/ }),
 
-/***/ 961:
+/***/ 8:
 /***/ (function() {
 
 /* (ignored) */
@@ -14123,11 +14123,11 @@ exports.parse = function (str) {
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	__webpack_require__(447);
+/******/ 	__webpack_require__(960);
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__(238);
-/******/ 	__webpack_require__(797);
-/******/ 	var __webpack_exports__ = __webpack_require__(787);
+/******/ 	__webpack_require__(232);
+/******/ 	__webpack_require__(311);
+/******/ 	var __webpack_exports__ = __webpack_require__(269);
 /******/ 	
 /******/ })()
 ;

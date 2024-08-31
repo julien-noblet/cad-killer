@@ -1,29 +1,27 @@
 "use strict";
-(self["webpackChunkcad_killer"] = self["webpackChunkcad_killer"] || []).push([[971],{
+(self["webpackChunkcad_killer"] = self["webpackChunkcad_killer"] || []).push([[877],{
 
-/***/ 971:
+/***/ 877:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(243);
+/* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(481);
 /* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(314);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(387);
 /**
- * 
- *
  * @format
  */
 
 
-(leaflet__WEBPACK_IMPORTED_MODULE_0___default().Control.ReverseLabel) = leaflet__WEBPACK_IMPORTED_MODULE_0___default().Control.extend({
+
+(leaflet__WEBPACK_IMPORTED_MODULE_0___default().Control).ReverseLabel = leaflet__WEBPACK_IMPORTED_MODULE_0___default().Control.extend({
   options: {
     position: "topright" // hack
-
   },
   onAdd: function onAdd() {
     var container = leaflet__WEBPACK_IMPORTED_MODULE_0___default().DomUtil.create("div", "reverse-label");
     var reverse = new (leaflet__WEBPACK_IMPORTED_MODULE_0___default().PhotonReverse)({
-      url: _config__WEBPACK_IMPORTED_MODULE_1__/* .REVERSE_URL */ .o7,
+      url: _config__WEBPACK_IMPORTED_MODULE_1__/* .REVERSE_URL */ .D,
       handleResults: function handleResults(data) {
         if (data.features !== null) {
           if (data.features[0] !== null) {
@@ -39,11 +37,9 @@ __webpack_require__.r(__webpack_exports__);
         reverse.doReverse(window.map.getCenter());
         var head = document.getElementById("head");
         var map = document.getElementById("map");
-
         if (head !== null) {
           head.className += " headmasked";
         }
-
         if (map !== null) {
           map.className += " nohead";
         }
@@ -54,9 +50,9 @@ __webpack_require__.r(__webpack_exports__);
     return container;
   }
 });
-new (leaflet__WEBPACK_IMPORTED_MODULE_0___default().Control.ReverseLabel)().addTo(window.map);
+new (leaflet__WEBPACK_IMPORTED_MODULE_0___default().Control).ReverseLabel().addTo(window.map);
 
 /***/ })
 
 }]);
-//# sourceMappingURL=971.bundle.js.map
+//# sourceMappingURL=877.bundle.js.map
