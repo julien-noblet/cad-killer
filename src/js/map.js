@@ -61,13 +61,14 @@ require.ensure(["./notes"], function() {
 //require ("./geoloc.js")
 
 // ajout du bouton print
-L.control
+/*L.control
   .browserPrint({
     printModes: [
       //L.control.browserPrint.mode.portrait("Portrait", "A4"),
-      L.control.browserPrint.mode.landscape("Paysage", "A4"),
+      //L.control.browserPrint.mode.landscape("Paysage", "A4"),
       L.control.browserPrint.mode.auto("Auto", "A4"),
       L.control.browserPrint.mode.custom("Séléctionnez la zone", "A4"),
     ],
   })
   .addTo(window.map);
+*/
