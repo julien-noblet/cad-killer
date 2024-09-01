@@ -280,11 +280,17 @@ require.ensure(["./notes"], function() {
 //require ("./geoloc.js")
 
 // ajout du bouton print
-leaflet_src_default().control.browserPrint({
-  printModes: [
-  //L.control.browserPrint.mode.portrait("Portrait", "A4"),
-  leaflet_src_default().control.browserPrint.mode.landscape("Paysage", "A4"), leaflet_src_default().control.browserPrint.mode.auto("Auto", "A4"), leaflet_src_default().control.browserPrint.mode.custom("Séléctionnez la zone", "A4")]
-}).addTo(window.map);
+/*L.control
+  .browserPrint({
+    printModes: [
+      //L.control.browserPrint.mode.portrait("Portrait", "A4"),
+      //L.control.browserPrint.mode.landscape("Paysage", "A4"),
+      L.control.browserPrint.mode.auto("Auto", "A4"),
+      L.control.browserPrint.mode.custom("Séléctionnez la zone", "A4"),
+    ],
+  })
+  .addTo(window.map);
+*/
 
 /***/ })
 
