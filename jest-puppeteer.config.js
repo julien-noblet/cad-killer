@@ -2,7 +2,7 @@
 
 module.exports = {
   server: {
-    command: "yarn webpack serve --port 9000 --mode development",
+    command: "npx webpack serve --open",
     port: 9000,
     launchTimeout: 120000,
   },

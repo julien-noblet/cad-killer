@@ -4,9 +4,11 @@
   "description": "Visionneur de carte pour logisticiens pressés",
   "main": "index.html",
   "scripts": {
-    "start": "webpack serve --https --mode development",
+    "watch": "webpack --watch",
+    "start": "webpack serve --open",
     "build": "npx webpack --mode production --config webpack.config.js --progress --color",
-    "test": "jest --runInBand"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --maxConcurrency=1",
+    "update-screenshots": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --maxConcurrency=1 -u"
   },
   "lint-staged": {
     "*.js": [
@@ -91,7 +93,7 @@
     "postcss-preset-env": "7.8.3",
     "prettier": "3.3.3",
     "prettier-eslint": "13.0.0",
-    "puppeteer": "19.0.0",
+    "puppeteer": "23.1.0",
     "regenerator-runtime": "0.14.1",
     "sass": "^1.71.1",
     "sass-loader": "12.6.0",
@@ -115,7 +117,7 @@
     "pouchdb": "7.3.1",
     "ua-parser-js": "1.0.33",
     "webpack": "^5.68.0",
-    "webpack-cli": "^4.9.2"
+    "webpack-cli": "^5.0.0"
   },
   "jest": {
     "moduleNameMapper": {
@@ -129,13 +131,11 @@
       "sandbox",
       "node_modules"
     ],
-    "transform": {
-      "^.+\\.js?$": "babel-7-jest"
-    },
+    "setupFilesAfterEnv": ["<rootDir>/jest-setup.js"],
     "preset": "jest-puppeteer",
-    "globalSetup": "jest-environment-puppeteer/setup",
-    "globalTeardown": "jest-environment-puppeteer/teardown",
-    "testEnvironment": "jest-environment-puppeteer",
+    "globalSetup": "./setup.js",
+    "globalTeardown": "./teardown.js",
+    "testEnvironment": "./puppeteer_environment.js",
     "globals": {
       "window": true
     }
