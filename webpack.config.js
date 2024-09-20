@@ -16,8 +16,6 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 });
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-var ImageminPlugin = require("imagemin-webpack-plugin").default;
-
 module.exports = {
   devtool: "source-map",
   mode: "development",
@@ -27,9 +25,8 @@ module.exports = {
   },
   entry: {
     index: "./src/index.js",
-    jquery: "jquery",
     leaflet: "leaflet",
-    stats: ["pouchdb", "ua-parser-js", "leaflet-dialog", "leaflet-draw"],
+    stats: [ "leaflet-dialog", "leaflet-draw"],
     leaflet_plugins_a: ["leaflet-ajax", "leaflet-hash"],
     leaflet_plugins_b: ["leaflet-modal", "leaflet.photon"],
   },
@@ -94,12 +91,6 @@ module.exports = {
   },
   plugins: [
     HtmlWebpackPluginConfig,
-    new ImageminPlugin({
-      disable: process.env.NODE_ENV !== "production", // Disable during development
-      pngquant: {
-        quality: "95-100",
-      },
-    }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -133,10 +124,6 @@ module.exports = {
           enforce: true,
         },
         leaflet: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-        },
-        jquery: {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
         },

@@ -81,7 +81,6 @@
     "handlebars": "4.7.8",
     "html-webpack-plugin": "5.6.0",
     "husky": "9.1.6",
-    "imagemin-webpack-plugin": "2.4.2",
     "jest": "29.7.0",
     "jest-image-snapshot": "6.4.0",
     "jest-puppeteer": "10.1.1",
@@ -102,7 +101,6 @@
   },
   "dependencies": {
     "es6-promise": "4.2.8",
-    "jquery": "3.7.1",
     "leaflet": "1.9.4",
     "leaflet-ajax": "2.1.0",
     "leaflet-dialog": "1.0.5",
@@ -114,8 +112,6 @@
     "leaflet.photon": "0.9.1",
     "material-design-iconic-font": "2.2.0",
     "opensans-npm-webfont": "1.0.0",
-    "pouchdb": "9.0.0",
-    "ua-parser-js": "1.0.39",
     "webpack": "^5.68.0",
     "webpack-cli": "^5.0.0"
   },

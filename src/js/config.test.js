@@ -9,8 +9,6 @@ import {
   IGN_KEY,
   IGN_LAYER,
   IGN_LAYER_LITE,
-  MY_POUCHDB,
-  LOCAL_POUCHDB,
   OSM_CREDITENTIALS,
   NOTE_API,
 } from "./config";
@@ -61,14 +59,6 @@ describe("config.js check globals", () => {
 
   test("IGN_LAYER_LITE is a string", () => {
     expect(typeof IGN_LAYER_LITE).toEqual("string");
-  });
-
-  test("MY_POUCHDB is an URL", () => {
-    isURL(MY_POUCHDB);
-  });
-
-  test("LOCAL_POUCHDB is a string", () => {
-    expect(typeof LOCAL_POUCHDB).toEqual("string");
   });
 
   test("OSM_CREDITENTIALS seems ok", () => {
