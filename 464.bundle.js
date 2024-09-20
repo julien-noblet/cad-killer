@@ -12,7 +12,7 @@
 /* harmony export */   Q7: function() { return /* binding */ CENTER; },
 /* harmony export */   lL: function() { return /* binding */ IGN_LAYER; }
 /* harmony export */ });
-/* unused harmony exports IGN_KEY, IGN_LAYER_LITE, IGN_ORTHO, MY_POUCHDB, LOCAL_POUCHDB, OSM_CREDITENTIALS, NOTE_API */
+/* unused harmony exports IGN_KEY, IGN_LAYER_LITE, IGN_ORTHO, OSM_CREDITENTIALS, NOTE_API */
 /**
  * @format
  */
@@ -26,8 +26,6 @@ var IGN_KEY = "3sk4po838nk0byb23gft0qs5";
 var IGN_LAYER = "GEOGRAPHICALGRIDSYSTEMS.MAPS";
 var IGN_LAYER_LITE = "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2";
 var IGN_ORTHO = "ORTHOIMAGERY.ORTHOPHOTOS";
-var MY_POUCHDB = "//sidercomourellydiforteep:16f21a8ad23f32de280b36fc338a38a24c5d49b2@couchdb-112956.smileupps.com/stats";
-var LOCAL_POUCHDB = "cad-killer";
 var OSM_CREDITENTIALS = "Q0FELUtJTExFUjpkdHl2dWRlbnQ=";
 var NOTE_API = "//api.openstreetmap.org/api/0.6/notes";
 
@@ -270,13 +268,7 @@ photon();
 __webpack_require__.e(/* require.ensure */ 877).then((function () {
   __webpack_require__(877);
 }).bind(null, __webpack_require__))['catch'](__webpack_require__.oe);
-/*
-// Removing notes because seems not working!
-// The loading of L.Draw cause also some fails with Jest!
-require.ensure(["./notes"], function() {
-  require("./notes");
-});
-*/
+
 //require ("./geoloc.js")
 
 // ajout du bouton print
