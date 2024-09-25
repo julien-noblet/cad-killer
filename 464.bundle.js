@@ -40,7 +40,7 @@ var leaflet_src = __webpack_require__(481);
 var leaflet_src_default = /*#__PURE__*/__webpack_require__.n(leaflet_src);
 // EXTERNAL MODULE: ./src/js/config.js
 var config = __webpack_require__(387);
-;// CONCATENATED MODULE: ./src/js/layers.js
+;// ./src/js/layers.js
 /**
  * @format
  */
@@ -97,7 +97,7 @@ var overlayMaps = {
   Cadastre: overlayCadastre,
   "BAN(O)": overlayBAN
 };
-;// CONCATENATED MODULE: ./src/js/photon.js
+;// ./src/js/photon.js
 /**
  * @format
  */
@@ -223,7 +223,7 @@ function photon() {
   };
   /* eslint-enable no-proto*/
 }
-;// CONCATENATED MODULE: ./src/js/map.js
+;// ./src/js/map.js
 /**
  * @format
  */
