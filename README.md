@@ -3,9 +3,6 @@
 
 Visionneur de carte pour logisticiens pressés
 
-[![Dependency Status](https://david-dm.org/julien-noblet/cad-killer.svg)](https://david-dm.org/julien-noblet/cad-killer)
-[![devDependency Status](https://david-dm.org/julien-noblet/cad-killer/dev-status.svg)](https://david-dm.org/julien-noblet/cad-killer?type=dev)
-[![Build Status](https://travis-ci.org/julien-noblet/cad-killer.svg?branch=master)](https://travis-ci.org/julien-noblet/cad-killer)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Julien_N/donate)
 
