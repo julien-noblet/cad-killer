@@ -113,7 +113,7 @@
     "material-design-iconic-font": "2.2.0",
     "opensans-npm-webfont": "1.0.0",
     "webpack": "^5.68.0",
-    "webpack-cli": "^5.0.0"
+    "webpack-cli": "^6.0.0"
   },
   "jest": {
     "moduleNameMapper": {
