@@ -1,11 +1,18 @@
 {
-  "extends": ["config:base"],
+  "extends": [
+    "config:recommended"
+  ],
   "automerge": true,
   "major": {
     "automerge": false
   },
-  "devDependencies": {
-    "automerge": true
-  },
-  "rebaseStalePrs": true
+  "packageRules": [
+    {
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "automerge": true
+    }
+  ],
+  "rebaseWhen": "behind-base-branch"
 }
