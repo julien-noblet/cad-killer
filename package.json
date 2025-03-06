@@ -109,7 +109,7 @@
     "leaflet-modal": "0.2.0",
     "leaflet-plugins": "3.4.0",
     "leaflet.browser.print": "2.0.2",
-    "leaflet.photon": "0.9.1",
+    "leaflet.photon": "0.9.2",
     "material-design-iconic-font": "2.2.0",
     "opensans-npm-webfont": "1.0.0",
     "webpack": "^5.68.0",
