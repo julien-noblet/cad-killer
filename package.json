@@ -73,7 +73,7 @@
     "cssnano": "7.0.6",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "9.21.0",
-    "eslint-config-prettier": "10.0.2",
+    "eslint-config-prettier": "10.1.1",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-prettier": "5.2.3",
     "eslint-plugin-react": "7.37.4",
