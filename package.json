@@ -97,7 +97,7 @@
     "sass": "^1.71.1",
     "sass-loader": "16.0.5",
     "style-loader": "4.0.0",
-    "webpack-dev-server": "5.2.0"
+    "webpack-dev-server": "5.2.1"
   },
   "dependencies": {
     "es6-promise": "4.2.8",
