@@ -89,7 +89,7 @@
     "postcss": "8.5.5",
     "postcss-import": "16.1.0",
     "postcss-loader": "8.1.1",
-    "postcss-preset-env": "10.2.1",
+    "postcss-preset-env": "10.2.3",
     "prettier": "3.5.3",
     "prettier-eslint": "16.4.2",
     "puppeteer": "24.10.0",
