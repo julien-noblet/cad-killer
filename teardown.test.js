@@ -10,4 +10,8 @@ describe('teardown.js', () => {
     await expect(teardown()).resolves.toBeUndefined();
     globalThis.__BROWSER_GLOBAL__ = undefined;
   });
+  it('supprime le dossier temporaire même sans navigateur', async () => {
+    globalThis.__BROWSER_GLOBAL__ = undefined;
+    await expect(teardown()).resolves.toBeUndefined();
+  });
 });

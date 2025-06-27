@@ -1,4 +1,7 @@
 /**
+ * Point d'entrée principal de l'application CAD-Killer
+ * Charge les polices, styles, images et initialise la carte.
+ * Voir la documentation dans le README pour la structure Webpack.
  * @format
  */
 
