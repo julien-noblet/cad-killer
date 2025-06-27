@@ -7,7 +7,7 @@
 import L from "leaflet";
 
 /**
- * Centre la carte sur la position fournie et met à jour l'icône.
+ * Centre la carte sur la position fournie et met à jour l'icône de géolocalisation.
  * @param {GeolocationPosition} position
  */
 function showPosition(position) {
@@ -22,39 +22,43 @@ function showPosition(position) {
 }
 
 /**
- * Gère l'échec de la géolocalisation et met à jour l'icône.
- * @param {GeolocationPositionError} err
+ * Gère l'échec de la géolocalisation et met à jour l'icône de géolocalisation.
+ * @param {GeolocationPositionError|Object} err
  */
 function handleGeolocError(err) {
   const icon = document.getElementById("geoloc_icon");
   if (icon) icon.className = "zmdi zmdi-2x zmdi-gps-off";
-  // Affichage optionnel d'une notification d'erreur
-  // alert('Erreur de géolocalisation : ' + err.message);
-}
-
-/**
- * Demande la position de l'utilisateur et met à jour l'icône.
- */
-export function getLocation() {
-  const icon = document.getElementById("geoloc_icon");
-  if (navigator.geolocation) {
-    if (icon) icon.className = "zmdi zmdi-2x zmdi-gps";
-    navigator.geolocation.getCurrentPosition(showPosition, handleGeolocError);
-  } else {
-    handleGeolocError({ message: "Géolocalisation non supportée" });
+  if (err && err.message) {
+    // Affichage optionnel d'une notification d'erreur
+    // window.alert(`Erreur de géolocalisation : ${err.message}`);
   }
 }
 
 /**
- * Contrôle Leaflet pour la géolocalisation
+ * Demande la position de l'utilisateur et met à jour l'icône de géolocalisation.
+ * Peut être mockée pour les tests.
+ */
+export function getLocation() {
+  const icon = document.getElementById("geoloc_icon");
+  if (!navigator.geolocation) {
+    handleGeolocError({ message: "Géolocalisation non supportée" });
+    return;
+  }
+  if (icon) icon.className = "zmdi zmdi-2x zmdi-gps";
+  navigator.geolocation.getCurrentPosition(showPosition, handleGeolocError);
+}
+
+/**
+ * Contrôle Leaflet personnalisé pour la géolocalisation.
  */
 export class GeoLocControl extends L.Control {
   /**
-   * @param {Object} options
+   * @param {Object} [options]
    */
   constructor(options = {}) {
     super({ position: "topright", ...options });
   }
+
   onAdd() {
     const container = L.DomUtil.create("div", "leaflet-control-geoloc");
     container.innerHTML =
@@ -69,12 +73,13 @@ export class GeoLocControl extends L.Control {
  * @param {L.Map} map
  */
 export function addGeoLocControlToMap(map) {
-  if (map) {
+  if (map && !map._geolocControlAdded) {
     map.addControl(new GeoLocControl());
+    map._geolocControlAdded = true;
   }
 }
 
-// Pour compatibilité avec l'ancien code global
+// Ajout automatique du contrôle si window.map existe (pour compatibilité)
 if (window.map) {
   addGeoLocControlToMap(window.map);
 }
