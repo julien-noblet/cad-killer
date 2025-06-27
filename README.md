@@ -1,9 +1,23 @@
 # CAD-Killer
 
-Visionneur de carte moderne, rapide et ergonomique pour logisticiens et utilisateurs exigeants.
-
 [![Code style: Prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Soutenir sur Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Julien_N/donate)
+[![Tests CI](https://github.com/julien-noblet/cad-killer/actions/workflows/test.yml/badge.svg)](https://github.com/julien-noblet/cad-killer/actions/workflows/test.yml)
+[![Coverage Status](https://coveralls.io/repos/github/julien-noblet/cad-killer/badge.svg?branch=master)](https://coveralls.io/github/julien-noblet/cad-killer?branch=master)
+
+---
+
+## Sommaire
+- [Présentation](#présentation)
+- [Fonctionnalités principales](#fonctionnalités-principales)
+- [Installation rapide](#installation-rapide)
+- [Utilisation](#utilisation)
+- [Tests automatisés et CI](#tests-automatisés-et-ci)
+- [Contribution](#contribution)
+- [Remerciements](#remerciements)
+- [Licence](#licence)
+
+---
 
 Démo en ligne : [Voir la démo](http://julien-noblet.github.io/cad-killer/)
 
@@ -30,6 +44,16 @@ yarn install # ou npm install
 - `yarn start` : Lance le serveur de développement (hot reload)
 - `yarn build` : Génère le build de production optimisé
 - `yarn test` : Exécute les tests automatisés
+
+## Tests automatisés et CI
+
+Les tests unitaires et d'intégration sont exécutés automatiquement à chaque push et pull request grâce à GitHub Actions (voir `.github/workflows/test.yml`).
+
+Pour lancer les tests en local :
+
+```bash
+npm test
+```
 
 ## Contribution
 Les contributions sont les bienvenues !

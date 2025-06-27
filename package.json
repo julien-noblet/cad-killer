@@ -15,6 +15,14 @@
       "prettier --write --insert-pragma",
       "git add"
     ],
+    "*.ts": [
+      "prettier --write --insert-pragma",
+      "git add"
+    ],
+    "*.tsx": [
+      "prettier --write --insert-pragma",
+      "git add"
+    ],
     "*.json": [
       "prettier --parser json --write",
       "git add"
@@ -24,6 +32,14 @@
       "git add"
     ],
     "src/**/*.js": [
+      "prettier --write",
+      "git add"
+    ],
+    "src/**/*.ts": [
+      "prettier --write",
+      "git add"
+    ],
+    "src/**/*.tsx": [
       "prettier --write",
       "git add"
     ],

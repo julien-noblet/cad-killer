@@ -9,7 +9,8 @@ import {
   IGN_KEY,
   IGN_LAYER,
   IGN_LAYER_LITE,
-  OSM_CREDITENTIALS,
+  IGN_ORTHO,
+  OSM_CREDENTIALS,
   NOTE_API,
 } from "./config";
 
@@ -61,10 +62,15 @@ describe("config.js check globals", () => {
     expect(typeof IGN_LAYER_LITE).toEqual("string");
   });
 
-  test("OSM_CREDITENTIALS seems ok", () => {
-    expect(typeof OSM_CREDITENTIALS).toEqual("string");
-    expect(OSM_CREDITENTIALS.length).toBe(28);
-    expect(OSM_CREDITENTIALS[OSM_CREDITENTIALS.length - 1]).toEqual("=");
+  test("IGN_ORTHO is a string", () => {
+    expect(typeof IGN_ORTHO).toEqual("string");
+    expect(IGN_ORTHO.length).toBeGreaterThan(0);
+  });
+
+  test("OSM_CREDENTIALS seems ok", () => {
+    expect(typeof OSM_CREDENTIALS).toEqual("string");
+    expect(OSM_CREDENTIALS.length).toBe(28);
+    expect(OSM_CREDENTIALS[OSM_CREDENTIALS.length - 1]).toEqual("=");
   });
 
   test("NOTE_API is an URL", () => {

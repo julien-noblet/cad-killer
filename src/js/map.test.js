@@ -13,3 +13,11 @@ describe('map module', () => {
     expect(typeof map.bootstrapMap).toBe('function');
   });
 });
+describe("map.js", () => {
+  it("bootstrapMap initialise window.map", async () => {
+    delete window.map;
+    document.body.innerHTML = '<div id="map"></div>';
+    await import("./map");
+    expect(window.map).toBeDefined();
+  });
+});

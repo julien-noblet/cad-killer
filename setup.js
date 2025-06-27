@@ -1,3 +1,6 @@
+/**
+ * setup.js - Initialisation du navigateur Puppeteer pour les tests end-to-end
+ */
 import { mkdir, writeFile } from 'fs/promises';
 import os from 'os';
 import path from 'path';

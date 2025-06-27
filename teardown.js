@@ -1,3 +1,6 @@
+/**
+ * teardown.js - Fermeture du navigateur Puppeteer et nettoyage après les tests end-to-end
+ */
 import fs from 'fs/promises';
 import os from 'os';
 import path from 'path';

@@ -19,6 +19,7 @@ module.exports = {
   },
   entry: {
     index: "./src/index.js",
+    index_ts: "./src/index.ts",
     leaflet: "leaflet",
     stats: ["leaflet-dialog", "leaflet-draw"],
     leaflet_plugins_a: ["leaflet-ajax", "leaflet-hash"],
@@ -66,7 +67,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpeg|jpg|gif)$/,
+        test: /\.(png|jpeg|jpg|gif|svg)$/,
         loader: "file-loader",
         options: {
           name: "images/[name].[ext]",
