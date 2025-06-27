@@ -1,5 +1,6 @@
 /**
  * Contrôle de géolocalisation Leaflet amélioré
+ * Fournit un contrôle personnalisé pour centrer la carte sur la position de l'utilisateur.
  * @module geoloc
  */
 
@@ -21,17 +22,26 @@ function showPosition(position) {
 }
 
 /**
+ * Gère l'échec de la géolocalisation et met à jour l'icône.
+ * @param {GeolocationPositionError} err
+ */
+function handleGeolocError(err) {
+  const icon = document.getElementById("geoloc_icon");
+  if (icon) icon.className = "zmdi zmdi-2x zmdi-gps-off";
+  // Affichage optionnel d'une notification d'erreur
+  // alert('Erreur de géolocalisation : ' + err.message);
+}
+
+/**
  * Demande la position de l'utilisateur et met à jour l'icône.
  */
 export function getLocation() {
   const icon = document.getElementById("geoloc_icon");
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition, (err) => {
-      if (icon) icon.className = "zmdi zmdi-2x zmdi-gps-off";
-      // Optionnel : afficher une notification d'erreur
-      // console.error('Erreur de géolocalisation', err);
-    });
     if (icon) icon.className = "zmdi zmdi-2x zmdi-gps";
+    navigator.geolocation.getCurrentPosition(showPosition, handleGeolocError);
+  } else {
+    handleGeolocError({ message: "Géolocalisation non supportée" });
   }
 }
 
@@ -39,6 +49,9 @@ export function getLocation() {
  * Contrôle Leaflet pour la géolocalisation
  */
 export class GeoLocControl extends L.Control {
+  /**
+   * @param {Object} options
+   */
   constructor(options = {}) {
     super({ position: "topright", ...options });
   }
@@ -53,6 +66,7 @@ export class GeoLocControl extends L.Control {
 
 /**
  * Ajoute le contrôle de géolocalisation à la carte si elle existe.
+ * @param {L.Map} map
  */
 export function addGeoLocControlToMap(map) {
   if (map) {

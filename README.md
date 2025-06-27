@@ -5,10 +5,20 @@ Visionneur de carte pour logisticiens pressés
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Julien_N/donate)
 
-Consultable ici : [Démo en ligne](http://julien-noblet.github.io/cad-killer/)
+Démo en ligne : [Voir la démo](http://julien-noblet.github.io/cad-killer/)
+
+## Présentation
+CAD-Killer est un visionneur de carte rapide et ergonomique, pensé pour les logisticiens et utilisateurs pressés. Il s’appuie sur OpenStreetMap et d’autres sources ouvertes pour offrir une expérience fluide et moderne.
+
+## Fonctionnalités principales
+- Recherche d’adresse rapide (Photon)
+- Affichage multi-fonds de carte (OSM, IGN, Cadastre, Esri…)
+- Outils de dessin et d’annotation
+- Géolocalisation utilisateur
+- Impression de la carte
 
 ## Remerciements
-Un grand merci à @etalab, @yohanboniface, @cquest sans qui ce projet n'existerait pas.
+Un grand merci à @etalab, @yohanboniface, @cquest sans qui ce projet n’existerait pas.
 Une grande partie de ce code provient de [@etalab/adresse.data.gouv.fr](https://github.com/etalab/adresse.data.gouv.fr).
 
 ## Installation
@@ -19,13 +29,13 @@ cd cad-killer
 yarn install # ou npm install
 ```
 
-## Scripts
+## Scripts disponibles
 - `yarn start` : Démarre le serveur de développement
-- `yarn build` : Build de production
-- `yarn test` : Lance les tests
+- `yarn build` : Génère le build de production
+- `yarn test` : Lance les tests automatisés
 
 ## Contribution
-Les contributions sont les bienvenues ! Merci de respecter le style du projet (Prettier, ESLint).
+Les contributions sont les bienvenues ! Merci de respecter le style du projet (Prettier, ESLint). Veuillez ouvrir une issue avant de proposer une fonctionnalité majeure.
 
 ## Licence
 
