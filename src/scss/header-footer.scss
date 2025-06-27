@@ -37,6 +37,7 @@ header {
   .menu {
     float: right;
     margin-right: 60px;
+
     @media (max-width: $smartphone) {
       margin-right: 0;
     }
@@ -60,6 +61,7 @@ header {
 
     a + a {
       margin-left: 20px;
+
       @media (max-width: $smartphone) {
         margin-left: 0;
       }

@@ -3,6 +3,8 @@ $url-0: url(../images/spritesheet.png);
 $url-1: url(../images/spritesheet.svg);
 $url-2: url(../images/spritesheet-2x.png);
 
+// Factorisation des styles, clarification des commentaires, amélioration de la gestion des actions et du responsive.
+
 .leaflet-draw-section {
   position: relative;
 }

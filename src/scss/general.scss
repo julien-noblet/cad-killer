@@ -1,34 +1,66 @@
 // *************************************************
-// ******************** GENERIC RULES **************
+// ***************** GENERAL RULES *****************
 // *************************************************
 
-// variables
+// Variables globales
 $smartphone: 8in;
-a {
+
+// ------------------ RESET -----------------------
+// Réinitialisation des styles de base pour une cohérence cross-browser
+@mixin reset-box {
   box-sizing: border-box;
-  color: $color-dark-text;
   margin: 0;
   padding: 0;
+}
+
+%reset-box {
+  @include reset-box;
+}
+
+// Application du reset à tous les éléments de base
+*, *::before, *::after {
+  @extend %reset-box;
+}
+
+// ------------------ LIENS -----------------------
+a {
+  color: $color-dark-text;
+  text-decoration: none;
+  transition: color 0.2s;
+  cursor: pointer;
+  &:hover,
+  &:focus {
+    color: $color-link;
+    text-decoration: underline;
+    outline: none;
+  }
+}
+
+// ------------------ BODY & HTML -----------------
+html {
+  font-size: 100%;
+  box-sizing: border-box;
+  @media print {
+    height: 100%;
+    margin: 0;
+  }
 }
 
 body {
-  font: 15px/20px 'open_sansregular', sans-serif;
+  font-family: 'open_sansregular', Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  line-height: 1.33;
   -webkit-font-smoothing: antialiased;
-  margin: 0;
-  padding: 0;
+  background: $color-background;
+  color: $color-dark-text;
+  min-height: 100vh;
   @media print {
     height: 100%;
     margin: 0;
   }
 }
 
-html {
-  @media print {
-    height: 100%;
-    margin: 0;
-  }
-}
-
+// ------------------ PRINT -----------------------
 @media print {
   @page {
     size: landscape;
@@ -36,143 +68,38 @@ html {
   }
 }
 
-div {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+// ------------------ TITRES ----------------------
+@mixin heading-style {
+  font-family: 'open_sansbold', Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  color: $color-dark-text;
 }
-
-footer {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+h1, h2, h3, h4, h5, h6, strong {
+  @include heading-style;
 }
-
 h1 {
-  box-sizing: border-box;
-  font-family: 'open_sansbold';
-  font-weight: normal;
-  line-height: 1em;
-  margin: 0;
-  padding: 0;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+h2, h3 {
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
 }
 
-h2 {
-  box-sizing: border-box;
-  font-family: 'open_sansbold';
-  font-weight: normal;
-  line-height: 1.2em;
-  margin: 0;
-  margin-bottom: 15px;
-  padding: 0;
-}
-
-h3 {
-  box-sizing: border-box;
-  font-family: 'open_sansbold';
-  font-weight: normal;
-  line-height: 1.2em;
-  margin: 0;
-  margin-bottom: 15px;
-  padding: 0;
-}
-
-h4 {
-  box-sizing: border-box;
-  font-family: 'open_sansbold';
-  font-weight: normal;
-  margin: 0;
-  padding: 0;
-}
-
-h5 {
-  box-sizing: border-box;
-  font-family: 'open_sansbold';
-  font-weight: normal;
-  margin: 0;
-  padding: 0;
-}
-
-h6 {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-header {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+// ------------------ HR --------------------------
 hr {
-  -moz-border-bottom-colors: none;
-  // hack :)
-  border-color: $color-border;
-  border-image: none;
-  -moz-border-left-colors: none;
-  // est-il necessaire???
-  -moz-border-right-colors: none;
-  border-style: solid;
-  -moz-border-top-colors: none;
-  border-width: 1px 0 0;
-  box-sizing: border-box;
+  border: none;
+  border-top: 1px solid $color-border;
   clear: both;
   height: 0;
-  margin: 28px auto;
+  margin: 2rem auto;
   max-width: 980px;
-  padding: 0;
   width: 100%;
 }
 
-input {
-  box-sizing: border-box;
-  color: $color-text;
-  font: 15px/20px 'open_sansregular', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  margin: 0;
-  padding: 0;
-}
-
-li {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-nav {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-ol {
+// ------------------ LISTES ----------------------
+ol, ul {
   list-style: none;
-}
-
-ul {
-  box-sizing: border-box;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-section {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-strong {
-  font-family: 'open_sansbold';
-  font-weight: normal;
-}
-
-textarea {
-  box-sizing: border-box;
-  color: $color-text;
-  font: 15px/20px 'open_sansregular', sans-serif;
-  -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;
 }

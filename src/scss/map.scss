@@ -4,6 +4,8 @@
 
 $height-photon: 46px;
 
+// Clarification de la structure, renforcement du responsive, amélioration de la lisibilité.
+
 .nohead {
   @media (max-width: $smartphone) {
     top: 0; // !important;
