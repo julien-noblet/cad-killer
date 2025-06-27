@@ -5,7 +5,7 @@
 import L from "leaflet";
 import { IGN_KEY, IGN_LAYER } from "./config";
 
-// Layers
+// Définition des fonds de carte principaux
 export const layerOSMfr = L.tileLayer(
   "//{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
   {
@@ -50,24 +50,22 @@ export const layerEsriWorldImagery = L.tileLayer(
   }
 );
 
-
 export const layerEsriWorldStreetMap = L.tileLayer(
   "//server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
   {
     attribution:
-    'Tiles &copy; Esri &mdash; ' +
-    'Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+      'Tiles &copy; Esri &mdash; ' +
+      'Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012',
   }
 );
 
 export const layerIGN = L.tileLayer(
   `//data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_LAYER}&STYLE=normal&FORMAT=image/jpeg&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`,
- // `//wxs.ign.fr/${IGN_KEY}/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_LAYER}&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg`,
   {
     maxZoom: 18,
     minZoom: 6,
     attribution: 'IGN-F/Géoportail',
-    tileSize : 256 // les tuiles du Géooportail font 256x256px
+    tileSize: 256, // tuiles 256x256px
   }
 );
 
@@ -79,13 +77,14 @@ export const overlayBAN = L.tileLayer(
   }
 );
 
+// Groupes de fonds de carte et surcouches
 export const baseMaps = {
   "OpenStreetMap France": layerOSMfr,
   OpenStreetMap: layerOSM,
-  // "Carte IGN": layerIGN, // je n'arrive pas a renouveller la clé IGN pour le moment
+  // "Carte IGN": layerIGN, // clé IGN non renouvelée
   Cadastre: layerCadastre,
   Esri: layerEsriWorldImagery,
-  "World Street Map" : layerEsriWorldStreetMap,
+  "World Street Map": layerEsriWorldStreetMap,
 };
 
 export const overlayMaps = {
