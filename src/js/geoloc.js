@@ -20,7 +20,7 @@ const GEOLOC_ERROR_MSG = "Erreur de géolocalisation";
 const GEOLOC_UNSUPPORTED_MSG = "Géolocalisation non supportée";
 
 /**
- * Met à jour l'icône de géolocalisation selon l'état.
+ * Met à jour l'icône de géolocalisation selon l'état fourni.
  * @param {('default'|'active'|'success'|'error')} state
  */
 function updateGeolocIcon(state = "default") {
@@ -31,11 +31,11 @@ function updateGeolocIcon(state = "default") {
 }
 
 /**
- * Affiche une notification utilisateur (à améliorer selon l'UI du projet)
+ * Affiche une notification utilisateur (console ou UI future).
  * @param {string} message
  */
 function notifyUser(message) {
-  if (window?.console?.warn) {
+  if (typeof window !== "undefined" && window.console && window.console.warn) {
     window.console.warn(message);
   }
   // TODO: Remplacer par une notification visuelle élégante si besoin
