@@ -12,7 +12,7 @@ import "leaflet/dist/images/marker-icon-2x.png";
 import "leaflet/dist/images/marker-icon.png";
 import "leaflet/dist/images/marker-shadow.png";
 
-(async () => {
+(async (): Promise<void> => {
   try {
     await import("es6-promise/auto");
     await import("./js/map");

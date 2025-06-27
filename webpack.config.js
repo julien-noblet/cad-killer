@@ -131,3 +131,4 @@ module.exports = {
     },
   },
 };
+// Configuration Webpack améliorée pour la clarté et la robustesse. Voir README pour la structure du projet.
