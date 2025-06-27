@@ -1,42 +1,53 @@
 /**
- * global L, map
- *
- * @format
+ * Contrôle de géolocalisation Leaflet amélioré
+ * @module geoloc
  */
 
-// Géoloc
-function showPosition(position) {
-  const icone = L.DomUtil.get(document.getElementById("geoloc_icon"));
-  if (Window.map !== null) {
-    Window.map.setView(
-      [position.coords.latitude, position.coords.longitude],
-      16
-    );
-    icone.className = "zmdi zmdi-2x zmdi-gps-dot";
+/**
+ * Centre la carte sur la position fournie et met à jour l'icône.
+ * @param {GeolocationPosition} position
+ */
+const showPosition = (position) => {
+  const icon = document.getElementById("geoloc_icon");
+  if (window.map) {
+    window.map.setView([
+      position.coords.latitude,
+      position.coords.longitude,
+    ], 16);
+    if (icon) icon.className = "zmdi zmdi-2x zmdi-gps-dot";
   }
-}
+};
 
-/* eslint-disable no-unused-vars */
-function getLocation() {
-  const icone = document.getElementById("geoloc_icon");
+/**
+ * Demande la position de l'utilisateur et met à jour l'icône.
+ */
+window.getLocation = () => {
+  const icon = document.getElementById("geoloc_icon");
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-    icone.className = "zmdi zmdi-2x zmdi-gps";
+    navigator.geolocation.getCurrentPosition(showPosition, (err) => {
+      if (icon) icon.className = "zmdi zmdi-2x zmdi-gps-off";
+      // Optionnel : afficher une notification d'erreur
+      // console.error('Erreur de géolocalisation', err);
+    });
+    if (icon) icon.className = "zmdi zmdi-2x zmdi-gps";
   }
-}
-/* eslint-enable no-unused-vars */
+};
 
+/**
+ * Contrôle Leaflet pour la géolocalisation
+ */
 const GeoLoc = L.Control.extend({
   options: {
     position: "topright",
   },
-  onAdd: () => {
+  onAdd: function () {
     const container = L.DomUtil.create("div", "leaflet-control-geoloc");
     container.innerHTML =
       '<span onClick="getLocation();" id="geoloc" class="geoloc"><i class="zmdi zmdi-2x zmdi-gps-off" id="geoloc_icon"></i></span>';
-    // ... initialize other DOM elements, add listeners, etc.
     return container;
   },
 });
 
-window.map.addControl(new GeoLoc());
+if (window.map) {
+  window.map.addControl(new GeoLoc());
+}
