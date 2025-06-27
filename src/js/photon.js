@@ -5,7 +5,6 @@
 
 import L from "leaflet";
 import { API_URL, SHORT_CITY_NAMES } from "./config";
-// import { sendClick, sendSearch } from "./stats";
 
 require("leaflet.photon");
 
@@ -38,7 +37,6 @@ const searchPoints = L.geoJson(null, {
         feature.geometry.coordinates[1],
         feature.geometry.coordinates[0],
       ], zoom);
-      // sendClick(feature); // Statistiques désactivées
     });
     layer.bindPopup(
       `${feature.properties.name}<a class='geo' href='geo:${feature.geometry.coordinates[1]},${feature.geometry.coordinates[0]}'><i class='zmdi-navigation zmdi-2x'></i></a>`
@@ -112,7 +110,6 @@ export function photon() {
     Object.getPrototypeOf(myPhoton.search).setChoice = function setChoice(choice) {
       const c = choice || this.RESULTS[this.CURRENT];
       if (c) {
-        // sendSearch(c.feature); // Statistiques désactivées
         this.hide();
         this.input.value = "";
         this.fire("selected", { choice: c.feature });

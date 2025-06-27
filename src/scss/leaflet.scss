@@ -11,25 +11,18 @@ $url-0: url('#default#VML');
 $url-1: url('~leaflet/dist/images/layers.png');
 $url-2: url('~leaflet/dist/images/layers-2x.png');
 
-//@extend-elements
-//original selectors
-//.leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-tile-container, .leaflet-map-pane svg, .leaflet-map-pane canvas, .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer
 %extend-1 {
   position: absolute;
   left: 0;
   top: 0;
 }
 
-//original selectors
-//.leaflet-top, .leaflet-bottom
 %extend-2 {
   position: absolute;
   z-index: 1000;
   pointer-events: none;
 }
 
-//original selectors
-//.leaflet-bar a, .leaflet-bar a:hover
 %extend-3 {
   background-color: $white;
   border-bottom: 1px solid $color-celeste-approx;
@@ -42,20 +35,15 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   color: $black;
 }
 
-//original selectors
-//.leaflet-bar a, .leaflet-control-layers-toggle
 %extend-4 {
   background-position: 50% 50%;
   background-repeat: no-repeat;
   display: block;
 }
 
-//original selectors
-//.leaflet-popup-content-wrapper, .leaflet-popup-tip
 %extend-5 {
   background: $white;
   color: $color-mine-shaft-approx;
-  //Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
   box-shadow: 0 3px 14px $black-40;
 }
 
@@ -65,20 +53,17 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
 }
 .leaflet-tile {
   @extend %extend-1;
-  //Instead of the line below you could use @includeuser-select($select)
   user-select: none;
   filter: inherit;
   visibility: hidden;
 }
 .leaflet-marker-icon {
   @extend %extend-1;
-  //Instead of the line below you could use @includeuser-select($select)
   user-select: none;
   display: block;
 }
 .leaflet-marker-shadow {
   @extend %extend-1;
-  //Instead of the line below you could use @includeuser-select($select)
   user-select: none;
   display: block;
 }
@@ -99,7 +84,6 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   @extend %extend-1;
   width: 0;
   height: 0;
-  //Instead of the line below you could use @includebox-sizing($bs)
   box-sizing: border-box;
   z-index: 8;
   border: 2px dotted $color-dodger-blue-approx;
@@ -245,7 +229,6 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   .leaflet-popup {
     opacity: 0;
     z-index: 700;
-    //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
     transition: opacity 0.2s linear;
   }
   .leaflet-map-pane .leaflet-popup {
@@ -253,17 +236,14 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   }
 }
 .leaflet-zoom-animated {
-  //Instead of the line below you could use @includetransform-origin($origin-x, $origin-y, $origin-z, $only3d)
   transform-origin: 0 0;
 }
 .leaflet-zoom-anim {
   .leaflet-zoom-animated {
     will-change: transform;
-    //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
     transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);
   }
   .leaflet-tile {
-    //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
     transition: none;
   }
   .leaflet-zoom-hide {
@@ -293,9 +273,7 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   }
 }
 .leaflet-bar {
-  //Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
   box-shadow: 0 1px 5px $black-65;
-  //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
   border-radius: 4px;
   a {
     @extend %extend-3;
@@ -305,15 +283,11 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
       background-color: $wild-sand;
     }
     &:first-child {
-      //Instead of the line below you could use @includeborder-top-left-radius($radius)
       border-top-left-radius: 4px;
-      //Instead of the line below you could use @includeborder-top-right-radius($radius)
       border-top-right-radius: 4px;
     }
     &:last-child {
-      //Instead of the line below you could use @includeborder-bottom-left-radius($radius)
       border-bottom-left-radius: 4px;
-      //Instead of the line below you could use @includeborder-bottom-right-radius($radius)
       border-bottom-right-radius: 4px;
       border-bottom: none;
     }
@@ -332,10 +306,8 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
 }
 .leaflet-touch {
   .leaflet-bar {
-    //Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
     box-shadow: none;
     border: 2px solid $black-20;
-    //Instead of the line below you could use @includebackground-clip($clip)
     background-clip: padding-box;
     a {
       width: 30px;
@@ -354,14 +326,11 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
     height: 44px;
   }
   .leaflet-control-attribution {
-    //Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
     box-shadow: none;
   }
   .leaflet-control-layers {
-    //Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
     box-shadow: none;
     border: 2px solid $black-20;
-    //Instead of the line below you could use @includebackground-clip($clip)
     background-clip: padding-box;
   }
 }
@@ -375,10 +344,8 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   font-size: 20px;
 }
 .leaflet-control-layers {
-  //Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
   box-shadow: 0 1px 5px $black-40;
   background: $white;
-  //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
   border-radius: 5px;
   .leaflet-control-layers-list {
     display: none;
@@ -433,7 +400,6 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   font-size: 11px;
   white-space: nowrap;
   overflow: hidden;
-  //Instead of the line below you could use @includebox-sizing($bs)
   box-sizing: content-box;
   background: $white-50;
   &:not(:first-child) {
@@ -452,7 +418,6 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
 .leaflet-popup-content-wrapper {
   padding: 1px;
   text-align: left;
-  //Instead of the line below you could use @includeborder-radius($radius, $vertical-radius)
   border-radius: 12px;
   @extend %extend-5;
 }
@@ -475,7 +440,6 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   height: 17px;
   padding: 1px;
   margin: -10px auto 0;
-  //Instead of the line below you could use @includetransform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
   transform: rotate(45deg);
   @extend %extend-5;
 }
@@ -515,12 +479,9 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   border: 1px solid $color-storm-dust-approx;
 }
 .leaflet-pan-anim .leaflet-tile {
-  // Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
   transition: none;
 }
 .leaflet-retina .leaflet-control-layers-toggle {
   background-image: $url-2;
   background-size: 26px 26px;
 }
-
-// Factorisation des extends, clarification des commentaires, amélioration de la gestion des états et interactions.

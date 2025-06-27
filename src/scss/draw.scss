@@ -14,7 +14,6 @@ $url-2: url(../images/spritesheet-2x.png);
     background-image: none;
     background-repeat: no-repeat;
     background-size: 270px 30px;
-    //Instead of the line below you could use @include background-clip($clip)
     background-clip: padding-box;
   }
   .leaflet-draw-draw-polyline {

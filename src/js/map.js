@@ -9,7 +9,6 @@ import { overlayMaps, baseMaps, layerOSMfr } from "./layers";
 import { photon } from "./photon";
 
 const MAP_ELEMENT_ID = "map";
-const DOM_CONTENT_LOADED = "DOMContentLoaded";
 
 /**
  * Sélectionne l'élément DOM pour la carte Leaflet.
@@ -59,7 +58,7 @@ export async function bootstrapMap() {
     console.error("Erreur d'initialisation de la carte:", error);
     return;
   }
-  window.addEventListener(DOM_CONTENT_LOADED, async () => {
+  window.addEventListener("DOMContentLoaded", async () => {
     try {
       photon();
       await import("./reverseLabel");
