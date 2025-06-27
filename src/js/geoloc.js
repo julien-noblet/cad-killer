@@ -6,7 +6,6 @@
 
 import L from "leaflet";
 
-// Classes CSS pour l'icône de géolocalisation
 const GEOLOC_ICON_CLASSES = Object.freeze({
   default: "zmdi zmdi-2x zmdi-gps-off",
   active: "zmdi zmdi-2x zmdi-gps",
@@ -14,14 +13,13 @@ const GEOLOC_ICON_CLASSES = Object.freeze({
   error: "zmdi zmdi-2x zmdi-gps-off",
 });
 
-// Libellés et messages d'accessibilité
 const GEOLOC_LABEL = "Centrer la carte sur ma position";
 const GEOLOC_ERROR_MSG = "Erreur de géolocalisation";
 const GEOLOC_UNSUPPORTED_MSG = "Géolocalisation non supportée";
 
 /**
  * Met à jour l'icône de géolocalisation selon l'état fourni.
- * @param {('default'|'active'|'success'|'error')} state
+ * @param {('default'|'active'|'success'|'error')} [state="default"]
  */
 function updateGeolocIcon(state = "default") {
   const icon = document.getElementById("geoloc_icon");
@@ -47,12 +45,7 @@ function notifyUser(message) {
  */
 function centerMapOnPosition(position) {
   const { latitude, longitude } = position?.coords || {};
-  if (
-    typeof window !== "undefined" &&
-    window.map &&
-    typeof latitude === "number" &&
-    typeof longitude === "number"
-  ) {
+  if (window?.map && typeof latitude === "number" && typeof longitude === "number") {
     window.map.setView([latitude, longitude], 16);
     updateGeolocIcon("success");
   } else {
@@ -67,8 +60,7 @@ function centerMapOnPosition(position) {
  */
 function handleGeolocationError(error) {
   updateGeolocIcon("error");
-  const msg = error?.message || GEOLOC_ERROR_MSG;
-  notifyUser(`${GEOLOC_ERROR_MSG} : ${msg}`);
+  notifyUser(`${GEOLOC_ERROR_MSG} : ${error?.message || GEOLOC_ERROR_MSG}`);
 }
 
 /**
@@ -76,7 +68,7 @@ function handleGeolocationError(error) {
  * Peut être mockée pour les tests.
  */
 export function getLocation() {
-  if (typeof navigator === "undefined" || !navigator.geolocation) {
+  if (!navigator?.geolocation) {
     handleGeolocationError({ message: GEOLOC_UNSUPPORTED_MSG });
     return;
   }
@@ -93,9 +85,6 @@ export function getLocation() {
  * Permet d'ajouter un bouton de géolocalisation sur la carte.
  */
 export class GeoLocControl extends L.Control {
-  /**
-   * @param {Object} [options]
-   */
   constructor(options = {}) {
     super({ position: "topright", ...options });
   }
