@@ -7,10 +7,11 @@ describe('setup.js', () => {
   });
 
   it('peut être appelée sans erreur (mock puppeteer)', async () => {
-    const oldLaunch = require('puppeteer').launch;
-    require('puppeteer').launch = async () => ({ wsEndpoint: () => 'ws://mock', close: jest.fn() });
+    const puppeteer = require('puppeteer');
+    const oldLaunch = puppeteer.launch;
+    puppeteer.launch = async () => ({ wsEndpoint: () => 'ws://mock', close: jest.fn() });
     globalThis.__BROWSER_GLOBAL__ = undefined;
     await expect(setup()).resolves.toBeUndefined();
-    require('puppeteer').launch = oldLaunch;
+    puppeteer.launch = oldLaunch;
   });
 });

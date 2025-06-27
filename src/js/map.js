@@ -48,6 +48,8 @@ export function initializeMap(element) {
 /**
  * Bootstrap asynchrone de la carte et des modules complémentaires.
  * Séparé pour faciliter les tests et la maintenabilité.
+ * Initialise la carte et charge les modules complémentaires après le DOMContentLoaded.
+ * Gère les erreurs d'initialisation et de chargement des modules.
  */
 export async function bootstrapMap() {
   try {
@@ -68,4 +70,6 @@ export async function bootstrapMap() {
 }
 
 // Initialisation automatique si ce module est chargé directement
-bootstrapMap();
+if (typeof window !== 'undefined') {
+  bootstrapMap();
+}

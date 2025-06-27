@@ -20,4 +20,12 @@ describe("map.js", () => {
     await import("./map");
     expect(window.map).toBeDefined();
   });
+
+  it("lève une erreur explicite si l'élément DOM est absent", async () => {
+    document.body.innerHTML = '';
+    // Suppression du cache du module pour forcer le rechargement
+    jest.resetModules();
+    const mapModule = await import("./map");
+    expect(() => mapModule.getMapElement()).toThrow(ReferenceError);
+  });
 });

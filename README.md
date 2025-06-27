@@ -1,9 +1,10 @@
 # CAD-Killer
 
+[![Build Status](https://github.com/julien-noblet/cad-killer/actions/workflows/test.yml/badge.svg)](https://github.com/julien-noblet/cad-killer/actions/workflows/test.yml)
 [![Code style: Prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Soutenir sur Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Julien_N/donate)
-[![Tests CI](https://github.com/julien-noblet/cad-killer/actions/workflows/test.yml/badge.svg)](https://github.com/julien-noblet/cad-killer/actions/workflows/test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/julien-noblet/cad-killer/badge.svg?branch=master)](https://coveralls.io/github/julien-noblet/cad-killer?branch=master)
+[![CodeQL](https://github.com/julien-noblet/cad-killer/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/julien-noblet/cad-killer/actions/workflows/codeql-analysis.yml)
 
 ---
 
@@ -13,6 +14,7 @@
 - [Installation rapide](#installation-rapide)
 - [Utilisation](#utilisation)
 - [Tests automatisés et CI](#tests-automatisés-et-ci)
+- [Qualité & Sécurité](#qualité--sécurité)
 - [Contribution](#contribution)
 - [Remerciements](#remerciements)
 - [Licence](#licence)
@@ -44,6 +46,7 @@ yarn install # ou npm install
 - `yarn start` : Lance le serveur de développement (hot reload)
 - `yarn build` : Génère le build de production optimisé
 - `yarn test` : Exécute les tests automatisés
+- `yarn codeql:analyze` : Lance une analyse de sécurité/qualité CodeQL locale (si CodeQL CLI installé)
 
 ## Tests automatisés et CI
 
@@ -53,6 +56,16 @@ Pour lancer les tests en local :
 
 ```bash
 npm test
+```
+
+## Qualité & Sécurité
+
+L'analyse statique du code est assurée par [CodeQL](https://github.com/github/codeql) pour détecter les vulnérabilités et problèmes de qualité. Le badge ci-dessus indique le statut de l'analyse sur la branche principale.
+
+Pour lancer une analyse locale (nécessite l'installation de CodeQL CLI) :
+
+```bash
+yarn codeql:analyze
 ```
 
 ## Contribution
@@ -65,6 +78,7 @@ Merci de respecter le style du projet (Prettier, ESLint) et d'ouvrir une issue a
 - Ajoutez des tests unitaires et d'intégration si nécessaire
 - Respectez la structure du projet
 - Privilégiez la clarté, la simplicité et la robustesse
+- Utilisez des branches pour vos PR et rédigez des messages de commit explicites (voir [Conventional Commits](https://www.conventionalcommits.org/fr/v1.0.0/))
 
 ## Remerciements
 Merci à @etalab, @yohanboniface, @cquest pour leur inspiration et leur travail. Une partie du code provient de [@etalab/adresse.data.gouv.fr](https://github.com/etalab/adresse.data.gouv.fr).
