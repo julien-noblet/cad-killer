@@ -1,6 +1,6 @@
-# cad-killer
+# CAD-Killer
 
-Visionneur de carte pour logisticiens pressés
+Visionneur de carte moderne et rapide pour logisticiens et utilisateurs exigeants
 
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Julien_N/donate)
@@ -8,20 +8,17 @@ Visionneur de carte pour logisticiens pressés
 Démo en ligne : [Voir la démo](http://julien-noblet.github.io/cad-killer/)
 
 ## Présentation
-CAD-Killer est un visionneur de carte rapide et ergonomique, pensé pour les logisticiens et utilisateurs pressés. Il s’appuie sur OpenStreetMap et d’autres sources ouvertes pour offrir une expérience fluide et moderne.
+CAD-Killer est un visionneur de carte performant et ergonomique, conçu pour répondre aux besoins des logisticiens et des utilisateurs pressés. Il exploite OpenStreetMap et d'autres sources ouvertes pour offrir une expérience fluide, moderne et personnalisable.
 
 ## Fonctionnalités principales
-- Recherche d’adresse rapide (Photon)
-- Affichage multi-fonds de carte (OSM, IGN, Cadastre, Esri…)
-- Outils de dessin et d’annotation
-- Géolocalisation utilisateur
-- Impression de la carte
+- Recherche d'adresse instantanée (Photon)
+- Affichage multi-fonds de carte (OSM, IGN, Cadastre, Esri, etc.)
+- Outils de dessin et d'annotation avancés
+- Géolocalisation précise de l'utilisateur
+- Impression et export de la carte
+- Interface responsive adaptée à tous les écrans
 
-## Remerciements
-Un grand merci à @etalab, @yohanboniface, @cquest sans qui ce projet n’existerait pas.
-Une grande partie de ce code provient de [@etalab/adresse.data.gouv.fr](https://github.com/etalab/adresse.data.gouv.fr).
-
-## Installation
+## Installation rapide
 
 ```bash
 git clone https://github.com/julien-noblet/cad-killer.git
@@ -29,13 +26,21 @@ cd cad-killer
 yarn install # ou npm install
 ```
 
-## Scripts disponibles
-- `yarn start` : Démarre le serveur de développement
-- `yarn build` : Génère le build de production
-- `yarn test` : Lance les tests automatisés
+## Utilisation
+- `yarn start` : Lance le serveur de développement (hot reload)
+- `yarn build` : Génère le build de production optimisé
+- `yarn test` : Exécute les tests automatisés
 
 ## Contribution
-Les contributions sont les bienvenues ! Merci de respecter le style du projet (Prettier, ESLint). Veuillez ouvrir une issue avant de proposer une fonctionnalité majeure.
+Les contributions sont les bienvenues !
+
+Merci de respecter le style du projet (Prettier, ESLint) et d'ouvrir une issue avant toute proposition de fonctionnalité majeure. Veillez à :
+- Documenter votre code et vos fonctions
+- Ajouter des tests si nécessaire
+- Respecter la structure du projet
+
+## Remerciements
+Merci à @etalab, @yohanboniface, @cquest pour leur inspiration et leur travail. Une partie du code provient de [@etalab/adresse.data.gouv.fr](https://github.com/etalab/adresse.data.gouv.fr).
 
 ## Licence
 
