@@ -1,11 +1,12 @@
 /**
- * @format
+ * Définition des couches de base et surcouches pour Leaflet
+ * @module layers
  */
 
 import L from "leaflet";
 import { IGN_KEY, IGN_LAYER } from "./config";
 
-// Définition des fonds de carte principaux
+// Couches de base
 export const layerOSMfr = L.tileLayer(
   "//{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
   {
@@ -26,15 +27,6 @@ export const layerOSM = L.tileLayer(
 
 export const layerCadastre = L.tileLayer(
   "http://tms.cadastre.openstreetmap.fr/*/tout/{z}/{x}/{y}.png",
-  {
-    maxZoom: 22,
-    minZoom: 16,
-    attribution: "&copy; Cadastre",
-  }
-);
-
-export const overlayCadastre = L.tileLayer(
-  "http://tms.cadastre.openstreetmap.fr/*/transp/{z}/{x}/{y}.png",
   {
     maxZoom: 22,
     minZoom: 16,
@@ -65,7 +57,17 @@ export const layerIGN = L.tileLayer(
     maxZoom: 18,
     minZoom: 6,
     attribution: 'IGN-F/Géoportail',
-    tileSize: 256, // tuiles 256x256px
+    tileSize: 256,
+  }
+);
+
+// Surcouches
+export const overlayCadastre = L.tileLayer(
+  "http://tms.cadastre.openstreetmap.fr/*/transp/{z}/{x}/{y}.png",
+  {
+    maxZoom: 22,
+    minZoom: 16,
+    attribution: "&copy; Cadastre",
   }
 );
 
