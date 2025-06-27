@@ -7,49 +7,79 @@
 import L from "leaflet";
 
 /**
+ * Met à jour l'icône de géolocalisation selon l'état.
+ * @param {('default'|'active'|'success'|'error')} state
+ */
+function updateGeolocIcon(state = 'default') {
+  const icon = document.getElementById("geoloc_icon");
+  if (!icon) return;
+  const states = {
+    default: "zmdi zmdi-2x zmdi-gps-off",
+    active: "zmdi zmdi-2x zmdi-gps",
+    success: "zmdi zmdi-2x zmdi-gps-dot",
+    error: "zmdi zmdi-2x zmdi-gps-off",
+  };
+  icon.className = states[state] || states.default;
+}
+
+/**
  * Centre la carte sur la position fournie et met à jour l'icône de géolocalisation.
  * @param {GeolocationPosition} position
  */
-function showPosition(position) {
-  const icon = document.getElementById("geoloc_icon");
-  if (window.map) {
+function centerMapOnPosition(position) {
+  if (
+    window.map &&
+    position &&
+    position.coords &&
+    typeof position.coords.latitude === 'number' &&
+    typeof position.coords.longitude === 'number'
+  ) {
     window.map.setView([
       position.coords.latitude,
       position.coords.longitude,
     ], 16);
-    if (icon) icon.className = "zmdi zmdi-2x zmdi-gps-dot";
+    updateGeolocIcon('success');
+  } else {
+    updateGeolocIcon('error');
+    // Optionnel: log ou notification
   }
 }
 
 /**
  * Gère l'échec de la géolocalisation et met à jour l'icône de géolocalisation.
- * @param {GeolocationPositionError|Object} err
+ * @param {GeolocationPositionError|Object} error
  */
-function handleGeolocError(err) {
-  const icon = document.getElementById("geoloc_icon");
-  if (icon) icon.className = "zmdi zmdi-2x zmdi-gps-off";
-  if (err && err.message) {
-    // Affichage optionnel d'une notification d'erreur
-    // window.alert(`Erreur de géolocalisation : ${err.message}`);
+function handleGeolocationError(error) {
+  updateGeolocIcon('error');
+  if (error && error.message) {
+    // TODO: Remplacer par une notification utilisateur élégante
+    if (window.console && window.console.warn) {
+      window.console.warn(`Erreur de géolocalisation : ${error.message}`);
+    }
   }
 }
 
 /**
  * Demande la position de l'utilisateur et met à jour l'icône de géolocalisation.
  * Peut être mockée pour les tests.
+ * @returns {void}
  */
 export function getLocation() {
-  const icon = document.getElementById("geoloc_icon");
   if (!navigator.geolocation) {
-    handleGeolocError({ message: "Géolocalisation non supportée" });
+    handleGeolocationError({ message: "Géolocalisation non supportée" });
     return;
   }
-  if (icon) icon.className = "zmdi zmdi-2x zmdi-gps";
-  navigator.geolocation.getCurrentPosition(showPosition, handleGeolocError);
+  updateGeolocIcon('active');
+  navigator.geolocation.getCurrentPosition(centerMapOnPosition, handleGeolocationError, {
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 0,
+  });
 }
 
 /**
  * Contrôle Leaflet personnalisé pour la géolocalisation.
+ * Permet d'ajouter un bouton de géolocalisation sur la carte.
  */
 export class GeoLocControl extends L.Control {
   /**
@@ -62,8 +92,19 @@ export class GeoLocControl extends L.Control {
   onAdd() {
     const container = L.DomUtil.create("div", "leaflet-control-geoloc");
     container.innerHTML =
-      '<span id="geoloc" class="geoloc"><i class="zmdi zmdi-2x zmdi-gps-off" id="geoloc_icon"></i></span>';
+      '<span id="geoloc" class="geoloc"><i class="zmdi zmdi-2x zmdi-gps-off" id="geoloc_icon" aria-label="Géolocalisation"></i></span>';
+    container.title = "Centrer la carte sur ma position";
+    container.style.cursor = "pointer";
     container.addEventListener("click", getLocation);
+    // Accessibilité : focusable
+    container.tabIndex = 0;
+    container.setAttribute('role', 'button');
+    container.setAttribute('aria-pressed', 'false');
+    container.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        getLocation();
+      }
+    });
     return container;
   }
 }

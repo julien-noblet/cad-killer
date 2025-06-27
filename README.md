@@ -1,14 +1,14 @@
 # CAD-Killer
 
-Visionneur de carte moderne et rapide pour logisticiens et utilisateurs exigeants
+Visionneur de carte moderne, rapide et ergonomique pour logisticiens et utilisateurs exigeants.
 
-[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Julien_N/donate)
+[![Code style: Prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![Soutenir sur Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Julien_N/donate)
 
 Démo en ligne : [Voir la démo](http://julien-noblet.github.io/cad-killer/)
 
 ## Présentation
-CAD-Killer est un visionneur de carte performant et ergonomique, conçu pour répondre aux besoins des logisticiens et des utilisateurs pressés. Il exploite OpenStreetMap et d'autres sources ouvertes pour offrir une expérience fluide, moderne et personnalisable.
+CAD-Killer est un visionneur de carte performant et personnalisable, conçu pour répondre aux besoins des logisticiens et des utilisateurs exigeants. Il exploite OpenStreetMap et d'autres sources ouvertes pour offrir une expérience fluide, moderne et responsive.
 
 ## Fonctionnalités principales
 - Recherche d'adresse instantanée (Photon)
@@ -34,10 +34,13 @@ yarn install # ou npm install
 ## Contribution
 Les contributions sont les bienvenues !
 
-Merci de respecter le style du projet (Prettier, ESLint) et d'ouvrir une issue avant toute proposition de fonctionnalité majeure. Veillez à :
-- Documenter votre code et vos fonctions
-- Ajouter des tests si nécessaire
-- Respecter la structure du projet
+Merci de respecter le style du projet (Prettier, ESLint) et d'ouvrir une issue avant toute proposition de fonctionnalité majeure.
+
+**Bonnes pratiques :**
+- Documentez votre code et vos fonctions avec des commentaires clairs
+- Ajoutez des tests unitaires et d'intégration si nécessaire
+- Respectez la structure du projet
+- Privilégiez la clarté, la simplicité et la robustesse
 
 ## Remerciements
 Merci à @etalab, @yohanboniface, @cquest pour leur inspiration et leur travail. Une partie du code provient de [@etalab/adresse.data.gouv.fr](https://github.com/etalab/adresse.data.gouv.fr).
@@ -46,5 +49,6 @@ Merci à @etalab, @yohanboniface, @cquest pour leur inspiration et leur travail.
 
 Copyright (c) 2014-2018, Julien Noblet
 
-Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
