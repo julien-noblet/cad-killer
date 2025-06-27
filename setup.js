@@ -1,20 +1,18 @@
-const {mkdir, writeFile} = require('fs').promises;
-const os = require('os');
-const path = require('path');
-const puppeteer = require('puppeteer');
+/**
+ * setup.js - Initialisation du navigateur Puppeteer pour les tests end-to-end
+ */
+import { mkdir, writeFile } from 'fs/promises';
+import os from 'os';
+import path from 'path';
+import puppeteer from 'puppeteer';
 
 const DIR = path.join(os.tmpdir(), 'jest_puppeteer_global_setup');
 
-module.exports = async function () {
-
+export default async function setup() {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
-  // store the browser instance so we can teardown it later
-  // this global is only available in the teardown but not in TestEnvironments
-  globalThis.__BROWSER_GLOBAL__ = browser;  
-
-  // use the file system to expose the wsEndpoint for TestEnvironments
-  await mkdir(DIR, {recursive: true});
+  globalThis.__BROWSER_GLOBAL__ = browser;
+  await mkdir(DIR, { recursive: true });
   await writeFile(path.join(DIR, 'wsEndpoint'), browser.wsEndpoint());
 };

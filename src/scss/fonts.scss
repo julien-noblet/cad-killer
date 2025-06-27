@@ -2,26 +2,29 @@
 // *********************** FONT ********************
 // *************************************************
 
-$ff-arial: 'Arial';
-$ff-helvetica-neue: 'Helvetica Neue';
-$ff-helvetica: 'Helvetica';
+// Familles de polices principales
+$ff-arial: 'Arial', sans-serif;
+$ff-helvetica-neue: 'Helvetica Neue', Arial, sans-serif;
+$ff-helvetica: 'Helvetica', Arial, sans-serif;
 
+// Import des polices et icônes
 //@import "~/opensans-npm-webfont/style";
-
 @import "~material-design-iconic-font/scss/_variables";
 @import "~material-design-iconic-font/scss/_icons";
-//$ff-material: $zmdi-font-name;
+
+// Préparation des @font-face (décommenter et adapter si besoin)
 /*
 @mixin font($ff, $file) {
   font-family: $ff;
-//  src: url('../fonts/'+$file+'.eot');
-  src: url('../fonts/'+$file+'.eot?#iefix') format('embedded-opentype'), url('../fonts/'+$file+'.woff') format('woff'), url('../fonts/'+$file+'.ttf') format('truetype'), url('../fonts/'+$file+'.svg#open_sanssemibold') format('svg');
+  src: url('../fonts/'+$file+'.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/'+$file+'.woff') format('woff'),
+       url('../fonts/'+$file+'.ttf') format('truetype'),
+       url('../fonts/'+$file+'.svg#open_sanssemibold') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 //@font-face {
-//
 //  @include font($ff-material, 'Material-Design-Iconic-Font')
 //}
 

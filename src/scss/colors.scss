@@ -1,78 +1,84 @@
-//color definitions
-$color-mine-shaft-approx: #333;
-$yellow: #ff0;
-$color-boston-blue-approx: #2980b9;
-$color-storm-dust-approx: #666;
-$color-mountain-mist-approx: #9e9e9e;
-$color-alto-approx: #ddd;
-$color-deep-cerulean-approx: #0078a8;
-$web-orange: #ffa500;
-$color-dodger-blue-approx: #38f;
-$color-celeste-approx: #ccc;
-$wild-sand: #f4f4f4;
-$color-pink-swan-approx: #bbb;
-$color-tapa-approx: #777;
-$color-pale-slate-approx: #c3c3c3;
-$color-cape-cod-75-approx: rgba(64, 64, 64, .75);
+// *************************************************
+// ******************** COLORS *********************
+// *************************************************
 
-$color-tuatara-approx: rgb(54, 54, 54);
-
+// Palette principale
 $black: #000;
+$white: #f4f4f4;
+$yellow: #ff0;
+$web-orange: #ffa500;
+$color-apple: #4caf50;
+
+// Gris & neutres
+$color-mine-shaft: #333;
+$color-storm-dust: #666;
+$color-mountain-mist: #9e9e9e;
+$color-alto: #ddd;
+$color-celeste: #ccc;
+$color-pink-swan: #bbb;
+$color-tapa: #777;
+$color-pale-slate: #c3c3c3;
+$color-stack: #919187;
+$color-silver-chalice: #aaa;
+$color-log-cabin: #222;
+$color-star-dust: #a0a098;
+
+// Bleus
+$color-boston-blue: #2980b9;
+$color-deep-cerulean: #0078a8;
+$color-dodger-blue: #38f;
+$color-blue-bayoux: #4e5d73;
+$color-regent-gray: #7e8da3;
+
+// Rouges & dérivés
+$color-thunderbird: #de1c12;
+$color-vanilla-ice: #f2dede;
+$color-cavern-pink: #e6b6bd;
+$color-chestnut: #b94a48;
+$color-pig-pink: #f8d5e4;
+$color-brilliant-rose-10: rgba(254, 87, 161, .1);
+$color-brilliant-rose-60: rgba(254, 87, 161, .6);
+
+// Opacités
 $black-10: rgba(0, 0, 0, .1);
 $black-20: rgba(0, 0, 0, .2);
 $black-25: rgba(0, 0, 0, .25);
 $black-40: rgba(0, 0, 0, .4);
 $black-50: rgba(0, 0, 0, .5);
 $black-65: rgba(0, 0, 0, .65);
-
-$color-mine-shaft-75-approx: rgba(51, 51, 51, .75);
-$color-blue-bayoux-approx: #4e5d73;
-$color-regent-gray-approx: #7e8da3;
-$color-thunderbird-approx: #de1c12;
-$color-star-dust-approx: #a0a098;
-$color-vanilla-ice-approx: #f2dede;
-$color-cavern-pink-approx: #e6b6bd;
-$color-chestnut-approx: #b94a48;
-$color-pig-pink-approx: #f8d5e4;
-$color-brilliant-rose-10-approx: rgba(254, 87, 161, .1);
-$color-brilliant-rose-60-approx: rgba(254, 87, 161, .6);
-$color-stack-approx: #919187;
-$color-silver-chalice-approx: #aaa;
-$color-log-cabin-approx: #222;
-$color-apple-approx: #4caf50;
+$color-mine-shaft-75: rgba(51, 51, 51, .75);
+$color-cape-cod-75: rgba(64, 64, 64, .75);
 $wild-sand-50: rgba(244, 244, 244, .5);
 $wild-sand-70: rgba(244, 244, 244, .7);
 $wild-sand-75: rgba(244, 244, 244, .75);
 
-//temp redifine
-$white: $wild-sand;
-$white-50: rgba(244, 244, 244, .5);
-$white-70: rgba(244, 244, 244, .7);
-$white-75: rgba(244, 244, 244, .75);
+// Alias pour compatibilité
+$wild-sand: $white;
+$white-50: $wild-sand-50;
+$white-70: $wild-sand-70;
+$white-75: $wild-sand-75;
 
-//usages
+// Usages principaux (à utiliser dans les autres fichiers)
 $color-background: $wild-sand;
-$color-background-tooltip: $color-stack-approx;
-$color-beta: $color-thunderbird-approx;
-$color-border: $color-alto-approx;
-$color-border-dark: $color-log-cabin-approx;
-$color-button: $color-blue-bayoux-approx;
-$color-button-hover: $color-regent-gray-approx;
-$color-dark-text: $color-mine-shaft-approx;
-
+$color-background-tooltip: $color-stack;
+$color-beta: $color-thunderbird;
+$color-border: $color-alto;
+$color-border-dark: $color-log-cabin;
+$color-button: $color-blue-bayoux;
+$color-button-hover: $color-regent-gray;
+$color-dark-text: $color-mine-shaft;
 $color-leaflet-background: $wild-sand;
-$color-leaflet-button: $color-mine-shaft-approx;
-$color-leaflet-list-separator: $color-alto-approx;
-$color-leaflet-shadow: $color-mountain-mist-approx;
-$color-leaflet-text-dark: $color-storm-dust-approx;
-$color-leaflet-text-med: $color-mountain-mist-approx;
-$color-leaflet-text-blue: $color-deep-cerulean-approx;
-
-$color-link: $color-deep-cerulean-approx;
+$color-leaflet-button: $color-mine-shaft;
+$color-leaflet-list-separator: $color-alto;
+$color-leaflet-shadow: $color-mountain-mist;
+$color-leaflet-text-dark: $color-storm-dust;
+$color-leaflet-text-med: $color-mountain-mist;
+$color-leaflet-text-blue: $color-deep-cerulean;
+$color-link: $color-deep-cerulean;
 $color-near-white: $wild-sand;
-$color-text: $color-cape-cod-75-approx;
-$color-text-green: $color-apple-approx;
+$color-text: $color-cape-cod-75;
+$color-text-green: $color-apple;
 $color-white: $wild-sand;
 
-//complex
+// Complexes
 $input-text-color-border: $color-border;
