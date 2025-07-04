@@ -12,12 +12,5 @@ import "leaflet/dist/images/marker-icon-2x.png";
 import "leaflet/dist/images/marker-icon.png";
 import "leaflet/dist/images/marker-shadow.png";
 
-(async (): Promise<void> => {
-  try {
-    await import("./js/map");
-  } catch (err) {
-    // Affiche une erreur claire si l'import dynamique échoue
-    // eslint-disable-next-line no-console
-    console.error("Erreur lors du chargement dynamique des modules:", err);
-  }
-})();
+
+await import("./js/map");

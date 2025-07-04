@@ -25,7 +25,7 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
 
 %extend-3 {
   background-color: $white;
-  border-bottom: 1px solid $color-celeste-approx;
+  border-bottom: 1px solid $color-celeste;
   width: 26px;
   height: 26px;
   line-height: 26px;
@@ -43,7 +43,7 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
 
 %extend-5 {
   background: $white;
-  color: $color-mine-shaft-approx;
+  color: $color-mine-shaft;
   box-shadow: 0 3px 14px $black-40;
 }
 
@@ -86,7 +86,7 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   height: 0;
   box-sizing: border-box;
   z-index: 8;
-  border: 2px dotted $color-dodger-blue-approx;
+  border: 2px dotted $color-dodger-blue;
   background: $white-50;
 }
 .leaflet-image-layer {
@@ -98,7 +98,7 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
 .leaflet-container {
   overflow: hidden;
   touch-action: none;
-  background: $color-alto-approx;
+  background: $color-alto;
   outline: 0;
   font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
   a {
@@ -116,12 +116,12 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
       width: 18px;
       height: 14px;
       font: 16px/14px $font-3, $font-4, $font-5;
-      color: $color-celeste-approx;
+      color: $color-celeste;
       text-decoration: none;
       font-weight: bold;
       background: transparent;
       &:hover {
-        color: $color-mountain-mist-approx;
+        color: $color-mountain-mist;
       }
     }
   }
@@ -294,7 +294,7 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
     &.leaflet-disabled {
       cursor: default;
       background-color: $wild-sand;
-      color: $color-pink-swan-approx;
+      color: $color-pink-swan;
     }
   }
 }
@@ -356,7 +356,7 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
 }
 .leaflet-control-layers-expanded {
   padding: 6px 10px 6px 6px;
-  color: $color-mine-shaft-approx;
+  color: $color-mine-shaft;
   background: $white;
   .leaflet-control-layers-toggle {
     display: none;
@@ -377,12 +377,12 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
 }
 .leaflet-control-layers-separator {
   height: 0;
-  border-top: 1px solid $color-alto-approx;
+  border-top: 1px solid $color-alto;
   margin: 5px -10px 5px -6px;
 }
 .leaflet-control-attribution {
   padding: 0 5px;
-  color: $color-mine-shaft-approx;
+  color: $color-mine-shaft;
   a {
     text-decoration: none;
     &:hover {
@@ -392,8 +392,8 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
 }
 .leaflet-control-scale-line {
   padding: 0 5px;
-  color: $color-mine-shaft-approx;
-  border: 2px solid $color-tapa-approx;
+  color: $color-mine-shaft;
+  border: 2px solid $color-tapa;
   border-top: none;
   line-height: 1.1;
   padding: 2px 5px 1px;
@@ -403,11 +403,11 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   box-sizing: content-box;
   background: $white-50;
   &:not(:first-child) {
-    border-top: 2px solid $color-tapa-approx;
+    border-top: 2px solid $color-tapa;
     border-bottom: none;
     margin-top: -2px;
     &:not(:last-child) {
-      border-bottom: 2px solid $color-tapa-approx;
+      border-bottom: 2px solid $color-tapa;
     }
   }
 }
@@ -445,13 +445,13 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
 }
 .leaflet-popup-scrolled {
   overflow: auto;
-  border-bottom: 1px solid $color-alto-approx;
-  border-top: 1px solid $color-alto-approx;
+  border-bottom: 1px solid $color-alto;
+  border-top: 1px solid $color-alto;
 }
 .leaflet-oldie {
   .leaflet-popup-content-wrapper {
     zoom: 1;
-    border: 1px solid $color-mountain-mist-approx;
+    border: 1px solid $color-mountain-mist;
   }
   .leaflet-popup-tip {
     width: 24px;
@@ -462,21 +462,21 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
         M21=-0.70710678,
         M22=0.70710678
       );
-    border: 1px solid $color-mountain-mist-approx;
+    border: 1px solid $color-mountain-mist;
   }
   .leaflet-popup-tip-container {
     margin-top: -1px;
   }
   .leaflet-control-zoom {
-    border: 1px solid $color-mountain-mist-approx;
+    border: 1px solid $color-mountain-mist;
   }
   .leaflet-control-layers {
-    border: 1px solid $color-mountain-mist-approx;
+    border: 1px solid $color-mountain-mist;
   }
 }
 .leaflet-div-icon {
   background: $white;
-  border: 1px solid $color-storm-dust-approx;
+  border: 1px solid $color-storm-dust;
 }
 .leaflet-pan-anim .leaflet-tile {
   transition: none;

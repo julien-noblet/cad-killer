@@ -17,6 +17,9 @@ module.exports = {
     static: path.resolve(__dirname, 'dist'),
     port: 9000
   },
+  experiments: {
+    topLevelAwait: true,
+  },
   entry: {
     index: "./src/index.js",
     index_ts: "./src/index.ts",
