@@ -1,68 +1,74 @@
 /**
- * @format
+ * Initialisation et configuration de la carte Leaflet principale
+ * @module map
  */
 
 import L from "leaflet";
 import { ATTRIBUTIONS, CENTER } from "./config";
 import { overlayMaps, baseMaps, layerOSMfr } from "./layers";
-//import { dbinfo } from "./stats"; // Stats are not working :'(
 import { photon } from "./photon";
 
-require("leaflet-hash");
-require("leaflet.browser.print/dist/leaflet.browser.print.min.js");
+const MAP_ELEMENT_ID = "map";
+
 /**
- * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
- * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
+ * Sélectionne l'élément DOM pour la carte Leaflet.
+ * @returns {HTMLElement}
+ * @throws {ReferenceError} Si l'élément n'est pas trouvé ou n'est pas un HTMLElement
  */
+export function getMapElement() {
+  const el = document.getElementById(MAP_ELEMENT_ID);
+  if (!(el instanceof HTMLElement)) {
+    throw new ReferenceError(`L'élément #${MAP_ELEMENT_ID} est introuvable dans le DOM ou n'est pas un HTMLElement.`);
+  }
+  return el;
+}
 
-// connection à la BD:
-// dbinfo(); // Stats are not working :'(
+/**
+ * Initialise la carte Leaflet et configure les contrôles principaux.
+ * @param {HTMLElement} element
+ * @returns {L.Map}
+ * @throws {TypeError} Si l'élément DOM est invalide
+ */
+export function initializeMap(element) {
+  if (!(element instanceof HTMLElement)) {
+    throw new TypeError("L'élément DOM passé à initializeMap est invalide.");
+  }
+  const map = L.map(element, { attributionControl: false });
+  L.Icon.Default.imagePath = "./images/";
+  map.addLayer(layerOSMfr);
+  L.control.layers(baseMaps, overlayMaps).addTo(map);
+  map.setView(CENTER, 6);
+  map.dragging.enable();
+  L.control.attribution({ position: "bottomleft", prefix: ATTRIBUTIONS }).addTo(map);
+  if (typeof L.Hash === "function") new L.Hash(map);
+  return map;
+}
 
-// Initialisation de leaflet
-window.map = L.map("map", {
-  attributionControl: false,
-});
+/**
+ * Bootstrap asynchrone de la carte et des modules complémentaires.
+ * Séparé pour faciliter les tests et la maintenabilité.
+ * Initialise la carte et charge les modules complémentaires après le DOMContentLoaded.
+ * Gère les erreurs d'initialisation et de chargement des modules.
+ */
+export async function bootstrapMap() {
+  try {
+    const mapElement = getMapElement();
+    window.map = initializeMap(mapElement);
+  } catch (error) {
+    console.error("Erreur d'initialisation de la carte:", error);
+    return;
+  }
+  window.addEventListener("DOMContentLoaded", async () => {
+    try {
+      photon();
+      await import("./reverseLabel");
+    } catch (err) {
+      console.error("Erreur lors du chargement des modules complémentaires:", err);
+    }
+  });
+}
 
-const layers = L.control.layers(baseMaps, overlayMaps);
-
-L.Icon.Default.imagePath = "./images/";
-window.map.addLayer(layerOSMfr);
-
-layers.addTo(window.map);
-
-window.map.setView(CENTER, 6);
-
-window.map.dragging.enable();
-
-L.control
-  .attribution({
-    position: "bottomleft",
-    prefix: ATTRIBUTIONS,
-  })
-  .addTo(window.map);
-
-// ajout hash dans l'URL
-let hash;
-hash = new L.Hash(window.map);
-
-// Chargement des modules:
-// require('./photon');
-photon();
-require.ensure(["./reverseLabel"], function () {
-  require("./reverseLabel");
-});
-
-//require ("./geoloc.js")
-
-// ajout du bouton print
-/*L.control
-  .browserPrint({
-    printModes: [
-      //L.control.browserPrint.mode.portrait("Portrait", "A4"),
-      //L.control.browserPrint.mode.landscape("Paysage", "A4"),
-      L.control.browserPrint.mode.auto("Auto", "A4"),
-      L.control.browserPrint.mode.custom("Séléctionnez la zone", "A4"),
-    ],
-  })
-  .addTo(window.map);
-*/
+// Initialisation automatique si ce module est chargé directement
+if (typeof window !== 'undefined') {
+  bootstrapMap();
+}

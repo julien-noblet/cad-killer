@@ -1,42 +1,126 @@
 /**
- * global L, map
- *
- * @format
+ * Contrôle de géolocalisation Leaflet moderne, accessible et testable
+ * Fournit un contrôle personnalisé pour centrer la carte sur la position de l'utilisateur.
+ * @module geoloc
  */
 
-// Géoloc
-function showPosition(position) {
-  const icone = L.DomUtil.get(document.getElementById("geoloc_icon"));
-  if (Window.map !== null) {
-    Window.map.setView(
-      [position.coords.latitude, position.coords.longitude],
-      16
-    );
-    icone.className = "zmdi zmdi-2x zmdi-gps-dot";
-  }
-}
+import L from "leaflet";
 
-/* eslint-disable no-unused-vars */
-function getLocation() {
-  const icone = document.getElementById("geoloc_icon");
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-    icone.className = "zmdi zmdi-2x zmdi-gps";
-  }
-}
-/* eslint-enable no-unused-vars */
-
-const GeoLoc = L.Control.extend({
-  options: {
-    position: "topright",
-  },
-  onAdd: () => {
-    const container = L.DomUtil.create("div", "leaflet-control-geoloc");
-    container.innerHTML =
-      '<span onClick="getLocation();" id="geoloc" class="geoloc"><i class="zmdi zmdi-2x zmdi-gps-off" id="geoloc_icon"></i></span>';
-    // ... initialize other DOM elements, add listeners, etc.
-    return container;
-  },
+const GEOLOC_ICON_CLASSES = Object.freeze({
+  default: "zmdi zmdi-2x zmdi-gps-off",
+  active: "zmdi zmdi-2x zmdi-gps",
+  success: "zmdi zmdi-2x zmdi-gps-dot",
+  error: "zmdi zmdi-2x zmdi-gps-off",
 });
 
-window.map.addControl(new GeoLoc());
+const GEOLOC_LABEL = "Centrer la carte sur ma position";
+const GEOLOC_ERROR_MSG = "Erreur de géolocalisation";
+const GEOLOC_UNSUPPORTED_MSG = "Géolocalisation non supportée";
+
+/**
+ * Met à jour l'icône de géolocalisation selon l'état fourni.
+ * @param {('default'|'active'|'success'|'error')} [state="default"]
+ */
+function updateGeolocIcon(state = "default") {
+  const icon = document.getElementById("geoloc_icon");
+  if (icon) {
+    icon.className = GEOLOC_ICON_CLASSES[state] || GEOLOC_ICON_CLASSES.default;
+  }
+}
+
+/**
+ * Affiche une notification utilisateur (console ou UI future).
+ * @param {string} message
+ */
+function notifyUser(message) {
+  if (typeof window !== "undefined" && window.console && window.console.warn) {
+    window.console.warn(message);
+  }
+  // TODO: Remplacer par une notification visuelle élégante si besoin
+}
+
+/**
+ * Centre la carte sur la position fournie et met à jour l'icône de géolocalisation.
+ * @param {GeolocationPosition} position
+ */
+function centerMapOnPosition(position) {
+  const { latitude, longitude } = position?.coords || {};
+  if (window?.map && typeof latitude === "number" && typeof longitude === "number") {
+    window.map.setView([latitude, longitude], 16);
+    updateGeolocIcon("success");
+  } else {
+    updateGeolocIcon("error");
+    notifyUser(GEOLOC_ERROR_MSG);
+  }
+}
+
+/**
+ * Gère l'échec de la géolocalisation et met à jour l'icône de géolocalisation.
+ * @param {GeolocationPositionError|Object} error
+ */
+function handleGeolocationError(error) {
+  updateGeolocIcon("error");
+  notifyUser(`${GEOLOC_ERROR_MSG} : ${error?.message || GEOLOC_ERROR_MSG}`);
+}
+
+/**
+ * Demande la position de l'utilisateur et met à jour l'icône de géolocalisation.
+ * Peut être mockée pour les tests.
+ */
+export function getLocation() {
+  if (!navigator?.geolocation) {
+    handleGeolocationError({ message: GEOLOC_UNSUPPORTED_MSG });
+    return;
+  }
+  updateGeolocIcon("active");
+  navigator.geolocation.getCurrentPosition(centerMapOnPosition, handleGeolocationError, {
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 0,
+  });
+}
+
+/**
+ * Contrôle Leaflet personnalisé pour la géolocalisation.
+ * Permet d'ajouter un bouton de géolocalisation sur la carte.
+ */
+export class GeoLocControl extends L.Control {
+  constructor(options = {}) {
+    super({ position: "topright", ...options });
+  }
+
+  onAdd() {
+    const container = L.DomUtil.create("div", "leaflet-control-geoloc");
+    container.innerHTML =
+      `<span id="geoloc" class="geoloc"><i class="${GEOLOC_ICON_CLASSES.default}" id="geoloc_icon" aria-label="Géolocalisation"></i></span>`;
+    container.title = GEOLOC_LABEL;
+    container.style.cursor = "pointer";
+    container.tabIndex = 0;
+    container.setAttribute("role", "button");
+    container.setAttribute("aria-pressed", "false");
+    container.setAttribute("aria-label", GEOLOC_LABEL);
+    container.addEventListener("click", getLocation);
+    container.addEventListener("keydown", (e) => {
+      if (["Enter", " "].includes(e.key)) {
+        getLocation();
+      }
+    });
+    return container;
+  }
+}
+
+/**
+ * Ajoute le contrôle de géolocalisation à la carte si elle existe.
+ * @param {L.Map} map
+ */
+export function addGeoLocControlToMap(map) {
+  if (map && !map._geolocControlAdded) {
+    map.addControl(new GeoLocControl());
+    map._geolocControlAdded = true;
+  }
+}
+
+// Ajout automatique du contrôle si window.map existe (pour compatibilité)
+if (typeof window !== "undefined" && window.map) {
+  addGeoLocControlToMap(window.map);
+}

@@ -5,15 +5,9 @@
  */
 
 const path = require("path");
-
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: "./src/index.html",
-  filename: "index.html",
-  inject: "body",
-});
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
@@ -23,10 +17,14 @@ module.exports = {
     static: path.resolve(__dirname, 'dist'),
     port: 9000
   },
+  experiments: {
+    topLevelAwait: true,
+  },
   entry: {
     index: "./src/index.js",
+    index_ts: "./src/index.ts",
     leaflet: "leaflet",
-    stats: [ "leaflet-dialog", "leaflet-draw"],
+    stats: ["leaflet-dialog", "leaflet-draw"],
     leaflet_plugins_a: ["leaflet-ajax", "leaflet-hash"],
     leaflet_plugins_b: ["leaflet-modal", "leaflet.photon"],
   },
@@ -51,11 +49,9 @@ module.exports = {
         test: /\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,
-          //"style-loader",
           { loader: "css-loader", options: {} },
           { loader: "postcss-loader", options: {} },
-
-          { loader: "sass-loader", options: {} }, // compiles Sass to CSS
+          { loader: "sass-loader", options: {} },
         ],
       },
       {
@@ -74,7 +70,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpeg|jpg|gif)$/,
+        test: /\.(png|jpeg|jpg|gif|svg)$/,
         loader: "file-loader",
         options: {
           name: "images/[name].[ext]",
@@ -90,24 +86,22 @@ module.exports = {
     ],
   },
   plugins: [
-    HtmlWebpackPluginConfig,
+    new HtmlWebpackPlugin({
+      template: "./src/index.html",
+      filename: "index.html",
+      inject: "body",
+    }),
     new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
     new CopyWebpackPlugin({ patterns: [{ from: "static" }] }),
-    new MiniCssExtractPlugin(),
   ],
   optimization: {
     minimize: true,
     minimizer: [
-      // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
-      // `...`,
       new CssMinimizerPlugin(),
     ],
-    //runtimeChunk: true,
     splitChunks: {
       chunks: "async",
       minSize: 30000,
@@ -140,3 +134,4 @@ module.exports = {
     },
   },
 };
+// Configuration Webpack améliorée pour la clarté et la robustesse. Voir README pour la structure du projet.

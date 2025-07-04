@@ -8,10 +8,19 @@
     "start": "webpack serve --open",
     "build": "npx webpack --mode production --config webpack.config.js --progress --color",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --maxConcurrency=1",
-    "update-screenshots": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --maxConcurrency=1 -u"
+    "update-screenshots": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --maxConcurrency=1 -u",
+    "codeql:analyze": "codeql database analyze --format=sarif --output=codeql-results.sarif ./.codeql-db codeql-repo/javascript-queries"
   },
   "lint-staged": {
     "*.js": [
+      "prettier --write --insert-pragma",
+      "git add"
+    ],
+    "*.ts": [
+      "prettier --write --insert-pragma",
+      "git add"
+    ],
+    "*.tsx": [
       "prettier --write --insert-pragma",
       "git add"
     ],
@@ -24,6 +33,14 @@
       "git add"
     ],
     "src/**/*.js": [
+      "prettier --write",
+      "git add"
+    ],
+    "src/**/*.ts": [
+      "prettier --write",
+      "git add"
+    ],
+    "src/**/*.tsx": [
       "prettier --write",
       "git add"
     ],

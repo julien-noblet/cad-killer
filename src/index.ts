@@ -1,4 +1,7 @@
 /**
+ * Point d'entrée principal de l'application CAD-Killer
+ * Charge les polices, styles, images et initialise la carte.
+ * Voir la documentation dans le README pour la structure Webpack.
  * @format
  */
 
@@ -8,10 +11,6 @@ import "./scss/style.scss";
 import "leaflet/dist/images/marker-icon-2x.png";
 import "leaflet/dist/images/marker-icon.png";
 import "leaflet/dist/images/marker-shadow.png";
-import "./js/map";
-/*
 
-(async () => {
-  await import("es6-promise/auto");
-  await import("./js/map");
-})();*/
+
+await import("./js/map");

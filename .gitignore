@@ -8,6 +8,10 @@
 ehthumbs.db
 Thumbs.db
 
+# Dossiers de build et de couverture
+/dist/
+/coverage/
+
 serve
 prod
 bower_components
