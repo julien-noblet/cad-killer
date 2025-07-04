@@ -1,13 +1,15 @@
 // *************************************************
 // ********************* MAP ***********************
 // *************************************************
-
+@use 'general';
+@use 'colors';
+@use 'fonts';
 $height-photon: 46px;
 
 // Clarification de la structure, renforcement du responsive, amélioration de la lisibilité.
 
 .nohead {
-  @media (max-width: $smartphone) {
+  @media (max-width: general.$smartphone) {
     top: 0; // !important;
   }
 }
@@ -16,12 +18,12 @@ $height-photon: 46px;
   float: right;
   visibility: hidden;
   width: 0;
-  @media (max-width: $smartphone) {
+  @media (max-width: general.$smartphone) {
     display: block;
     float: none;
     visibility: visible;
   }
-  font-name: $zmdi-font-name;
+  font-name: fonts.$zmdi-font-name;
 }
 
 .map {
@@ -36,7 +38,7 @@ $height-photon: 46px;
     .photon-input {
       margin-bottom: 0;
       width: 400px;
-      @media (max-width: $smartphone) {
+      @media (max-width: general.$smartphone) {
         margin-top: -10px;
         width: 100%;
       }
@@ -47,13 +49,14 @@ $height-photon: 46px;
     }
 
     .leaflet-control-geoloc {
-      background: $color-leaflet-background;
+      
+      background: colors.$color-leaflet-background;
       border-radius: 5px;
       box-shadow: 0 1px 5px rgba(0, 0, 0, .4);
-      color: $color-leaflet-button;
+      color: colors.$color-leaflet-button;
       padding: 6px;
       visibility: hidden;
-      @media (max-width: $smartphone) {
+      @media (max-width: general.$smartphone) {
         position: absolute;
         right: 0;
         top: 90px;
@@ -71,7 +74,7 @@ $height-photon: 46px;
       }
 
       .leaflet-right {
-        @media (max-width: $smartphone) {
+        @media (max-width: general.$smartphone) {
           display: block;
           top: 45px;
         }
@@ -85,7 +88,7 @@ $height-photon: 46px;
       right: 0;
       //top: 0;
 
-      @media (max-width: $smartphone) {
+      @media (max-width: general.$smartphone) {
         display: block;
         top: $height-photon; //hack
       }
@@ -95,7 +98,7 @@ $height-photon: 46px;
     }
 
     .leaflet-control-layers-toggle:before {
-      content: $zmdi-var-layers;
+      content: fonts.$zmdi-var-layers;
     }
 
     .leaflet-control-layers-toggle {
@@ -103,8 +106,8 @@ $height-photon: 46px;
       //width: 36px;
       //height: 36px;
       background-image: none;
-      color: $color-leaflet-button;
-      font: normal normal normal 28px/1 $zmdi-font-name;
+      color: colors.$color-leaflet-button;
+      font: normal normal normal 28px/1 fonts.$zmdi-font-name;
       -moz-osx-font-smoothing: grayscale;
       -webkit-font-smoothing: antialiased;
       height: 100%;
@@ -117,7 +120,7 @@ $height-photon: 46px;
 
     .leaflet-photon {
       right: calc(50% - 200px);
-      @media (max-width: $smartphone) {
+      @media (max-width: general.$smartphone) {
         margin: 0;
         right: 0;
         top: 0;
@@ -131,7 +134,7 @@ $height-photon: 46px;
       }
     }
 
-    @media (max-width: $smartphone) {
+    @media (max-width: general.$smartphone) {
       top: 60px;
     }
     @media print {
@@ -142,7 +145,7 @@ $height-photon: 46px;
 
   .leaflet-bar {
     a {
-      color: $color-leaflet-button;
+      color: colors.$color-leaflet-button;
     }
   }
 
@@ -152,17 +155,17 @@ $height-photon: 46px;
 }
 
 .reverse-label {
-  background-color: $color-near-white;
-  border: 1px solid $color-border;
+  background-color: colors.$color-near-white;
+  border: 1px solid colors.$color-border;
   bottom: 0;
-  color: $color-dark-text;
+  color: colors.$color-dark-text;
   margin-bottom: 0; // !important;
   opacity: .8;
   padding: 0 10px;
   position: fixed;
   right: 0;
   text-align: center;
-  @media (max-width: $smartphone) {
+  @media (max-width: general.$smartphone) {
     bottom: 2.5em;
     margin-right: 0; // !important;
     width: 100%;
@@ -177,7 +180,7 @@ $height-photon: 46px;
 }
 
 .leaflet-top.leaflet-left {
-  @media (max-width: $smartphone) {
+  @media (max-width: general.$smartphone) {
     display: block;
     top: $height-photon; //hack
   }

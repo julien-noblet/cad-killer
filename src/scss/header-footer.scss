@@ -1,22 +1,24 @@
 // *************************************************
 // *************** HEADER & FOOTER *****************
 // *************************************************
+@use "general";
+@use "colors";
 
 .headmasked {
-  @media (max-width: $smartphone) {
+  @media (max-width: general.$smartphone) {
     visibility: hidden;
   }
 }
 
 header {
-  background-color: $color-background;
-  border-bottom: 1px solid $color-border-dark;
-  color: $color-dark-text;
+  background-color: colors.$color-background;
+  border-bottom: 1px solid colors.$color-border-dark;
+  color: colors.$color-dark-text;
   height: 65px;
   padding: 0 20px;
 
   a {
-    color: $color-dark-text;
+    color: colors.$color-dark-text;
     font-family: 'open_sanslight';
     text-decoration: none;
   }
@@ -28,7 +30,7 @@ header {
     line-height: 60px;
     margin-left: 140px;
 
-    @media (max-width: $smartphone) {
+    @media (max-width: general.$smartphone) {
       line-height: 45px;
       margin-left: 0;
     }
@@ -38,16 +40,16 @@ header {
     float: right;
     margin-right: 60px;
 
-    @media (max-width: $smartphone) {
+    @media (max-width: general.$smartphone) {
       margin-right: 0;
     }
 
     .bug {
-      color: $color-beta;
+      color: colors.$color-beta;
     }
 
     a {
-      color: $color-dark-text;
+      color: colors.$color-dark-text;
       font-family: 'open_sansextrabold';
       font-size: 15px;
       font-weight: normal;
@@ -62,7 +64,7 @@ header {
     a + a {
       margin-left: 20px;
 
-      @media (max-width: $smartphone) {
+      @media (max-width: general.$smartphone) {
         margin-left: 0;
       }
     }
@@ -72,7 +74,7 @@ header {
     display: inline-block;
   }
 
-  @media (max-width: $smartphone) {
+  @media (max-width: general.$smartphone) {
     height: 60px;
   }
 
@@ -83,14 +85,14 @@ header {
 }
 
 footer {
-  background-color: $color-dark-text;
-  border-top: 1px solid $color-border-dark;
-  color: $color-near-white;
+  background-color: colors.$color-dark-text;
+  border-top: 1px solid colors.$color-border-dark;
+  color: colors.$color-near-white;
   margin-top: 100px;
   padding: 50px;
 
   a {
-    color: $color-near-white;
+    color: colors.$color-near-white;
     font-family: 'open_sanslight';
     text-decoration: none;
   }
@@ -102,7 +104,7 @@ footer {
 }
 
 .beta:after {
-  color: $color-beta;
+  color: colors.$color-beta;
   content: 'bêta';
   float: right;
   font-family: 'open_sansextrabold';

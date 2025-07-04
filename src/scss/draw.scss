@@ -1,3 +1,5 @@
+@use 'colors';
+@use 'leaflet';
 //urls
 $url-0: url(../images/spritesheet.png);
 $url-1: url(../images/spritesheet.svg);
@@ -67,17 +69,17 @@ $url-2: url(../images/spritesheet-2x.png);
     }
   }
   a {
-    background-color: $color-stack;
-    border-left: 1px solid $color-silver-chalice;
-    color: $white;
-    font: 11px/19px $font-0, $font-1, $font-2, $font-3;
+    background-color: colors.$color-stack;
+    border-left: 1px solid colors.$color-silver-chalice;
+    color: colors.$white;
+    font: 11px/19px leaflet.$font-0, leaflet.$font-1, leaflet.$font-2, leaflet.$font-3;
     line-height: 28px;
     text-decoration: none;
     padding-left: 10px;
     padding-right: 10px;
     height: 28px;
     &:hover {
-      background-color: $color-star-dust;
+      background-color: colors.$color-star-dust;
     }
   }
 }
@@ -143,16 +145,16 @@ $url-2: url(../images/spritesheet-2x.png);
   }
 }
 .leaflet-mouse-marker {
-  background-color: $white;
+  background-color: colors.$white;
   cursor: crosshair;
 }
 .leaflet-draw-tooltip {
-  background: $black-50;
+  background: colors.$black-50;
   border: 1px solid transparent;
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 4px;
-  color: $white;
-  font: 12px/18px $font-0, $font-1, $font-2, $font-3;
+  color: colors.$white;
+  font: 12px/18px leaflet.$font-0, leaflet.$font-1, leaflet.$font-2, leaflet.$font-3;
   margin-left: 20px;
   margin-top: -21px;
   padding: 4px 8px;
@@ -161,8 +163,8 @@ $url-2: url(../images/spritesheet-2x.png);
   white-space: nowrap;
   z-index: 6;
   &:before {
-    border-right: 6px solid $black;
-    border-right-color: $black-50;
+    border-right: 6px solid colors.$black;
+    border-right-color: colors.$black-50;
     border-top: 6px solid transparent;
     border-bottom: 6px solid transparent;
     content: "";
@@ -172,18 +174,18 @@ $url-2: url(../images/spritesheet-2x.png);
   }
 }
 .leaflet-error-draw-tooltip {
-  background-color: $color-vanilla-ice;
-  border: 1px solid $color-cavern-pink;
-  color: $color-chestnut;
+  background-color: colors.$color-vanilla-ice;
+  border: 1px solid colors.$color-cavern-pink;
+  color: colors.$color-chestnut;
   &:before {
-    border-right-color: $color-cavern-pink;
+    border-right-color: colors.$color-cavern-pink;
   }
 }
 .leaflet-draw-tooltip-single {
   margin-top: -12px;
 }
 .leaflet-draw-tooltip-subtext {
-  color: $color-pig-pink;
+  color: colors.$color-pig-pink;
 }
 .leaflet-draw-guide-dash {
   font-size: 1%;
@@ -193,8 +195,8 @@ $url-2: url(../images/spritesheet-2x.png);
   height: 5px;
 }
 .leaflet-edit-marker-selected {
-  background-color: $color-brilliant-rose-10;
-  border: 4px dashed $color-brilliant-rose-60;
+  background-color: colors.$color-brilliant-rose-10;
+  border: 4px dashed colors.$color-brilliant-rose-60;
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 4px;
   //Instead of the line below you could use @include box-sizing($bs)
@@ -247,5 +249,5 @@ $url-2: url(../images/spritesheet-2x.png);
   }
 }
 .leaflet-oldie .leaflet-draw-toolbar {
-  border: 1px solid $color-mountain-mist;
+  border: 1px solid colors.$color-mountain-mist;
 }

@@ -11,6 +11,7 @@ $ff-helvetica: 'Helvetica', Arial, sans-serif;
 //@import "~/opensans-npm-webfont/style";
 @import "~material-design-iconic-font/scss/_variables";
 @import "~material-design-iconic-font/scss/_icons";
+$zmdi-font-name: $zmdi-font-name !default; // Nom de la police ZMDI
 
 // Préparation des @font-face (décommenter et adapter si besoin)
 /*

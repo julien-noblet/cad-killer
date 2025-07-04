@@ -1,12 +1,12 @@
 // Structure principale des imports SCSS du projet
-@import 'colors';
-@import 'fonts';
-@import 'general';
-@import 'grid';
-@import 'forms';
-@import 'header-footer';
-@import 'leaflet';
-@import 'leaflet-photon';
-@import 'draw';
-@import 'map';
-@import 'note';
+@use 'colors';
+@use 'fonts';
+@use 'general';
+@use 'grid';
+@use 'forms';
+@use 'header-footer';
+@use 'leaflet';
+@use 'leaflet-photon';
+@use 'draw';
+@use 'map';
+//@use 'note';

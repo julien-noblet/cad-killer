@@ -2,6 +2,7 @@
 // ***************** GENERAL RULES *****************
 // *************************************************
 
+@use "colors";
 // Variables globales
 $smartphone: 8in;
 
@@ -24,13 +25,13 @@ $smartphone: 8in;
 
 // ------------------ LIENS -----------------------
 a {
-  color: $color-dark-text;
+  color: colors.$color-dark-text;
   text-decoration: none;
   transition: color 0.2s;
   cursor: pointer;
   &:hover,
   &:focus {
-    color: $color-link;
+    color: colors.$color-link;
     text-decoration: underline;
     outline: none;
   }
@@ -51,8 +52,8 @@ body {
   font-size: 15px;
   line-height: 1.33;
   -webkit-font-smoothing: antialiased;
-  background: $color-background;
-  color: $color-dark-text;
+  background: colors.$color-background;
+  color: colors.$color-dark-text;
   min-height: 100vh;
   @media print {
     height: 100%;
@@ -72,7 +73,7 @@ body {
 @mixin heading-style {
   font-family: 'open_sansbold', Arial, Helvetica, sans-serif;
   font-weight: normal;
-  color: $color-dark-text;
+  color: colors.$color-dark-text;
 }
 h1, h2, h3, h4, h5, h6, strong {
   @include heading-style;
@@ -89,7 +90,7 @@ h2, h3 {
 // ------------------ HR --------------------------
 hr {
   border: none;
-  border-top: 1px solid $color-border;
+  border-top: 1px solid colors.$color-border;
   clear: both;
   height: 0;
   margin: 2rem auto;

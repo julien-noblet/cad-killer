@@ -1,9 +1,9 @@
 // *************************************************
 // ********************** FORMS ********************
 // *************************************************
-
-$input-text-color-background: $color-near-white;
-$input-border: 1px solid $input-text-color-border;
+@use "colors";
+$input-text-color-background: colors.$color-near-white;
+$input-border: 1px solid colors.$input-text-color-border;
 $input-border-radius: 2px;
 $box-shadow: 0 1px 2px rgba(0, 0, 0, .1) inset;
 $input-text-color: rgba(51, 51, 51, .75);
@@ -34,10 +34,10 @@ input {
   }
 
   &[type="submit"] {
-    background-color: $color-button;
+    background-color: colors.$color-button;
     border: 0;
     border-radius: $input-border-radius;
-    color: $color-near-white;
+    color: colors.$color-near-white;
     display: inline-block;
     font-size: 1.1em;
     height: 50px;
@@ -49,8 +49,8 @@ input {
     cursor: pointer;
 
     &:hover {
-      background-color: $color-button-hover;
-      color: $color-near-white;
+      background-color: colors.$color-button-hover;
+      color: colors.$color-near-white;
     }
   }
 }
