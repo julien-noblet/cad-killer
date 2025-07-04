@@ -14,7 +14,6 @@ import "leaflet/dist/images/marker-shadow.png";
 
 (async (): Promise<void> => {
   try {
-    await import("es6-promise/auto");
     await import("./js/map");
   } catch (err) {
     // Affiche une erreur claire si l'import dynamique échoue
