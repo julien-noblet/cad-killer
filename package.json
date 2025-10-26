@@ -95,7 +95,7 @@
     "puppeteer": "24.26.1",
     "regenerator-runtime": "0.14.1",
     "sass": "^1.71.1",
-    "sass-loader": "16.0.5",
+    "sass-loader": "16.0.6",
     "style-loader": "4.0.0",
     "webpack-dev-server": "5.2.2"
   },
