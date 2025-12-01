@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: julien-noblet.github.io
+Token: cc7cdfb645e0fffbaa58d619b03693a7cc426f44e1f54235d5c674122752d572
