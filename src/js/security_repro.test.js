@@ -41,14 +41,14 @@ describe("Security vulnerability reproduction", () => {
         if (request.url().includes("api-adresse.data.gouv.fr/search")) {
           // console.log('Intercepting search request');
           request.respond({
-            content: "application/json",
+            contentType: "application/json",
             body: JSON.stringify(maliciousPayload),
             headers: { "Access-Control-Allow-Origin": "*" },
           });
         } else if (request.url().includes("api-adresse.data.gouv.fr/reverse")) {
           // console.log('Intercepting reverse request');
           request.respond({
-            content: "application/json",
+            contentType: "application/json",
             body: JSON.stringify(maliciousPayload),
             headers: { "Access-Control-Allow-Origin": "*" },
           });
