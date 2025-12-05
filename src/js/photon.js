@@ -51,8 +51,7 @@ const searchPoints = L.geoJson(null, {
     popupContent.textContent = feature.properties.name;
     const link = L.DomUtil.create("a", "geo", popupContent);
     link.href = `geo:${feature.geometry.coordinates[1]},${feature.geometry.coordinates[0]}`;
-    const icon = L.DomUtil.create("i", "zmdi-navigation zmdi-2x");
-    link.appendChild(icon);
+    link.innerHTML = "<i class='zmdi-navigation zmdi-2x'></i>";
     layer.bindPopup(popupContent);
   },
 });
@@ -124,7 +123,7 @@ export function photon() {
 
   window.map.addControl(myPhoton);
 
-  Object.getPrototypeOf(myPhoton.search).setChoice = function setChoice(choice) {
+  myPhoton.search.__proto__.setChoice = function setChoice(choice) {
     const c = choice || this.RESULTS[this.CURRENT];
     if (c) {
       // sendSearch(c.feature); // Stats are not working
