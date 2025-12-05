@@ -51,7 +51,8 @@ const searchPoints = L.geoJson(null, {
     popupContent.textContent = feature.properties.name;
     const link = L.DomUtil.create("a", "geo", popupContent);
     link.href = `geo:${feature.geometry.coordinates[1]},${feature.geometry.coordinates[0]}`;
-    link.innerHTML = "<i class='zmdi-navigation zmdi-2x'></i>";
+    const icon = L.DomUtil.create("i", "zmdi-navigation zmdi-2x");
+    link.appendChild(icon);
     layer.bindPopup(popupContent);
   },
 });
