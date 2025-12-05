@@ -1,14 +1,20 @@
 {
   "env": {
-    "browser": true
+    "browser": true,
+    "node": true,
+    "jest": true
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module"
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "requireConfigFile": false
   },
   "extends": ["prettier"],
-  "globals": {},
+  "globals": {
+    "__BROWSER_GLOBAL__": "readonly",
+    "__SERVER_GLOBAL__": "readonly"
+  },
   "plugins": ["prettier"],
   "rules": {
     "no-console": ["warn"],
@@ -16,7 +22,7 @@
       "error",
       {
         "allowAfterThis": true,
-        "allow": ["_id", "_latlng"]
+        "allow": ["_id", "_latlng", "__BROWSER_GLOBAL__", "__SERVER_GLOBAL__"]
       }
     ]
   }
