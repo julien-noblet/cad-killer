@@ -123,7 +123,7 @@ export function photon() {
 
   window.map.addControl(myPhoton);
 
-  myPhoton.search.__proto__.setChoice = function setChoice(choice) {
+  Object.getPrototypeOf(myPhoton.search).setChoice = function setChoice(choice) {
     const c = choice || this.RESULTS[this.CURRENT];
     if (c) {
       // sendSearch(c.feature); // Stats are not working
