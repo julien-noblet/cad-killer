@@ -20,13 +20,13 @@ module.exports = {
   devtool: "source-map",
   mode: "development",
   devServer: {
-    static: path.resolve(__dirname, 'dist'),
-    port: 9000
+    static: path.resolve(__dirname, "dist"),
+    port: 9000,
   },
   entry: {
     index: "./src/index.js",
     leaflet: "leaflet",
-    stats: [ "leaflet-dialog", "leaflet-draw"],
+    stats: ["leaflet-dialog", "leaflet-draw"],
     leaflet_plugins_a: ["leaflet-ajax", "leaflet-hash"],
     leaflet_plugins_b: ["leaflet-modal", "leaflet.photon"],
   },

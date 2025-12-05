@@ -43,13 +43,16 @@ const searchPoints = L.geoJson(null, {
       }
       window.map.setView(
         [feature.geometry.coordinates[1], feature.geometry.coordinates[0]],
-        zoom
+        zoom,
       );
       // sendClick(feature); // Stats are not working
     });
-    layer.bindPopup(
-      `${feature.properties.name}<a class='geo' href='geo:${feature.geometry.coordinates[1]},${feature.geometry.coordinates[0]}'><i class='zmdi-navigation zmdi-2x'></i></a>`
-    );
+    const popupContent = L.DomUtil.create("div");
+    popupContent.textContent = feature.properties.name;
+    const link = L.DomUtil.create("a", "geo", popupContent);
+    link.href = `geo:${feature.geometry.coordinates[1]},${feature.geometry.coordinates[0]}`;
+    link.innerHTML = "<i class='zmdi-navigation zmdi-2x'></i>";
+    layer.bindPopup(popupContent);
   },
 });
 
@@ -71,9 +74,9 @@ function formatResult(feature, el) {
     city: "ville",
     commune: "commune",
   };
-  title.innerHTML = feature.properties.name;
+  title.textContent = feature.properties.name;
   if (types[feature.properties.type]) {
-    L.DomUtil.create("span", "type", title).innerHTML =
+    L.DomUtil.create("span", "type", title).textContent =
       types[feature.properties.type];
   }
   if (
@@ -85,7 +88,7 @@ function formatResult(feature, el) {
   if (feature.properties.context) {
     details.push(feature.properties.context);
   }
-  detailsContainer.innerHTML = details.join(", ");
+  detailsContainer.textContent = details.join(", ");
 }
 
 const photonControlOptions = {
@@ -119,8 +122,8 @@ export function photon() {
   searchPoints.addTo(window.map);
 
   window.map.addControl(myPhoton);
-  /* eslint-disable no-proto */
-  myPhoton.search.__proto__.setChoice = function setChoice(choice ) {
+
+  myPhoton.search.__proto__.setChoice = function setChoice(choice) {
     const c = choice || this.RESULTS[this.CURRENT];
     if (c) {
       // sendSearch(c.feature); // Stats are not working
@@ -130,5 +133,4 @@ export function photon() {
       this.onSelected(c.feature);
     }
   };
-  /* eslint-enable no-proto*/
 }
