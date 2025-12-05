@@ -71,9 +71,9 @@ function formatResult(feature, el) {
     city: "ville",
     commune: "commune",
   };
-  title.innerHTML = feature.properties.name;
+  title.textContent = feature.properties.name;
   if (types[feature.properties.type]) {
-    L.DomUtil.create("span", "type", title).innerHTML =
+    L.DomUtil.create("span", "type", title).textContent =
       types[feature.properties.type];
   }
   if (
@@ -85,7 +85,7 @@ function formatResult(feature, el) {
   if (feature.properties.context) {
     details.push(feature.properties.context);
   }
-  detailsContainer.innerHTML = details.join(", ");
+  detailsContainer.textContent = details.join(", ");
 }
 
 const photonControlOptions = {
