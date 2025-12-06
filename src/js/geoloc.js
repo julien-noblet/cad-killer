@@ -4,13 +4,15 @@
  * @format
  */
 
+import L from "leaflet";
+
 // Géoloc
 function showPosition(position) {
   const icone = L.DomUtil.get(document.getElementById("geoloc_icon"));
   if (Window.map !== null) {
     Window.map.setView(
       [position.coords.latitude, position.coords.longitude],
-      16
+      16,
     );
     icone.className = "zmdi zmdi-2x zmdi-gps-dot";
   }

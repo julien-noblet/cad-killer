@@ -42,8 +42,8 @@ L.control
   .addTo(window.map);
 
 // ajout hash dans l'URL
-let hash;
-hash = new L.Hash(window.map);
+// let hash;
+new L.Hash(window.map);
 
 // Chargement des modules:
 // require('./photon');
