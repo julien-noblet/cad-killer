@@ -1,10 +1,11 @@
-const { mkdir, writeFile } = require("fs").promises;
+const { writeFile } = require("fs").promises;
 const os = require("os");
 const path = require("path");
 const puppeteer = require("puppeteer");
 const { spawn } = require("child_process");
+const tmp = require("tmp");
 
-const DIR = path.join(os.tmpdir(), "jest_puppeteer_global_setup");
+
 
 module.exports = async function () {
   console.log("Setup: Launching browser...");
@@ -15,8 +16,9 @@ module.exports = async function () {
   globalThis.__BROWSER_GLOBAL__ = browser;
 
   // use the file system to expose the wsEndpoint for TestEnvironments
-  await mkdir(DIR, { recursive: true });
-  await writeFile(path.join(DIR, "wsEndpoint"), browser.wsEndpoint());
+  const dir = tmp.dirSync({ keep: true, unsafeCleanup: true });
+  process.env.JEST_PUPPETEER_DIR = dir.name;
+  await writeFile(path.join(dir.name, "wsEndpoint"), browser.wsEndpoint());
 
   console.log("Setup: Starting webpack server...");
   // Start webpack dev server

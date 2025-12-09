@@ -4,7 +4,7 @@ const path = require("path");
 const puppeteer = require("puppeteer");
 const NodeEnvironment = require("jest-environment-node").TestEnvironment;
 
-const DIR = path.join(os.tmpdir(), "jest_puppeteer_global_setup");
+const DIR = process.env.JEST_PUPPETEER_DIR;
 
 class PuppeteerEnvironment extends NodeEnvironment {
   constructor(config) {

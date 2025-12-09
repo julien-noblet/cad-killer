@@ -2,7 +2,7 @@ const fs = require("fs").promises;
 const os = require("os");
 const path = require("path");
 
-const DIR = path.join(os.tmpdir(), "jest_puppeteer_global_setup");
+const DIR = process.env.JEST_PUPPETEER_DIR;
 module.exports = async function () {
   console.log("Teardown: Closing browser...");
   if (globalThis.__BROWSER_GLOBAL__) {
