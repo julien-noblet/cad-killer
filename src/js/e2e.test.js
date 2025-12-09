@@ -1,4 +1,4 @@
-const timeout = 60 * 1000 * 5; // 5 minutes given the large number of viewports
+const timeout = 60 * 1000 * 20; // 20 minutes
 
 // Top 50 Common Resolutions / Devices
 const devices = [
@@ -24,7 +24,6 @@ const devices = [
     { name: "Desktop 2560x1440", viewport: { width: 2560, height: 1440 } },
     { name: "Large Desktop 1920x1200", viewport: { width: 1920, height: 1200 } },
     { name: "4K 3840x2160", viewport: { width: 3840, height: 2160 } },
-    /* ... adding generic resolutions to reach ~50 */
     { name: "Generic 360x640", viewport: { width: 360, height: 640 } },
     { name: "Generic 360x800", viewport: { width: 360, height: 800 } },
     { name: "Generic 390x844", viewport: { width: 390, height: 844 } },
@@ -139,7 +138,6 @@ describe("E2E Tests", () => {
         const expectedLayers = [
             "OpenStreetMap France",
             "OpenStreetMap"
-            // "Cadastre" might depend on config/layers.js loading
         ];
 
         expectedLayers.forEach(layer => {
@@ -158,7 +156,6 @@ describe("E2E Tests", () => {
 
     test("Feature 4: Responsive Tests (50 Devices)", async () => {
         for (const device of devices) {
-            // console.log(`Testing viewport: ${device.name} (${device.viewport.width}x${device.viewport.height})`);
             await page.setViewport(device.viewport);
             await page.goto("http://localhost:9000/");
 
@@ -166,16 +163,22 @@ describe("E2E Tests", () => {
             const header = await page.$("#head");
             expect(header).toBeTruthy();
 
-            // Basic assertion: map is present
-            const map = await page.$("#map");
-            expect(map).toBeTruthy();
+            // Wait for tiles to load with robust check
+            await page.waitForNetworkIdle({ idleTime: 2000 });
+            await page.waitForFunction(() => {
+                const tiles = Array.from(document.querySelectorAll('.leaflet-tile'));
+                // Check if we have tiles and all are loaded
+                return tiles.length > 0 && tiles.every(img => img.complete);
+            }, { timeout: 10000 });
 
-            // Ensure no overlapping (simplistic check: header height)
-            const headerBox = await header.boundingBox();
-            expect(headerBox.height).toBeGreaterThan(0);
-
-            // On mobile, sidebar/controls might behave differently, check visibility
-            // For now, just ensuring it renders and doesn't crash is a good baseline.
+            // Visual Regression
+            const screenshot = await page.screenshot();
+            expect(screenshot).toMatchImageSnapshot({
+                customSnapshotIdentifier: `responsive_${device.name.replace(/[^a-zA-Z0-9]/g, '_')}`,
+                failureThreshold: 0.01,
+                failureThresholdType: 'percent',
+                customDiffConfig: { threshold: 0.1 }
+            });
         }
     }, timeout);
 
@@ -185,16 +188,7 @@ describe("E2E Tests", () => {
         // Emulate print media type
         await page.emulateMediaType('print');
 
-        // Check if map controls are hidden (common requirement)
-        // Usually controls are hidden in print
-        const controlsVisible = await page.evaluate(() => {
-            const controls = document.querySelector(".leaflet-control-container");
-            return window.getComputedStyle(controls).display !== 'none';
-        });
-
-        // If your print styles hide controls:
-        // expect(controlsVisible).toBe(false); 
-        // But based on user request "check also the print preview", we ensure the map is still there.
+        // Check if map is visible
         const mapVisible = await page.evaluate(() => {
             const map = document.querySelector("#map");
             return window.getComputedStyle(map).display !== 'none';
