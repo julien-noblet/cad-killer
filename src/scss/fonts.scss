@@ -7,7 +7,6 @@
 $ff-arial: 'Arial';
 $ff-helvetica-neue: 'Helvetica Neue';
 $ff-helvetica: 'Helvetica';
-
 $font-0: 'Lucida Console';
 $font-1: 'Monaco';
 $font-2: 'monospace';
@@ -25,13 +24,11 @@ $font-5: 'sans-serif';
     font-family: $family;
     font-style: $style;
     font-weight: 400; // Lie to match usage in header-footer.scss
-    font-variation-settings: "wght"$weight-val;
+    font-variation-settings: "wght" $weight-val;
 
-    @if $style ==italic {
+    @if $style == italic {
       src: url('~@fontsource-variable/open-sans/files/open-sans-latin-wght-italic.woff2') format('woff2-variations');
-    }
-
-    @else {
+    } @else {
       src: url('~@fontsource-variable/open-sans/files/open-sans-latin-wght-normal.woff2') format('woff2-variations');
     }
   }
@@ -43,6 +40,7 @@ $font-5: 'sans-serif';
 
 // Regular (400)
 @include font-def-variable('open_sansregular', 400);
+
 // Also map 'opensans' if used elsewhere?? The old file had 'open_sansregular' mapped to 'Regular/OpenSans-Regular'
 // But wait, step 25 showed lines like: @include font('open_sansregular', 'Regular/OpenSans-Regular')
 // And step 113 output showed: font-family: 'Open Sans' for everything...
@@ -65,6 +63,6 @@ $font-5: 'sans-serif';
 @include font-def-variable('open_sansextrabold', 800);
 @include font-def-variable('open_sansextrabold_italic', 800, italic);
 
-//Start of material-design-iconic-font
-//Start of material-design-iconic-font
-//$ff-material: $zmdi-font-name;
+// Start of material-design-iconic-font
+// Start of material-design-iconic-font
+// $ff-material: $zmdi-font-name;

@@ -20,12 +20,12 @@ header {
 
   a {
     color: $color-dark-text;
-    font-family: 'open_sanslight';
+    font-family: 'open_sanslight', sans-serif;
     text-decoration: none;
   }
 
   h1 {
-    font-family: 'open_sanslight';
+    font-family: 'open_sanslight', sans-serif;
     font-size: 40px;
     font-weight: normal;
     line-height: 60px;
@@ -51,7 +51,7 @@ header {
 
     a {
       color: $color-dark-text;
-      font-family: 'open_sansextrabold';
+      font-family: 'open_sansextrabold', sans-serif;
       font-size: 15px;
       font-weight: normal;
       line-height: 100px;
@@ -94,7 +94,7 @@ footer {
 
   a {
     color: $color-near-white;
-    font-family: 'open_sanslight';
+    font-family: 'open_sanslight', sans-serif;
     text-decoration: none;
   }
 
@@ -104,11 +104,11 @@ footer {
   }
 }
 
-.beta:after {
+.beta::after {
   color: $color-beta;
   content: 'bêta';
   float: right;
-  font-family: 'open_sansextrabold';
+  font-family: 'open_sansextrabold', sans-serif;
   font-size: 15px;
   font-weight: normal;
   left: -31px;

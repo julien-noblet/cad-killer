@@ -1,7 +1,7 @@
 @use 'fonts' as *;
 @use 'colors' as *;
 
-//urls
+// urls
 $url-0: url(../images/spritesheet.png);
 $url-1: url(../images/spritesheet.svg);
 $url-2: url(../images/spritesheet-2x.png);
@@ -17,7 +17,8 @@ $url-2: url(../images/spritesheet-2x.png);
     background-image: none;
     background-repeat: no-repeat;
     background-size: 270px 30px;
-    //Instead of the line below you could use @include background-clip($clip)
+
+    // Instead of the line below you could use @include background-clip($clip)
     background-clip: padding-box;
   }
 
@@ -80,7 +81,7 @@ $url-2: url(../images/spritesheet-2x.png);
     }
 
     &:last-child a {
-      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+      // Instead of the line below you could use @include border-radius($radius, $vertical-radius)
       border-radius: 0 4px 4px 0;
     }
   }
@@ -188,7 +189,8 @@ $url-2: url(../images/spritesheet-2x.png);
 .leaflet-draw-tooltip {
   background: $black-50;
   border: 1px solid transparent;
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+
+  // Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 4px;
   color: $white;
   font: 12px/18px $font-0, $font-1, $font-2, $font-3;
@@ -200,7 +202,7 @@ $url-2: url(../images/spritesheet-2x.png);
   white-space: nowrap;
   z-index: 6;
 
-  &:before {
+  &::before {
     border-right: 6px solid $black;
     border-right-color: $black-50;
     border-top: 6px solid transparent;
@@ -217,7 +219,7 @@ $url-2: url(../images/spritesheet-2x.png);
   border: 1px solid $color-cavern-pink-approx;
   color: $color-chestnut-approx;
 
-  &:before {
+  &::before {
     border-right-color: $color-cavern-pink-approx;
   }
 }
@@ -241,9 +243,11 @@ $url-2: url(../images/spritesheet-2x.png);
 .leaflet-edit-marker-selected {
   background-color: $color-brilliant-rose-10-approx;
   border: 4px dashed $color-brilliant-rose-60-approx;
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+
+  // Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 4px;
-  //Instead of the line below you could use @include box-sizing($bs)
+
+  // Instead of the line below you could use @include box-sizing($bs)
   box-sizing: content-box;
 }
 
@@ -256,12 +260,12 @@ $url-2: url(../images/spritesheet-2x.png);
 }
 
 .leaflet-draw-toolbar-notop a:first-child {
-  //Instead of the line below you could use @include border-top-right-radius($radius)
+  // Instead of the line below you could use @include border-top-right-radius($radius)
   border-top-right-radius: 0;
 }
 
 .leaflet-draw-toolbar-nobottom a:last-child {
-  //Instead of the line below you could use @include border-bottom-right-radius($radius)
+  // Instead of the line below you could use @include border-bottom-right-radius($radius)
   border-bottom-right-radius: 0;
 }
 
@@ -281,6 +285,7 @@ $url-2: url(../images/spritesheet-2x.png);
     padding: 0;
     margin: -1px;
     overflow: hidden;
+    // stylelint-disable-next-line property-no-deprecated
     clip: rect(0, 0, 0, 0);
     border: 0;
   }
@@ -292,12 +297,12 @@ $url-2: url(../images/spritesheet-2x.png);
 
   li {
     &:last-child a {
-      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+      // Instead of the line below you could use @include border-radius($radius, $vertical-radius)
       border-radius: 0;
     }
 
     &:first-child a {
-      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+      // Instead of the line below you could use @include border-radius($radius, $vertical-radius)
       border-radius: 4px 0 0 4px;
     }
   }

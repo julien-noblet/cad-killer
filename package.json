@@ -8,6 +8,8 @@
     "start": "webpack serve --open",
     "build": "npx webpack --mode production --config webpack.config.js --progress --color",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "lint:scss": "stylelint '**/*.scss'",
+    "lint:scss:fix": "stylelint '**/*.scss' --fix",
     "update-screenshots": "node --experimental-vm-modules node_modules/jest/bin/jest.js -u"
   },
   "lint-staged": {
@@ -99,6 +101,8 @@
     "sass": "^1.71.1",
     "sass-loader": "16.0.6",
     "style-loader": "4.0.0",
+    "stylelint": "^16.26.1",
+    "stylelint-config-standard-scss": "^16.0.0",
     "webpack-dev-server": "5.2.2"
   },
   "dependencies": {

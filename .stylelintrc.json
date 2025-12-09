@@ -1,0 +1,29 @@
+{
+    "extends": "stylelint-config-standard-scss",
+    "rules": {
+        "no-descending-specificity": null,
+        "scss/at-rule-no-unknown": [
+            true,
+            {
+                "ignoreAtRules": [
+                    "use",
+                    "forward",
+                    "if",
+                    "else",
+                    "each",
+                    "include",
+                    "mixin",
+                    "function",
+                    "return",
+                    "extend",
+                    "error",
+                    "warn",
+                    "debug",
+                    "at-root",
+                    "content",
+                    "for"
+                ]
+            }
+        ]
+    }
+}

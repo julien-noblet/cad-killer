@@ -16,10 +16,7 @@
   color: $color-white;
   font: 21px/29px $ff-helvetica-neue, $ff-arial, $ff-helvetica, sans-serif;
   line-height: 28px;
-  padding-bottom: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
+  padding: 5px 10px;
   text-decoration: none;
 }
 
@@ -27,7 +24,7 @@
   height: 36px;
 }
 
-.leaflet-draw-draw-marker:before {
+.leaflet-draw-draw-marker::before {
   content: $zmdi-var-bug;
   color: $color-beta;
 }
@@ -57,7 +54,7 @@
 }
 
 .noteholder {
-  background-color: rgba(0, 0, 0, .25);
+  background-color: rgb(0 0 0 / 25%);
   min-height: 100%;
   position: fixed;
   top: 0;
@@ -73,7 +70,8 @@
     margin-left: auto;
     margin-right: auto;
     max-height: 80%;
-    //overflow-x: auto;
+
+    // overflow-x: auto;
     padding: 30px;
     position: initial;
     width: 30em;
@@ -92,7 +90,8 @@
     margin-bottom: 5%;
     margin-top: 5%;
     max-height: 80%;
-    //overflow-x: auto;
+
+    // overflow-x: auto;
     padding: 30px;
     padding-bottom: 0;
     position: absolute;
