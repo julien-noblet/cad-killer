@@ -1,18 +1,18 @@
-@use 'zmdi' as *;
+@use "zmdi" as *;
 
 // *************************************************
 // *********************** FONT ********************
 // *************************************************
 
-$ff-arial: 'Arial';
-$ff-helvetica-neue: 'Helvetica Neue';
-$ff-helvetica: 'Helvetica';
-$font-0: 'Lucida Console';
-$font-1: 'Monaco';
-$font-2: 'monospace';
-$font-3: 'Tahoma';
-$font-4: 'Verdana';
-$font-5: 'sans-serif';
+$ff-arial: "Arial";
+$ff-helvetica-neue: "Helvetica Neue";
+$ff-helvetica: "Helvetica";
+$font-0: "Lucida Console";
+$font-1: "Monaco";
+$font-2: "monospace";
+$font-3: "Tahoma";
+$font-4: "Verdana";
+$font-5: "sans-serif";
 
 // Custom font definitions mapping legacy names to @fontsource-variable/open-sans
 // We map all legacy "families" (which were really weights) to the single variable font file,
@@ -27,19 +27,21 @@ $font-5: 'sans-serif';
     font-variation-settings: "wght" $weight-val;
 
     @if $style == italic {
-      src: url('~@fontsource-variable/open-sans/files/open-sans-latin-wght-italic.woff2') format('woff2-variations');
+      src: url("~@fontsource-variable/open-sans/files/open-sans-latin-wght-italic.woff2")
+        format("woff2-variations");
     } @else {
-      src: url('~@fontsource-variable/open-sans/files/open-sans-latin-wght-normal.woff2') format('woff2-variations');
+      src: url("~@fontsource-variable/open-sans/files/open-sans-latin-wght-normal.woff2")
+        format("woff2-variations");
     }
   }
 }
 
 // Light (300)
-@include font-def-variable('open_sanslight', 300);
-@include font-def-variable('open_sanslight_italic', 300, italic);
+@include font-def-variable("open_sanslight", 300);
+@include font-def-variable("open_sanslight_italic", 300, italic);
 
 // Regular (400)
-@include font-def-variable('open_sansregular', 400);
+@include font-def-variable("open_sansregular", 400);
 
 // Also map 'opensans' if used elsewhere?? The old file had 'open_sansregular' mapped to 'Regular/OpenSans-Regular'
 // But wait, step 25 showed lines like: @include font('open_sansregular', 'Regular/OpenSans-Regular')
@@ -49,19 +51,19 @@ $font-5: 'sans-serif';
 // Let's rely on the names I used in step 115:
 // open_sanslight, open_sanslight_italic, open_sansregular, open_sansitalic...
 
-@include font-def-variable('open_sansitalic', 400, italic);
+@include font-def-variable("open_sansitalic", 400, italic);
 
 // Semibold (600)
-@include font-def-variable('open_sanssemibold', 600);
-@include font-def-variable('open_sanssemibold_italic', 600, italic);
+@include font-def-variable("open_sanssemibold", 600);
+@include font-def-variable("open_sanssemibold_italic", 600, italic);
 
 // Bold (700)
-@include font-def-variable('open_sansbold', 700);
-@include font-def-variable('open_sansbold_italic', 700, italic);
+@include font-def-variable("open_sansbold", 700);
+@include font-def-variable("open_sansbold_italic", 700, italic);
 
 // ExtraBold (800)
-@include font-def-variable('open_sansextrabold', 800);
-@include font-def-variable('open_sansextrabold_italic', 800, italic);
+@include font-def-variable("open_sansextrabold", 800);
+@include font-def-variable("open_sansextrabold_italic", 800, italic);
 
 // Start of material-design-iconic-font
 // Start of material-design-iconic-font

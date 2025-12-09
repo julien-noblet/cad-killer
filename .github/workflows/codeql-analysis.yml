@@ -5,11 +5,11 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
   schedule:
-    - cron: '37 15 * * 5'
+    - cron: "37 15 * * 5"
 
 jobs:
   analyze:
@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript' ] # Ajouter d'autres langages si besoin
+        language: ["javascript"] # Ajouter d'autres langages si besoin
         # Ex: [ 'javascript', 'python' ]
 
     steps:

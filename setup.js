@@ -5,8 +5,6 @@ const puppeteer = require("puppeteer");
 const { spawn } = require("child_process");
 const tmp = require("tmp");
 
-
-
 module.exports = async function () {
   console.log("Setup: Launching browser...");
   const browser = await puppeteer.launch({

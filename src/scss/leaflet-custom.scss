@@ -1,11 +1,11 @@
 // Debug comment
-@use 'fonts';
-@use 'colors' as *;
+@use "fonts";
+@use "colors" as *;
 
 // urls
-$url-0: url('#default#VML');
-$url-1: url('~leaflet/dist/images/layers.png');
-$url-2: url('~leaflet/dist/images/layers-2x.png');
+$url-0: url("#default#VML");
+$url-1: url("~leaflet/dist/images/layers.png");
+$url-2: url("~leaflet/dist/images/layers-2x.png");
 
 // @extend-elements
 // original selectors
@@ -144,7 +144,11 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   touch-action: none;
   background: $color-alto-approx;
   outline: 0;
-  font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font:
+    12px/1.5 "Helvetica Neue",
+    Arial,
+    Helvetica,
+    sans-serif;
 
   &.leaflet-container a {
     color: $color-link;
@@ -162,7 +166,10 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
       text-align: center;
       width: 18px;
       height: 14px;
-      font: 16px/14px fonts.$font-3, fonts.$font-4, fonts.$font-5;
+      font:
+        16px/14px fonts.$font-3,
+        fonts.$font-4,
+        fonts.$font-5;
       color: $color-celeste-approx;
       text-decoration: none;
       font-weight: bold;
@@ -425,12 +432,18 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
 // Moved .leaflet-touch to end
 
 .leaflet-control-zoom-in {
-  font: bold 18px fonts.$font-0, fonts.$font-1, fonts.$font-2;
+  font:
+    bold 18px fonts.$font-0,
+    fonts.$font-1,
+    fonts.$font-2;
   text-indent: 1px;
 }
 
 .leaflet-control-zoom-out {
-  font: bold 18px fonts.$font-0, fonts.$font-1, fonts.$font-2;
+  font:
+    bold 18px fonts.$font-0,
+    fonts.$font-1,
+    fonts.$font-2;
   text-indent: 1px;
   font-size: 20px;
 }
@@ -484,8 +497,6 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   margin: 5px -10px 5px -6px;
 }
 
-
-
 .leaflet-control-scale-line {
   color: $color-mine-shaft-approx;
   border: 2px solid $color-tapa-approx;
@@ -510,8 +521,6 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
     }
   }
 }
-
-
 
 .leaflet-popup-content-wrapper {
   padding: 1px;

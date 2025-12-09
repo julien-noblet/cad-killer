@@ -76,17 +76,17 @@ module.exports = {
       },
       {
         test: /\.(ttf|eot|woff|woff2)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
         generator: {
-          filename: 'fonts/[name][ext]'
-        }
+          filename: "fonts/[name][ext]",
+        },
       },
       {
         test: /\.(png|jpeg|jpg|gif)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
         generator: {
-          filename: 'images/[name][ext]'
-        }
+          filename: "images/[name][ext]",
+        },
       },
       {
         test: /^brave-rewards-verification\.txt/,

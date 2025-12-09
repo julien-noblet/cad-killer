@@ -1,6 +1,6 @@
-@use 'colors' as *;
-@use 'fonts' as *;
-@use 'zmdi' as *;
+@use "colors" as *;
+@use "fonts" as *;
+@use "zmdi" as *;
 
 .hidden {
   visibility: hidden;
@@ -14,7 +14,11 @@
   background-color: $color-background-tooltip;
   border-left: 1px solid $color-silver-chalice-approx;
   color: $color-white;
-  font: 21px/29px $ff-helvetica-neue, $ff-arial, $ff-helvetica, sans-serif;
+  font:
+    21px/29px $ff-helvetica-neue,
+    $ff-arial,
+    $ff-helvetica,
+    sans-serif;
   line-height: 28px;
   padding: 5px 10px;
   text-decoration: none;
