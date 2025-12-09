@@ -5,7 +5,7 @@ describe("Security vulnerability reproduction", () => {
 
   beforeAll(async () => {
     page = await globalThis.__BROWSER_GLOBAL__.newPage();
-    // page.on('console', msg => console.log('PAGE LOG:', msg.text()));
+    page.on('console', msg => console.log('PAGE LOG:', msg.text()));
   }, timeout);
 
   afterAll(async () => {

@@ -21,7 +21,7 @@ module.exports = async function () {
   console.log("Setup: Starting webpack server...");
   // Start webpack dev server
   const server = spawn("npx", ["webpack", "serve"], {
-    shell: true,
+    shell: false,
     detached: true,
     stdio: "ignore",
   });

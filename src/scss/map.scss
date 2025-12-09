@@ -2,6 +2,10 @@
 // ********************* MAP ***********************
 // *************************************************
 
+@use 'colors' as *;
+@use 'zmdi' as *;
+@use 'variables' as *;
+
 $height-photon: 46px;
 
 .nohead {
@@ -14,11 +18,13 @@ $height-photon: 46px;
   float: right;
   visibility: hidden;
   width: 0;
+
   @media (max-width: $smartphone) {
     display: block;
     float: none;
     visibility: visible;
   }
+
   font-name: $zmdi-font-name;
 }
 
@@ -34,6 +40,7 @@ $height-photon: 46px;
     .photon-input {
       margin-bottom: 0;
       width: 400px;
+
       @media (max-width: $smartphone) {
         margin-top: -10px;
         width: 100%;
@@ -51,6 +58,7 @@ $height-photon: 46px;
       color: $color-leaflet-button;
       padding: 6px;
       visibility: hidden;
+
       @media (max-width: $smartphone) {
         position: absolute;
         right: 0;
@@ -73,11 +81,13 @@ $height-photon: 46px;
           display: block;
           top: 45px;
         }
+
         @media print {
           visibility: hidden;
         }
       }
     }
+
     .leaflet-control-layers {
       position: absolute;
       right: 0;
@@ -87,6 +97,7 @@ $height-photon: 46px;
         display: block;
         top: $height-photon; //hack
       }
+
       @media print {
         visibility: hidden;
       }
@@ -115,6 +126,7 @@ $height-photon: 46px;
 
     .leaflet-photon {
       right: calc(50% - 200px);
+
       @media (max-width: $smartphone) {
         margin: 0;
         right: 0;
@@ -132,6 +144,7 @@ $height-photon: 46px;
     @media (max-width: $smartphone) {
       top: 60px;
     }
+
     @media print {
       height: 100%;
       top: 0;
@@ -160,11 +173,13 @@ $height-photon: 46px;
   position: fixed;
   right: 0;
   text-align: center;
+
   @media (max-width: $smartphone) {
     bottom: 2.5em;
     margin-right: 0; // !important;
     width: 100%;
   }
+
   @media print {
     bottom: inherit; // need???
     font-size: x-large;
@@ -179,6 +194,7 @@ $height-photon: 46px;
     display: block;
     top: $height-photon; //hack
   }
+
   @media print {
     visibility: hidden;
   }

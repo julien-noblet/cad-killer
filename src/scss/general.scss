@@ -2,8 +2,9 @@
 // ******************** GENERIC RULES **************
 // *************************************************
 
-// variables
-$smartphone: 8in;
+@use 'colors' as *;
+@use 'variables' as *;
+
 a {
   box-sizing: border-box;
   color: $color-dark-text;
@@ -16,6 +17,7 @@ body {
   -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;
+
   @media print {
     height: 100%;
     margin: 0;

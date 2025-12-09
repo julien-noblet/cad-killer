@@ -55,7 +55,15 @@ module.exports = {
           { loader: "css-loader", options: {} },
           { loader: "postcss-loader", options: {} },
 
-          { loader: "sass-loader", options: {} }, // compiles Sass to CSS
+          {
+            loader: "sass-loader",
+            options: {
+              sassOptions: {
+                quietDeps: true,
+                silenceDeprecations: ["import", "global-builtin", "slash-div"],
+              },
+            },
+          }, // compiles Sass to CSS
         ],
       },
       {
@@ -67,18 +75,18 @@ module.exports = {
         ],
       },
       {
-        test: /\.(ttf|eot|woff|woff2)$/,
-        loader: "file-loader",
-        options: {
-          name: "fonts/[name].[ext]",
-        },
+        test: /\.(ttf|eot|woff|woff2)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name][ext]'
+        }
       },
       {
-        test: /\.(png|jpeg|jpg|gif)$/,
-        loader: "file-loader",
-        options: {
-          name: "images/[name].[ext]",
-        },
+        test: /\.(png|jpeg|jpg|gif)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext]'
+        }
       },
       {
         test: /^brave-rewards-verification\.txt/,
@@ -89,6 +97,11 @@ module.exports = {
       },
     ],
   },
+  ignoreWarnings: [
+    /Deprecation Warning/,
+    /Sass @import rules/,
+    /Using \/ for division/,
+  ],
   plugins: [
     HtmlWebpackPluginConfig,
     new MiniCssExtractPlugin({

@@ -6,10 +6,18 @@ $ff-arial: 'Arial';
 $ff-helvetica-neue: 'Helvetica Neue';
 $ff-helvetica: 'Helvetica';
 
+$font-0: 'Lucida Console';
+$font-1: 'Monaco';
+$font-2: 'monospace';
+$font-3: 'Tahoma';
+$font-4: 'Verdana';
+$font-5: 'sans-serif';
+
 //@import "~/opensans-npm-webfont/style";
 
-@import "~material-design-iconic-font/scss/_variables";
-@import "~material-design-iconic-font/scss/_icons";
+//Start of material-design-iconic-font
+//Start of material-design-iconic-font
+@use 'zmdi' as *;
 //$ff-material: $zmdi-font-name;
 /*
 @mixin font($ff, $file) {

@@ -2,6 +2,9 @@
 // *************** HEADER & FOOTER *****************
 // *************************************************
 
+@use 'colors' as *;
+@use 'variables' as *;
+
 .headmasked {
   @media (max-width: $smartphone) {
     visibility: hidden;
@@ -37,6 +40,7 @@ header {
   .menu {
     float: right;
     margin-right: 60px;
+
     @media (max-width: $smartphone) {
       margin-right: 0;
     }
@@ -58,8 +62,9 @@ header {
       text-decoration: underline;
     }
 
-    a + a {
+    a+a {
       margin-left: 20px;
+
       @media (max-width: $smartphone) {
         margin-left: 0;
       }
