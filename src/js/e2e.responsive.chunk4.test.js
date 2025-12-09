@@ -30,6 +30,9 @@ describe("E2E Tests - Responsive Chunk 4", () => {
                 return tiles.length > 0 && tiles.every(img => img.complete);
             }, { timeout: 10000 });
 
+            // Wait for fonts to be ready
+            await page.waitForFunction("document.fonts.status === 'loaded'");
+
             // Visual Regression
             const screenshot = await page.screenshot();
             expect(screenshot).toMatchImageSnapshot({
