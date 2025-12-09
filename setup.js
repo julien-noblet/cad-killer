@@ -1,5 +1,4 @@
 const { writeFile } = require("fs").promises;
-const os = require("os");
 const path = require("path");
 const puppeteer = require("puppeteer");
 const { spawn } = require("child_process");

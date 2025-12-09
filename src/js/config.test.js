@@ -6,7 +6,6 @@ import {
   REVERSE_URL,
   SHORT_CITY_NAMES,
   ATTRIBUTIONS,
-  IGN_KEY,
   IGN_LAYER,
   IGN_LAYER_LITE,
   OSM_CREDITENTIALS,
@@ -46,11 +45,6 @@ describe("config.js check globals", () => {
 
   test("ATTRIBUTIONS is a string", () => {
     expect(typeof ATTRIBUTIONS).toEqual("string");
-  });
-
-  test("IGN_KEY seems valid", () => {
-    expect(typeof IGN_KEY).toEqual("string");
-    expect(IGN_KEY.length).toBe(24);
   });
 
   test("IGN_LAYER is a string", () => {

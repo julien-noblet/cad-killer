@@ -1,6 +1,4 @@
 const fs = require("fs").promises;
-const os = require("os");
-const path = require("path");
 
 const DIR = process.env.JEST_PUPPETEER_DIR;
 module.exports = async function () {

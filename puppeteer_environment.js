@@ -1,5 +1,4 @@
 const { readFile } = require("fs").promises;
-const os = require("os");
 const path = require("path");
 const puppeteer = require("puppeteer");
 const NodeEnvironment = require("jest-environment-node").TestEnvironment;
