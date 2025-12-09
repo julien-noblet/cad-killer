@@ -34,10 +34,6 @@
     "src/*.js": [
       "prettier --write",
       "git add"
-    ],
-    "src/scss/*.scss": [
-      "prettier --write",
-      "git add"
     ]
   },
   "config": {
