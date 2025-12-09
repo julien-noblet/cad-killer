@@ -63,6 +63,8 @@ $url-2: url(../images/spritesheet-2x.png);
   margin-top: 0;
 }
 
+
+
 .leaflet-draw-actions {
   display: none;
   list-style: none;
@@ -72,19 +74,6 @@ $url-2: url(../images/spritesheet-2x.png);
   left: 26px;
   top: 0;
   white-space: nowrap;
-
-  li {
-    display: inline-block;
-
-    &:first-child a {
-      border-left: none;
-    }
-
-    &:last-child a {
-      // Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-      border-radius: 0 4px 4px 0;
-    }
-  }
 
   a {
     background-color: $color-stack-approx;
@@ -101,13 +90,30 @@ $url-2: url(../images/spritesheet-2x.png);
       background-color: $color-star-dust-approx;
     }
   }
+
+  li {
+    display: inline-block;
+
+    &:first-child a {
+      border-left: none;
+    }
+
+    &:last-child a {
+      // Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+      border-radius: 0 4px 4px 0;
+    }
+  }
+
+
 }
+
+// Moved .leaflet-right down
 
 .leaflet-touch {
   .leaflet-draw-actions {
     left: 32px;
 
-    a {
+    li a {
       font-size: 12px;
       line-height: 30px;
       height: 30px;
@@ -152,13 +158,11 @@ $url-2: url(../images/spritesheet-2x.png);
     }
   }
 
-  .leaflet-right .leaflet-draw-actions {
-    right: 32px;
-    left: auto;
-  }
+  // Extracted .leaflet-right .leaflet-draw-actions
+  // .leaflet-right .leaflet-draw-actions { ... }
 }
 
-.leaflet-draw-actions-bottom {
+ul.leaflet-draw-actions-bottom.leaflet-draw-actions-bottom {
   margin-top: 0;
 
   a {
@@ -167,7 +171,7 @@ $url-2: url(../images/spritesheet-2x.png);
   }
 }
 
-.leaflet-draw-actions-top {
+ul.leaflet-draw-actions-top.leaflet-draw-actions-top {
   margin-top: 1px;
 
   a {
@@ -259,21 +263,21 @@ $url-2: url(../images/spritesheet-2x.png);
   cursor: pointer;
 }
 
-.leaflet-draw-toolbar-notop a:first-child {
+div.leaflet-draw-toolbar-notop.leaflet-draw-toolbar-notop a:first-child {
   // Instead of the line below you could use @include border-top-right-radius($radius)
   border-top-right-radius: 0;
 }
 
-.leaflet-draw-toolbar-nobottom a:last-child {
+div.leaflet-draw-toolbar-nobottom.leaflet-draw-toolbar-nobottom a:last-child {
   // Instead of the line below you could use @include border-bottom-right-radius($radius)
   border-bottom-right-radius: 0;
 }
 
-.leaflet-retina .leaflet-draw-toolbar a {
+.leaflet-retina div.leaflet-draw-toolbar.leaflet-draw-toolbar a {
   background-image: none;
 }
 
-.leaflet-draw a {
+div.leaflet-draw.leaflet-draw.leaflet-draw a {
   display: block;
   text-align: center;
   text-decoration: none;
@@ -291,22 +295,8 @@ $url-2: url(../images/spritesheet-2x.png);
   }
 }
 
-.leaflet-right .leaflet-draw-actions {
-  right: 26px;
-  left: auto;
-
-  li {
-    &:last-child a {
-      // Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-      border-radius: 0;
-    }
-
-    &:first-child a {
-      // Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-      border-radius: 4px 0 0 4px;
-    }
-  }
-}
+// Moved .leaflet-right .leaflet-draw-actions up
+// .leaflet-right .leaflet-draw-actions { ... }
 
 .leaflet-oldie .leaflet-draw-toolbar {
   border: 1px solid $color-mountain-mist-approx;

@@ -126,19 +126,6 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   @extend %extend-1;
 }
 
-.leaflet-control-attribution {
-  padding: 0 5px;
-  color: $color-mine-shaft-approx;
-
-  a {
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
 .leaflet-container {
   overflow: hidden;
   touch-action: none;
@@ -146,7 +133,7 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   outline: 0;
   font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
 
-  &.leaflet-container a {
+  a {
     color: $color-link;
 
     &.leaflet-active {
@@ -298,11 +285,6 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   }
 }
 
-.leaflet-popup {
-  position: absolute;
-  text-align: center;
-}
-
 .leaflet-fade-anim {
   .leaflet-tile {
     will-change: opacity;
@@ -422,7 +404,49 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   height: 36px;
 }
 
-// Moved .leaflet-touch to end
+.leaflet-touch {
+  .leaflet-bar {
+    // Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: none;
+    border: 2px solid $black-20;
+
+    // Instead of the line below you could use @includebackground-clip($clip)
+    background-clip: padding-box;
+
+    a {
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+    }
+  }
+
+  .leaflet-control-zoom-in {
+    font-size: 22px;
+  }
+
+  .leaflet-control-zoom-out {
+    font-size: 24px;
+  }
+
+  .leaflet-control-layers-toggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .leaflet-control-attribution {
+    // Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: none;
+  }
+
+  .leaflet-control-layers {
+    // Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: none;
+    border: 2px solid $black-20;
+
+    // Instead of the line below you could use @includebackground-clip($clip)
+    background-clip: padding-box;
+  }
+}
 
 .leaflet-control-zoom-in {
   font: bold 18px fonts.$font-0, fonts.$font-1, fonts.$font-2;
@@ -484,7 +508,18 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   margin: 5px -10px 5px -6px;
 }
 
+.leaflet-control-attribution {
+  padding: 0 5px;
+  color: $color-mine-shaft-approx;
 
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
 
 .leaflet-control-scale-line {
   color: $color-mine-shaft-approx;
@@ -511,7 +546,10 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
   }
 }
 
-
+.leaflet-popup {
+  position: absolute;
+  text-align: center;
+}
 
 .leaflet-popup-content-wrapper {
   padding: 1px;
@@ -600,41 +638,4 @@ $url-2: url('~leaflet/dist/images/layers-2x.png');
 .leaflet-retina .leaflet-control-layers-toggle {
   background-image: $url-2;
   background-size: 26px 26px;
-}
-
-.leaflet-touch {
-  .leaflet-bar {
-    box-shadow: none;
-    border: 2px solid $black-20;
-    background-clip: padding-box;
-
-    a {
-      width: 30px;
-      height: 30px;
-      line-height: 30px;
-    }
-  }
-
-  .leaflet-control-zoom-in {
-    font-size: 22px;
-  }
-
-  .leaflet-control-zoom-out {
-    font-size: 24px;
-  }
-
-  .leaflet-control-layers-toggle {
-    width: 44px;
-    height: 44px;
-  }
-
-  .leaflet-control-attribution {
-    box-shadow: none;
-  }
-
-  .leaflet-control-layers {
-    box-shadow: none;
-    border: 2px solid $black-20;
-    background-clip: padding-box;
-  }
 }

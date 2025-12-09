@@ -11,26 +11,6 @@
   }
 }
 
-// Footer moved up
-footer {
-  background-color: $color-dark-text;
-  border-top: 1px solid $color-border-dark;
-  color: $color-near-white;
-  margin-top: 100px;
-  padding: 50px;
-
-  a {
-    color: $color-near-white;
-    font-family: 'open_sanslight', sans-serif;
-    text-decoration: none;
-  }
-
-  ul {
-    display: inline-block;
-    width: 30%;
-  }
-}
-
 header {
   background-color: $color-background;
   border-bottom: 1px solid $color-border-dark;
@@ -105,7 +85,24 @@ header {
   }
 }
 
+footer {
+  background-color: $color-dark-text;
+  border-top: 1px solid $color-border-dark;
+  color: $color-near-white;
+  margin-top: 100px;
+  padding: 50px;
 
+  a {
+    color: $color-near-white;
+    font-family: 'open_sanslight', sans-serif;
+    text-decoration: none;
+  }
+
+  ul {
+    display: inline-block;
+    width: 30%;
+  }
+}
 
 .beta::after {
   color: $color-beta;
