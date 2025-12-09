@@ -5,6 +5,7 @@ describe("E2E Tests - General", () => {
 
   beforeAll(async () => {
     page = await globalThis.__BROWSER_GLOBAL__.newPage();
+    // custom console
     page.on("console", (msg) => console.log("PAGE LOG:", msg.text()));
   }, timeout);
 
@@ -18,8 +19,10 @@ describe("E2E Tests - General", () => {
       // Mock the search API
       await page.setRequestInterception(true);
       page.on("request", (request) => {
+        // custom console
         console.log("DEBUG REQUEST:", request.url()); // Log all requests
         if (request.url().includes("api-adresse.data.gouv.fr")) {
+          // custom console
           console.log("Intercepted Target Request:", request.url());
           request.respond({
             content: "application/json",
@@ -59,6 +62,7 @@ describe("E2E Tests - General", () => {
       try {
         await page.waitForSelector(".photon-autocomplete", { timeout: 10000 });
       } catch (e) {
+        // custom console
         console.log(
           "Timeout waiting for .photon-autocomplete. HTML:",
           await page.content(),

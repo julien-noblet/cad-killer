@@ -6,6 +6,7 @@ const { spawn } = require("child_process");
 const tmp = require("tmp");
 
 module.exports = async function () {
+  // custom console
   console.log("Setup: Launching browser...");
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -18,6 +19,7 @@ module.exports = async function () {
   process.env.JEST_PUPPETEER_DIR = dir.name;
   await writeFile(path.join(dir.name, "wsEndpoint"), browser.wsEndpoint());
 
+  // custom console
   console.log("Setup: Starting webpack server...");
   // Start webpack dev server
   const server = spawn("npx", ["webpack", "serve"], {
@@ -58,8 +60,10 @@ module.exports = async function () {
 
   try {
     await checkPort();
+    // custom console
     console.log("Setup: Server started on port 9000");
   } catch (e) {
+    // custom console
     console.error(e);
     if (server) process.kill(-server.pid);
     if (browser) await browser.close();

@@ -7,6 +7,7 @@ describe("E2E Tests - Responsive Chunk 1", () => {
 
   beforeAll(async () => {
     page = await globalThis.__BROWSER_GLOBAL__.newPage();
+    // custom console
     page.on("console", (msg) => console.log("PAGE LOG:", msg.text()));
   }, timeout);
 
