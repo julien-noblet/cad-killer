@@ -39,7 +39,12 @@ describe("E2E Tests - Responsive Chunk 2", () => {
         );
 
         // Wait for fonts to be ready
-        await page.waitForFunction("document.fonts.status === 'loaded'");
+        await page.waitForFunction(
+          () =>
+            document.fonts.check("12px open_sansregular") &&
+            document.fonts.check("12px Material-Design-Iconic-Font"),
+          { timeout: 10000 },
+        );
 
         // Visual Regression
         const screenshot = await page.screenshot();

@@ -24,11 +24,14 @@ $font-5: "sans-serif";
     font-family: $family;
     font-style: $style;
     font-weight: 400; // Lie to match usage in header-footer.scss
+    font-display: swap;
     font-variation-settings: "wght"$weight-val;
 
-    @if $style == italic {
+    @if $style ==italic {
       src: url("~@fontsource-variable/open-sans/files/open-sans-latin-wght-italic.woff2") format("woff2-variations");
-    } @else {
+    }
+
+    @else {
       src: url("~@fontsource-variable/open-sans/files/open-sans-latin-wght-normal.woff2") format("woff2-variations");
     }
   }
