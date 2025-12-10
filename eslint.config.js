@@ -38,4 +38,10 @@ module.exports = [
       ],
     },
   },
+  {
+    files: ["setup.js", "teardown.js", "**/*.test.js"],
+    rules: {
+      "no-console": "off",
+    },
+  },
 ];
