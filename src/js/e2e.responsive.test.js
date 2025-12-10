@@ -1,8 +1,7 @@
 const timeout = 60 * 1000 * 20;
 const allDevices = require("./e2e-devices");
-const devices = allDevices.slice(20, 30);
 
-describe("E2E Tests - Responsive Chunk 3", () => {
+describe("E2E Tests - Responsive Chunk 1", () => {
   let page;
 
   beforeAll(async () => {
@@ -16,9 +15,9 @@ describe("E2E Tests - Responsive Chunk 3", () => {
   });
 
   test(
-    "Responsive Tests (Devices 21-30)",
+    "Responsive Tests (Devices 1-10)",
     async () => {
-      for (const device of devices) {
+      for (const device of allDevices) {
         await page.setViewport(device.viewport);
         await page.goto("http://localhost:9000/");
 
