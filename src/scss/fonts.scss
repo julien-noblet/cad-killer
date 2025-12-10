@@ -27,11 +27,9 @@ $font-5: "sans-serif";
     font-display: swap;
     font-variation-settings: "wght"$weight-val;
 
-    @if $style ==italic {
+    @if $style == italic {
       src: url("~@fontsource-variable/open-sans/files/open-sans-latin-wght-italic.woff2") format("woff2-variations");
-    }
-
-    @else {
+    } @else {
       src: url("~@fontsource-variable/open-sans/files/open-sans-latin-wght-normal.woff2") format("woff2-variations");
     }
   }
