@@ -12,7 +12,7 @@
 /* harmony export */   Q7: function() { return /* binding */ CENTER; },
 /* harmony export */   lL: function() { return /* binding */ IGN_LAYER; }
 /* harmony export */ });
-/* unused harmony exports IGN_KEY, IGN_LAYER_LITE, IGN_ORTHO, OSM_CREDITENTIALS, NOTE_API */
+/* unused harmony exports IGN_LAYER_LITE, IGN_ORTHO, OSM_CREDITENTIALS, NOTE_API */
 /**
  * @format
  */
@@ -22,7 +22,6 @@ var API_URL = "//api-adresse.data.gouv.fr/search/?";
 var REVERSE_URL = "//api-adresse.data.gouv.fr/reverse/?";
 var SHORT_CITY_NAMES = ["y", "ay", "bu", "by", "eu", "fa", "gy", "oo", "oz", "py", "ri", "ry", "sy", "ur", "us", "uz"];
 var ATTRIBUTIONS = "&copy; <a href='http://www.openstreetmap.org/copyright'>Contributeurs de OpenStreetMap</a> | <a href='https://www.data.gouv.fr/fr/datasets/base-d-adresses-nationale-ouverte-bano/'>Adresses BAN</a> sous licence ODbL";
-var IGN_KEY = "3sk4po838nk0byb23gft0qs5";
 var IGN_LAYER = "GEOGRAPHICALGRIDSYSTEMS.MAPS";
 var IGN_LAYER_LITE = "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2";
 var IGN_ORTHO = "ORTHOIMAGERY.ORTHOPHOTOS";
@@ -71,14 +70,12 @@ var layerEsriWorldImagery = leaflet_src_default().tileLayer("//server.arcgisonli
   attribution: "&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
 });
 var layerEsriWorldStreetMap = leaflet_src_default().tileLayer("//server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
-  attribution: 'Tiles &copy; Esri &mdash; ' + 'Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+  attribution: "Tiles &copy; Esri &mdash; " + "Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012"
 });
-var layerIGN = leaflet_src_default().tileLayer("//data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=".concat(config/* IGN_LAYER */.lL, "&STYLE=normal&FORMAT=image/jpeg&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}"),
-// `//wxs.ign.fr/${IGN_KEY}/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_LAYER}&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fjpeg`,
-{
+var layerIGN = leaflet_src_default().tileLayer("//data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=".concat(config/* IGN_LAYER */.lL, "&STYLE=normal&FORMAT=image/jpeg&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}"), {
   maxZoom: 18,
   minZoom: 6,
-  attribution: 'IGN-F/Géoportail',
+  attribution: "IGN-F/Géoportail",
   tileSize: 256 // les tuiles du Géooportail font 256x256px
 });
 var overlayBAN = leaflet_src_default().tileLayer("//{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png", {
@@ -144,7 +141,12 @@ var searchPoints = leaflet_src_default().geoJson(null, {
       window.map.setView([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], zoom);
       // sendClick(feature); // Stats are not working
     });
-    layer.bindPopup("".concat(feature.properties.name, "<a class='geo' href='geo:").concat(feature.geometry.coordinates[1], ",").concat(feature.geometry.coordinates[0], "'><i class='zmdi-navigation zmdi-2x'></i></a>"));
+    var popupContent = leaflet_src_default().DomUtil.create("div");
+    popupContent.textContent = feature.properties.name;
+    var link = leaflet_src_default().DomUtil.create("a", "geo", popupContent);
+    link.href = "geo:".concat(feature.geometry.coordinates[1], ",").concat(feature.geometry.coordinates[0]);
+    link.innerHTML = "<i class='zmdi-navigation zmdi-2x'></i>";
+    layer.bindPopup(popupContent);
   }
 });
 function showSearchPoints(geojson) {
@@ -165,9 +167,9 @@ function formatResult(feature, el) {
     city: "ville",
     commune: "commune"
   };
-  title.innerHTML = feature.properties.name;
+  title.textContent = feature.properties.name;
   if (types[feature.properties.type]) {
-    leaflet_src_default().DomUtil.create("span", "type", title).innerHTML = types[feature.properties.type];
+    leaflet_src_default().DomUtil.create("span", "type", title).textContent = types[feature.properties.type];
   }
   if (feature.properties.city && feature.properties.city !== feature.properties.name) {
     details.push(feature.properties.city);
@@ -175,7 +177,7 @@ function formatResult(feature, el) {
   if (feature.properties.context) {
     details.push(feature.properties.context);
   }
-  detailsContainer.innerHTML = details.join(", ");
+  detailsContainer.textContent = details.join(", ");
 }
 var photonControlOptions = {
   resultsHandler: showSearchPoints,
@@ -208,7 +210,6 @@ var myPhoton = new (leaflet_src_default()).Control.Photon(photonControlOptions);
 function photon() {
   searchPoints.addTo(window.map);
   window.map.addControl(myPhoton);
-  /* eslint-disable no-proto */
   myPhoton.search.__proto__.setChoice = function setChoice(choice) {
     var c = choice || this.RESULTS[this.CURRENT];
     if (c) {
@@ -221,7 +222,6 @@ function photon() {
       this.onSelected(c.feature);
     }
   };
-  /* eslint-enable no-proto*/
 }
 ;// ./src/js/map.js
 /**
@@ -259,8 +259,8 @@ leaflet_src_default().control.attribution({
 }).addTo(window.map);
 
 // ajout hash dans l'URL
-var hash;
-hash = new (leaflet_src_default()).Hash(window.map);
+// let hash;
+new (leaflet_src_default()).Hash(window.map);
 
 // Chargement des modules:
 // require('./photon');

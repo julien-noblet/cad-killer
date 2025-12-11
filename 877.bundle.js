@@ -26,7 +26,7 @@ __webpack_require__.r(__webpack_exports__);
         if (data.features !== null) {
           if (data.features[0] !== null) {
             if (data.features[0].properties !== null) {
-              container.innerHTML = "Carte centr\xE9e sur \xAB".concat(data.features[0].properties.label, "\xBB");
+              container.textContent = "Carte centr\xE9e sur \xAB".concat(data.features[0].properties.label, "\xBB");
             }
           }
         }
