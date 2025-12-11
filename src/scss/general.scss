@@ -2,8 +2,9 @@
 // ******************** GENERIC RULES **************
 // *************************************************
 
-// variables
-$smartphone: 8in;
+@use "colors" as *;
+@use "variables" as *;
+
 a {
   box-sizing: border-box;
   color: $color-dark-text;
@@ -12,10 +13,13 @@ a {
 }
 
 body {
-  font: 15px/20px 'open_sansregular', sans-serif;
+  font:
+    15px/20px "open_sansregular",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;
+
   @media print {
     height: 100%;
     margin: 0;
@@ -50,7 +54,7 @@ footer {
 
 h1 {
   box-sizing: border-box;
-  font-family: 'open_sansbold';
+  font-family: "open_sansbold", sans-serif;
   font-weight: normal;
   line-height: 1em;
   margin: 0;
@@ -59,7 +63,7 @@ h1 {
 
 h2 {
   box-sizing: border-box;
-  font-family: 'open_sansbold';
+  font-family: "open_sansbold", sans-serif;
   font-weight: normal;
   line-height: 1.2em;
   margin: 0;
@@ -69,7 +73,7 @@ h2 {
 
 h3 {
   box-sizing: border-box;
-  font-family: 'open_sansbold';
+  font-family: "open_sansbold", sans-serif;
   font-weight: normal;
   line-height: 1.2em;
   margin: 0;
@@ -79,7 +83,7 @@ h3 {
 
 h4 {
   box-sizing: border-box;
-  font-family: 'open_sansbold';
+  font-family: "open_sansbold", sans-serif;
   font-weight: normal;
   margin: 0;
   padding: 0;
@@ -87,7 +91,7 @@ h4 {
 
 h5 {
   box-sizing: border-box;
-  font-family: 'open_sansbold';
+  font-family: "open_sansbold", sans-serif;
   font-weight: normal;
   margin: 0;
   padding: 0;
@@ -107,10 +111,12 @@ header {
 
 hr {
   -moz-border-bottom-colors: none;
+
   // hack :)
   border-color: $color-border;
   border-image: none;
   -moz-border-left-colors: none;
+
   // est-il necessaire???
   -moz-border-right-colors: none;
   border-style: solid;
@@ -128,7 +134,9 @@ hr {
 input {
   box-sizing: border-box;
   color: $color-text;
-  font: 15px/20px 'open_sansregular', sans-serif;
+  font:
+    15px/20px "open_sansregular",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;
@@ -164,14 +172,16 @@ section {
 }
 
 strong {
-  font-family: 'open_sansbold';
+  font-family: "open_sansbold", sans-serif;
   font-weight: normal;
 }
 
 textarea {
   box-sizing: border-box;
   color: $color-text;
-  font: 15px/20px 'open_sansregular', sans-serif;
+  font:
+    15px/20px "open_sansregular",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;

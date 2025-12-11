@@ -1,4 +1,4 @@
-//color definitions
+// color definitions
 $color-mine-shaft-approx: #333;
 $yellow: #ff0;
 $color-boston-blue-approx: #2980b9;
@@ -13,19 +13,16 @@ $wild-sand: #f4f4f4;
 $color-pink-swan-approx: #bbb;
 $color-tapa-approx: #777;
 $color-pale-slate-approx: #c3c3c3;
-$color-cape-cod-75-approx: rgba(64, 64, 64, .75);
-
-$color-tuatara-approx: rgb(54, 54, 54);
-
+$color-cape-cod-75-approx: rgb(64 64 64 / 75%);
+$color-tuatara-approx: rgb(54 54 54);
 $black: #000;
-$black-10: rgba(0, 0, 0, .1);
-$black-20: rgba(0, 0, 0, .2);
-$black-25: rgba(0, 0, 0, .25);
-$black-40: rgba(0, 0, 0, .4);
-$black-50: rgba(0, 0, 0, .5);
-$black-65: rgba(0, 0, 0, .65);
-
-$color-mine-shaft-75-approx: rgba(51, 51, 51, .75);
+$black-10: rgb(0 0 0 / 10%);
+$black-20: rgb(0 0 0 / 20%);
+$black-25: rgb(0 0 0 / 25%);
+$black-40: rgb(0 0 0 / 40%);
+$black-50: rgb(0 0 0 / 50%);
+$black-65: rgb(0 0 0 / 65%);
+$color-mine-shaft-75-approx: rgb(51 51 51 / 75%);
 $color-blue-bayoux-approx: #4e5d73;
 $color-regent-gray-approx: #7e8da3;
 $color-thunderbird-approx: #de1c12;
@@ -34,23 +31,23 @@ $color-vanilla-ice-approx: #f2dede;
 $color-cavern-pink-approx: #e6b6bd;
 $color-chestnut-approx: #b94a48;
 $color-pig-pink-approx: #f8d5e4;
-$color-brilliant-rose-10-approx: rgba(254, 87, 161, .1);
-$color-brilliant-rose-60-approx: rgba(254, 87, 161, .6);
+$color-brilliant-rose-10-approx: rgb(254 87 161 / 10%);
+$color-brilliant-rose-60-approx: rgb(254 87 161 / 60%);
 $color-stack-approx: #919187;
 $color-silver-chalice-approx: #aaa;
 $color-log-cabin-approx: #222;
 $color-apple-approx: #4caf50;
-$wild-sand-50: rgba(244, 244, 244, .5);
-$wild-sand-70: rgba(244, 244, 244, .7);
-$wild-sand-75: rgba(244, 244, 244, .75);
+$wild-sand-50: rgb(244 244 244 / 50%);
+$wild-sand-70: rgb(244 244 244 / 70%);
+$wild-sand-75: rgb(244 244 244 / 75%);
 
-//temp redifine
+// temp redifine
 $white: $wild-sand;
-$white-50: rgba(244, 244, 244, .5);
-$white-70: rgba(244, 244, 244, .7);
-$white-75: rgba(244, 244, 244, .75);
+$white-50: rgb(244 244 244 / 50%);
+$white-70: rgb(244 244 244 / 70%);
+$white-75: rgb(244 244 244 / 75%);
 
-//usages
+// usages
 $color-background: $wild-sand;
 $color-background-tooltip: $color-stack-approx;
 $color-beta: $color-thunderbird-approx;
@@ -59,7 +56,6 @@ $color-border-dark: $color-log-cabin-approx;
 $color-button: $color-blue-bayoux-approx;
 $color-button-hover: $color-regent-gray-approx;
 $color-dark-text: $color-mine-shaft-approx;
-
 $color-leaflet-background: $wild-sand;
 $color-leaflet-button: $color-mine-shaft-approx;
 $color-leaflet-list-separator: $color-alto-approx;
@@ -67,12 +63,11 @@ $color-leaflet-shadow: $color-mountain-mist-approx;
 $color-leaflet-text-dark: $color-storm-dust-approx;
 $color-leaflet-text-med: $color-mountain-mist-approx;
 $color-leaflet-text-blue: $color-deep-cerulean-approx;
-
 $color-link: $color-deep-cerulean-approx;
 $color-near-white: $wild-sand;
 $color-text: $color-cape-cod-75-approx;
 $color-text-green: $color-apple-approx;
 $color-white: $wild-sand;
 
-//complex
+// complex
 $input-text-color-border: $color-border;

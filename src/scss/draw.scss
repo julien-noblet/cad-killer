@@ -1,4 +1,7 @@
-//urls
+@use "fonts" as *;
+@use "colors" as *;
+
+// urls
 $url-0: url(../images/spritesheet.png);
 $url-1: url(../images/spritesheet.svg);
 $url-2: url(../images/spritesheet-2x.png);
@@ -6,46 +9,60 @@ $url-2: url(../images/spritesheet-2x.png);
 .leaflet-draw-section {
   position: relative;
 }
+
 .leaflet-draw-toolbar {
   margin-top: 12px;
+
   a {
     background-image: none;
     background-repeat: no-repeat;
     background-size: 270px 30px;
-    //Instead of the line below you could use @include background-clip($clip)
+
+    // Instead of the line below you could use @include background-clip($clip)
     background-clip: padding-box;
   }
+
   .leaflet-draw-draw-polyline {
     background-position: -2px -2px;
   }
+
   .leaflet-draw-draw-polygon {
     background-position: -31px -2px;
   }
+
   .leaflet-draw-draw-rectangle {
     background-position: -62px -2px;
   }
+
   .leaflet-draw-draw-circle {
     background-position: -92px -2px;
   }
+
   .leaflet-draw-draw-marker {
     background-position: -122px -2px;
   }
+
   .leaflet-draw-edit-edit {
     background-position: -152px -2px;
+
     &.leaflet-disabled {
       background-position: -212px -2px;
     }
   }
+
   .leaflet-draw-edit-remove {
     background-position: -182px -2px;
+
     &.leaflet-disabled {
       background-position: -242px -2px;
     }
   }
 }
+
 .leaflet-draw-toolbar-top {
   margin-top: 0;
 }
+
 .leaflet-draw-actions {
   display: none;
   list-style: none;
@@ -55,103 +72,136 @@ $url-2: url(../images/spritesheet-2x.png);
   left: 26px;
   top: 0;
   white-space: nowrap;
-  li {
-    display: inline-block;
-    &:first-child a {
-      border-left: none;
-    }
-    &:last-child a {
-      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-      border-radius: 0 4px 4px 0;
-    }
-  }
+
   a {
     background-color: $color-stack-approx;
     border-left: 1px solid $color-silver-chalice-approx;
     color: $white;
-    font: 11px/19px $font-0, $font-1, $font-2, $font-3;
+    font:
+      11px/19px $font-0,
+      $font-1,
+      $font-2,
+      $font-3;
     line-height: 28px;
     text-decoration: none;
     padding-left: 10px;
     padding-right: 10px;
     height: 28px;
+
     &:hover {
       background-color: $color-star-dust-approx;
     }
   }
+
+  li {
+    display: inline-block;
+
+    &:first-child a {
+      border-left: none;
+    }
+
+    &:last-child a {
+      // Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+      border-radius: 0 4px 4px 0;
+    }
+  }
 }
+
+// Moved .leaflet-right down
+
 .leaflet-touch {
   .leaflet-draw-actions {
     left: 32px;
-    a {
+
+    li a {
       font-size: 12px;
       line-height: 30px;
       height: 30px;
     }
   }
+
   .leaflet-draw-toolbar {
     .leaflet-draw-draw-polyline {
       background-position: 0 -1px;
     }
+
     .leaflet-draw-draw-polygon {
       background-position: -29px -1px;
     }
+
     .leaflet-draw-draw-rectangle {
       background-position: -60px -1px;
     }
+
     .leaflet-draw-draw-circle {
       background-position: -90px -1px;
     }
+
     .leaflet-draw-draw-marker {
       background-position: -120px -1px;
     }
+
     .leaflet-draw-edit-edit {
       background-position: -150px -1px;
+
       &.leaflet-disabled {
         background-position: -210px -1px;
       }
     }
+
     .leaflet-draw-edit-remove {
       background-position: -180px -1px;
+
       &.leaflet-disabled {
         background-position: -240px -2px;
       }
     }
   }
-  .leaflet-right .leaflet-draw-actions {
-    right: 32px;
-    left: auto;
-  }
+
+  // Extracted .leaflet-right .leaflet-draw-actions
+  // .leaflet-right .leaflet-draw-actions { ... }
 }
-.leaflet-draw-actions-bottom {
+
+ul.leaflet-draw-actions-bottom.leaflet-draw-actions-bottom {
   margin-top: 0;
+
   a {
     height: 27px;
     line-height: 27px;
   }
 }
-.leaflet-draw-actions-top {
+
+ul.leaflet-draw-actions-top.leaflet-draw-actions-top {
   margin-top: 1px;
+
   a {
     height: 27px;
     line-height: 27px;
   }
+
   &.leaflet-draw-actions-bottom a {
     height: 26px;
     line-height: 26px;
   }
 }
+
 .leaflet-mouse-marker {
   background-color: $white;
   cursor: crosshair;
 }
+
 .leaflet-draw-tooltip {
   background: $black-50;
   border: 1px solid transparent;
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+
+  // Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 4px;
   color: $white;
-  font: 12px/18px $font-0, $font-1, $font-2, $font-3;
+  font:
+    12px/18px $font-0,
+    $font-1,
+    $font-2,
+    $font-3;
   margin-left: 20px;
   margin-top: -21px;
   padding: 4px 8px;
@@ -159,7 +209,8 @@ $url-2: url(../images/spritesheet-2x.png);
   visibility: hidden;
   white-space: nowrap;
   z-index: 6;
-  &:before {
+
+  &::before {
     border-right: 6px solid $black;
     border-right-color: $black-50;
     border-top: 6px solid transparent;
@@ -170,20 +221,25 @@ $url-2: url(../images/spritesheet-2x.png);
     left: -7px;
   }
 }
+
 .leaflet-error-draw-tooltip {
   background-color: $color-vanilla-ice-approx;
   border: 1px solid $color-cavern-pink-approx;
   color: $color-chestnut-approx;
-  &:before {
+
+  &::before {
     border-right-color: $color-cavern-pink-approx;
   }
 }
+
 .leaflet-draw-tooltip-single {
   margin-top: -12px;
 }
+
 .leaflet-draw-tooltip-subtext {
   color: $color-pig-pink-approx;
 }
+
 .leaflet-draw-guide-dash {
   font-size: 1%;
   opacity: 0.6;
@@ -191,35 +247,45 @@ $url-2: url(../images/spritesheet-2x.png);
   width: 5px;
   height: 5px;
 }
+
 .leaflet-edit-marker-selected {
   background-color: $color-brilliant-rose-10-approx;
   border: 4px dashed $color-brilliant-rose-60-approx;
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+
+  // Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 4px;
-  //Instead of the line below you could use @include box-sizing($bs)
+
+  // Instead of the line below you could use @include box-sizing($bs)
   box-sizing: content-box;
 }
+
 .leaflet-edit-move {
   cursor: move;
 }
+
 .leaflet-edit-resize {
   cursor: pointer;
 }
-.leaflet-draw-toolbar-notop a:first-child {
-  //Instead of the line below you could use @include border-top-right-radius($radius)
+
+div.leaflet-draw-toolbar-notop.leaflet-draw-toolbar-notop a:first-child {
+  // Instead of the line below you could use @include border-top-right-radius($radius)
   border-top-right-radius: 0;
 }
-.leaflet-draw-toolbar-nobottom a:last-child {
-  //Instead of the line below you could use @include border-bottom-right-radius($radius)
+
+div.leaflet-draw-toolbar-nobottom.leaflet-draw-toolbar-nobottom a:last-child {
+  // Instead of the line below you could use @include border-bottom-right-radius($radius)
   border-bottom-right-radius: 0;
 }
-.leaflet-retina .leaflet-draw-toolbar a {
+
+.leaflet-retina div.leaflet-draw-toolbar.leaflet-draw-toolbar a {
   background-image: none;
 }
-.leaflet-draw a {
+
+div.leaflet-draw.leaflet-draw.leaflet-draw a {
   display: block;
   text-align: center;
   text-decoration: none;
+
   .sr-only {
     position: absolute;
     width: 1px;
@@ -227,24 +293,15 @@ $url-2: url(../images/spritesheet-2x.png);
     padding: 0;
     margin: -1px;
     overflow: hidden;
+    // stylelint-disable-next-line property-no-deprecated
     clip: rect(0, 0, 0, 0);
     border: 0;
   }
 }
-.leaflet-right .leaflet-draw-actions {
-  right: 26px;
-  left: auto;
-  li {
-    &:last-child a {
-      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-      border-radius: 0;
-    }
-    &:first-child a {
-      //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-      border-radius: 4px 0 0 4px;
-    }
-  }
-}
+
+// Moved .leaflet-right .leaflet-draw-actions up
+// .leaflet-right .leaflet-draw-actions { ... }
+
 .leaflet-oldie .leaflet-draw-toolbar {
   border: 1px solid $color-mountain-mist-approx;
 }

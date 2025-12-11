@@ -1,67 +1,69 @@
+@use "zmdi" as *;
+
 // *************************************************
 // *********************** FONT ********************
 // *************************************************
 
-$ff-arial: 'Arial';
-$ff-helvetica-neue: 'Helvetica Neue';
-$ff-helvetica: 'Helvetica';
+$ff-arial: "Arial";
+$ff-helvetica-neue: "Helvetica Neue";
+$ff-helvetica: "Helvetica";
+$font-0: "Lucida Console";
+$font-1: "Monaco";
+$font-2: "monospace";
+$font-3: "Tahoma";
+$font-4: "Verdana";
+$font-5: "sans-serif";
 
-//@import "~/opensans-npm-webfont/style";
+// Custom font definitions mapping legacy names to @fontsource-variable/open-sans
+// We map all legacy "families" (which were really weights) to the single variable font file,
+// using font-variation-settings to pin the weight, because the application code (header-footer.scss)
+// expects to access these as distinct families with 'normal' (400) weight.
 
-@import "~material-design-iconic-font/scss/_variables";
-@import "~material-design-iconic-font/scss/_icons";
-//$ff-material: $zmdi-font-name;
-/*
-@mixin font($ff, $file) {
-  font-family: $ff;
-//  src: url('../fonts/'+$file+'.eot');
-  src: url('../fonts/'+$file+'.eot?#iefix') format('embedded-opentype'), url('../fonts/'+$file+'.woff') format('woff'), url('../fonts/'+$file+'.ttf') format('truetype'), url('../fonts/'+$file+'.svg#open_sanssemibold') format('svg');
-  font-weight: normal;
-  font-style: normal;
+@mixin font-def-variable($family, $weight-val, $style: normal) {
+  @font-face {
+    font-family: $family;
+    font-style: $style;
+    font-weight: 400; // Lie to match usage in header-footer.scss
+    font-display: swap;
+    font-variation-settings: "wght"$weight-val;
+
+    @if $style == italic {
+      src: url("~@fontsource-variable/open-sans/files/open-sans-latin-wght-italic.woff2") format("woff2-variations");
+    } @else {
+      src: url("~@fontsource-variable/open-sans/files/open-sans-latin-wght-normal.woff2") format("woff2-variations");
+    }
+  }
 }
 
-//@font-face {
-//
-//  @include font($ff-material, 'Material-Design-Iconic-Font')
-//}
+// Light (300)
+@include font-def-variable("open_sanslight", 300);
+@include font-def-variable("open_sanslight_italic", 300, italic);
 
-@font-face {
-  @include font('open_sanssemibold', 'Semibold/OpenSans-Semibold')
-}
+// Regular (400)
+@include font-def-variable("open_sansregular", 400);
 
-@font-face {
-  @include font('open_sansextrabold_italic', 'ExtraBoldItalic/OpenSans-ExtraBoldItalic')
-}
+// Also map 'opensans' if used elsewhere?? The old file had 'open_sansregular' mapped to 'Regular/OpenSans-Regular'
+// But wait, step 25 showed lines like: @include font('open_sansregular', 'Regular/OpenSans-Regular')
+// And step 113 output showed: font-family: 'Open Sans' for everything...
+// Ah, the OLD implementation (the mixin I didn't see fully in step 25 because it was commented out) probably set specific families.
+// Wait, step 113 output was from MY previous edit.
+// Let's rely on the names I used in step 115:
+// open_sanslight, open_sanslight_italic, open_sansregular, open_sansitalic...
 
-@font-face {
-  @include font('open_sanssemibold_italic', 'SemiboldItalic/OpenSans-SemiboldItalic')
-}
+@include font-def-variable("open_sansitalic", 400, italic);
 
-@font-face {
-  @include font('open_sansregular', 'Regular/OpenSans-Regular')
-}
+// Semibold (600)
+@include font-def-variable("open_sanssemibold", 600);
+@include font-def-variable("open_sanssemibold_italic", 600, italic);
 
-@font-face {
-  @include font('open_sanslight', 'Light/OpenSans-Light')
-}
+// Bold (700)
+@include font-def-variable("open_sansbold", 700);
+@include font-def-variable("open_sansbold_italic", 700, italic);
 
-@font-face {
-  @include font('open_sanslight_italic', 'LightItalic/OpenSans-LightItalic')
-}
+// ExtraBold (800)
+@include font-def-variable("open_sansextrabold", 800);
+@include font-def-variable("open_sansextrabold_italic", 800, italic);
 
-@font-face {
-  @include font('open_sansitalic', 'Italic/OpenSans-Italic')
-}
-
-@font-face {
-  @include font('open_sansextrabold', 'ExtraBold/OpenSans-ExtraBold')
-}
-
-@font-face {
-  @include font('open_sansbold', 'Bold/OpenSans')
-}
-
-@font-face {
-  @include font('open_sansbold_italic', 'BoldItalic/OpenSans-BoldItalic')
-}
-*/
+// Start of material-design-iconic-font
+// Start of material-design-iconic-font
+// $ff-material: $zmdi-font-name;

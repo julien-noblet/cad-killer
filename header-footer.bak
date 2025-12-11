@@ -1,0 +1,121 @@
+// *************************************************
+// *************** HEADER & FOOTER *****************
+// *************************************************
+
+@use 'colors' as *;
+@use 'variables' as *;
+
+.headmasked {
+  @media (max-width: $smartphone) {
+    visibility: hidden;
+  }
+}
+
+header {
+  background-color: $color-background;
+  border-bottom: 1px solid $color-border-dark;
+  color: $color-dark-text;
+  height: 65px;
+  padding: 0 20px;
+
+  a {
+    color: $color-dark-text;
+    font-family: 'open_sanslight', sans-serif;
+    text-decoration: none;
+  }
+
+  h1 {
+    font-family: 'open_sanslight', sans-serif;
+    font-size: 40px;
+    font-weight: normal;
+    line-height: 60px;
+    margin-left: 140px;
+
+    @media (max-width: $smartphone) {
+      line-height: 45px;
+      margin-left: 0;
+    }
+  }
+
+  .menu {
+    float: right;
+    margin-right: 60px;
+
+    @media (max-width: $smartphone) {
+      margin-right: 0;
+    }
+
+    .bug {
+      color: $color-beta;
+    }
+
+    a {
+      color: $color-dark-text;
+      font-family: 'open_sansextrabold', sans-serif;
+      font-size: 15px;
+      font-weight: normal;
+      line-height: 100px;
+      text-transform: uppercase;
+    }
+
+    a+a {
+      margin-left: 20px;
+
+      @media (max-width: $smartphone) {
+        margin-left: 0;
+      }
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+
+  section {
+    display: inline-block;
+  }
+
+  @media (max-width: $smartphone) {
+    height: 60px;
+  }
+
+  @media print {
+    height: 0;
+    visibility: hidden;
+  }
+}
+
+footer {
+  background-color: $color-dark-text;
+  border-top: 1px solid $color-border-dark;
+  color: $color-near-white;
+  margin-top: 100px;
+  padding: 50px;
+
+  a {
+    color: $color-near-white;
+    font-family: 'open_sanslight', sans-serif;
+    text-decoration: none;
+  }
+
+  ul {
+    display: inline-block;
+    width: 30%;
+  }
+}
+
+.beta::after {
+  color: $color-beta;
+  content: 'bêta';
+  float: right;
+  font-family: 'open_sansextrabold', sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  left: -31px;
+  padding: 3px 5px;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  top: 20px;
+  transform: rotate(-15deg);
+}

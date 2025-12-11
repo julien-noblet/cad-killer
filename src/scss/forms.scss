@@ -2,11 +2,13 @@
 // ********************** FORMS ********************
 // *************************************************
 
+@use "colors" as *;
+
 $input-text-color-background: $color-near-white;
 $input-border: 1px solid $input-text-color-border;
 $input-border-radius: 2px;
-$box-shadow: 0 1px 2px rgba(0, 0, 0, .1) inset;
-$input-text-color: rgba(51, 51, 51, .75);
+$box-shadow: 0 1px 2px rgb(0 0 0 / 10%) inset;
+$input-text-color: rgb(51 51 51 / 75%);
 $display: block;
 $font-family: inherit;
 $font-size: 14px;

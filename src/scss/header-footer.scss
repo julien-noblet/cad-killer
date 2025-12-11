@@ -2,9 +2,32 @@
 // *************** HEADER & FOOTER *****************
 // *************************************************
 
+@use "colors" as *;
+@use "variables" as *;
+
 .headmasked {
   @media (max-width: $smartphone) {
     visibility: hidden;
+  }
+}
+
+// Footer moved up
+footer {
+  background-color: $color-dark-text;
+  border-top: 1px solid $color-border-dark;
+  color: $color-near-white;
+  margin-top: 100px;
+  padding: 50px;
+
+  a {
+    color: $color-near-white;
+    font-family: "open_sanslight", sans-serif;
+    text-decoration: none;
+  }
+
+  ul {
+    display: inline-block;
+    width: 30%;
   }
 }
 
@@ -17,12 +40,12 @@ header {
 
   a {
     color: $color-dark-text;
-    font-family: 'open_sanslight';
+    font-family: "open_sanslight", sans-serif;
     text-decoration: none;
   }
 
   h1 {
-    font-family: 'open_sanslight';
+    font-family: "open_sanslight", sans-serif;
     font-size: 40px;
     font-weight: normal;
     line-height: 60px;
@@ -37,6 +60,7 @@ header {
   .menu {
     float: right;
     margin-right: 60px;
+
     @media (max-width: $smartphone) {
       margin-right: 0;
     }
@@ -47,22 +71,23 @@ header {
 
     a {
       color: $color-dark-text;
-      font-family: 'open_sansextrabold';
+      font-family: "open_sansextrabold", sans-serif;
       font-size: 15px;
       font-weight: normal;
       line-height: 100px;
       text-transform: uppercase;
     }
 
-    a:hover {
-      text-decoration: underline;
-    }
-
     a + a {
       margin-left: 20px;
+
       @media (max-width: $smartphone) {
         margin-left: 0;
       }
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   }
 
@@ -80,30 +105,11 @@ header {
   }
 }
 
-footer {
-  background-color: $color-dark-text;
-  border-top: 1px solid $color-border-dark;
-  color: $color-near-white;
-  margin-top: 100px;
-  padding: 50px;
-
-  a {
-    color: $color-near-white;
-    font-family: 'open_sanslight';
-    text-decoration: none;
-  }
-
-  ul {
-    display: inline-block;
-    width: 30%;
-  }
-}
-
-.beta:after {
+.beta::after {
   color: $color-beta;
-  content: 'bêta';
+  content: "bêta";
   float: right;
-  font-family: 'open_sansextrabold';
+  font-family: "open_sansextrabold", sans-serif;
   font-size: 15px;
   font-weight: normal;
   left: -31px;

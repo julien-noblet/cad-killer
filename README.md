@@ -1,4 +1,3 @@
-
 # cad-killer
 
 Visionneur de carte pour logisticiens pressés
@@ -12,6 +11,7 @@ Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai
 Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
 
 # Licence
+
 Copyright (c) 2014-2018, Julien Noblet Julien.Noblet@gmail.com
 
 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.

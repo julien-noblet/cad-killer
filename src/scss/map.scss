@@ -2,6 +2,10 @@
 // ********************* MAP ***********************
 // *************************************************
 
+@use "colors" as *;
+@use "zmdi" as *;
+@use "variables" as *;
+
 $height-photon: 46px;
 
 .nohead {
@@ -14,26 +18,26 @@ $height-photon: 46px;
   float: right;
   visibility: hidden;
   width: 0;
+
   @media (max-width: $smartphone) {
     display: block;
     float: none;
     visibility: visible;
   }
-  font-name: $zmdi-font-name;
+
+  font-family: $zmdi-font-name;
 }
 
 .map {
   .leaflet-container {
-    bottom: 0;
-    left: 0;
+    inset: 60px 0 0;
     position: absolute;
-    right: 0;
-    top: 60px;
     width: 100%;
 
     .photon-input {
       margin-bottom: 0;
       width: 400px;
+
       @media (max-width: $smartphone) {
         margin-top: -10px;
         width: 100%;
@@ -47,10 +51,11 @@ $height-photon: 46px;
     .leaflet-control-geoloc {
       background: $color-leaflet-background;
       border-radius: 5px;
-      box-shadow: 0 1px 5px rgba(0, 0, 0, .4);
+      box-shadow: 0 1px 5px rgb(0 0 0 / 40%);
       color: $color-leaflet-button;
       padding: 6px;
       visibility: hidden;
+
       @media (max-width: $smartphone) {
         position: absolute;
         right: 0;
@@ -73,33 +78,37 @@ $height-photon: 46px;
           display: block;
           top: 45px;
         }
+
         @media print {
           visibility: hidden;
         }
       }
     }
+
     .leaflet-control-layers {
       position: absolute;
       right: 0;
-      //top: 0;
+
+      // top: 0;
 
       @media (max-width: $smartphone) {
         display: block;
-        top: $height-photon; //hack
+        top: $height-photon; // hack
       }
+
       @media print {
         visibility: hidden;
       }
     }
 
-    .leaflet-control-layers-toggle:before {
+    .leaflet-control-layers-toggle::before {
       content: $zmdi-var-layers;
     }
 
     .leaflet-control-layers-toggle {
-      //background-image: url(../images/layers.png);
-      //width: 36px;
-      //height: 36px;
+      // background-image: url(../images/layers.png);
+      // width: 36px;
+      // height: 36px;
       background-image: none;
       color: $color-leaflet-button;
       font: normal normal normal 28px/1 $zmdi-font-name;
@@ -107,7 +116,8 @@ $height-photon: 46px;
       -webkit-font-smoothing: antialiased;
       height: 100%;
       padding: 5px;
-      //position: absolute;
+
+      // position: absolute;
       text-decoration: none;
       text-rendering: auto;
       width: 100%;
@@ -115,6 +125,7 @@ $height-photon: 46px;
 
     .leaflet-photon {
       right: calc(50% - 200px);
+
       @media (max-width: $smartphone) {
         margin: 0;
         right: 0;
@@ -132,6 +143,7 @@ $height-photon: 46px;
     @media (max-width: $smartphone) {
       top: 60px;
     }
+
     @media print {
       height: 100%;
       top: 0;
@@ -155,16 +167,18 @@ $height-photon: 46px;
   bottom: 0;
   color: $color-dark-text;
   margin-bottom: 0; // !important;
-  opacity: .8;
+  opacity: 0.8;
   padding: 0 10px;
   position: fixed;
   right: 0;
   text-align: center;
+
   @media (max-width: $smartphone) {
     bottom: 2.5em;
     margin-right: 0; // !important;
     width: 100%;
   }
+
   @media print {
     bottom: inherit; // need???
     font-size: x-large;
@@ -177,8 +191,9 @@ $height-photon: 46px;
 .leaflet-top.leaflet-left {
   @media (max-width: $smartphone) {
     display: block;
-    top: $height-photon; //hack
+    top: $height-photon; // hack
   }
+
   @media print {
     visibility: hidden;
   }
@@ -190,7 +205,7 @@ $height-photon: 46px;
 
 .photon-autocomplete li .type {
   float: right;
-  font-family: 'open_sanslight';
-  font-size: .8em;
+  font-family: "open_sanslight", sans-serif;
+  font-size: 0.8em;
   font-weight: normal;
 }
