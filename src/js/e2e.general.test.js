@@ -21,7 +21,7 @@ describe("E2E Tests - General", () => {
       page.on("request", (request) => {
         // custom console
         console.log("DEBUG REQUEST:", request.url()); // Log all requests
-        if (request.url().includes("api-adresse.data.gouv.fr")) {
+        if (request.url().includes("data.geopf.fr")) {
           // custom console
           console.log("Intercepted Target Request:", request.url());
           request.respond({

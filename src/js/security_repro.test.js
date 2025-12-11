@@ -38,14 +38,14 @@ describe("Security vulnerability reproduction", () => {
       };
 
       page.on("request", (request) => {
-        if (request.url().includes("api-adresse.data.gouv.fr/search")) {
+        if (request.url().includes("data.geopf.fr/geocodage/search")) {
           // console.log('Intercepting search request');
           request.respond({
             contentType: "application/json",
             body: JSON.stringify(maliciousPayload),
             headers: { "Access-Control-Allow-Origin": "*" },
           });
-        } else if (request.url().includes("api-adresse.data.gouv.fr/reverse")) {
+        } else if (request.url().includes("data.geopf.fr/geocodage/reverse")) {
           // console.log('Intercepting reverse request');
           request.respond({
             contentType: "application/json",

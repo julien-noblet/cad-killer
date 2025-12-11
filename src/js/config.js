@@ -3,8 +3,8 @@
  */
 
 export const CENTER = [46.495, 2.201];
-export const API_URL = "//api-adresse.data.gouv.fr/search/?";
-export const REVERSE_URL = "//api-adresse.data.gouv.fr/reverse/?";
+export const API_URL = "//data.geopf.fr/geocodage/search/?";
+export const REVERSE_URL = "//data.geopf.fr/geocodage/reverse/?";
 export const SHORT_CITY_NAMES = [
   "y",
   "ay",
