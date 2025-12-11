@@ -18,8 +18,8 @@
  */
 
 var CENTER = [46.495, 2.201];
-var API_URL = "//api-adresse.data.gouv.fr/search/?";
-var REVERSE_URL = "//api-adresse.data.gouv.fr/reverse/?";
+var API_URL = "//data.geopf.fr/geocodage/search/?";
+var REVERSE_URL = "//data.geopf.fr/geocodage/reverse/?";
 var SHORT_CITY_NAMES = ["y", "ay", "bu", "by", "eu", "fa", "gy", "oo", "oz", "py", "ri", "ry", "sy", "ur", "us", "uz"];
 var ATTRIBUTIONS = "&copy; <a href='http://www.openstreetmap.org/copyright'>Contributeurs de OpenStreetMap</a> | <a href='https://www.data.gouv.fr/fr/datasets/base-d-adresses-nationale-ouverte-bano/'>Adresses BAN</a> sous licence ODbL";
 var IGN_LAYER = "GEOGRAPHICALGRIDSYSTEMS.MAPS";
