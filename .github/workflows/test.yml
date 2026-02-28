@@ -28,7 +28,7 @@ jobs:
       - run: npm ci
       - run: npm run lint:scss
       - run: npm test
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: image-diffs
