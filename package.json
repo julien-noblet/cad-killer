@@ -22,34 +22,13 @@
     "update-screenshots": "node --experimental-vm-modules node_modules/jest/bin/jest.js -u"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write --insert-pragma",
-      "git add"
-    ],
-    "*.json": [
-      "prettier --parser json --write",
-      "git add"
-    ],
-    "src/**.json": [
-      "prettier --parser json --write",
-      "git add"
-    ],
-    "src/**/*.js": [
-      "prettier --write",
-      "git add"
-    ],
-    "src/*.js": [
-      "prettier --write",
-      "git add"
-    ],
-    "src/**/*.ts": [
-      "prettier --write",
-      "git add"
-    ],
-    "app/**/*.{ts,tsx}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.js": ["prettier --write --insert-pragma"],
+    "*.json": ["prettier --parser json --write"],
+    "src/**.json": ["prettier --parser json --write"],
+    "src/**/*.js": ["prettier --write"],
+    "src/*.js": ["prettier --write"],
+    "src/**/*.ts": ["prettier --write"],
+    "app/**/*.{ts,tsx}": ["prettier --write"]
   },
   "config": {
     "commitizen": {
@@ -70,14 +49,10 @@
   },
   "homepage": "https://github.com/julien-noblet/cad-killer",
   "devDependencies": {
-    "@babel/cli": "7.28.6",
     "@babel/core": "7.29.0",
     "@babel/eslint-parser": "7.28.6",
-    "@babel/plugin-transform-runtime": "7.29.0",
     "@babel/preset-env": "7.29.2",
-    "@babel/preset-react": "7.28.5",
     "@babel/preset-typescript": "7.28.5",
-    "@babel/runtime": "7.29.2",
     "@eslint/js": "^9.39.1",
     "@types/leaflet": "1.9.21",
     "@types/react": "19.2.14",
@@ -100,7 +75,6 @@
     "postcss-preset-env": "11.2.0",
     "prettier": "3.8.1",
     "puppeteer": "24.40.0",
-    "regenerator-runtime": "0.14.1",
     "sass": "^1.71.1",
     "stylelint": "^16.26.1",
     "stylelint-config-standard-scss": "^16.0.0",
@@ -109,7 +83,6 @@
   },
   "dependencies": {
     "@fontsource-variable/open-sans": "^5.2.7",
-    "es6-promise": "4.2.8",
     "leaflet": "1.9.4",
     "leaflet-ajax": "2.1.0",
     "leaflet-dialog": "1.0.5",
