@@ -95,9 +95,7 @@ describe("Security vulnerability reproduction", () => {
 
         // Wait for the reverse geocode request to be intercepted and processed
         await page
-          .waitForFunction(() => window.__reverseGeocoded === true, {
-            timeout: 5000,
-          })
+          .waitForNetworkIdle({ idleTime: 1000, timeout: 5000 })
           .catch(() => {
             /* reverse geocode may not fire in this test context */
           });
