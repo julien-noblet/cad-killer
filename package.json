@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "node ./node_modules/next/dist/bin/next dev -p 9000",
     "build": "node ./node_modules/next/dist/bin/next build",
-    "lint": "npm run lint:js && npm run lint:scss && npm run lint:prettier",
+    "lint": "eslint . && stylelint '**/*.scss' && prettier --check .",
     "lint:js": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",

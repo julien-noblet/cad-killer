@@ -14,12 +14,16 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24.x
-          cache: "npm"
+
+      - name: Use Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.11
 
       - name: Install and Build 🔧
         run: |
-          npm ci
-          npm run build
+          bun install --frozen-lockfile
+          bun run build
 
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v4
