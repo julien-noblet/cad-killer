@@ -15,11 +15,10 @@ Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
 ## Scripts
 
 - `npm run dev` ou `bun run dev` : lance le serveur local sur `http://localhost:9000`
-- `npm run build` ou `bun run build` : build de production
+- `npm run build` ou `bun run build` : build Next.js statique (`out/`)
 - `npm run typecheck` : vérification statique TypeScript
 - `npm test` : exécute les tests Jest + Puppeteer
 - `npm run update-screenshots` : met à jour les snapshots visuels
-- `bun run next:build` : build du bootstrap Next.js statique (palier migration)
 
 ## Licence
 
