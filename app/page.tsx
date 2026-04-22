@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import MapClient from "./map-client";
 
 export default function HomePage() {
@@ -7,7 +8,7 @@ export default function HomePage() {
       <header id="head" className="wrapper">
         <section>
           <h1>
-            <a href="/">CAD-Killer</a>
+            <Link href="/">CAD-Killer</Link>
           </h1>
         </section>
         <section className="menu">
