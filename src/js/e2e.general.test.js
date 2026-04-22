@@ -56,14 +56,15 @@ describeE2E("E2E Tests - General", () => {
         });
 
         await page.waitForFunction(
-          () =>
-            document.body.textContent.includes("14 Rue Michel Labrousse"),
+          () => document.body.textContent.includes("14 Rue Michel Labrousse"),
           {
             timeout: 10000,
           },
         );
 
-        const firstResult = await page.waitForSelector(".photon-autocomplete li");
+        const firstResult = await page.waitForSelector(
+          ".photon-autocomplete li",
+        );
         const text = await page.evaluate((el) => el.textContent, firstResult);
         expect(text).toContain("14 Rue Michel Labrousse");
       } finally {
