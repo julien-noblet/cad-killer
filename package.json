@@ -94,7 +94,7 @@
     "stylelint": "^16.26.1",
     "stylelint-config-standard-scss": "^16.0.0",
     "tmp": "^0.2.5",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   },
   "dependencies": {
     "@fontsource-variable/open-sans": "^5.2.7",
