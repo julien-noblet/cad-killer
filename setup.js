@@ -24,9 +24,9 @@ module.exports = async function () {
   await writeFile(path.join(dir.name, "wsEndpoint"), browser.wsEndpoint());
 
   // custom console
-  console.log("Setup: Starting webpack server...");
-  // Start webpack dev server
-  const server = spawn("npx", ["webpack", "serve"], {
+  console.log("Setup: Starting Next.js server...");
+  // Start Next.js dev server
+  const server = spawn("npx", ["next", "dev", "-p", "9000"], {
     shell: false,
     detached: true,
     stdio: "ignore",

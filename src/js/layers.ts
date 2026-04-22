@@ -2,10 +2,9 @@
  * @format
  */
 
-import L from "leaflet";
+import * as L from "leaflet";
 import { IGN_LAYER } from "./config";
 
-// Layers
 export const layerOSMfr = L.tileLayer(
   "//{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
   {
@@ -65,7 +64,7 @@ export const layerIGN = L.tileLayer(
     maxZoom: 18,
     minZoom: 6,
     attribution: "IGN-F/Géoportail",
-    tileSize: 256, // les tuiles du Géooportail font 256x256px
+    tileSize: 256,
   },
 );
 
@@ -80,7 +79,6 @@ export const overlayBAN = L.tileLayer(
 export const baseMaps = {
   "OpenStreetMap France": layerOSMfr,
   OpenStreetMap: layerOSM,
-  // "Carte IGN": layerIGN, // je n'arrive pas a renouveller la clé IGN pour le moment
   Cadastre: layerCadastre,
   Esri: layerEsriWorldImagery,
   "World Street Map": layerEsriWorldStreetMap,

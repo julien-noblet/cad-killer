@@ -1,6 +1,7 @@
 const timeout = 60 * 1000 * 5;
+const describeE2E = globalThis.__BROWSER_GLOBAL__ ? describe : describe.skip;
 
-describe("E2E Tests - General", () => {
+describeE2E("E2E Tests - General", () => {
   let page;
 
   beforeEach(async () => {
@@ -13,17 +14,16 @@ describe("E2E Tests - General", () => {
     page = null;
   });
 
-  test.skip(
+  test(
     "Feature 1: Search for '14 rue Michel Labrousse, Toulouse'",
     async () => {
       await page.setRequestInterception(true);
 
       const requestHandler = (request) => {
-        console.log("DEBUG REQUEST:", request.url());
-        if (request.url().includes("data.geopf.fr")) {
-          console.log("Intercepted Target Request:", request.url());
+        if (request.url().includes("data.geopf.fr/geocodage/search")) {
           request.respond({
             contentType: "application/json",
+            headers: { "Access-Control-Allow-Origin": "*" },
             body: JSON.stringify({
               type: "FeatureCollection",
               features: [
@@ -49,22 +49,23 @@ describe("E2E Tests - General", () => {
 
       try {
         await page.goto("http://localhost:9000/");
-        const input = await page.waitForSelector(".photon-input");
-        await input.type("14 rue Michel Labrousse, Toulouse", { delay: 100 });
-
-        await page.evaluate(() => {
-          const input = document.querySelector(".photon-input");
-          input.dispatchEvent(new Event("input", { bubbles: true }));
-          input.dispatchEvent(new Event("keyup", { bubbles: true }));
+        await page.waitForSelector("#map");
+        await page.waitForSelector(".photon-input");
+        await page.type(".photon-input", "14 rue Michel Labrousse, Toulouse", {
+          delay: 50,
         });
 
-        await page.waitForSelector(".photon-autocomplete", {
-          timeout: 10000,
-        });
+        await page.waitForFunction(
+          () => document.body.textContent.includes("14 Rue Michel Labrousse"),
+          {
+            timeout: 10000,
+          },
+        );
+
         const firstResult = await page.waitForSelector(
           ".photon-autocomplete li",
         );
-        const text = await page.evaluate((el) => el.innerText, firstResult);
+        const text = await page.evaluate((el) => el.textContent, firstResult);
         expect(text).toContain("14 Rue Michel Labrousse");
       } finally {
         page.off("request", requestHandler);

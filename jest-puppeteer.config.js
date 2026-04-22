@@ -1,11 +1,8 @@
 /** @format */
 
+// Browser launch options used by jest-puppeteer.
+// Server lifecycle is managed by setup.js / teardown.js.
 module.exports = {
-  server: {
-    command: "npx webpack serve --open",
-    port: 9000,
-    launchTimeout: 120000,
-  },
   launch: {
     args: [
       "--no-sandbox",
