@@ -1,6 +1,7 @@
 const timeout = 60 * 1000 * 5;
+const describeE2E = globalThis.__BROWSER_GLOBAL__ ? describe : describe.skip;
 
-describe("E2E Tests - General", () => {
+describeE2E("E2E Tests - General", () => {
   let page;
 
   beforeEach(async () => {

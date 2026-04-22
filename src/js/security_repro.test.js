@@ -1,6 +1,7 @@
 const timeout = 60 * 1000;
+const describeE2E = globalThis.__BROWSER_GLOBAL__ ? describe : describe.skip;
 
-describe("Security vulnerability reproduction", () => {
+describeE2E("Security vulnerability reproduction", () => {
   let page;
 
   beforeEach(async () => {

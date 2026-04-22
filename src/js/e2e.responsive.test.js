@@ -1,7 +1,8 @@
 const timeout = 60 * 1000 * 20;
 const allDevices = require("./e2e-devices");
+const describeE2E = globalThis.__BROWSER_GLOBAL__ ? describe : describe.skip;
 
-describe("E2E Tests - Responsive Chunk 1", () => {
+describeE2E("E2E Tests - Responsive Chunk 1", () => {
   let page;
 
   beforeEach(async () => {
