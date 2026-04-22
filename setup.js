@@ -8,7 +8,12 @@ module.exports = async function () {
   // custom console
   console.log("Setup: Launching browser...");
   const browser = await puppeteer.launch({
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+    ],
   });
   // store the browser instance so we can teardown it later
   globalThis.__BROWSER_GLOBAL__ = browser;

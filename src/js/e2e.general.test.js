@@ -3,29 +3,27 @@ const timeout = 60 * 1000 * 5;
 describe("E2E Tests - General", () => {
   let page;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     page = await globalThis.__BROWSER_GLOBAL__.newPage();
-    // custom console
     page.on("console", (msg) => console.log("PAGE LOG:", msg.text()));
   }, timeout);
 
-  afterAll(async () => {
+  afterEach(async () => {
     if (page) await page.close();
+    page = null;
   });
 
   test.skip(
     "Feature 1: Search for '14 rue Michel Labrousse, Toulouse'",
     async () => {
-      // Mock the search API
       await page.setRequestInterception(true);
-      page.on("request", (request) => {
-        // custom console
-        console.log("DEBUG REQUEST:", request.url()); // Log all requests
+
+      const requestHandler = (request) => {
+        console.log("DEBUG REQUEST:", request.url());
         if (request.url().includes("data.geopf.fr")) {
-          // custom console
           console.log("Intercepted Target Request:", request.url());
           request.respond({
-            content: "application/json",
+            contentType: "application/json",
             body: JSON.stringify({
               type: "FeatureCollection",
               features: [
@@ -45,37 +43,33 @@ describe("E2E Tests - General", () => {
         } else {
           request.continue();
         }
-      });
+      };
 
-      await page.goto("http://localhost:9000/");
-      const input = await page.waitForSelector(".photon-input");
-      await input.type("14 rue Michel Labrousse, Toulouse", { delay: 100 });
+      page.on("request", requestHandler);
 
-      // Force event trigger to ensure photon catches it
-      await page.evaluate(() => {
-        const input = document.querySelector(".photon-input");
-        input.dispatchEvent(new Event("input", { bubbles: true }));
-        input.dispatchEvent(new Event("keyup", { bubbles: true }));
-      });
-
-      // Wait for results
       try {
-        await page.waitForSelector(".photon-autocomplete", { timeout: 10000 });
-      } catch (e) {
-        // custom console
-        console.log(
-          "Timeout waiting for .photon-autocomplete. HTML:",
-          await page.content(),
-        );
-        throw e;
-      }
-      const firstResult = await page.waitForSelector(".photon-autocomplete li");
-      const text = await page.evaluate((el) => el.innerText, firstResult);
-      expect(text).toContain("14 Rue Michel Labrousse");
+        await page.goto("http://localhost:9000/");
+        const input = await page.waitForSelector(".photon-input");
+        await input.type("14 rue Michel Labrousse, Toulouse", { delay: 100 });
 
-      // Cleanup interception
-      await page.setRequestInterception(false);
-      page.removeAllListeners("request");
+        await page.evaluate(() => {
+          const input = document.querySelector(".photon-input");
+          input.dispatchEvent(new Event("input", { bubbles: true }));
+          input.dispatchEvent(new Event("keyup", { bubbles: true }));
+        });
+
+        await page.waitForSelector(".photon-autocomplete", {
+          timeout: 10000,
+        });
+        const firstResult = await page.waitForSelector(
+          ".photon-autocomplete li",
+        );
+        const text = await page.evaluate((el) => el.innerText, firstResult);
+        expect(text).toContain("14 Rue Michel Labrousse");
+      } finally {
+        page.off("request", requestHandler);
+        await page.setRequestInterception(false);
+      }
     },
     timeout,
   );

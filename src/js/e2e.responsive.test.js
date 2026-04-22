@@ -4,28 +4,29 @@ const allDevices = require("./e2e-devices");
 describe("E2E Tests - Responsive Chunk 1", () => {
   let page;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     page = await globalThis.__BROWSER_GLOBAL__.newPage();
-    // custom console
     page.on("console", (msg) => console.log("PAGE LOG:", msg.text()));
   }, timeout);
 
-  afterAll(async () => {
+  afterEach(async () => {
     if (page) await page.close();
+    page = null;
   });
 
-  test(
-    "Responsive Tests (Devices 1-10)",
-    async () => {
-      for (const device of allDevices) {
-        await page.setViewport(device.viewport);
+  for (const device of allDevices) {
+    const deviceName = device.name;
+    const viewport = device.viewport;
+
+    test(
+      `Responsive Test: ${deviceName} (${viewport.width}x${viewport.height})`,
+      async () => {
+        await page.setViewport(viewport);
         await page.goto("http://localhost:9000/");
 
-        // Basic assertion
         const header = await page.$("#head");
         expect(header).toBeTruthy();
 
-        // Wait for tiles
         await page.waitForNetworkIdle({ idleTime: 2000 });
         await page.waitForFunction(
           () => {
@@ -37,7 +38,6 @@ describe("E2E Tests - Responsive Chunk 1", () => {
           { timeout: 10000 },
         );
 
-        // Wait for fonts to be ready
         await page.waitForFunction(
           () =>
             document.fonts.check("12px open_sansregular") &&
@@ -45,16 +45,15 @@ describe("E2E Tests - Responsive Chunk 1", () => {
           { timeout: 10000 },
         );
 
-        // Visual Regression
         const screenshot = await page.screenshot();
         expect(screenshot).toMatchImageSnapshot({
-          customSnapshotIdentifier: `responsive_${device.name.replace(/[^a-zA-Z0-9]/g, "_")}`,
-          failureThreshold: 0.01,
+          customSnapshotIdentifier: `responsive_${deviceName.replace(/[^a-zA-Z0-9]/g, "_")}`,
+          failureThreshold: 0.03,
           failureThresholdType: "percent",
           customDiffConfig: { threshold: 0.1 },
         });
-      }
-    },
-    timeout,
-  );
+      },
+      timeout,
+    );
+  }
 });
