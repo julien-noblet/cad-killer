@@ -91,13 +91,6 @@ module.exports = {
           filename: "images/[name][ext]",
         },
       },
-      {
-        test: /^brave-rewards-verification\.txt/,
-        loader: "file-loader",
-        options: {
-          name: ".well-known/brave-rewards-verification.txt",
-        },
-      },
     ],
   },
   ignoreWarnings: [
