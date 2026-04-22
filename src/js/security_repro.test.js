@@ -3,13 +3,14 @@ const timeout = 60 * 1000;
 describe("Security vulnerability reproduction", () => {
   let page;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     page = await globalThis.__BROWSER_GLOBAL__.newPage();
     page.on("console", (msg) => console.log("PAGE LOG:", msg.text()));
   }, timeout);
 
-  afterAll(async () => {
+  afterEach(async () => {
     if (page) await page.close();
+    page = null;
   });
 
   test(
@@ -37,16 +38,14 @@ describe("Security vulnerability reproduction", () => {
         ],
       };
 
-      page.on("request", (request) => {
+      const requestHandler = (request) => {
         if (request.url().includes("data.geopf.fr/geocodage/search")) {
-          // console.log('Intercepting search request');
           request.respond({
             contentType: "application/json",
             body: JSON.stringify(maliciousPayload),
             headers: { "Access-Control-Allow-Origin": "*" },
           });
         } else if (request.url().includes("data.geopf.fr/geocodage/reverse")) {
-          // console.log('Intercepting reverse request');
           request.respond({
             contentType: "application/json",
             body: JSON.stringify(maliciousPayload),
@@ -55,42 +54,60 @@ describe("Security vulnerability reproduction", () => {
         } else {
           request.continue();
         }
-      });
+      };
 
-      await page.goto("http://localhost:9000/");
-      await page.waitForSelector("#map");
+      page.on("request", requestHandler);
 
-      // --- Test Photon Search XSS ---
-      const inputSelector = ".photon-input";
-      await page.waitForSelector(inputSelector);
-      await page.type(inputSelector, "test");
+      try {
+        await page.goto("http://localhost:9000/");
+        await page.waitForSelector("#map");
 
-      await new Promise((r) => setTimeout(r, 2000));
+        // --- Test Photon Search XSS ---
+        const inputSelector = ".photon-input";
+        await page.waitForSelector(inputSelector);
+        await page.type(inputSelector, "test");
 
-      let xssTriggered = await page.evaluate(() => window.xssTriggered);
-      expect(xssTriggered).toBeUndefined();
+        // Wait for the autocomplete to render with the payload text
+        await page.waitForFunction(
+          () =>
+            document.body.textContent.includes(
+              "<img src=x onerror=window.xssTriggered=true>",
+            ),
+          { timeout: 10000 },
+        );
 
-      // Check content safely.
-      const pageText = await page.evaluate(() => document.body.textContent);
-      expect(pageText).toContain(
-        "<img src=x onerror=window.xssTriggered=true>",
-      );
+        let xssTriggered = await page.evaluate(() => window.xssTriggered);
+        expect(xssTriggered).toBeUndefined();
 
-      // --- Test Reverse Label XSS ---
-      // Reset trigger
-      await page.evaluate(() => (window.xssTriggered = undefined));
+        const pageText = await page.evaluate(() => document.body.textContent);
+        expect(pageText).toContain(
+          "<img src=x onerror=window.xssTriggered=true>",
+        );
 
-      // Set zoom > 14 and move map
-      await page.evaluate(() => {
-        window.map.setZoom(15);
-        window.map.panBy([10, 10]);
-      });
+        // --- Test Reverse Label XSS ---
+        await page.evaluate(() => (window.xssTriggered = undefined));
 
-      // Wait for moveend and reverse geocode
-      await new Promise((r) => setTimeout(r, 2000));
+        // Set zoom > 14 and move map, then wait for reverse geocode response
+        await page.evaluate(() => {
+          window.map.setZoom(15);
+          window.map.panBy([10, 10]);
+        });
 
-      xssTriggered = await page.evaluate(() => window.xssTriggered);
-      expect(xssTriggered).toBeUndefined();
+        // Wait for the reverse geocode request to be intercepted and processed
+        await page
+          .waitForFunction(() => window.__reverseGeocoded === true, {
+            timeout: 5000,
+          })
+          .catch(() => {
+            /* reverse geocode may not fire in this test context */
+          });
+
+        xssTriggered = await page.evaluate(() => window.xssTriggered);
+        expect(xssTriggered).toBeUndefined();
+      } finally {
+        page.off("request", requestHandler);
+        await page.setRequestInterception(false);
+      }
     },
     timeout,
   );
