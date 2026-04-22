@@ -8,6 +8,15 @@ const tsParser = require("@typescript-eslint/parser");
 const tsPlugin = require("@typescript-eslint/eslint-plugin");
 
 module.exports = [
+  {
+    ignores: [
+      "dist/**",
+      ".next/**",
+      "out/**",
+      "coverage/**",
+      "node_modules/**",
+    ],
+  },
   js.configs.recommended,
   ...nextConfig,
   prettierConfig,
