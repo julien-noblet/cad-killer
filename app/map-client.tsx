@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 export default function MapClient() {
   useEffect(() => {
-    import("../src/index.js");
+    import("../src/index");
   }, []);
 
   return null;

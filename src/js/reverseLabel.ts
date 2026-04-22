@@ -6,22 +6,24 @@ import * as L from "leaflet";
 import { REVERSE_URL } from "./config";
 import { getMapInstance } from "./mapContext";
 
+const LeafletAny = L as any;
+
 export function installReverseLabel() {
   const mapInstance = getMapInstance();
   if (!mapInstance) {
     return;
   }
 
-  const ReverseLabelControl = L.Control.extend({
+  const ReverseLabelControl = LeafletAny.Control.extend({
     options: {
       position: "topright",
     },
 
     onAdd: () => {
       const container = L.DomUtil.create("div", "reverse-label");
-      const reverse = new L.PhotonReverse({
+      const reverse = new LeafletAny.PhotonReverse({
         url: REVERSE_URL,
-        handleResults: (data) => {
+        handleResults: (data: any) => {
           if (data.features?.[0]?.properties?.label) {
             container.textContent = `Carte centrée sur «${data.features[0].properties.label}»`;
           }

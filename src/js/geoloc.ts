@@ -3,10 +3,13 @@
  */
 
 import * as L from "leaflet";
+import type { Map as LeafletMap } from "leaflet";
 import { getMapInstance } from "./mapContext";
 
-// Géoloc
-function showPosition(mapInstance, position) {
+function showPosition(
+  mapInstance: LeafletMap | null,
+  position: GeolocationPosition,
+) {
   const icon = document.getElementById("geoloc_icon");
   if (mapInstance) {
     mapInstance.setView(
@@ -19,7 +22,7 @@ function showPosition(mapInstance, position) {
   }
 }
 
-function getLocation(mapInstance) {
+function getLocation(mapInstance: LeafletMap | null) {
   const icon = document.getElementById("geoloc_icon");
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) =>

@@ -29,7 +29,11 @@
     ]
   },
   "include": [
+    "next-env.d.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
     "src/**/*.ts",
+    "src/**/*.tsx",
     "types/**/*.d.ts",
     ".next/types/**/*.ts"
   ],
