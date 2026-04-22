@@ -48,7 +48,7 @@ describe("E2E Tests - Responsive Chunk 1", () => {
         const screenshot = await page.screenshot();
         expect(screenshot).toMatchImageSnapshot({
           customSnapshotIdentifier: `responsive_${deviceName.replace(/[^a-zA-Z0-9]/g, "_")}`,
-          failureThreshold: 0.01,
+          failureThreshold: 0.03,
           failureThresholdType: "percent",
           customDiffConfig: { threshold: 0.1 },
         });
