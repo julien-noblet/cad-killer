@@ -2,46 +2,50 @@
  * @format
  */
 
-import L from "leaflet";
+import * as L from "leaflet";
 import { REVERSE_URL } from "./config";
+import { getMapInstance } from "./mapContext";
 
-L.Control.ReverseLabel = L.Control.extend({
-  options: {
-    position: "topright", // hack
-  },
+export function installReverseLabel() {
+  const mapInstance = getMapInstance();
+  if (!mapInstance) {
+    return;
+  }
 
-  onAdd: () => {
-    const container = L.DomUtil.create("div", "reverse-label");
-    const reverse = new L.PhotonReverse({
-      url: REVERSE_URL,
-      handleResults: (data) => {
-        if (data.features !== null) {
-          if (data.features[0] !== null) {
-            if (data.features[0].properties !== null) {
-              container.textContent = `Carte centrée sur «${data.features[0].properties.label}»`;
-            }
+  const ReverseLabelControl = L.Control.extend({
+    options: {
+      position: "topright",
+    },
+
+    onAdd: () => {
+      const container = L.DomUtil.create("div", "reverse-label");
+      const reverse = new L.PhotonReverse({
+        url: REVERSE_URL,
+        handleResults: (data) => {
+          if (data.features?.[0]?.properties?.label) {
+            container.textContent = `Carte centrée sur «${data.features[0].properties.label}»`;
           }
-        }
-      },
-    });
+        },
+      });
 
-    window.map.on("moveend", () => {
-      if (window.map.getZoom() > 14) {
-        reverse.doReverse(window.map.getCenter());
-        let head = document.getElementById("head");
-        let map = document.getElementById("map");
-        if (head !== null) {
-          head.className += " headmasked";
+      mapInstance.on("moveend", () => {
+        if (mapInstance.getZoom() > 14) {
+          reverse.doReverse(mapInstance.getCenter());
+          const head = document.getElementById("head");
+          const map = document.getElementById("map");
+          if (head !== null && !head.className.includes("headmasked")) {
+            head.className += " headmasked";
+          }
+          if (map !== null && !map.className.includes("nohead")) {
+            map.className += " nohead";
+          }
+        } else {
+          container.innerHTML = "";
         }
-        if (map !== null) {
-          map.className += " nohead";
-        }
-      } else {
-        container.innerHTML = "";
-      }
-    });
-    return container;
-  },
-});
+      });
+      return container;
+    },
+  });
 
-new L.Control.ReverseLabel().addTo(window.map);
+  new ReverseLabelControl().addTo(mapInstance);
+}

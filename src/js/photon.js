@@ -2,8 +2,9 @@
  * @format
  */
 
-import L from "leaflet";
+import * as L from "leaflet";
 import { API_URL, SHORT_CITY_NAMES } from "./config";
+import { getMapInstance } from "./mapContext";
 //import { sendClick, sendSearch } from "./stats";
 
 require("leaflet.photon");
@@ -15,6 +16,10 @@ require("leaflet.photon");
 const searchPoints = L.geoJson(null, {
   onEachFeature: (feature, layer) => {
     layer.on("click", () => {
+      const mapInstance = getMapInstance();
+      if (!mapInstance) {
+        return;
+      }
       let zoom = 16;
       switch (feature.properties.type) {
         case "housenumber":
@@ -41,7 +46,7 @@ const searchPoints = L.geoJson(null, {
         default:
           zoom = 16;
       }
-      window.map.setView(
+      mapInstance.setView(
         [feature.geometry.coordinates[1], feature.geometry.coordinates[0]],
         zoom,
       );
@@ -119,9 +124,14 @@ const photonReverseControlOptions = {
 const myPhoton = new L.Control.Photon(photonControlOptions);
 
 export function photon() {
-  searchPoints.addTo(window.map);
+  const mapInstance = getMapInstance();
+  if (!mapInstance) {
+    return;
+  }
 
-  window.map.addControl(myPhoton);
+  searchPoints.addTo(mapInstance);
+
+  mapInstance.addControl(myPhoton);
 
   myPhoton.search.__proto__.setChoice = function setChoice(choice) {
     const c = choice || this.RESULTS[this.CURRENT];

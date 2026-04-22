@@ -1,44 +1,58 @@
 /**
- * global L, map
- *
  * @format
  */
 
-import L from "leaflet";
+import * as L from "leaflet";
+import { getMapInstance } from "./mapContext";
 
 // Géoloc
-function showPosition(position) {
-  const icone = L.DomUtil.get(document.getElementById("geoloc_icon"));
-  if (Window.map !== null) {
-    Window.map.setView(
+function showPosition(mapInstance, position) {
+  const icon = document.getElementById("geoloc_icon");
+  if (mapInstance) {
+    mapInstance.setView(
       [position.coords.latitude, position.coords.longitude],
       16,
     );
-    icone.className = "zmdi zmdi-2x zmdi-gps-dot";
+    if (icon) {
+      icon.className = "zmdi zmdi-2x zmdi-gps-dot";
+    }
   }
 }
 
-/* eslint-disable no-unused-vars */
-function getLocation() {
-  const icone = document.getElementById("geoloc_icon");
+function getLocation(mapInstance) {
+  const icon = document.getElementById("geoloc_icon");
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-    icone.className = "zmdi zmdi-2x zmdi-gps";
+    navigator.geolocation.getCurrentPosition((position) =>
+      showPosition(mapInstance, position),
+    );
+    if (icon) {
+      icon.className = "zmdi zmdi-2x zmdi-gps";
+    }
   }
 }
-/* eslint-enable no-unused-vars */
 
-const GeoLoc = L.Control.extend({
-  options: {
-    position: "topright",
-  },
-  onAdd: () => {
-    const container = L.DomUtil.create("div", "leaflet-control-geoloc");
-    container.innerHTML =
-      '<span onClick="getLocation();" id="geoloc" class="geoloc"><i class="zmdi zmdi-2x zmdi-gps-off" id="geoloc_icon"></i></span>';
-    // ... initialize other DOM elements, add listeners, etc.
-    return container;
-  },
-});
+export function installGeoLocControl() {
+  const mapInstance = getMapInstance();
+  if (!mapInstance) {
+    return;
+  }
 
-window.map.addControl(new GeoLoc());
+  const GeoLoc = L.Control.extend({
+    options: {
+      position: "topright",
+    },
+    onAdd: () => {
+      const container = L.DomUtil.create("div", "leaflet-control-geoloc");
+      const trigger = L.DomUtil.create("span", "geoloc", container);
+      trigger.id = "geoloc";
+
+      const icon = L.DomUtil.create("i", "zmdi zmdi-2x zmdi-gps-off", trigger);
+      icon.id = "geoloc_icon";
+
+      trigger.addEventListener("click", () => getLocation(mapInstance));
+      return container;
+    },
+  });
+
+  mapInstance.addControl(new GeoLoc());
+}

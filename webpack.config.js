@@ -35,15 +35,18 @@ module.exports = {
     filename: "[name]_bundle.js",
     chunkFilename: "[name].bundle.js",
   },
+  resolve: {
+    extensions: [".ts", ".js", ".jsx", ".json"],
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|ts)$/,
         loader: "babel-loader",
-        exclude: [/node_modules/, /\.test\.js$/],
+        exclude: [/node_modules/, /\.test\.(js|ts)$/],
       },
       {
-        test: /\.jsx$/,
+        test: /\.(jsx|tsx)$/,
         loader: "babel-loader",
         exclude: /node_modules/,
       },
@@ -111,7 +114,6 @@ module.exports = {
       chunkFilename: "[id].css",
     }),
     new CopyWebpackPlugin({ patterns: [{ from: "static" }] }),
-    new MiniCssExtractPlugin(),
   ],
   optimization: {
     minimize: true,

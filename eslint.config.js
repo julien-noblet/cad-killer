@@ -16,6 +16,9 @@ module.exports = [
       parserOptions: {
         ecmaVersion: 2020,
         sourceType: "module",
+        ecmaFeatures: {
+          jsx: true,
+        },
         requireConfigFile: false,
       },
       globals: {
@@ -42,6 +45,12 @@ module.exports = [
     files: ["setup.js", "teardown.js", "**/*.test.js"],
     rules: {
       "no-console": "off",
+    },
+  },
+  {
+    files: ["app/**/*.js"],
+    rules: {
+      "no-unused-vars": "off",
     },
   },
 ];

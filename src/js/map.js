@@ -2,14 +2,23 @@
  * @format
  */
 
-import L from "leaflet";
+import * as L from "leaflet";
 import { ATTRIBUTIONS, CENTER } from "./config";
 import { overlayMaps, baseMaps, layerOSMfr } from "./layers";
+import {
+  addAttributions,
+  addBaseLayer,
+  addHashToUrl,
+  createMainMap,
+  setInitialView,
+} from "./mapAdapters";
+import { setMapInstance } from "./mapContext";
 //import { dbinfo } from "./stats"; // Stats are not working :'(
 import { photon } from "./photon";
+import { installReverseLabel } from "./reverseLabel";
 
-require("leaflet-hash");
-require("leaflet.browser.print/dist/leaflet.browser.print.min.js");
+import "leaflet-hash";
+import "leaflet.browser.print/dist/leaflet.browser.print.min.js";
 /**
  * Un grand merci a @etalab, @yohanboniface, @cquest sans qui ce projet n'existerai pas.
  * Une grande partie de ce code vient de @etalab/adresse.data.gouv.fr
@@ -19,38 +28,27 @@ require("leaflet.browser.print/dist/leaflet.browser.print.min.js");
 // dbinfo(); // Stats are not working :'(
 
 // Initialisation de leaflet
-window.map = L.map("map", {
-  attributionControl: false,
-});
+const mapInstance = createMainMap("map");
+setMapInstance(mapInstance);
 
 const layers = L.control.layers(baseMaps, overlayMaps);
 
 L.Icon.Default.imagePath = "./images/";
-window.map.addLayer(layerOSMfr);
+addBaseLayer(mapInstance, layerOSMfr);
 
-layers.addTo(window.map);
+layers.addTo(mapInstance);
 
-window.map.setView(CENTER, 6);
+setInitialView(mapInstance, CENTER, 6);
 
-window.map.dragging.enable();
-
-L.control
-  .attribution({
-    position: "bottomleft",
-    prefix: ATTRIBUTIONS,
-  })
-  .addTo(window.map);
+addAttributions(mapInstance, ATTRIBUTIONS);
 
 // ajout hash dans l'URL
-// let hash;
-new L.Hash(window.map);
+addHashToUrl(mapInstance);
 
 // Chargement des modules:
 // require('./photon');
 photon();
-require.ensure(["./reverseLabel"], function () {
-  require("./reverseLabel");
-});
+installReverseLabel();
 
 //require ("./geoloc.js")
 

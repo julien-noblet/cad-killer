@@ -2,7 +2,7 @@
  * @format
  */
 
-import L from "leaflet";
+import * as L from "leaflet";
 import { IGN_LAYER } from "./config";
 
 // Layers
