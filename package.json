@@ -151,5 +151,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "patchedDependencies": {
+    "material-design-iconic-font@2.2.0": "patches/material-design-iconic-font@2.2.0.patch"
   }
 }

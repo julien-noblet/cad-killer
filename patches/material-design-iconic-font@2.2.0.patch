@@ -1,0 +1,225 @@
+diff --git a/node_modules/material-design-iconic-font/.bun-tag-257ef4022ecffdf9 b/.bun-tag-257ef4022ecffdf9
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/scss/_aliases.scss b/scss/_aliases.scss
+index 88b020555bb5d98594fd75d7a91a142c9482f18e..c0dfbd0508f65e87558c8b96db06f46ebd7f0169 100644
+--- a/scss/_aliases.scss
++++ b/scss/_aliases.scss
+@@ -1,3 +1,6 @@
++@use 'variables' as *;
++@use 'icons' as *;
++
+ // Alias for backward capability with 2.0.x version
+ 
+ .#{$zmdi-icon-prefix}-import-export {
+diff --git a/scss/_border.scss b/scss/_border.scss
+index f106540697a01e3ff9899151a42813a5b96edbdf..5edeeec3c153b2b0fe3365b5121279c890cf5007 100644
+--- a/scss/_border.scss
++++ b/scss/_border.scss
+@@ -1,3 +1,5 @@
++@use 'variables' as *;
++
+ // Bordered icons
+ // -------------------------
+ 
+diff --git a/scss/_core.scss b/scss/_core.scss
+index b863b8b9b96ad6d865ca719ac037cffc41dc9200..a3bac0ee2ebaab05683a77bd3a95f1350bdf2a0e 100644
+--- a/scss/_core.scss
++++ b/scss/_core.scss
+@@ -1,3 +1,5 @@
++@use 'variables' as *;
++
+ // Core Class Definition
+ // -------------------------
+ 
+diff --git a/scss/_fixed-width.scss b/scss/_fixed-width.scss
+index a87359b63c1cd774c75513d601d0e36ba2e364ea..7c736cec84f9b2e8ee246dfbffeee501aefd6ceb 100644
+--- a/scss/_fixed-width.scss
++++ b/scss/_fixed-width.scss
+@@ -1,7 +1,10 @@
++@use 'sass:math';
++@use 'variables' as *;
++
+ // Fixed Width Icons
+ // -------------------------
+ 
+ .#{$zmdi-css-prefix}-fw {
+-  width: (18em / 14);
++  width: math.div(18em, 14);
+   text-align: center;
+ }
+\ No newline at end of file
+diff --git a/scss/_icons.scss b/scss/_icons.scss
+index 59548fd677774d9c98f0a619e73380300434a205..56e060f8c5207a93e93ad77249eb8db2fd5a1878 100644
+--- a/scss/_icons.scss
++++ b/scss/_icons.scss
+@@ -1,3 +1,5 @@
++@use 'variables' as *;
++
+ /* Material Design Iconic Font uses the Unicode Private Use Area (PUA) to ensure screen
+    readers do not read off random characters that represent icons */
+ $zmdi-var-3d-rotation: '\f101' !default;
+@@ -9324,4 +9326,4 @@ $md-iconset-youtube: '\f409' !default;
+   &:before {
+     content: $md-iconset-youtube;
+   }
+-}
+\ No newline at end of file
++}
+diff --git a/scss/_list.scss b/scss/_list.scss
+index 5d9dab1739e61ab40f979f0a9ecf8fcc4cbb6314..507762a54de40dbda0d5e01ae2aba43aeef1ec9b 100644
+--- a/scss/_list.scss
++++ b/scss/_list.scss
+@@ -1,3 +1,6 @@
++@use 'sass:math';
++@use 'variables' as *;
++
+ // List Icons
+ // -------------------------
+ 
+@@ -13,9 +16,9 @@
+   position: absolute;
+   left: -$zmdi-li-width;
+   width: $zmdi-li-width;
+-  top: (2em / 14);
++  top: math.div(2em, 14);
+   text-align: center;
+   &.#{$zmdi-css-prefix}-lg {
+-    left: (-$zmdi-li-width + (4em / 14));
++    left: (-$zmdi-li-width + math.div(4em, 14));
+   }
+ }
+\ No newline at end of file
+diff --git a/scss/_path.scss b/scss/_path.scss
+index 0d791708211510ce97e7348f86f8ce875297c929..86639f82b7709355d611cabf4099e6fc2977fc50 100644
+--- a/scss/_path.scss
++++ b/scss/_path.scss
+@@ -1,3 +1,5 @@
++@use 'variables' as *;
++
+ // Font path
+ // --------------------------
+ 
+diff --git a/scss/_pulled.scss b/scss/_pulled.scss
+index 50b66f8fcfd5a0aa38b157623e8f1b127c45ae8f..350fe1a9ce55cf89e44bd969299a085b5ba961f0 100644
+--- a/scss/_pulled.scss
++++ b/scss/_pulled.scss
+@@ -1,3 +1,5 @@
++@use 'variables' as *;
++
+ // Pulled icons
+ // -------------------------
+ 
+diff --git a/scss/_rotated.scss b/scss/_rotated.scss
+index 90329e915a033bab7fcf5e75ad929f5f503a895a..897bbdce9c724ab98980aa59e38c87af67066cd0 100644
+--- a/scss/_rotated.scss
++++ b/scss/_rotated.scss
+@@ -1,3 +1,5 @@
++@use 'variables' as *;
++
+ // Rotated & Flipped icons
+ // -------------------------
+ 
+diff --git a/scss/_sizes.scss b/scss/_sizes.scss
+index 32da959170f3056851fcb4d98c96654d5d16f1f7..4fcfbdeed1ba4d24c9fea1f6a07cd8481da50820 100644
+--- a/scss/_sizes.scss
++++ b/scss/_sizes.scss
+@@ -1,9 +1,12 @@
++@use 'sass:math';
++@use 'variables' as *;
++
+ // Icon sizes
+ // -------------------------
+ 
+ .#{$zmdi-css-prefix}-lg {
+-  font-size: (4em / 3);
+-  line-height: (3em / 4);
++  font-size: math.div(4em, 3);
++  line-height: math.div(3em, 4);
+   vertical-align: -15%;
+ }
+ .#{$zmdi-css-prefix}-2x {
+diff --git a/scss/_spinned.scss b/scss/_spinned.scss
+index 9682b246fd1cda22139a5725d60ac1a8ba200fa9..3930c07da4d293d61493eac7b6a58e819d6ac1ea 100644
+--- a/scss/_spinned.scss
++++ b/scss/_spinned.scss
+@@ -1,3 +1,5 @@
++@use 'variables' as *;
++
+ // Spinning Icons
+ // --------------------------
+ 
+diff --git a/scss/_stacked.scss b/scss/_stacked.scss
+index 8230f442482fe67063e393b221d58dee3edf5218..b7499970ac07fdb52a551e98a8a48308e77f9a9d 100644
+--- a/scss/_stacked.scss
++++ b/scss/_stacked.scss
+@@ -1,3 +1,5 @@
++@use 'variables' as *;
++
+ // Stacked Icons
+ // -------------------------
+ 
+diff --git a/scss/_variables.scss b/scss/_variables.scss
+index 5bea2299aeb733e0d420fc216dd5c8e5e8141be1..6a04a44c63a89474fbb38bb7bae1ac5039534e8b 100644
+--- a/scss/_variables.scss
++++ b/scss/_variables.scss
+@@ -1,3 +1,5 @@
++@use 'sass:math';
++
+ // Variables
+ // --------------------------
+ 
+@@ -9,7 +11,7 @@ $zmdi-version:        "2.2.0" !default;
+ 
+ $zmdi-border-color:   #9E9E9E !default;
+ $zmdi-inverse:        #FFFFFF !default;
+-$zmdi-li-width:       (30em / 14) !default;
++$zmdi-li-width:       math.div(30em, 14) !default;
+ 
+ // Legacy code for backward capability with 2.0.x version
+ 
+@@ -20,4 +22,4 @@ $md-version:          "2.2.0" !default;
+ 
+ $md-border-color:     #9E9E9E !default;
+ $md-inverse:          #FFFFFF !default;
+-$md-li-width:         (30em / 14) !default;
+\ No newline at end of file
++$md-li-width:         math.div(30em, 14) !default;
+\ No newline at end of file
+diff --git a/scss/material-design-iconic-font.scss b/scss/material-design-iconic-font.scss
+index 22762e70f306654fee5e59991c51e028062e937c..d10198d5623bdaf02bc8003dde24d6965449923c 100644
+--- a/scss/material-design-iconic-font.scss
++++ b/scss/material-design-iconic-font.scss
+@@ -3,16 +3,17 @@
+  *  License - http://zavoloklom.github.io/material-design-iconic-font/license (Font: SIL OFL 1.1, CSS: MIT License)
+  */
+ 
+-@import 'variables';
+-@import 'path';
+-@import 'core';
+-@import 'sizes';
+-@import 'fixed-width';
+-@import 'list';
+-@import 'border';
+-@import 'pulled';
+-@import 'spinned';
+-@import 'rotated';
+-@import 'stacked';
+-@import 'icons';
+-@import 'aliases';
+\ No newline at end of file
++@forward 'variables';
++@forward 'icons';
++@use 'path';
++@use 'core';
++@use 'sizes';
++@use 'fixed-width';
++@use 'list';
++@use 'border';
++@use 'pulled';
++@use 'spinned';
++@use 'rotated';
++@use 'stacked';
++@use 'icons';
++@use 'aliases';
+\ No newline at end of file
