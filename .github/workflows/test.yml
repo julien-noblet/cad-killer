@@ -34,7 +34,7 @@ jobs:
       - run: bun run typecheck
       - run: bun run build
       - run: bun run test
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: image-diffs
