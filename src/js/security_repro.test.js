@@ -66,7 +66,7 @@ describeE2E("Security vulnerability reproduction", () => {
         // --- Test Photon Search XSS ---
         const inputSelector = ".photon-input";
         await page.waitForSelector(inputSelector);
-        await page.type(inputSelector, "test");
+        await page.type(inputSelector, "test", { delay: 50 });
 
         // Wait for the autocomplete to render with the payload text
         await page.waitForFunction(
