@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
+  basePath: "/cad-killer",
   images: {
-    unoptimized: false,
+    unoptimized: true,
   },
 };
 

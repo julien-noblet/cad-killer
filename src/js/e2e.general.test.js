@@ -48,7 +48,7 @@ describeE2E("E2E Tests - General", () => {
       page.on("request", requestHandler);
 
       try {
-        await page.goto("http://localhost:9000/");
+        await page.goto("http://localhost:9000/cad-killer/");
         await page.waitForSelector("#map");
         await page.waitForSelector(".photon-input");
         await page.type(".photon-input", "14 rue Michel Labrousse, Toulouse", {
@@ -78,7 +78,7 @@ describeE2E("E2E Tests - General", () => {
   test(
     "Feature 2: Layer Control",
     async () => {
-      await page.goto("http://localhost:9000/");
+      await page.goto("http://localhost:9000/cad-killer/");
       const layerControl = await page.waitForSelector(
         ".leaflet-control-layers-toggle",
       );
@@ -107,7 +107,7 @@ describeE2E("E2E Tests - General", () => {
   test(
     "Feature 3: Attribution",
     async () => {
-      await page.goto("http://localhost:9000/");
+      await page.goto("http://localhost:9000/cad-killer/");
       const attribution = await page.waitForSelector(
         ".leaflet-control-attribution",
       );
@@ -122,7 +122,7 @@ describeE2E("E2E Tests - General", () => {
   test(
     "Feature 5: Print Preview",
     async () => {
-      await page.goto("http://localhost:9000/");
+      await page.goto("http://localhost:9000/cad-killer/");
 
       // Emulate print media type
       await page.emulateMediaType("print");
