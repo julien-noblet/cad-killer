@@ -60,7 +60,7 @@ describeE2E("Security vulnerability reproduction", () => {
       page.on("request", requestHandler);
 
       try {
-        await page.goto("http://localhost:9000/");
+        await page.goto("http://localhost:9000/cad-killer/");
         await page.waitForSelector("#map");
 
         // --- Test Photon Search XSS ---

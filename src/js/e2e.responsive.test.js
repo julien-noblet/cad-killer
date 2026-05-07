@@ -23,7 +23,7 @@ describeE2E("E2E Tests - Responsive Chunk 1", () => {
       `Responsive Test: ${deviceName} (${viewport.width}x${viewport.height})`,
       async () => {
         await page.setViewport(viewport);
-        await page.goto("http://localhost:9000/");
+        await page.goto("http://localhost:9000/cad-killer/");
 
         const header = await page.$("#head");
         expect(header).toBeTruthy();
