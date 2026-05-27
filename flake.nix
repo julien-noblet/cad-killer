@@ -14,9 +14,12 @@
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
           packages = with pkgs; [
-            nodejs_22
+            nodejs_24
             bun
+            chromium
           ];
+
+          PUPPETEER_EXECUTABLE_PATH = "${pkgs.chromium}/bin/chromium";
           
           shellHook = ''
             echo "Installing dependencies..."

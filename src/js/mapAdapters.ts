@@ -4,6 +4,7 @@ import * as L from "leaflet";
 import type { Layer, Map as LeafletMap, LatLngExpression } from "leaflet";
 
 type LeafletWithHash = typeof L & {
+  // eslint-disable-next-line no-unused-vars
   Hash?: new (map: LeafletMap) => unknown;
 };
 

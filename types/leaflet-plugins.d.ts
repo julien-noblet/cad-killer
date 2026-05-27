@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import "leaflet";
 
 declare module "leaflet-hash";
