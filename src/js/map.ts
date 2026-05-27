@@ -24,7 +24,7 @@ setMapInstance(mapInstance);
 
 const layers = L.control.layers(baseMaps, overlayMaps);
 
-L.Icon.Default.imagePath = "./images/";
+L.Icon.Default.imagePath = "/cad-killer/images/";
 addBaseLayer(mapInstance, layerOSMfr);
 
 layers.addTo(mapInstance);
