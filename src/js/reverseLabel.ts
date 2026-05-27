@@ -3,6 +3,7 @@
  */
 
 import * as L from "leaflet";
+import "leaflet.photon";
 import { REVERSE_URL } from "./config";
 import { getMapInstance } from "./mapContext";
 
@@ -21,7 +22,7 @@ export function installReverseLabel() {
 
     onAdd: () => {
       const container = L.DomUtil.create("div", "reverse-label");
-      const reverse = new LeafletAny.PhotonReverse({
+      const reverse = new (window as any).L.PhotonReverse({
         url: REVERSE_URL,
         handleResults: (data: any) => {
           if (data.features?.[0]?.properties?.label) {

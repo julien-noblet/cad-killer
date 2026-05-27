@@ -28,7 +28,7 @@ const searchPoints = L.geoJson(null, {
       if (!mapInstance) {
         return;
       }
-      let zoom = 16;
+      let zoom: number;
       switch (feature.properties.type) {
         case "housenumber":
           zoom = 18;

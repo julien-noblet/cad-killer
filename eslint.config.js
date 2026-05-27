@@ -1,11 +1,8 @@
-const babelParser = require("@babel/eslint-parser");
 const prettierConfig = require("eslint-config-prettier");
 const prettierPlugin = require("eslint-plugin-prettier");
 const globals = require("globals");
 const js = require("@eslint/js");
 const nextConfig = require("eslint-config-next");
-const tsParser = require("@typescript-eslint/parser");
-const tsPlugin = require("@typescript-eslint/eslint-plugin");
 
 module.exports = [
   {
@@ -24,15 +21,19 @@ module.exports = [
     plugins: {
       prettier: prettierPlugin,
     },
+    settings: {
+      react: {
+        version: "19.2.6",
+      },
+    },
     languageOptions: {
-      parser: babelParser,
+      parser: require("@typescript-eslint/parser"),
       parserOptions: {
         ecmaVersion: 2020,
         sourceType: "module",
         ecmaFeatures: {
           jsx: true,
         },
-        requireConfigFile: false,
       },
       globals: {
         ...globals.browser,
@@ -64,20 +65,6 @@ module.exports = [
     files: ["app/**/*.js"],
     rules: {
       "no-unused-vars": "off",
-    },
-  },
-  {
-    files: ["**/*.ts", "**/*.tsx"],
-    plugins: {
-      "@typescript-eslint": tsPlugin,
-    },
-    languageOptions: {
-      parser: tsParser,
-    },
-    rules: {
-      "no-undef": "off",
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": "warn",
     },
   },
 ];
