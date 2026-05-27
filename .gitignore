@@ -114,3 +114,4 @@ out/
 # DynamoDB Local files
 .dynamodb/
 
+.direnv
