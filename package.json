@@ -89,7 +89,7 @@
     "lint-staged": "17.0.7",
     "postcss": "8.5.15",
     "postcss-import": "16.1.1",
-    "postcss-preset-env": "11.3.0",
+    "postcss-preset-env": "11.3.1",
     "prettier": "3.8.4",
     "puppeteer": "25.1.0",
     "sass": "^1.71.1",
