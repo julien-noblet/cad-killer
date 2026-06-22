@@ -91,7 +91,7 @@
     "postcss-import": "16.1.1",
     "postcss-preset-env": "11.3.1",
     "prettier": "3.8.4",
-    "puppeteer": "25.1.0",
+    "puppeteer": "25.2.0",
     "sass": "^1.71.1",
     "stylelint": "^17.0.0",
     "stylelint-config-standard-scss": "^17.0.0",
