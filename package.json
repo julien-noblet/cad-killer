@@ -112,7 +112,7 @@
     "material-design-iconic-font": "2.2.0",
     "next": "^16.0.0",
     "react": "19.2.8",
-    "react-dom": "19.2.7"
+    "react-dom": "19.2.8"
   },
   "jest": {
     "moduleNameMapper": {
