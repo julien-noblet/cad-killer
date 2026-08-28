@@ -1,2 +1,2 @@
-:HL["/cad-killer/_next/static/chunks/0i.idyyi62uc8.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"Z_LkIW-PRDqinrxKoom-z"}
+:HL["/cad-killer/_next/static/chunks/09ad.545jp9wm.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"eMxVTZ__hoVhBcFlTBSmW"}
