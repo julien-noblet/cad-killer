@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "Visionneur de carte pour logisticiens pressés",
   "main": "index.html",
-  "packageManager": "bun@1.4.0",
+  "packageManager": "bun@1.4.1",
   "engines": {
     "node": ">=20",
     "bun": ">=1.3.11"
