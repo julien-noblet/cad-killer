@@ -1,3 +1,3 @@
 :HL["/cad-killer/_next/static/chunks/09ad.545jp9wm.css","style"]
 :HC["/",""]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}},"staleTime":300,"buildId":"8YHEVeKkjIxe2FD0zZ__p"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}},"staleTime":300,"buildId":"cVguZ0CATYEeY0Tv1y4_F"}
