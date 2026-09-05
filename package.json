@@ -86,7 +86,7 @@
     "jest": "^30.0.0",
     "jest-image-snapshot": "6.5.2",
     "jest-puppeteer": "11.0.0",
-    "lint-staged": "17.4.1",
+    "lint-staged": "17.5.0",
     "postcss": "8.5.28",
     "postcss-import": "17.0.0",
     "postcss-preset-env": "11.5.1",
