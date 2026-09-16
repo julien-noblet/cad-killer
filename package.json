@@ -90,7 +90,7 @@
     "postcss": "8.5.28",
     "postcss-import": "17.0.0",
     "postcss-preset-env": "11.5.3",
-    "prettier": "3.9.6",
+    "prettier": "3.9.7",
     "puppeteer": "25.11.0",
     "sass": "^1.71.1",
     "stylelint": "^17.0.0",
