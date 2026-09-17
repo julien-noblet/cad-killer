@@ -4,12 +4,112 @@
  * @format
  */
 
+function getCurrentTiles(mapElement: HTMLElement): HTMLImageElement[] {
+  const currentTiles: HTMLImageElement[] = [];
+  const map =
+    (typeof window !== "undefined" ? (window as any).map : null) ||
+    (mapElement as any)["_leaflet_map"];
+
+  if (!map || typeof map.eachLayer !== "function") {
+    return currentTiles;
+  }
+
+  map.eachLayer((layer: any) => {
+    /* eslint-disable no-underscore-dangle */
+    if (!layer._tiles) return;
+
+    const currentZoom =
+      layer._tileZoom !== undefined
+        ? layer._tileZoom
+        : typeof map.getZoom === "function"
+          ? map.getZoom()
+          : undefined;
+    const currentLevelEl = layer._level ? layer._level.el : null;
+    if (currentLevelEl && currentLevelEl.style.display === "none") return;
+
+    for (const k of Object.keys(layer._tiles)) {
+      const t = layer._tiles[k];
+      if (
+        t?.el?.complete &&
+        t.el.naturalWidth > 0 &&
+        t.coords?.z === currentZoom
+      ) {
+        currentTiles.push(t.el);
+      }
+    }
+    /* eslint-enable no-underscore-dangle */
+  });
+
+  return currentTiles;
+}
+
+function drawElements(
+  ctx: CanvasRenderingContext2D,
+  elements: ArrayLike<HTMLImageElement | HTMLCanvasElement>,
+  mapRect: DOMRect,
+): void {
+  for (const el of Array.from(elements)) {
+    if ("naturalWidth" in el && (!el.complete || el.naturalWidth === 0)) {
+      continue;
+    }
+    const r = el.getBoundingClientRect();
+    ctx.globalAlpha = parseFloat(window.getComputedStyle(el).opacity) || 1;
+    ctx.drawImage(
+      el,
+      r.left - mapRect.left,
+      r.top - mapRect.top,
+      r.width,
+      r.height,
+    );
+  }
+}
+
+function drawAttribution(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+): void {
+  const attributionEl = document.querySelector<HTMLElement>(
+    ".leaflet-control-attribution",
+  );
+  const attrText = attributionEl?.textContent?.replace(/\s+/g, " ").trim();
+  if (!attrText) return;
+
+  ctx.save();
+  ctx.font =
+    '13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+  const tm = ctx.measureText(attrText);
+  const boxW = Math.min(w - 20, Math.round(tm.width + 32));
+  const boxH = 26;
+  const boxX = Math.round((w - boxW) / 2);
+  const boxY = h - boxH;
+
+  ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
+  ctx.strokeStyle = "rgba(0, 0, 0, 0.2)";
+  ctx.lineWidth = 1;
+
+  if (typeof (ctx as any).roundRect === "function") {
+    ctx.beginPath();
+    (ctx as any).roundRect(boxX, boxY, boxW, boxH, [6, 6, 0, 0]);
+    ctx.fill();
+    ctx.stroke();
+  } else {
+    ctx.fillRect(boxX, boxY, boxW, boxH);
+    ctx.strokeRect(boxX, boxY, boxW, boxH);
+  }
+
+  ctx.fillStyle = "#111827";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(attrText, w / 2, boxY + boxH / 2);
+  ctx.restore();
+}
+
 export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
   const mapRect = mapElement.getBoundingClientRect();
   const w = Math.round(mapRect.width);
   const h = Math.round(mapRect.height);
 
-  // Facteur 2 pour une netteté d'impression haute résolution (Retina)
   const scaleFactor = 2;
   const canvas = document.createElement("canvas");
   canvas.width = w * scaleFactor;
@@ -21,158 +121,37 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
   if (!ctx) return canvas;
 
   ctx.scale(scaleFactor, scaleFactor);
-
-  // Fond neutre
   ctx.fillStyle = "#f8f4f0";
   ctx.fillRect(0, 0, w, h);
 
-  // 1. Récupérer STRICTEMENT les tuiles du niveau de zoom courant
-  const currentTiles: HTMLImageElement[] = [];
-  const map =
-    (typeof window !== "undefined" ? (window as any).map : null) ||
-    (mapElement as any)["_leaflet_map"];
-
-  if (map && typeof map.eachLayer === "function") {
-    map.eachLayer((layer: any) => {
-      /* eslint-disable no-underscore-dangle */
-      if (layer._tiles) {
-        const currentZoom =
-          layer._tileZoom !== undefined
-            ? layer._tileZoom
-            : typeof map.getZoom === "function"
-              ? map.getZoom()
-              : undefined;
-        const currentLevelEl = layer._level ? layer._level.el : null;
-        for (const k of Object.keys(layer._tiles)) {
-          const t = layer._tiles[k];
-          if (
-            t &&
-            t.el &&
-            t.coords &&
-            t.coords.z === currentZoom &&
-            t.el.complete &&
-            t.el.naturalWidth > 0 &&
-            (!currentLevelEl || currentLevelEl.style.display !== "none")
-          ) {
-            currentTiles.push(t.el);
-          }
-        }
-      }
-      /* eslint-enable no-underscore-dangle */
-    });
-  }
-
-  // Fallback: dernier conteneur de tuiles (zoom le plus récent) si accès layer indisponible
+  const currentTiles = getCurrentTiles(mapElement);
   const tilesToDraw =
     currentTiles.length > 0
       ? currentTiles
-      : Array.from(
-          mapElement.querySelectorAll<HTMLImageElement>(
-            ".leaflet-tile-pane .leaflet-tile-container:last-child img",
-          ),
+      : mapElement.querySelectorAll<HTMLImageElement>(
+          ".leaflet-tile-pane .leaflet-tile-container:last-child img",
         );
 
-  for (const img of tilesToDraw) {
-    const r = img.getBoundingClientRect();
-    const x = r.left - mapRect.left;
-    const y = r.top - mapRect.top;
-    ctx.globalAlpha = parseFloat(window.getComputedStyle(img).opacity) || 1;
-    ctx.drawImage(img, x, y, r.width, r.height);
-  }
-
-  // 2. Dessiner les overlays vectoriels éventuels (canvas)
-  const overlayCanvases = Array.from(
+  drawElements(ctx, tilesToDraw, mapRect);
+  drawElements(
+    ctx,
     mapElement.querySelectorAll<HTMLCanvasElement>(
       ".leaflet-overlay-pane canvas",
     ),
+    mapRect,
   );
-  for (const cvs of overlayCanvases) {
-    const r = cvs.getBoundingClientRect();
-    ctx.globalAlpha = parseFloat(window.getComputedStyle(cvs).opacity) || 1;
-    ctx.drawImage(
-      cvs,
-      r.left - mapRect.left,
-      r.top - mapRect.top,
-      r.width,
-      r.height,
-    );
-  }
-
-  // 3. Dessiner les ombres des marqueurs
-  const shadows = Array.from(
+  drawElements(
+    ctx,
     mapElement.querySelectorAll<HTMLImageElement>(".leaflet-shadow-pane img"),
+    mapRect,
   );
-  for (const shadow of shadows) {
-    if (shadow.complete && shadow.naturalWidth > 0) {
-      const r = shadow.getBoundingClientRect();
-      ctx.globalAlpha =
-        parseFloat(window.getComputedStyle(shadow).opacity) || 1;
-      ctx.drawImage(
-        shadow,
-        r.left - mapRect.left,
-        r.top - mapRect.top,
-        r.width,
-        r.height,
-      );
-    }
-  }
-
-  // 4. Dessiner les marqueurs (épingles)
-  const markers = Array.from(
+  drawElements(
+    ctx,
     mapElement.querySelectorAll<HTMLImageElement>(".leaflet-marker-pane img"),
+    mapRect,
   );
-  for (const marker of markers) {
-    if (marker.complete && marker.naturalWidth > 0) {
-      const r = marker.getBoundingClientRect();
-      ctx.globalAlpha =
-        parseFloat(window.getComputedStyle(marker).opacity) || 1;
-      ctx.drawImage(
-        marker,
-        r.left - mapRect.left,
-        r.top - mapRect.top,
-        r.width,
-        r.height,
-      );
-    }
-  }
 
-  // 5. Dessiner la mention d'attribution légale au bas de l'image
-  const attributionEl = document.querySelector<HTMLElement>(
-    ".leaflet-control-attribution",
-  );
-  const attrText = attributionEl?.textContent?.replace(/\s+/g, " ").trim();
-  if (attrText) {
-    ctx.save();
-    ctx.font =
-      '13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
-    const tm = ctx.measureText(attrText);
-    const paddingX = 16;
-    const boxW = Math.min(w - 20, Math.round(tm.width + paddingX * 2));
-    const boxH = 26;
-    const boxX = Math.round((w - boxW) / 2);
-    const boxY = h - boxH;
-
-    ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
-    if (typeof (ctx as any).roundRect === "function") {
-      ctx.beginPath();
-      (ctx as any).roundRect(boxX, boxY, boxW, boxH, [6, 6, 0, 0]);
-      ctx.fill();
-      ctx.strokeStyle = "rgba(0, 0, 0, 0.2)";
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    } else {
-      ctx.fillRect(boxX, boxY, boxW, boxH);
-      ctx.strokeStyle = "rgba(0, 0, 0, 0.2)";
-      ctx.lineWidth = 1;
-      ctx.strokeRect(boxX, boxY, boxW, boxH);
-    }
-
-    ctx.fillStyle = "#111827";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(attrText, w / 2, boxY + boxH / 2);
-    ctx.restore();
-  }
+  drawAttribution(ctx, w, h);
 
   ctx.globalAlpha = 1;
   return canvas;
