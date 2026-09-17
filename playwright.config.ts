@@ -6,7 +6,9 @@ const chromiumPath =
   process.env.PUPPETEER_EXECUTABLE_PATH ||
   (fs.existsSync("/run/current-system/sw/bin/chromium")
     ? "/run/current-system/sw/bin/chromium"
-    : undefined);
+    : fs.existsSync("/run/current-system/sw/bin/google-chrome")
+      ? "/run/current-system/sw/bin/google-chrome"
+      : undefined);
 
 export default defineConfig({
   testDir: "./e2e",

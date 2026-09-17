@@ -213,4 +213,115 @@ test.describe("Print view specifications", () => {
       .evaluate((el) => window.getComputedStyle(el).visibility);
     expect(searchVisibility).toBe("hidden");
   });
+
+  test("Scenario 7: Print view maintains exact map framing, center, and full tile coverage", async ({
+    page,
+  }) => {
+    await page.goto("./#16/43.582/1.397");
+    await expect(page.locator("#map")).toBeVisible();
+    await page.waitForFunction(
+      () =>
+        (window as any).map &&
+        (window as any).map.getSize().x > 0 &&
+        Math.abs((window as any).map.getCenter().lat - 43.582) < 0.001,
+    );
+
+    const screenData = await page.evaluate(() => {
+      const map = (window as any).map;
+      return {
+        center: map.getCenter(),
+        zoom: map.getZoom(),
+        size: map.getSize(),
+        containerRect: document.getElementById("map")?.getBoundingClientRect(),
+      };
+    });
+
+    // Emulate print media
+    await page.emulateMedia({ media: "print" });
+    await page.waitForFunction((expectedH) => {
+      const map = (window as any).map;
+      const rect = document.getElementById("map")?.getBoundingClientRect();
+      return (
+        rect &&
+        Math.round(rect.height) === expectedH &&
+        map.getSize().y === expectedH
+      );
+    }, 720);
+
+    const printData = await page.evaluate(() => {
+      const map = (window as any).map;
+      const rect = document.getElementById("map")?.getBoundingClientRect();
+      const tiles = Array.from(
+        document.querySelectorAll(".leaflet-tile-pane img"),
+      ).map((img) => {
+        const r = img.getBoundingClientRect();
+        return { top: r.top, left: r.left, width: r.width, height: r.height };
+      });
+      return {
+        center: map.getCenter(),
+        zoom: map.getZoom(),
+        size: map.getSize(),
+        containerRect: rect,
+        tileCount: tiles.length,
+        tilesTop: Math.min(...tiles.map((t) => t.top)),
+        tilesBottom: Math.max(...tiles.map((t) => t.top + t.height)),
+        tilesLeft: Math.min(...tiles.map((t) => t.left)),
+        tilesRight: Math.max(...tiles.map((t) => t.left + t.width)),
+      };
+    });
+
+    // 1. Container size in Leaflet matches print container
+    expect(printData.size.x).toBe(Math.round(printData.containerRect!.width));
+    expect(printData.size.y).toBe(Math.round(printData.containerRect!.height));
+
+    // 2. Center coordinates preserved precisely
+    expect(Math.abs(printData.center.lat - screenData.center.lat)).toBeLessThan(
+      0.0005,
+    );
+    expect(Math.abs(printData.center.lng - screenData.center.lng)).toBeLessThan(
+      0.0005,
+    );
+
+    // 3. Zoom level preserved
+    expect(printData.zoom).toBe(screenData.zoom);
+
+    // 4. Tiles completely cover the print canvas without blank gaps
+    expect(printData.tileCount).toBeGreaterThan(0);
+    expect(printData.tilesBottom).toBeGreaterThanOrEqual(
+      printData.containerRect!.height,
+    );
+    expect(printData.tilesTop).toBeLessThanOrEqual(0);
+
+    // Restore to screen media
+    await page.emulateMedia({ media: "screen" });
+    await page.waitForFunction((expectedH) => {
+      const map = (window as any).map;
+      const rect = document.getElementById("map")?.getBoundingClientRect();
+      return (
+        rect &&
+        Math.round(rect.height) === expectedH &&
+        map.getSize().y === expectedH
+      );
+    }, screenData.size.y);
+
+    const restoredData = await page.evaluate(() => {
+      const map = (window as any).map;
+      return {
+        center: map.getCenter(),
+        zoom: map.getZoom(),
+        size: map.getSize(),
+        containerRect: document.getElementById("map")?.getBoundingClientRect(),
+      };
+    });
+
+    // 5. Restored size and center match initial screen state
+    expect(restoredData.size.y).toBe(screenData.size.y);
+    expect(
+      Math.abs(restoredData.center.lat - screenData.center.lat),
+    ).toBeLessThan(0.0005);
+    expect(
+      Math.abs(restoredData.center.lng - screenData.center.lng),
+    ).toBeLessThan(0.0005);
+    expect(restoredData.zoom).toBe(screenData.zoom);
+  });
 });

@@ -43,4 +43,45 @@ if (container && !(container as any)._leaflet_id) {
 
   photon(mapInstance);
   installReverseLabel(mapInstance);
+
+  let isPrinting = false;
+  let prePrintCenter: L.LatLng | null = null;
+  let prePrintZoom: number | null = null;
+
+  const onBeforePrint = () => {
+    if (isPrinting) return;
+    isPrinting = true;
+    prePrintCenter = mapInstance.getCenter();
+    prePrintZoom = mapInstance.getZoom();
+    mapInstance.invalidateSize({ pan: false, debounceMoveend: false });
+    if (prePrintCenter && prePrintZoom !== null) {
+      mapInstance.setView(prePrintCenter, prePrintZoom, { animate: false });
+    }
+  };
+
+  const onAfterPrint = () => {
+    if (!isPrinting) return;
+    isPrinting = false;
+    mapInstance.invalidateSize({ pan: false, debounceMoveend: false });
+    if (prePrintCenter && prePrintZoom !== null) {
+      mapInstance.setView(prePrintCenter, prePrintZoom, { animate: false });
+    }
+  };
+
+  if (typeof window !== "undefined") {
+    window.addEventListener("beforeprint", onBeforePrint);
+    window.addEventListener("afterprint", onAfterPrint);
+    if (typeof window.matchMedia === "function") {
+      const mediaQueryList = window.matchMedia("print");
+      if (typeof mediaQueryList.addEventListener === "function") {
+        mediaQueryList.addEventListener("change", (mql) => {
+          if (mql.matches) {
+            onBeforePrint();
+          } else {
+            onAfterPrint();
+          }
+        });
+      }
+    }
+  }
 }

@@ -148,7 +148,8 @@ $height-photon: 46px;
 
     @media print {
       height: 100%;
-      top: 0;
+      inset: 0;
+      width: 100%;
     }
   }
 
