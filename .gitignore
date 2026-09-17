@@ -115,3 +115,5 @@ out/
 .dynamodb/
 
 .direnv
+.agents/
+skills-lock.json

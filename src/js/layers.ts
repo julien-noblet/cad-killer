@@ -3,7 +3,6 @@
  */
 
 import * as L from "leaflet";
-import { IGN_LAYER } from "./config";
 
 export const layerOSMfr = L.tileLayer(
   "//{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
@@ -55,16 +54,6 @@ export const layerEsriWorldStreetMap = L.tileLayer(
     attribution:
       "Tiles &copy; Esri &mdash; " +
       "Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012",
-  },
-);
-
-export const layerIGN = L.tileLayer(
-  `//data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_LAYER}&STYLE=normal&FORMAT=image/jpeg&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`,
-  {
-    maxZoom: 18,
-    minZoom: 6,
-    attribution: "IGN-F/Géoportail",
-    tileSize: 256,
   },
 );
 
