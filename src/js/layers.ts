@@ -5,7 +5,7 @@
 import * as L from "leaflet";
 
 export const layerOSMfr = L.tileLayer(
-  "//{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
+  "https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
   {
     maxZoom: 20,
     crossOrigin: true,
@@ -15,7 +15,7 @@ export const layerOSMfr = L.tileLayer(
 );
 
 export const layerOSM = L.tileLayer(
-  "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
     maxZoom: 19,
     crossOrigin: true,
@@ -25,27 +25,25 @@ export const layerOSM = L.tileLayer(
 );
 
 export const layerCadastre = L.tileLayer(
-  "http://tms.cadastre.openstreetmap.fr/*/tout/{z}/{x}/{y}.png",
+  "https://tms.cadastre.openstreetmap.fr/*/tout/{z}/{x}/{y}.png",
   {
     maxZoom: 22,
     minZoom: 16,
-    crossOrigin: true,
     attribution: "&copy; Cadastre",
   },
 );
 
 export const overlayCadastre = L.tileLayer(
-  "http://tms.cadastre.openstreetmap.fr/*/transp/{z}/{x}/{y}.png",
+  "https://tms.cadastre.openstreetmap.fr/*/transp/{z}/{x}/{y}.png",
   {
     maxZoom: 22,
     minZoom: 16,
-    crossOrigin: true,
     attribution: "&copy; Cadastre",
   },
 );
 
 export const layerEsriWorldImagery = L.tileLayer(
-  "//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   {
     crossOrigin: true,
     attribution:
@@ -54,7 +52,7 @@ export const layerEsriWorldImagery = L.tileLayer(
 );
 
 export const layerEsriWorldStreetMap = L.tileLayer(
-  "//server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
   {
     crossOrigin: true,
     attribution:
