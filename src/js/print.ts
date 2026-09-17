@@ -171,6 +171,24 @@ export function preparePrintImage(): boolean {
     document.body.appendChild(printContainer);
   }
 
+  const reverseLabel = document.querySelector(".reverse-label");
+  const reverseText = reverseLabel?.textContent?.trim() || "";
+
+  let printLabel = document.getElementById("print-label");
+  if (!printLabel) {
+    printLabel = document.createElement("div");
+    printLabel.id = "print-label";
+    printLabel.className = "print-label";
+  }
+  printLabel.textContent = reverseText;
+
+  let printMapWrap = document.getElementById("print-map-wrap");
+  if (!printMapWrap) {
+    printMapWrap = document.createElement("div");
+    printMapWrap.id = "print-map-wrap";
+    printMapWrap.className = "print-map-wrap";
+  }
+
   const canvas = captureMapToCanvas(mapElement);
   let printImg = document.getElementById(
     "print-image",
@@ -184,11 +202,13 @@ export function preparePrintImage(): boolean {
   try {
     const dataUrl = canvas.toDataURL("image/png");
     printImg.src = dataUrl;
-    printContainer.replaceChildren(printImg);
+    printMapWrap.replaceChildren(printImg);
   } catch {
     // Si canvas contaminé (CORS), injection directe du canvas
-    printContainer.replaceChildren(canvas);
+    printMapWrap.replaceChildren(canvas);
   }
+
+  printContainer.replaceChildren(printLabel, printMapWrap);
 
   imageReady = true;
   document.body.classList.add("is-printing-image");
