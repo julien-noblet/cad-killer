@@ -8,51 +8,41 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
   const mapRect = mapElement.getBoundingClientRect();
   const canvas = document.createElement("canvas");
 
-  const w = mapRect.width;
-  const h = mapRect.height;
+  const w = Math.round(mapRect.width);
+  const h = Math.round(mapRect.height);
 
-  // Garantir le format paysage
-  let canvasW: number;
-  let canvasH: number;
-  let offsetX = 0;
-  let offsetY = 0;
+  // Capture haute résolution (facteur 2 pour une impression nette)
+  const scaleFactor = 2;
+  canvas.width = w * scaleFactor;
+  canvas.height = h * scaleFactor;
+  canvas.style.width = `${w}px`;
+  canvas.style.height = `${h}px`;
 
-  if (w >= h) {
-    canvasW = Math.round(w);
-    canvasH = Math.round(h);
-  } else {
-    // Écran en mode portrait : cadrage paysage proportionnel
-    canvasW = Math.round(Math.max(w, h * 1.414));
-    canvasH = Math.round(canvasW / 1.414);
-    offsetX = Math.round((canvasW - w) / 2);
-    offsetY = Math.round((canvasH - h) / 2);
-  }
-
-  canvas.width = canvasW;
-  canvas.height = canvasH;
   const ctx = canvas.getContext("2d");
   if (!ctx) return canvas;
 
-  // Fond neutre
-  ctx.fillStyle = "#f8f4f0";
-  ctx.fillRect(0, 0, canvasW, canvasH);
+  ctx.scale(scaleFactor, scaleFactor);
 
-  // 1. Dessiner les tuiles du fond de carte
+  // Fond neutre de carte
+  ctx.fillStyle = "#f8f4f0";
+  ctx.fillRect(0, 0, w, h);
+
+  // 1. Dessiner les tuiles du fond de carte (dans l'ordre du DOM)
   const tiles = Array.from(
     mapElement.querySelectorAll<HTMLImageElement>(".leaflet-tile-pane img"),
   );
   for (const img of tiles) {
     if (img.complete && img.naturalWidth > 0) {
       const r = img.getBoundingClientRect();
-      const x = r.left - mapRect.left + offsetX;
-      const y = r.top - mapRect.top + offsetY;
+      const x = r.left - mapRect.left;
+      const y = r.top - mapRect.top;
       const opacity = parseFloat(window.getComputedStyle(img).opacity) || 1;
       ctx.globalAlpha = opacity;
       ctx.drawImage(img, x, y, r.width, r.height);
     }
   }
 
-  // 2. Dessiner les canevas overlay éventuels
+  // 2. Dessiner les overlays éventuels (canvas)
   const overlayCanvases = Array.from(
     mapElement.querySelectorAll<HTMLCanvasElement>(
       ".leaflet-overlay-pane canvas",
@@ -60,25 +50,65 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
   );
   for (const cvs of overlayCanvases) {
     const r = cvs.getBoundingClientRect();
-    const x = r.left - mapRect.left + offsetX;
-    const y = r.top - mapRect.top + offsetY;
+    const x = r.left - mapRect.left;
+    const y = r.top - mapRect.top;
     ctx.globalAlpha = parseFloat(window.getComputedStyle(cvs).opacity) || 1;
     ctx.drawImage(cvs, x, y, r.width, r.height);
   }
 
-  // 3. Dessiner les marqueurs (épingles)
+  // 3. Dessiner les ombres des marqueurs
+  const shadows = Array.from(
+    mapElement.querySelectorAll<HTMLImageElement>(".leaflet-shadow-pane img"),
+  );
+  for (const shadow of shadows) {
+    if (shadow.complete && shadow.naturalWidth > 0) {
+      const r = shadow.getBoundingClientRect();
+      const x = r.left - mapRect.left;
+      const y = r.top - mapRect.top;
+      ctx.globalAlpha =
+        parseFloat(window.getComputedStyle(shadow).opacity) || 1;
+      ctx.drawImage(shadow, x, y, r.width, r.height);
+    }
+  }
+
+  // 4. Dessiner les marqueurs (épingles)
   const markers = Array.from(
     mapElement.querySelectorAll<HTMLImageElement>(".leaflet-marker-pane img"),
   );
   for (const marker of markers) {
     if (marker.complete && marker.naturalWidth > 0) {
       const r = marker.getBoundingClientRect();
-      const x = r.left - mapRect.left + offsetX;
-      const y = r.top - mapRect.top + offsetY;
+      const x = r.left - mapRect.left;
+      const y = r.top - mapRect.top;
       ctx.globalAlpha =
         parseFloat(window.getComputedStyle(marker).opacity) || 1;
       ctx.drawImage(marker, x, y, r.width, r.height);
     }
+  }
+
+  // 5. Dessiner la mention d'attribution légale en bas à gauche de la carte
+  const attributionEl = document.querySelector<HTMLElement>(
+    ".leaflet-control-attribution",
+  );
+  const attrText = attributionEl?.textContent?.trim();
+  if (attrText) {
+    ctx.save();
+    ctx.font =
+      '11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    const tm = ctx.measureText(attrText);
+    const boxW = tm.width + 16;
+    const boxH = 22;
+    const boxX = 0;
+    const boxY = h - boxH;
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+    ctx.fillRect(boxX, boxY, boxW, boxH);
+
+    ctx.fillStyle = "#333";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "middle";
+    ctx.fillText(attrText, 8, boxY + boxH / 2);
+    ctx.restore();
   }
 
   ctx.globalAlpha = 1;
@@ -86,6 +116,7 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
 }
 
 let isGenerating = false;
+let imageReady = false;
 
 export function preparePrintImage(): boolean {
   const mapElement = document.getElementById("map");
@@ -113,10 +144,11 @@ export function preparePrintImage(): boolean {
     printImg.src = dataUrl;
     printContainer.replaceChildren(printImg);
   } catch {
-    // Si canvas contaminé (CORS), on injecte directement le canvas
+    // Si canvas contaminé (CORS), injection directe du canvas
     printContainer.replaceChildren(canvas);
   }
 
+  imageReady = true;
   document.body.classList.add("is-printing-image");
   return true;
 }
@@ -147,10 +179,13 @@ export function initPrintListeners(): void {
 
   // Si l'impression est déclenchée via le menu navigateur (Fichier > Imprimer)
   window.addEventListener("beforeprint", () => {
-    preparePrintImage();
+    if (!imageReady) {
+      preparePrintImage();
+    }
   });
 
   window.addEventListener("afterprint", () => {
+    imageReady = false;
     document.body.classList.remove("is-printing-image");
   });
 
