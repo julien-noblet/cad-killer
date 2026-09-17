@@ -5,12 +5,6 @@
 @use "colors" as *;
 @use "variables" as *;
 
-.headmasked {
-  @media (max-width: $smartphone) {
-    visibility: hidden;
-  }
-}
-
 // Footer moved up
 footer {
   background-color: $color-dark-text;
@@ -52,7 +46,7 @@ header {
     margin-left: 140px;
 
     @media (max-width: $smartphone) {
-      line-height: 45px;
+      line-height: 60px;
       margin-left: 0;
     }
   }
@@ -62,7 +56,7 @@ header {
     margin-right: 60px;
 
     @media (max-width: $smartphone) {
-      margin-right: 0;
+      display: none;
     }
 
     a {

@@ -5,34 +5,42 @@
 import * as L from "leaflet";
 import { ATTRIBUTIONS, CENTER } from "./config";
 import { overlayMaps, baseMaps, layerOSMfr } from "./layers";
-import {
-  addAttributions,
-  addBaseLayer,
-  addHashToUrl,
-  createMainMap,
-  setInitialView,
-} from "./mapAdapters";
-import { setMapInstance } from "./mapContext";
 import { photon } from "./photon";
 import { installReverseLabel } from "./reverseLabel";
 
 import "leaflet-hash";
-import "leaflet.browser.print/dist/leaflet.browser.print.min.js";
 
-const mapInstance = createMainMap("map");
-setMapInstance(mapInstance);
+const container =
+  typeof document !== "undefined" ? document.getElementById("map") : null;
+// eslint-disable-next-line no-underscore-dangle
+if (container && !(container as any)._leaflet_id) {
+  const mapInstance = L.map(container, { attributionControl: false });
+  if (typeof window === "object" && window !== null) {
+    window.map = mapInstance;
+  }
 
-const layers = L.control.layers(baseMaps, overlayMaps);
+  L.Icon.Default.imagePath = "/cad-killer/images/";
+  mapInstance.addLayer(layerOSMfr);
+  L.control.layers(baseMaps, overlayMaps).addTo(mapInstance);
+  const layerToggle = container?.querySelector<HTMLAnchorElement>(
+    ".leaflet-control-layers-toggle",
+  );
+  if (layerToggle) {
+    layerToggle.title = "Fonds de carte";
+    layerToggle.setAttribute("aria-label", "Fonds de carte");
+  }
+  mapInstance.setView(CENTER, 6);
+  mapInstance.dragging.enable();
+  L.control
+    .attribution({ position: "bottomleft", prefix: ATTRIBUTIONS })
+    .addTo(mapInstance);
 
-L.Icon.Default.imagePath = "/cad-killer/images/";
-addBaseLayer(mapInstance, layerOSMfr);
+  const HashControl =
+    (typeof window !== "undefined" && window.L?.Hash) || L.Hash;
+  if (typeof HashControl === "function") {
+    new HashControl(mapInstance);
+  }
 
-layers.addTo(mapInstance);
-
-setInitialView(mapInstance, CENTER, 6);
-
-addAttributions(mapInstance, ATTRIBUTIONS);
-addHashToUrl(mapInstance);
-
-photon();
-installReverseLabel();
+  photon(mapInstance);
+  installReverseLabel(mapInstance);
+}

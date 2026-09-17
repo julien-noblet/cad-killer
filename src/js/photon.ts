@@ -4,92 +4,78 @@
 
 import * as L from "leaflet";
 import type { GeoJsonObject } from "geojson";
+import type {
+  PhotonControlOptions,
+  PhotonFeature,
+  PhotonFeatureType,
+  PhotonSearchChoice,
+} from "../../types/leaflet-plugins";
 import { API_URL, SHORT_CITY_NAMES } from "./config";
-import { getMapInstance } from "./mapContext";
 
 import "leaflet.photon";
 
-type PhotonFeature = {
-  geometry: {
-    coordinates: [number, number];
-  };
-  properties: {
-    type?: string;
-    name?: string;
-    city?: string;
-    context?: string;
-  };
-};
+let activeMap: L.Map | null = null;
+
+export const ZOOM_BY_FEATURE_TYPE = {
+  housenumber: 18,
+  street: 16,
+  locality: 16,
+  hamlet: 16,
+  village: 12,
+  city: 12,
+  commune: 12,
+} as const satisfies Record<PhotonFeatureType, number>;
+
+export const FEATURE_TYPE_LABELS = {
+  housenumber: "numéro",
+  street: "rue",
+  locality: "lieu-dit",
+  hamlet: "hamlet",
+  village: "village",
+  city: "ville",
+  commune: "commune",
+} as const satisfies Record<PhotonFeatureType, string>;
 
 const searchPoints = L.geoJson(null, {
-  onEachFeature: (feature: any, layer: any) => {
+  onEachFeature: (feature: PhotonFeature, layer: L.Layer) => {
     layer.on("click", () => {
-      const mapInstance = getMapInstance();
-      if (!mapInstance) {
+      if (!activeMap) {
         return;
       }
-      let zoom: number;
-      switch (feature.properties.type) {
-        case "housenumber":
-          zoom = 18;
-          break;
-        case "street":
-          zoom = 16;
-          break;
-        case "village":
-          zoom = 12;
-          break;
-        case "city":
-          zoom = 12;
-          break;
-        case "locality":
-          zoom = 16;
-          break;
-        case "hamlet":
-          zoom = 16;
-          break;
-        case "commune":
-          zoom = 12;
-          break;
-        default:
-          zoom = 16;
-      }
-      mapInstance.setView(
+      const zoom =
+        (feature.properties.type &&
+          ZOOM_BY_FEATURE_TYPE[feature.properties.type]) ??
+        16;
+      activeMap.setView(
         [feature.geometry.coordinates[1], feature.geometry.coordinates[0]],
         zoom,
       );
     });
     const popupContent = L.DomUtil.create("div");
-    popupContent.textContent = feature.properties.name;
+    popupContent.textContent = feature.properties.name ?? "";
     const link = L.DomUtil.create("a", "geo", popupContent);
     link.href = `geo:${feature.geometry.coordinates[1]},${feature.geometry.coordinates[0]}`;
-    link.innerHTML = "<i class='zmdi-navigation zmdi-2x'></i>";
+    link.setAttribute("aria-label", "Lancer la navigation GPS");
+    link.title = "Lancer la navigation GPS";
+    link.innerHTML =
+      "<svg viewBox='0 0 24 24' width='28' height='28' fill='currentColor'><path d='M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z'/></svg>";
     layer.bindPopup(popupContent);
   },
 });
 
 function showSearchPoints(geojson: GeoJsonObject) {
   searchPoints.clearLayers();
-  searchPoints.addData(geojson as any);
+  searchPoints.addData(geojson);
 }
 
-function formatResult(feature: PhotonFeature, el: HTMLElement) {
+export function formatResult(feature: PhotonFeature, el: HTMLElement) {
   const details: string[] = [];
   const detailsContainer = L.DomUtil.create("small", "", el);
   const title = L.DomUtil.create("strong", "", el);
-  const types: Record<string, string> = {
-    housenumber: "numéro",
-    street: "rue",
-    locality: "lieu-dit",
-    hamlet: "hamlet",
-    village: "village",
-    city: "ville",
-    commune: "commune",
-  };
   title.textContent = feature.properties.name ?? "";
-  if (feature.properties.type && types[feature.properties.type]) {
+  if (feature.properties.type && FEATURE_TYPE_LABELS[feature.properties.type]) {
     L.DomUtil.create("span", "type", title).textContent =
-      types[feature.properties.type];
+      FEATURE_TYPE_LABELS[feature.properties.type];
   }
   if (
     feature.properties.city &&
@@ -103,7 +89,7 @@ function formatResult(feature: PhotonFeature, el: HTMLElement) {
   detailsContainer.textContent = details.join(", ");
 }
 
-const photonControlOptions = {
+export const photonControlOptions: PhotonControlOptions = {
   resultsHandler: showSearchPoints,
   placeholder: "Ex. 6 quai de la tourelle cergy…",
   position: "topright",
@@ -112,25 +98,45 @@ const photonControlOptions = {
   noResultLabel: "Aucun résultat",
   feedbackLabel: "Signaler",
   feedbackEmail: "julien.noblet+cad-killer@gmail.com",
-  minChar: (val: string) =>
-    SHORT_CITY_NAMES.indexOf(val) !== -1 || val.length >= 3,
+  minChar: (val: string) => SHORT_CITY_NAMES.has(val) || val.length >= 3,
   submitDelay: 200,
+  onSelected: (feature: PhotonFeature) => {
+    if (!activeMap) {
+      return;
+    }
+    const zoom =
+      (feature.properties.type &&
+        ZOOM_BY_FEATURE_TYPE[feature.properties.type]) ??
+      16;
+    activeMap.setView(
+      [feature.geometry.coordinates[1], feature.geometry.coordinates[0]],
+      zoom,
+    );
+  },
 };
 
-const LeafletAny = L as any;
-const myPhoton = new LeafletAny.Control.Photon(photonControlOptions);
+const PhotonControl =
+  (typeof window !== "undefined" && window.L?.Control?.Photon) ||
+  L.Control.Photon;
+const myPhoton = new PhotonControl(photonControlOptions);
 
-export function photon() {
-  const mapInstance = getMapInstance();
+export function photon(mapInstance: L.Map) {
   if (!mapInstance) {
     return;
   }
+  activeMap = mapInstance;
 
   searchPoints.addTo(mapInstance);
   mapInstance.addControl(myPhoton);
 
-  myPhoton.search.__proto__.setChoice = function setChoice(choice: any) {
-    const c = choice || this.RESULTS[this.CURRENT];
+  const searchProto = Object.getPrototypeOf(myPhoton.search);
+  searchProto.setChoice = function setChoice(
+    this: typeof myPhoton.search,
+    choice?: PhotonSearchChoice,
+  ) {
+    const c =
+      choice ||
+      (this.CURRENT !== null ? this.RESULTS[this.CURRENT] : this.RESULTS[0]);
     if (c) {
       this.hide();
       this.input.value = "";

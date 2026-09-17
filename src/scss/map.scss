@@ -3,16 +3,9 @@
 // *************************************************
 
 @use "colors" as *;
-@use "zmdi" as *;
 @use "variables" as *;
 
 $height-photon: 46px;
-
-.nohead {
-  @media (max-width: $smartphone) {
-    top: 0; // !important;
-  }
-}
 
 .geo {
   float: right;
@@ -22,10 +15,11 @@ $height-photon: 46px;
   @media (max-width: $smartphone) {
     display: block;
     float: none;
+    height: 28px;
+    margin-top: 4px;
     visibility: visible;
+    width: 28px;
   }
-
-  font-family: $zmdi-font-name;
 }
 
 .map {
@@ -101,26 +95,34 @@ $height-photon: 46px;
       }
     }
 
-    .leaflet-control-layers-toggle::before {
-      content: $zmdi-var-layers;
+    .leaflet-control-layers-base::before {
+      color: $color-dark-text;
+      content: "Fonds de carte";
+      display: block;
+      font-size: 0.9em;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .leaflet-control-layers-overlays::before {
+      color: $color-dark-text;
+      content: "Surcouches";
+      display: block;
+      font-size: 0.9em;
+      font-weight: bold;
+      margin-bottom: 4px;
+      margin-top: 6px;
     }
 
     .leaflet-control-layers-toggle {
-      // background-image: url(../images/layers.png);
-      // width: 36px;
-      // height: 36px;
-      background-image: none;
-      color: $color-leaflet-button;
-      font: normal normal normal 28px/1 $zmdi-font-name;
-      -moz-osx-font-smoothing: grayscale;
-      -webkit-font-smoothing: antialiased;
-      height: 100%;
-      padding: 5px;
-
-      // position: absolute;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666'%3E%3Cpath d='M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9.07l-9-7-9 7 1.63 1.27L12 16z'/%3E%3C/svg%3E");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 24px 24px;
+      display: block;
+      height: 36px;
       text-decoration: none;
-      text-rendering: auto;
-      width: 100%;
+      width: 36px;
     }
 
     .leaflet-photon {
@@ -180,11 +182,12 @@ $height-photon: 46px;
   }
 
   @media print {
-    bottom: inherit; // need???
+    bottom: inherit;
     font-size: x-large;
     height: 1.5em;
+    margin: 0 !important;
     top: 0;
-    visibility: visible; // need??
+    visibility: visible;
   }
 }
 

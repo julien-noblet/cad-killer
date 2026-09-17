@@ -5,7 +5,7 @@
 export const CENTER: [number, number] = [46.495, 2.201];
 export const API_URL = "https://data.geopf.fr/geocodage/search/?";
 export const REVERSE_URL = "https://data.geopf.fr/geocodage/reverse/?";
-export const SHORT_CITY_NAMES = [
+const SHORT_CITIES = [
   "y",
   "ay",
   "bu",
@@ -22,11 +22,11 @@ export const SHORT_CITY_NAMES = [
   "ur",
   "us",
   "uz",
-];
+] as const;
+
+export type ShortCityName = (typeof SHORT_CITIES)[number];
+export const SHORT_CITY_NAMES: ReadonlySet<string> = new Set<string>(
+  SHORT_CITIES,
+);
 export const ATTRIBUTIONS =
   "&copy; <a href='http://www.openstreetmap.org/copyright'>Contributeurs de OpenStreetMap</a> | <a href='https://www.data.gouv.fr/fr/datasets/base-d-adresses-nationale-ouverte-bano/'>Adresses BAN</a> sous licence ODbL";
-export const IGN_LAYER = "GEOGRAPHICALGRIDSYSTEMS.MAPS";
-export const IGN_LAYER_LITE = "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2";
-export const IGN_ORTHO = "ORTHOIMAGERY.ORTHOPHOTOS";
-export const OSM_CREDITENTIALS = "Q0FELUtJTExFUjpkdHl2dWRlbnQ=";
-export const NOTE_API = "//api.openstreetmap.org/api/0.6/notes";

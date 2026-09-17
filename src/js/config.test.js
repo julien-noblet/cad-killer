@@ -6,62 +6,63 @@ import {
   REVERSE_URL,
   SHORT_CITY_NAMES,
   ATTRIBUTIONS,
-  IGN_LAYER,
-  IGN_LAYER_LITE,
-  OSM_CREDITENTIALS,
-  NOTE_API,
 } from "./config";
 
 function isURL(url) {
   expect(typeof url).toEqual("string");
-  expect(url).toMatch(
-    /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/,
-  );
+  expect(URL.canParse(url)).toBe(true);
 }
 
 describe("config.js check globals", () => {
   describe("CENTER:", () => {
-    test("CENTER is a array", () => {
-      expect(Array.isArray(CENTER)).toEqual(true);
-    });
-    test("CENTER contain 2 numbers", () => {
+    test("CENTER is an array with valid coordinates", () => {
+      expect(Array.isArray(CENTER)).toBe(true);
       expect(CENTER.length).toBe(2);
-      expect(typeof CENTER[0]).toEqual("number");
-      expect(typeof CENTER[1]).toEqual("number");
+      const [lat, lng] = CENTER;
+      expect(typeof lat).toBe("number");
+      expect(typeof lng).toBe("number");
+      expect(lat).toBeGreaterThanOrEqual(-90);
+      expect(lat).toBeLessThanOrEqual(90);
+      expect(lng).toBeGreaterThanOrEqual(-180);
+      expect(lng).toBeLessThanOrEqual(180);
+      expect(lat).toBeCloseTo(46.495, 2);
+      expect(lng).toBeCloseTo(2.201, 2);
     });
   });
 
-  test("API_URL is an URL", () => {
+  test("API_URL is an HTTPS geocoding search URL", () => {
     isURL(API_URL);
+    const parsed = new URL(API_URL);
+    expect(parsed.protocol).toBe("https:");
+    expect(parsed.pathname).toContain("geocodage/search");
   });
 
-  test("REVERSE_URL is an URL", () => {
+  test("REVERSE_URL is an HTTPS reverse geocoding URL", () => {
     isURL(REVERSE_URL);
+    const parsed = new URL(REVERSE_URL);
+    expect(parsed.protocol).toBe("https:");
+    expect(parsed.pathname).toContain("geocodage/reverse");
   });
 
-  test("SHORT_CITY_NAMES is a array", () => {
-    expect(Array.isArray(SHORT_CITY_NAMES)).toEqual(true);
+  test("SHORT_CITY_NAMES is a Set containing short French communes", () => {
+    expect(SHORT_CITY_NAMES instanceof Set).toBe(true);
+    expect(SHORT_CITY_NAMES.size).toBe(16);
+    expect(SHORT_CITY_NAMES.has("y")).toBe(true);
+    expect(SHORT_CITY_NAMES.has("eu")).toBe(true);
+    expect(SHORT_CITY_NAMES.has("by")).toBe(true);
+    expect(SHORT_CITY_NAMES.has("paris")).toBe(false);
+    expect(SHORT_CITY_NAMES.has("")).toBe(false);
+    SHORT_CITY_NAMES.forEach((city) => {
+      expect(typeof city).toBe("string");
+      expect(city.length).toBeLessThanOrEqual(2);
+      expect(city).toBe(city.toLowerCase());
+    });
   });
 
-  test("ATTRIBUTIONS is a string", () => {
-    expect(typeof ATTRIBUTIONS).toEqual("string");
-  });
-
-  test("IGN_LAYER is a string", () => {
-    expect(typeof IGN_LAYER).toEqual("string");
-  });
-
-  test("IGN_LAYER_LITE is a string", () => {
-    expect(typeof IGN_LAYER_LITE).toEqual("string");
-  });
-
-  test("OSM_CREDITENTIALS seems ok", () => {
-    expect(typeof OSM_CREDITENTIALS).toEqual("string");
-    expect(OSM_CREDITENTIALS.length).toBe(28);
-    expect(OSM_CREDITENTIALS[OSM_CREDITENTIALS.length - 1]).toEqual("=");
-  });
-
-  test("NOTE_API is an URL", () => {
-    isURL(NOTE_API);
+  test("ATTRIBUTIONS contains OSM and BAN credits", () => {
+    expect(typeof ATTRIBUTIONS).toBe("string");
+    expect(ATTRIBUTIONS).toContain("OpenStreetMap");
+    expect(ATTRIBUTIONS).toContain("Adresses BAN");
+    expect(ATTRIBUTIONS).toContain("ODbL");
   });
 });

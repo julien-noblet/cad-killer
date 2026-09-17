@@ -3,7 +3,6 @@
  */
 
 import * as L from "leaflet";
-import { IGN_LAYER } from "./config";
 
 export const layerOSMfr = L.tileLayer(
   "//{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
@@ -58,24 +57,6 @@ export const layerEsriWorldStreetMap = L.tileLayer(
   },
 );
 
-export const layerIGN = L.tileLayer(
-  `//data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=${IGN_LAYER}&STYLE=normal&FORMAT=image/jpeg&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}`,
-  {
-    maxZoom: 18,
-    minZoom: 6,
-    attribution: "IGN-F/Géoportail",
-    tileSize: 256,
-  },
-);
-
-export const overlayBAN = L.tileLayer(
-  "//{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png",
-  {
-    maxZoom: 20,
-    attribution: "Surcouche: &copy; BAN(O)",
-  },
-);
-
 export const baseMaps = {
   "OpenStreetMap France": layerOSMfr,
   OpenStreetMap: layerOSM,
@@ -86,5 +67,4 @@ export const baseMaps = {
 
 export const overlayMaps = {
   Cadastre: overlayCadastre,
-  "BAN(O)": overlayBAN,
 };

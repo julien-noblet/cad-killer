@@ -12,7 +12,11 @@ export default function HomePage() {
           </h1>
         </section>
         <section className="menu">
-          <a href="http://adresse.data.gouv.fr">
+          <a
+            href="https://adresse.data.gouv.fr"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Basé sur adresse.data.gouv.fr
           </a>
         </section>
