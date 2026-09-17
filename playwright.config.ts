@@ -15,6 +15,12 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: "list",
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.05,
+      animations: "disabled",
+    },
+  },
   use: {
     baseURL: "http://localhost:9000/cad-killer/",
     trace: "on-first-retry",

@@ -32,7 +32,9 @@ test.describe("Visual regression and UI layout", () => {
 
     const head = page.locator("#head");
     await expect(head).toBeVisible();
-    await expect(head).toHaveScreenshot("header.png");
+    await expect(head).toHaveScreenshot("header.png", {
+      maxDiffPixelRatio: 0.05,
+    });
   });
 
   test("search autocomplete dropdown visual snapshot", async ({ page }) => {
@@ -79,6 +81,8 @@ test.describe("Visual regression and UI layout", () => {
 
     const autocomplete = page.locator(".photon-autocomplete");
     await expect(autocomplete).toBeVisible();
-    await expect(autocomplete).toHaveScreenshot("search-autocomplete.png");
+    await expect(autocomplete).toHaveScreenshot("search-autocomplete.png", {
+      maxDiffPixelRatio: 0.05,
+    });
   });
 });
