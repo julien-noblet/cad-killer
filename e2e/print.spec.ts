@@ -24,7 +24,7 @@ function mockReverseApi(page: Page) {
 }
 
 test.describe("Print view specifications", () => {
-  test("Scenario 1: Print page format is configured as landscape with 0 margin", async ({
+  test("Scenario 1: Print page format is configured as portrait with 0 margin", async ({
     page,
   }) => {
     await page.goto("./");
@@ -55,7 +55,7 @@ test.describe("Print view specifications", () => {
       return null;
     });
 
-    expect(pageRule).toContain("size: landscape");
+    expect(pageRule).toContain("size: portrait");
     expect(pageRule).toContain("margin: 0");
   });
 
@@ -214,7 +214,7 @@ test.describe("Print view specifications", () => {
     expect(searchVisibility).toBe("hidden");
   });
 
-  test("Scenario 7: Print view maintains exact map framing, center, and full tile coverage", async ({
+  test("Scenario 7: Print view adjusts scale to fit full screen width and preserves coverage", async ({
     page,
   }) => {
     await page.goto("./#16/43.582/1.397");
@@ -228,10 +228,17 @@ test.describe("Print view specifications", () => {
 
     const screenData = await page.evaluate(() => {
       const map = (window as any).map;
+      const b = map.getBounds();
       return {
         center: map.getCenter(),
         zoom: map.getZoom(),
         size: map.getSize(),
+        bounds: {
+          west: b.getWest(),
+          east: b.getEast(),
+          south: b.getSouth(),
+          north: b.getNorth(),
+        },
         containerRect: document.getElementById("map")?.getBoundingClientRect(),
       };
     });
@@ -251,6 +258,7 @@ test.describe("Print view specifications", () => {
     const printData = await page.evaluate(() => {
       const map = (window as any).map;
       const rect = document.getElementById("map")?.getBoundingClientRect();
+      const b = map.getBounds();
       const tiles = Array.from(
         document.querySelectorAll(".leaflet-tile-pane img"),
       ).map((img) => {
@@ -261,6 +269,12 @@ test.describe("Print view specifications", () => {
         center: map.getCenter(),
         zoom: map.getZoom(),
         size: map.getSize(),
+        bounds: {
+          west: b.getWest(),
+          east: b.getEast(),
+          south: b.getSouth(),
+          north: b.getNorth(),
+        },
         containerRect: rect,
         tileCount: tiles.length,
         tilesTop: Math.min(...tiles.map((t) => t.top)),
@@ -274,18 +288,15 @@ test.describe("Print view specifications", () => {
     expect(printData.size.x).toBe(Math.round(printData.containerRect!.width));
     expect(printData.size.y).toBe(Math.round(printData.containerRect!.height));
 
-    // 2. Center coordinates preserved precisely
-    expect(Math.abs(printData.center.lat - screenData.center.lat)).toBeLessThan(
-      0.0005,
+    // 2. Entire screen width (longitude span) fits within print bounds
+    expect(printData.bounds.west).toBeLessThanOrEqual(
+      screenData.bounds.west + 0.0001,
     );
-    expect(Math.abs(printData.center.lng - screenData.center.lng)).toBeLessThan(
-      0.0005,
+    expect(printData.bounds.east).toBeGreaterThanOrEqual(
+      screenData.bounds.east - 0.0001,
     );
 
-    // 3. Zoom level preserved
-    expect(printData.zoom).toBe(screenData.zoom);
-
-    // 4. Tiles completely cover the print canvas without blank gaps
+    // 3. Tiles completely cover the print canvas without blank gaps
     expect(printData.tileCount).toBeGreaterThan(0);
     expect(printData.tilesBottom).toBeGreaterThanOrEqual(
       printData.containerRect!.height,
@@ -314,14 +325,14 @@ test.describe("Print view specifications", () => {
       };
     });
 
-    // 5. Restored size and center match initial screen state
+    // 4. Restored size, zoom, and center match initial screen state
     expect(restoredData.size.y).toBe(screenData.size.y);
+    expect(restoredData.zoom).toBe(screenData.zoom);
     expect(
       Math.abs(restoredData.center.lat - screenData.center.lat),
     ).toBeLessThan(0.0005);
     expect(
       Math.abs(restoredData.center.lng - screenData.center.lng),
     ).toBeLessThan(0.0005);
-    expect(restoredData.zoom).toBe(screenData.zoom);
   });
 });

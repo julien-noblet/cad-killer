@@ -47,15 +47,17 @@ if (container && !(container as any)._leaflet_id) {
   let isPrinting = false;
   let prePrintCenter: L.LatLng | null = null;
   let prePrintZoom: number | null = null;
+  let prePrintBounds: L.LatLngBounds | null = null;
 
   const onBeforePrint = () => {
     if (isPrinting) return;
     isPrinting = true;
     prePrintCenter = mapInstance.getCenter();
     prePrintZoom = mapInstance.getZoom();
+    prePrintBounds = mapInstance.getBounds();
     mapInstance.invalidateSize({ pan: false, debounceMoveend: false });
-    if (prePrintCenter && prePrintZoom !== null) {
-      mapInstance.setView(prePrintCenter, prePrintZoom, { animate: false });
+    if (prePrintBounds) {
+      mapInstance.fitBounds(prePrintBounds, { animate: false });
     }
   };
 
