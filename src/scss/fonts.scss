@@ -1,5 +1,3 @@
-@use "zmdi" as *;
-
 // *************************************************
 // *********************** FONT ********************
 // *************************************************
@@ -65,7 +63,3 @@ $font-5: "sans-serif";
 // ExtraBold (800)
 @include font-def-variable("open_sansextrabold", 800);
 @include font-def-variable("open_sansextrabold_italic", 800, italic);
-
-// Start of material-design-iconic-font
-// Start of material-design-iconic-font
-// $ff-material: $zmdi-font-name;

@@ -16,7 +16,7 @@ import "leaflet.photon";
 
 let activeMap: L.Map | null = null;
 
-const ZOOM_BY_FEATURE_TYPE = {
+export const ZOOM_BY_FEATURE_TYPE = {
   housenumber: 18,
   street: 16,
   locality: 16,
@@ -26,7 +26,7 @@ const ZOOM_BY_FEATURE_TYPE = {
   commune: 12,
 } as const satisfies Record<PhotonFeatureType, number>;
 
-const FEATURE_TYPE_LABELS = {
+export const FEATURE_TYPE_LABELS = {
   housenumber: "numéro",
   street: "rue",
   locality: "lieu-dit",
@@ -55,7 +55,10 @@ const searchPoints = L.geoJson(null, {
     popupContent.textContent = feature.properties.name ?? "";
     const link = L.DomUtil.create("a", "geo", popupContent);
     link.href = `geo:${feature.geometry.coordinates[1]},${feature.geometry.coordinates[0]}`;
-    link.innerHTML = "<i class='zmdi-navigation zmdi-2x'></i>";
+    link.setAttribute("aria-label", "Lancer la navigation GPS");
+    link.title = "Lancer la navigation GPS";
+    link.innerHTML =
+      "<svg viewBox='0 0 24 24' width='28' height='28' fill='currentColor'><path d='M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z'/></svg>";
     layer.bindPopup(popupContent);
   },
 });
@@ -65,7 +68,7 @@ function showSearchPoints(geojson: GeoJsonObject) {
   searchPoints.addData(geojson);
 }
 
-function formatResult(feature: PhotonFeature, el: HTMLElement) {
+export function formatResult(feature: PhotonFeature, el: HTMLElement) {
   const details: string[] = [];
   const detailsContainer = L.DomUtil.create("small", "", el);
   const title = L.DomUtil.create("strong", "", el);
@@ -86,7 +89,7 @@ function formatResult(feature: PhotonFeature, el: HTMLElement) {
   detailsContainer.textContent = details.join(", ");
 }
 
-const photonControlOptions: PhotonControlOptions = {
+export const photonControlOptions: PhotonControlOptions = {
   resultsHandler: showSearchPoints,
   placeholder: "Ex. 6 quai de la tourelle cergy…",
   position: "topright",
@@ -97,6 +100,19 @@ const photonControlOptions: PhotonControlOptions = {
   feedbackEmail: "julien.noblet+cad-killer@gmail.com",
   minChar: (val: string) => SHORT_CITY_NAMES.has(val) || val.length >= 3,
   submitDelay: 200,
+  onSelected: (feature: PhotonFeature) => {
+    if (!activeMap) {
+      return;
+    }
+    const zoom =
+      (feature.properties.type &&
+        ZOOM_BY_FEATURE_TYPE[feature.properties.type]) ??
+      16;
+    activeMap.setView(
+      [feature.geometry.coordinates[1], feature.geometry.coordinates[0]],
+      zoom,
+    );
+  },
 };
 
 const PhotonControl =
@@ -118,7 +134,9 @@ export function photon(mapInstance: L.Map) {
     this: typeof myPhoton.search,
     choice?: PhotonSearchChoice,
   ) {
-    const c = choice || this.RESULTS[this.CURRENT];
+    const c =
+      choice ||
+      (this.CURRENT !== null ? this.RESULTS[this.CURRENT] : this.RESULTS[0]);
     if (c) {
       this.hide();
       this.input.value = "";

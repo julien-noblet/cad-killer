@@ -117,3 +117,6 @@ out/
 .direnv
 .agents/
 skills-lock.json
+test-results/
+playwright-report/
+blob-report/

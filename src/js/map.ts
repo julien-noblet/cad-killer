@@ -22,6 +22,13 @@ if (container && !(container as any)._leaflet_id) {
   L.Icon.Default.imagePath = "/cad-killer/images/";
   mapInstance.addLayer(layerOSMfr);
   L.control.layers(baseMaps, overlayMaps).addTo(mapInstance);
+  const layerToggle = container?.querySelector<HTMLAnchorElement>(
+    ".leaflet-control-layers-toggle",
+  );
+  if (layerToggle) {
+    layerToggle.title = "Fonds de carte";
+    layerToggle.setAttribute("aria-label", "Fonds de carte");
+  }
   mapInstance.setView(CENTER, 6);
   mapInstance.dragging.enable();
   L.control

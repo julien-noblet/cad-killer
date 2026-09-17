@@ -33,10 +33,13 @@ jobs:
       - run: bun run lint:scss
       - run: bun run typecheck
       - run: bun run build
-      - run: bun run test
+      - run: bun run test:unit
+      - name: Install Playwright Browsers
+        run: bunx playwright install --with-deps chromium
+      - run: bun run test:e2e
       - uses: actions/upload-artifact@v7
         if: failure()
         with:
-          name: image-diffs
-          path: src/js/__image_snapshots__/__diff_output__/
+          name: playwright-report
+          path: playwright-report/
           if-no-files-found: ignore

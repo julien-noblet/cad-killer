@@ -35,6 +35,7 @@ export interface PhotonControlOptions extends L.ControlOptions {
   feedbackEmail?: string;
   minChar?: (val: string) => boolean;
   submitDelay?: number;
+  onSelected?: (feature: PhotonFeature) => void;
 }
 
 export interface PhotonReverseOptions {

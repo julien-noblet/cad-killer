@@ -57,14 +57,6 @@ export const layerEsriWorldStreetMap = L.tileLayer(
   },
 );
 
-export const overlayBAN = L.tileLayer(
-  "//{s}.layers.openstreetmap.fr/bano/{z}/{x}/{y}.png",
-  {
-    maxZoom: 20,
-    attribution: "Surcouche: &copy; BAN(O)",
-  },
-);
-
 export const baseMaps = {
   "OpenStreetMap France": layerOSMfr,
   OpenStreetMap: layerOSM,
@@ -75,5 +67,4 @@ export const baseMaps = {
 
 export const overlayMaps = {
   Cadastre: overlayCadastre,
-  "BAN(O)": overlayBAN,
 };

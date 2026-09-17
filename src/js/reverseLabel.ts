@@ -7,6 +7,8 @@ import type { PhotonFeature } from "../../types/leaflet-plugins";
 import "leaflet.photon";
 import { REVERSE_URL } from "./config";
 
+export const REVERSE_ZOOM_THRESHOLD = 14;
+
 export function installReverseLabel(mapInstance: L.Map) {
   if (!mapInstance) {
     return;
@@ -32,12 +34,8 @@ export function installReverseLabel(mapInstance: L.Map) {
       });
 
       mapInstance.on("moveend", () => {
-        if (mapInstance.getZoom() > 14) {
+        if (mapInstance.getZoom() > REVERSE_ZOOM_THRESHOLD) {
           reverse.doReverse(mapInstance.getCenter());
-          const head = document.getElementById("head");
-          const map = document.getElementById("map");
-          head?.classList.add("headmasked");
-          map?.classList.add("nohead");
         } else {
           container.innerHTML = "";
         }

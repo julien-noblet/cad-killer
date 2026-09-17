@@ -1,7 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "material-design-iconic-font/dist/css/material-design-iconic-font.css";
 import "../src/scss/style.scss";
 
 export const metadata: Metadata = {
