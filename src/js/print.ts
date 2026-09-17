@@ -6,43 +6,95 @@
 
 export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
   const mapRect = mapElement.getBoundingClientRect();
-  const canvas = document.createElement("canvas");
-
   const w = Math.round(mapRect.width);
   const h = Math.round(mapRect.height);
 
-  // Capture haute résolution (facteur 2 pour une impression nette)
+  // Proportions A4 paysage = 297mm / 210mm = 1.4142857
+  const printRatio = 297 / 210;
+
+  // Calcul du cadrage pour remplir exactement la feuille paysage sans couper la vue écran
+  let canvasW: number;
+  let canvasH: number;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  if (w / h >= printRatio) {
+    // Écran plus large que A4 : conserver toute la largeur, étendre la hauteur
+    canvasW = w;
+    canvasH = Math.round(w / printRatio);
+    offsetY = Math.round((canvasH - h) / 2);
+  } else {
+    // Écran plus étroit ou portrait : conserver toute la hauteur, étendre la largeur
+    canvasH = h;
+    canvasW = Math.round(h * printRatio);
+    offsetX = Math.round((canvasW - w) / 2);
+  }
+
+  // Facteur 2 pour une netteté d'impression haute résolution (Retina)
   const scaleFactor = 2;
-  canvas.width = w * scaleFactor;
-  canvas.height = h * scaleFactor;
-  canvas.style.width = `${w}px`;
-  canvas.style.height = `${h}px`;
+  const canvas = document.createElement("canvas");
+  canvas.width = canvasW * scaleFactor;
+  canvas.height = canvasH * scaleFactor;
+  canvas.style.width = `${canvasW}px`;
+  canvas.style.height = `${canvasH}px`;
 
   const ctx = canvas.getContext("2d");
   if (!ctx) return canvas;
 
   ctx.scale(scaleFactor, scaleFactor);
 
-  // Fond neutre de carte
+  // Fond neutre
   ctx.fillStyle = "#f8f4f0";
-  ctx.fillRect(0, 0, w, h);
+  ctx.fillRect(0, 0, canvasW, canvasH);
 
-  // 1. Dessiner les tuiles du fond de carte (dans l'ordre du DOM)
-  const tiles = Array.from(
-    mapElement.querySelectorAll<HTMLImageElement>(".leaflet-tile-pane img"),
-  );
-  for (const img of tiles) {
-    if (img.complete && img.naturalWidth > 0) {
-      const r = img.getBoundingClientRect();
-      const x = r.left - mapRect.left;
-      const y = r.top - mapRect.top;
-      const opacity = parseFloat(window.getComputedStyle(img).opacity) || 1;
-      ctx.globalAlpha = opacity;
-      ctx.drawImage(img, x, y, r.width, r.height);
-    }
+  // 1. Récupérer STRICTEMENT les tuiles du niveau de zoom courant et actives
+  // pour éviter tout décalage avec des tuiles d'un zoom précédent en cours de transition
+  const currentTiles: HTMLImageElement[] = [];
+  const map = typeof window !== "undefined" ? (window as any).map : null;
+
+  if (map && typeof map.eachLayer === "function") {
+    map.eachLayer((layer: any) => {
+      /* eslint-disable no-underscore-dangle */
+      if (layer._tiles) {
+        for (const k of Object.keys(layer._tiles)) {
+          const t = layer._tiles[k];
+          if (
+            t &&
+            t.current &&
+            t.el &&
+            t.el.complete &&
+            t.el.naturalWidth > 0 &&
+            t.el.parentElement?.style.display !== "none"
+          ) {
+            currentTiles.push(t.el);
+          }
+        }
+      }
+      /* eslint-enable no-underscore-dangle */
+    });
   }
 
-  // 2. Dessiner les overlays éventuels (canvas)
+  // Fallback DOM si accès direct aux layers non disponible
+  const tilesToDraw =
+    currentTiles.length > 0
+      ? currentTiles
+      : Array.from(
+          mapElement.querySelectorAll<HTMLImageElement>(
+            ".leaflet-tile-pane img",
+          ),
+        );
+
+  for (const img of tilesToDraw) {
+    const r = img.getBoundingClientRect();
+    const x = Math.round(r.left - mapRect.left + offsetX);
+    const y = Math.round(r.top - mapRect.top + offsetY);
+    const tw = Math.round(r.width);
+    const th = Math.round(r.height);
+    ctx.globalAlpha = parseFloat(window.getComputedStyle(img).opacity) || 1;
+    ctx.drawImage(img, x, y, tw, th);
+  }
+
+  // 2. Dessiner les overlays vectoriels éventuels (canvas)
   const overlayCanvases = Array.from(
     mapElement.querySelectorAll<HTMLCanvasElement>(
       ".leaflet-overlay-pane canvas",
@@ -50,10 +102,14 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
   );
   for (const cvs of overlayCanvases) {
     const r = cvs.getBoundingClientRect();
-    const x = r.left - mapRect.left;
-    const y = r.top - mapRect.top;
     ctx.globalAlpha = parseFloat(window.getComputedStyle(cvs).opacity) || 1;
-    ctx.drawImage(cvs, x, y, r.width, r.height);
+    ctx.drawImage(
+      cvs,
+      Math.round(r.left - mapRect.left + offsetX),
+      Math.round(r.top - mapRect.top + offsetY),
+      Math.round(r.width),
+      Math.round(r.height),
+    );
   }
 
   // 3. Dessiner les ombres des marqueurs
@@ -63,11 +119,15 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
   for (const shadow of shadows) {
     if (shadow.complete && shadow.naturalWidth > 0) {
       const r = shadow.getBoundingClientRect();
-      const x = r.left - mapRect.left;
-      const y = r.top - mapRect.top;
       ctx.globalAlpha =
         parseFloat(window.getComputedStyle(shadow).opacity) || 1;
-      ctx.drawImage(shadow, x, y, r.width, r.height);
+      ctx.drawImage(
+        shadow,
+        Math.round(r.left - mapRect.left + offsetX),
+        Math.round(r.top - mapRect.top + offsetY),
+        Math.round(r.width),
+        Math.round(r.height),
+      );
     }
   }
 
@@ -78,15 +138,19 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
   for (const marker of markers) {
     if (marker.complete && marker.naturalWidth > 0) {
       const r = marker.getBoundingClientRect();
-      const x = r.left - mapRect.left;
-      const y = r.top - mapRect.top;
       ctx.globalAlpha =
         parseFloat(window.getComputedStyle(marker).opacity) || 1;
-      ctx.drawImage(marker, x, y, r.width, r.height);
+      ctx.drawImage(
+        marker,
+        Math.round(r.left - mapRect.left + offsetX),
+        Math.round(r.top - mapRect.top + offsetY),
+        Math.round(r.width),
+        Math.round(r.height),
+      );
     }
   }
 
-  // 5. Dessiner la mention d'attribution légale en bas à gauche de la carte
+  // 5. Dessiner la mention d'attribution légale au bas de l'image
   const attributionEl = document.querySelector<HTMLElement>(
     ".leaflet-control-attribution",
   );
@@ -98,16 +162,12 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
     const tm = ctx.measureText(attrText);
     const boxW = tm.width + 16;
     const boxH = 22;
-    const boxX = 0;
-    const boxY = h - boxH;
-
     ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-    ctx.fillRect(boxX, boxY, boxW, boxH);
-
+    ctx.fillRect(0, canvasH - boxH, boxW, boxH);
     ctx.fillStyle = "#333";
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
-    ctx.fillText(attrText, 8, boxY + boxH / 2);
+    ctx.fillText(attrText, 8, canvasH - boxH / 2);
     ctx.restore();
   }
 
