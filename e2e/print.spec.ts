@@ -213,4 +213,70 @@ test.describe("Print view specifications", () => {
       .evaluate((el) => window.getComputedStyle(el).visibility);
     expect(searchVisibility).toBe("hidden");
   });
+  test("Scenario 7: Ctrl+P generates landscape map image and triggers print of identical base map", async ({
+    page,
+  }) => {
+    await page.goto("./#16/43.582/1.397");
+    await expect(page.locator("#map")).toBeVisible();
+    await page.waitForFunction(
+      () =>
+        (window as any).map &&
+        (window as any).map.getSize().x > 0 &&
+        document.querySelectorAll(".leaflet-tile-pane img").length > 0,
+    );
+    await page.waitForTimeout(500);
+
+    // Mock window.print to observe invocation
+    await page.evaluate(() => {
+      (window as any).printInvoked = false;
+      window.print = () => {
+        (window as any).printInvoked = true;
+      };
+    });
+
+    // Press Ctrl+P
+    await page.keyboard.press("Control+p");
+    await page.waitForFunction(() => (window as any).printInvoked === true);
+
+    // Verify image was generated in #print-container
+    const printContainer = page.locator("#print-container");
+    const printImg = page.locator("#print-image");
+
+    const imageInfo = await printImg.evaluate((img: HTMLImageElement) => ({
+      hasSrc: img.src.startsWith("data:image/png"),
+      srcLength: img.src.length,
+      naturalWidth: img.naturalWidth,
+      naturalHeight: img.naturalHeight,
+      isLandscape: img.naturalWidth >= img.naturalHeight,
+    }));
+
+    // 1. Image is generated as a valid PNG data URL
+    expect(imageInfo.hasSrc).toBe(true);
+    expect(imageInfo.srcLength).toBeGreaterThan(1000);
+
+    // 2. Format is landscape (width >= height)
+    expect(imageInfo.isLandscape).toBe(true);
+
+    // 3. Emulate print media and verify #print-container visibility and layout
+    await page.emulateMedia({ media: "print" });
+    const printContainerDisplay = await printContainer.evaluate((el) => {
+      const style = window.getComputedStyle(el);
+      return {
+        display: style.display,
+        position: style.position,
+        zIndex: parseInt(style.zIndex, 10),
+      };
+    });
+
+    expect(printContainerDisplay.display).toBe("flex");
+    expect(printContainerDisplay.position).toBe("fixed");
+    expect(printContainerDisplay.zIndex).toBeGreaterThanOrEqual(1000);
+
+    // 4. Restore screen mode
+    await page.emulateMedia({ media: "screen" });
+    const screenContainerDisplay = await printContainer.evaluate((el) => {
+      return window.getComputedStyle(el).display;
+    });
+    expect(screenContainerDisplay).toBe("none");
+  });
 });

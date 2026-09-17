@@ -7,6 +7,7 @@ import { ATTRIBUTIONS, CENTER } from "./config";
 import { overlayMaps, baseMaps, layerOSMfr } from "./layers";
 import { photon } from "./photon";
 import { installReverseLabel } from "./reverseLabel";
+import { initPrintListeners } from "./print";
 
 import "leaflet-hash";
 
@@ -43,4 +44,5 @@ if (container && !(container as any)._leaflet_id) {
 
   photon(mapInstance);
   installReverseLabel(mapInstance);
+  initPrintListeners();
 }
