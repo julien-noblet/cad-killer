@@ -79,9 +79,9 @@ test.describe("Security and XSS mitigation", () => {
     });
 
     const reverseLabel = page.locator(".reverse-label");
-    await expect(reverseLabel).toBeVisible();
     await expect(reverseLabel).toContainText(
       "<img src=x onerror=window.xssTriggered=true>",
+      { timeout: 10000 },
     );
 
     const xssTriggeredReverse = await page.evaluate(

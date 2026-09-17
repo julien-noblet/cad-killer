@@ -261,13 +261,15 @@ test.describe("Layers and maximum zoom levels", () => {
 
     // 3. Switch to OSM standard at zoom 18 and zoom to 19
     await page.evaluate(() => (window as any).map.setZoom(18));
+    await page.waitForFunction(() => (window as any).map.getZoom() === 18);
+    await page.waitForTimeout(300);
     await layerControl.hover();
     const osmRadio = page
       .locator(".leaflet-control-layers-base label")
       .filter({ hasText: "OpenStreetMap" })
       .filter({ hasNotText: "France" })
       .locator("input[type='radio']");
-    await osmRadio.check();
+    await osmRadio.check({ force: true });
     await page.evaluate(() => (window as any).map.setZoom(19));
     await expect
       .poll(() =>

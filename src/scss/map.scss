@@ -163,6 +163,81 @@ $height-photon: 46px;
   }
 }
 
+#print-container {
+  display: none;
+
+  @media print {
+    background-color: #fff;
+    box-sizing: border-box;
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+    inset: 0;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 10000;
+
+    .print-label {
+      background-color: #fff;
+      border-bottom: 2px solid $color-border;
+      box-sizing: border-box;
+      color: $color-dark-text;
+      flex: 0 0 auto;
+      font-family: "open_sansbold", sans-serif;
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 1.3;
+      margin: 0;
+      padding: 10px 16px;
+      text-align: center;
+      width: 100%;
+
+      &:empty {
+        display: none;
+      }
+    }
+
+    .print-map-wrap {
+      align-items: center;
+      box-sizing: border-box;
+      display: flex;
+      flex: 1 1 0;
+      height: 100%;
+      justify-content: center;
+      margin: 0;
+      min-height: 0;
+      overflow: hidden;
+      padding: 0;
+      width: 100%;
+
+      img,
+      canvas {
+        box-sizing: border-box;
+        display: block;
+        height: 100% !important;
+        margin: 0;
+        object-fit: cover;
+        width: 100% !important;
+      }
+    }
+  }
+}
+
+body.is-printing-image {
+  @media print {
+    > *:not(#print-container) {
+      display: none !important;
+    }
+
+    #print-container {
+      display: flex !important;
+    }
+  }
+}
+
 .reverse-label {
   background-color: $color-near-white;
   border: 1px solid $color-border;
@@ -182,12 +257,22 @@ $height-photon: 46px;
   }
 
   @media print {
-    bottom: inherit;
+    background-color: rgb(255 255 255 / 95%);
+    border: none;
+    border-bottom: 1px solid $color-border;
+    box-sizing: border-box;
     font-size: x-large;
-    height: 1.5em;
+    height: auto;
+    inset: 0 0 auto;
     margin: 0 !important;
-    top: 0;
+    max-width: 100%;
+    padding: 4px 12px;
+    position: fixed;
+    text-align: center;
     visibility: visible;
+    white-space: normal;
+    width: 100%;
+    z-index: 1001;
   }
 }
 
