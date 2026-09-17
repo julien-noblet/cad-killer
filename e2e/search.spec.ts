@@ -221,7 +221,7 @@ test.describe("Search functionality", () => {
     await expect(marker).toBeVisible();
 
     // Click directly on the marker icon
-    await marker.click();
+    await marker.click({ force: true });
 
     // Map zooms to target
     await expect

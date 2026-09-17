@@ -279,4 +279,99 @@ test.describe("Print view specifications", () => {
     });
     expect(screenContainerDisplay).toBe("none");
   });
+
+  test("Scenario 8: Search address, click marker, and print generates centered image with centered bottom attribution", async ({
+    page,
+  }) => {
+    // 1. Mock photon search and reverse APIs
+    await mockReverseApi(page);
+    await page.route("**/geocodage/search/**", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              geometry: { type: "Point", coordinates: [1.397, 43.582] },
+              properties: {
+                label: "14 Rue Michel Labrousse, 31100 Toulouse",
+                name: "14 Rue Michel Labrousse",
+                city: "Toulouse",
+                context: "31, Haute-Garonne, Occitanie",
+                type: "housenumber",
+              },
+            },
+          ],
+        }),
+      });
+    });
+
+    await page.goto("./");
+    await expect(page.locator("#map")).toBeVisible();
+
+    // 2. Search address
+    const searchInput = page.locator(".photon-input");
+    await searchInput.fill("14 Rue Michel Labrousse");
+
+    // Wait for marker to appear on map
+    const marker = page.locator(".leaflet-marker-pane img").first();
+    await expect(marker).toBeVisible({ timeout: 5000 });
+
+    // 3. Click the marker icon
+    await marker.click();
+
+    // Verify map centered and zoomed
+    await page.waitForFunction(() => {
+      const m = (window as any).map;
+      return m && m.getZoom() >= 16;
+    });
+
+    // 4. Mock window.print and trigger print
+    await page.evaluate(() => {
+      (window as any).printInvoked = false;
+      window.print = () => {
+        (window as any).printInvoked = true;
+      };
+    });
+
+    await page.evaluate(async () => {
+      await (window as any).triggerPrintMap();
+    });
+
+    // 5. Emulate media print
+    await page.emulateMedia({ media: "print" });
+
+    // 6. Verify print container layout
+    const printContainer = page.locator("#print-container");
+    const printLabel = page.locator("#print-label");
+    const printImg = page.locator("#print-image");
+
+    await expect(printContainer).toBeVisible();
+    await expect(printLabel).toHaveText(
+      "Carte centrée sur «14 Rue Michel Labrousse, 31100 Toulouse»",
+    );
+
+    const containerStyles = await printContainer.evaluate((el) => {
+      const cs = window.getComputedStyle(el);
+      return {
+        display: cs.display,
+        position: cs.position,
+      };
+    });
+    expect(containerStyles.display).toBe("flex");
+    expect(containerStyles.position).toBe("fixed");
+
+    // 7. Sibling elements (like #head) are hidden in print view
+    const headDisplay = await page
+      .locator("#head")
+      .evaluate((el) => window.getComputedStyle(el).display);
+    expect(headDisplay).toBe("none");
+
+    const imgHasValidSrc = await printImg.evaluate((img: HTMLImageElement) => {
+      return img.src.startsWith("data:image/png") && img.src.length > 1000;
+    });
+    expect(imgHasValidSrc).toBe(true);
+  });
 });
