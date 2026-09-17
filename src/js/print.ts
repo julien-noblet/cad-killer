@@ -144,16 +144,33 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
   if (attrText) {
     ctx.save();
     ctx.font =
-      '11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      '13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
     const tm = ctx.measureText(attrText);
-    const boxW = tm.width + 16;
-    const boxH = 22;
-    ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-    ctx.fillRect(0, h - boxH, boxW, boxH);
-    ctx.fillStyle = "#333";
-    ctx.textAlign = "left";
+    const paddingX = 16;
+    const boxW = Math.min(w - 20, Math.round(tm.width + paddingX * 2));
+    const boxH = 26;
+    const boxX = Math.round((w - boxW) / 2);
+    const boxY = h - boxH;
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
+    if (typeof (ctx as any).roundRect === "function") {
+      ctx.beginPath();
+      (ctx as any).roundRect(boxX, boxY, boxW, boxH, [6, 6, 0, 0]);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(0, 0, 0, 0.2)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    } else {
+      ctx.fillRect(boxX, boxY, boxW, boxH);
+      ctx.strokeStyle = "rgba(0, 0, 0, 0.2)";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(boxX, boxY, boxW, boxH);
+    }
+
+    ctx.fillStyle = "#111827";
+    ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(attrText, 8, h - boxH / 2);
+    ctx.fillText(attrText, w / 2, boxY + boxH / 2);
     ctx.restore();
   }
 
