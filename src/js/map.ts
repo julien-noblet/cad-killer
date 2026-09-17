@@ -13,12 +13,14 @@ import "leaflet-hash";
 
 const container =
   typeof document !== "undefined" ? document.getElementById("map") : null;
-// eslint-disable-next-line no-underscore-dangle
+/* eslint-disable no-underscore-dangle */
 if (container && !(container as any)._leaflet_id) {
   const mapInstance = L.map(container, { attributionControl: false });
   if (typeof window === "object" && window !== null) {
     window.map = mapInstance;
   }
+  (container as any)._leaflet_map = mapInstance;
+  /* eslint-enable no-underscore-dangle */
 
   L.Icon.Default.imagePath = "/cad-killer/images/";
   mapInstance.addLayer(layerOSMfr);

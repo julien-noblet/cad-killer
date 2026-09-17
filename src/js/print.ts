@@ -9,34 +9,13 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
   const w = Math.round(mapRect.width);
   const h = Math.round(mapRect.height);
 
-  // Proportions A4 paysage = 297mm / 210mm = 1.4142857
-  const printRatio = 297 / 210;
-
-  // Calcul du cadrage pour remplir exactement la feuille paysage sans couper la vue écran
-  let canvasW: number;
-  let canvasH: number;
-  let offsetX = 0;
-  let offsetY = 0;
-
-  if (w / h >= printRatio) {
-    // Écran plus large que A4 : conserver toute la largeur, étendre la hauteur
-    canvasW = w;
-    canvasH = Math.round(w / printRatio);
-    offsetY = Math.round((canvasH - h) / 2);
-  } else {
-    // Écran plus étroit ou portrait : conserver toute la hauteur, étendre la largeur
-    canvasH = h;
-    canvasW = Math.round(h * printRatio);
-    offsetX = Math.round((canvasW - w) / 2);
-  }
-
   // Facteur 2 pour une netteté d'impression haute résolution (Retina)
   const scaleFactor = 2;
   const canvas = document.createElement("canvas");
-  canvas.width = canvasW * scaleFactor;
-  canvas.height = canvasH * scaleFactor;
-  canvas.style.width = `${canvasW}px`;
-  canvas.style.height = `${canvasH}px`;
+  canvas.width = w * scaleFactor;
+  canvas.height = h * scaleFactor;
+  canvas.style.width = `${w}px`;
+  canvas.style.height = `${h}px`;
 
   const ctx = canvas.getContext("2d");
   if (!ctx) return canvas;
@@ -45,26 +24,31 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
 
   // Fond neutre
   ctx.fillStyle = "#f8f4f0";
-  ctx.fillRect(0, 0, canvasW, canvasH);
+  ctx.fillRect(0, 0, w, h);
 
-  // 1. Récupérer STRICTEMENT les tuiles du niveau de zoom courant et actives
-  // pour éviter tout décalage avec des tuiles d'un zoom précédent en cours de transition
+  // 1. Récupérer STRICTEMENT les tuiles du niveau de zoom courant
   const currentTiles: HTMLImageElement[] = [];
-  const map = typeof window !== "undefined" ? (window as any).map : null;
+  const map =
+    (typeof window !== "undefined" ? (window as any).map : null) ||
+    (mapElement as any)["_leaflet_map"];
 
   if (map && typeof map.eachLayer === "function") {
     map.eachLayer((layer: any) => {
       /* eslint-disable no-underscore-dangle */
-      if (layer._tiles) {
+      if (layer._tiles && layer._level && layer._level.el) {
+        const currentLevelEl = layer._level.el;
+        const currentZoom = layer._tileZoom;
         for (const k of Object.keys(layer._tiles)) {
           const t = layer._tiles[k];
           if (
             t &&
-            t.current &&
             t.el &&
+            t.coords &&
+            t.coords.z === currentZoom &&
+            t.el.parentElement === currentLevelEl &&
             t.el.complete &&
             t.el.naturalWidth > 0 &&
-            t.el.parentElement?.style.display !== "none"
+            currentLevelEl.style.display !== "none"
           ) {
             currentTiles.push(t.el);
           }
@@ -74,24 +58,22 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
     });
   }
 
-  // Fallback DOM si accès direct aux layers non disponible
+  // Fallback: dernier conteneur de tuiles (zoom le plus récent) si accès layer indisponible
   const tilesToDraw =
     currentTiles.length > 0
       ? currentTiles
       : Array.from(
           mapElement.querySelectorAll<HTMLImageElement>(
-            ".leaflet-tile-pane img",
+            ".leaflet-tile-pane .leaflet-tile-container:last-child img",
           ),
         );
 
   for (const img of tilesToDraw) {
     const r = img.getBoundingClientRect();
-    const x = Math.round(r.left - mapRect.left + offsetX);
-    const y = Math.round(r.top - mapRect.top + offsetY);
-    const tw = Math.round(r.width);
-    const th = Math.round(r.height);
+    const x = r.left - mapRect.left;
+    const y = r.top - mapRect.top;
     ctx.globalAlpha = parseFloat(window.getComputedStyle(img).opacity) || 1;
-    ctx.drawImage(img, x, y, tw, th);
+    ctx.drawImage(img, x, y, r.width, r.height);
   }
 
   // 2. Dessiner les overlays vectoriels éventuels (canvas)
@@ -105,10 +87,10 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
     ctx.globalAlpha = parseFloat(window.getComputedStyle(cvs).opacity) || 1;
     ctx.drawImage(
       cvs,
-      Math.round(r.left - mapRect.left + offsetX),
-      Math.round(r.top - mapRect.top + offsetY),
-      Math.round(r.width),
-      Math.round(r.height),
+      r.left - mapRect.left,
+      r.top - mapRect.top,
+      r.width,
+      r.height,
     );
   }
 
@@ -123,10 +105,10 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
         parseFloat(window.getComputedStyle(shadow).opacity) || 1;
       ctx.drawImage(
         shadow,
-        Math.round(r.left - mapRect.left + offsetX),
-        Math.round(r.top - mapRect.top + offsetY),
-        Math.round(r.width),
-        Math.round(r.height),
+        r.left - mapRect.left,
+        r.top - mapRect.top,
+        r.width,
+        r.height,
       );
     }
   }
@@ -142,10 +124,10 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
         parseFloat(window.getComputedStyle(marker).opacity) || 1;
       ctx.drawImage(
         marker,
-        Math.round(r.left - mapRect.left + offsetX),
-        Math.round(r.top - mapRect.top + offsetY),
-        Math.round(r.width),
-        Math.round(r.height),
+        r.left - mapRect.left,
+        r.top - mapRect.top,
+        r.width,
+        r.height,
       );
     }
   }
@@ -154,7 +136,7 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
   const attributionEl = document.querySelector<HTMLElement>(
     ".leaflet-control-attribution",
   );
-  const attrText = attributionEl?.textContent?.trim();
+  const attrText = attributionEl?.textContent?.replace(/\s+/g, " ").trim();
   if (attrText) {
     ctx.save();
     ctx.font =
@@ -163,11 +145,11 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
     const boxW = tm.width + 16;
     const boxH = 22;
     ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-    ctx.fillRect(0, canvasH - boxH, boxW, boxH);
+    ctx.fillRect(0, h - boxH, boxW, boxH);
     ctx.fillStyle = "#333";
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
-    ctx.fillText(attrText, 8, canvasH - boxH / 2);
+    ctx.fillText(attrText, 8, h - boxH / 2);
     ctx.restore();
   }
 
@@ -213,10 +195,51 @@ export function preparePrintImage(): boolean {
   return true;
 }
 
-export function triggerPrint(): void {
+function areTilesLoading(map: any): boolean {
+  if (!map || typeof map.eachLayer !== "function") return false;
+  let loading = false;
+  map.eachLayer((layer: any) => {
+    /* eslint-disable no-underscore-dangle */
+    if (layer._loading) {
+      loading = true;
+    }
+    if (layer._tiles && layer._tileZoom !== undefined) {
+      for (const k of Object.keys(layer._tiles)) {
+        const t = layer._tiles[k];
+        if (t && t.coords && t.coords.z === layer._tileZoom && t.el) {
+          if (!t.el.complete || t.el.naturalWidth === 0) {
+            loading = true;
+          }
+        }
+      }
+    }
+    /* eslint-enable no-underscore-dangle */
+  });
+  return loading;
+}
+
+export async function triggerPrint(): Promise<void> {
   if (isGenerating) return;
   isGenerating = true;
   try {
+    const mapElement = document.getElementById("map");
+    const map =
+      (typeof window !== "undefined" ? (window as any).map : null) ||
+      (mapElement ? (mapElement as any)["_leaflet_map"] : null);
+
+    if (map && areTilesLoading(map)) {
+      await new Promise<void>((resolve) => {
+        let elapsed = 0;
+        const interval = setInterval(() => {
+          elapsed += 50;
+          if (!areTilesLoading(map) || elapsed >= 1000) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, 50);
+      });
+    }
+
     const ok = preparePrintImage();
     if (ok) {
       window.print();
@@ -230,10 +253,10 @@ export function initPrintListeners(): void {
   if (typeof window === "undefined") return;
 
   // Interception de Ctrl+P / Cmd+P pour générer l'image avant l'impression
-  window.addEventListener("keydown", (e: KeyboardEvent) => {
+  window.addEventListener("keydown", async (e: KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "p") {
       e.preventDefault();
-      triggerPrint();
+      await triggerPrint();
     }
   });
 
