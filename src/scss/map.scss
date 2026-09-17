@@ -171,13 +171,13 @@ $height-photon: 46px;
     box-sizing: border-box;
     display: flex !important;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
     inset: 0;
     margin: 0;
     overflow: hidden;
     padding: 0;
     position: fixed;
-    width: 100vw;
+    width: 100%;
     z-index: 10000;
 
     .print-label {
@@ -217,10 +217,10 @@ $height-photon: 46px;
       canvas {
         box-sizing: border-box;
         display: block;
-        height: 100%;
+        height: 100% !important;
         margin: 0;
         object-fit: cover;
-        width: 100%;
+        width: 100% !important;
       }
     }
   }
@@ -228,9 +228,12 @@ $height-photon: 46px;
 
 body.is-printing-image {
   @media print {
-    .content,
-    #map {
-      visibility: hidden !important;
+    > *:not(#print-container) {
+      display: none !important;
+    }
+
+    #print-container {
+      display: flex !important;
     }
   }
 }

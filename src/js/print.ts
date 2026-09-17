@@ -35,9 +35,14 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
   if (map && typeof map.eachLayer === "function") {
     map.eachLayer((layer: any) => {
       /* eslint-disable no-underscore-dangle */
-      if (layer._tiles && layer._level && layer._level.el) {
-        const currentLevelEl = layer._level.el;
-        const currentZoom = layer._tileZoom;
+      if (layer._tiles) {
+        const currentZoom =
+          layer._tileZoom !== undefined
+            ? layer._tileZoom
+            : typeof map.getZoom === "function"
+              ? map.getZoom()
+              : undefined;
+        const currentLevelEl = layer._level ? layer._level.el : null;
         for (const k of Object.keys(layer._tiles)) {
           const t = layer._tiles[k];
           if (
@@ -45,10 +50,9 @@ export function captureMapToCanvas(mapElement: HTMLElement): HTMLCanvasElement {
             t.el &&
             t.coords &&
             t.coords.z === currentZoom &&
-            t.el.parentElement === currentLevelEl &&
             t.el.complete &&
             t.el.naturalWidth > 0 &&
-            currentLevelEl.style.display !== "none"
+            (!currentLevelEl || currentLevelEl.style.display !== "none")
           ) {
             currentTiles.push(t.el);
           }
@@ -247,17 +251,25 @@ export async function triggerPrint(): Promise<void> {
       (typeof window !== "undefined" ? (window as any).map : null) ||
       (mapElement ? (mapElement as any)["_leaflet_map"] : null);
 
-    if (map && areTilesLoading(map)) {
-      await new Promise<void>((resolve) => {
-        let elapsed = 0;
-        const interval = setInterval(() => {
-          elapsed += 50;
-          if (!areTilesLoading(map) || elapsed >= 1000) {
-            clearInterval(interval);
-            resolve();
-          }
-        }, 50);
-      });
+    if (map) {
+      /* eslint-disable no-underscore-dangle */
+      const isPending =
+        Boolean((map as any)._animatingZoom) || areTilesLoading(map);
+      if (isPending) {
+        await new Promise<void>((resolve) => {
+          let elapsed = 0;
+          const interval = setInterval(() => {
+            elapsed += 50;
+            const isAnimating = Boolean((map as any)._animatingZoom);
+            const loading = areTilesLoading(map);
+            if ((!isAnimating && !loading) || elapsed >= 2000) {
+              clearInterval(interval);
+              resolve();
+            }
+          }, 50);
+        });
+      }
+      /* eslint-enable no-underscore-dangle */
     }
 
     const ok = preparePrintImage();
