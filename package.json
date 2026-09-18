@@ -65,9 +65,9 @@
   },
   "homepage": "https://github.com/julien-noblet/cad-killer",
   "devDependencies": {
-    "@babel/core": "8.0.5",
+    "@babel/core": "8.0.6",
     "@babel/eslint-parser": "^8.0.0",
-    "@babel/preset-env": "8.0.5",
+    "@babel/preset-env": "8.0.6",
     "@babel/preset-typescript": "8.0.1",
     "@eslint/js": "^10.0.0",
     "@playwright/test": "^1.63.0",
