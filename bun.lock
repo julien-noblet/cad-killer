@@ -42,7 +42,7 @@
         "postcss": "8.5.28",
         "postcss-import": "17.0.0",
         "postcss-preset-env": "11.5.3",
-        "prettier": "3.9.8",
+        "prettier": "3.9.9",
         "sass": "^1.71.1",
         "stylelint": "^17.0.0",
         "stylelint-config-standard-scss": "^17.0.0",
@@ -1671,7 +1671,7 @@
 
     "prelude-ls": ["prelude-ls@1.2.1", "", {}, ""],
 
-    "prettier": ["prettier@3.9.8", "", { "bin": { "prettier": "bin/prettier.cjs" } }, "sha512-WRFq3Wn3WId7LLROfMLdH7xaFr2jR62wU8nLO6rQUOLOxNZUviyJQs1M0iIhLexSFy+L+w0ch66wtoO2jRjG0A=="],
+    "prettier": ["prettier@3.9.9", "", { "bin": { "prettier": "bin/prettier.cjs" } }, "sha512-Z/CJHIkdujO/OtN7nXUii0Rf3VT5SRuhjBA82Xvu2XhBUgX3nhP67T0LHceBdQLex7OOFGTox+Q5Yg8Jk2Qivg=="],
 
     "prettier-linter-helpers": ["prettier-linter-helpers@1.0.1", "", { "dependencies": { "fast-diff": "^1.1.2" } }, "sha512-SxToR7P8Y2lWmv/kTzVLC1t/GDI2WGjMwNhLLE9qtH8Q13C+aEmuRlzDst4Up4s0Wc8sF2M+J57iB3cMLqftfg=="],
 
