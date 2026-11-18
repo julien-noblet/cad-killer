@@ -100,7 +100,7 @@ out/
 # nuxt.js build output
 .nuxt
 
-# react / gatsby 
+# react / gatsby
 
 # vuepress build output
 .vuepress/dist
@@ -114,9 +114,19 @@ out/
 # DynamoDB Local files
 .dynamodb/
 
-.direnv
 .agents/
 skills-lock.json
 test-results/
 playwright-report/
 blob-report/
+
+# Devenv
+.devenv*
+devenv.local.nix
+devenv.local.yaml
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml

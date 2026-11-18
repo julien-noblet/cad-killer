@@ -1,12 +1,25 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "automerge": true,
-  "major": {
-    "automerge": false
+  "nix": {
+    "enabled": true
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
   },
   "packageRules": [
     {
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
+    {
       "matchDepTypes": ["devDependencies"],
+      "automerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
       "automerge": true
     }
   ],

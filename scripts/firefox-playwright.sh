@@ -8,19 +8,19 @@ fi
 args=()
 while [ $# -gt 0 ]; do
   case "$1" in
-    -profile)
-      shift
-      profile_dir="$1"
-      base=$(basename "$profile_dir")
-      target_profile="$HOME/.cache/ms-playwright/profiles/$base"
-      mkdir -p "$HOME/.cache/ms-playwright/profiles"
-      rm -rf "$target_profile"
-      cp -a "$profile_dir" "$target_profile" 2>/dev/null || mkdir -p "$target_profile"
-      args+=("-profile" "$target_profile")
-      ;;
-    *)
-      args+=("$1")
-      ;;
+  -profile)
+    shift
+    profile_dir="$1"
+    base=$(basename "$profile_dir")
+    target_profile="$HOME/.cache/ms-playwright/profiles/$base"
+    mkdir -p "$HOME/.cache/ms-playwright/profiles"
+    rm -rf "$target_profile"
+    cp -a "$profile_dir" "$target_profile" 2>/dev/null || mkdir -p "$target_profile"
+    args+=("-profile" "$target_profile")
+    ;;
+  *)
+    args+=("$1")
+    ;;
   esac
   shift
 done
