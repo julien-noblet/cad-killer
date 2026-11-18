@@ -17,24 +17,27 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        shell: devenv shell -- bash -e {0}
+
     steps:
       - uses: actions/checkout@v7
 
-      - name: Use Node.js 24
-        uses: actions/setup-node@v7
-        with:
-          node-version: 26.x
+      - uses: cachix/install-nix-action@v31
 
-      - name: Use Bun
-        uses: oven-sh/setup-bun@v2
+      - uses: cachix/cachix-action@v16
         with:
-          bun-version: 1.4.4
+          name: devenv
 
-      - run: bun install --frozen-lockfile
-      - run: bun run lint
-      - run: bun run typecheck
-      - run: bun run build
-      - run: bun run test:unit
+      - name: Install devenv.sh
+        shell: bash
+        run: nix profile add nixpkgs#devenv
+
+      - name: Run devenv test (git-hooks, lint, typecheck, build, unit tests)
+        shell: bash
+        run: devenv --no-tui test
+
       - name: Cache Playwright browser
         id: playwright-cache
         uses: actions/cache@v6
@@ -49,7 +52,9 @@ jobs:
       - name: Install Playwright OS dependencies
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: bunx playwright install-deps chromium firefox
-      - run: bun run test:e2e
+
+      - name: Run E2E tests
+        run: bun run test:e2e
 
       - uses: actions/upload-artifact@v7
         if: failure()
