@@ -146,23 +146,30 @@ in
     fi
   '';
 
+  # https://devenv.sh/tasks/
+  tasks = {
+    "cad-killer:install" = {
+      exec = ''
+        marker=".devenv/state/node_modules_store_path"
+        if [ -L node_modules ] || [ ! -d node_modules ] || [ ! -f "$marker" ] || [ "$(cat "$marker")" != "${node_modules}" ]; then
+          rm -rf node_modules
+          cp -r --reflink=auto ${node_modules}/node_modules node_modules
+          chmod -R u+w node_modules
+          mkdir -p .devenv/state
+          printf '%s' "${node_modules}" > "$marker"
+        fi
+      '';
+      before = [
+        "devenv:git-hooks:run"
+        "devenv:enterTest"
+      ];
+    };
+  };
+
   # https://devenv.sh/profiles/
   profiles.ci.module = {
     # https://devenv.sh/tasks/
     tasks = {
-      "cad-killer:install" = {
-        exec = ''
-          marker=".devenv/state/node_modules_store_path"
-          if [ -L node_modules ] || [ ! -d node_modules ] || [ ! -f "$marker" ] || [ "$(cat "$marker")" != "${node_modules}" ]; then
-            rm -rf node_modules
-            cp -r --reflink=auto ${node_modules}/node_modules node_modules
-            chmod -R u+w node_modules
-            mkdir -p .devenv/state
-            printf '%s' "${node_modules}" > "$marker"
-          fi
-        '';
-      };
-
       "cad-killer:lint" = {
         exec = "bun run lint";
         after = [ "cad-killer:install" ];
@@ -197,15 +204,6 @@ in
 
   # https://devenv.sh/tests/
   enterTest = ''
-    marker=".devenv/state/node_modules_store_path"
-    if [ -L node_modules ] || [ ! -d node_modules ] || [ ! -f "$marker" ] || [ "$(cat "$marker")" != "${node_modules}" ]; then
-      rm -rf node_modules
-      cp -r --reflink=auto ${node_modules}/node_modules node_modules
-      chmod -R u+w node_modules
-      mkdir -p .devenv/state
-      printf '%s' "${node_modules}" > "$marker"
-    fi
-
     echo "Running cad-killer lint, typecheck, build, and unit tests..."
     bun run lint
     bun run typecheck
