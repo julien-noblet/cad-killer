@@ -1,0 +1,81 @@
+name: Update Nix node_modules hash
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - package.json
+      - bun.lock
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  update-hash:
+    if: >-
+      github.actor == 'renovate[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.RENOVATE_NIX_TOKEN }}
+
+      - uses: cachix/install-nix-action@v32
+
+      - uses: cachix/cachix-action@v17
+        with:
+          name: devenv
+
+      - name: Install devenv.sh
+        run: nix profile add nixpkgs#devenv
+
+      - name: Check and update node_modules outputHash
+        id: update
+        run: |
+          set +e
+          OUTPUT=$(devenv --no-tui build outputs.node_modules 2>&1)
+          STATUS=$?
+          set -e
+
+          echo "$OUTPUT"
+
+          if [ "$STATUS" -eq 0 ]; then
+            echo "Hash is already up to date."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          NEW_HASH=$(echo "$OUTPUT" | grep -oE 'got:\s+sha256-[A-Za-z0-9+/=]+' | awk '{print $2}' | tail -n1)
+          if [ -z "$NEW_HASH" ]; then
+            echo "::error::Failed to extract new sha256 hash from devenv build output."
+            exit 1
+          fi
+
+          echo "Updating outputHash to $NEW_HASH"
+          sed -i -E "s|outputHash = \"sha256-[A-Za-z0-9+/=]+\";|outputHash = \"$NEW_HASH\";|" devenv.nix
+
+          # Verify the updated hash builds cleanly
+          devenv --no-tui build outputs.node_modules
+
+          if git diff --quiet devenv.nix; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push updated devenv.nix
+        if: steps.update.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add devenv.nix
+          git commit -m "chore(nix): update node_modules outputHash"
+          git push
