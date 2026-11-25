@@ -107,14 +107,9 @@ in
     pkgs.git
     pkgs.chromium
     pkgs.watchexec
+    pkgs.bun
+    pkgs.nodejs_24
   ];
-
-  # https://devenv.sh/languages/
-  languages.javascript = {
-    enable = true;
-    bun.enable = true;
-  };
-  languages.typescript.enable = true;
 
   # https://devenv.sh/processes/
   processes = {
@@ -128,52 +123,6 @@ in
 
     typecheck = {
       exec = "bunx tsc --noEmit --watch --preserveWatchOutput";
-    };
-  };
-
-  # https://devenv.sh/tasks/
-  tasks = {
-    "cad-killer:install" = {
-      exec = ''
-        marker=".devenv/state/node_modules_store_path"
-        if [ -L node_modules ] || [ ! -d node_modules ] || [ ! -f "$marker" ] || [ "$(cat "$marker")" != "${node_modules}" ]; then
-          rm -rf node_modules
-          cp -r --reflink=auto ${node_modules}/node_modules node_modules
-          chmod -R u+w node_modules
-          mkdir -p .devenv/state
-          printf '%s' "${node_modules}" > "$marker"
-        fi
-      '';
-    };
-
-    "cad-killer:lint" = {
-      exec = "bun run lint";
-      after = [ "cad-killer:install" ];
-    };
-
-    "cad-killer:typecheck" = {
-      exec = "bun run typecheck";
-      after = [ "cad-killer:install" ];
-    };
-
-    "cad-killer:test:unit" = {
-      exec = "bun run test:unit";
-      after = [ "cad-killer:install" ];
-    };
-
-    "cad-killer:build" = {
-      exec = "bun run build";
-      after = [ "cad-killer:install" ];
-    };
-
-    "cad-killer:test:e2e" = {
-      exec = "bun run test:e2e";
-      after = [ "cad-killer:install" ];
-    };
-
-    "cad-killer:test:e2e:chromium" = {
-      exec = "bunx playwright test --project=chromium";
-      after = [ "cad-killer:install" ];
     };
   };
 
@@ -192,6 +141,62 @@ in
 
   # https://devenv.sh/basics/
   enterShell = ''
+    if [ -d /run/current-system ] && [ -z "''${PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH:-}" ]; then
+      export PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH="${lib.getExe pkgs.chromium}"
+    fi
+  '';
+
+  # https://devenv.sh/profiles/
+  profiles.ci.module = {
+    # https://devenv.sh/tasks/
+    tasks = {
+      "cad-killer:install" = {
+        exec = ''
+          marker=".devenv/state/node_modules_store_path"
+          if [ -L node_modules ] || [ ! -d node_modules ] || [ ! -f "$marker" ] || [ "$(cat "$marker")" != "${node_modules}" ]; then
+            rm -rf node_modules
+            cp -r --reflink=auto ${node_modules}/node_modules node_modules
+            chmod -R u+w node_modules
+            mkdir -p .devenv/state
+            printf '%s' "${node_modules}" > "$marker"
+          fi
+        '';
+      };
+
+      "cad-killer:lint" = {
+        exec = "bun run lint";
+        after = [ "cad-killer:install" ];
+      };
+
+      "cad-killer:typecheck" = {
+        exec = "bun run typecheck";
+        after = [ "cad-killer:install" ];
+      };
+
+      "cad-killer:test:unit" = {
+        exec = "bun run test:unit";
+        after = [ "cad-killer:install" ];
+      };
+
+      "cad-killer:build" = {
+        exec = "bun run build";
+        after = [ "cad-killer:install" ];
+      };
+
+      "cad-killer:test:e2e" = {
+        exec = "bun run test:e2e";
+        after = [ "cad-killer:install" ];
+      };
+
+      "cad-killer:test:e2e:chromium" = {
+        exec = "bunx playwright test --project=chromium";
+        after = [ "cad-killer:install" ];
+      };
+    };
+  };
+
+  # https://devenv.sh/tests/
+  enterTest = ''
     marker=".devenv/state/node_modules_store_path"
     if [ -L node_modules ] || [ ! -d node_modules ] || [ ! -f "$marker" ] || [ "$(cat "$marker")" != "${node_modules}" ]; then
       rm -rf node_modules
@@ -201,13 +206,6 @@ in
       printf '%s' "${node_modules}" > "$marker"
     fi
 
-    if [ -d /run/current-system ] && [ -z "''${PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH:-}" ]; then
-      export PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH="${lib.getExe pkgs.chromium}"
-    fi
-  '';
-
-  # https://devenv.sh/tests/
-  enterTest = ''
     echo "Running cad-killer lint, typecheck, build, and unit tests..."
     bun run lint
     bun run typecheck
