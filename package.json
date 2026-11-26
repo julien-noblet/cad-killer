@@ -89,7 +89,7 @@
     "husky": "9.1.7",
     "jest": "^30.5.2",
     "jest-environment-jsdom": "^30.5.2",
-    "lint-staged": "17.6.1",
+    "lint-staged": "17.6.2",
     "postcss": "8.5.33",
     "postcss-import": "17.0.1",
     "postcss-preset-env": "11.6.3",
