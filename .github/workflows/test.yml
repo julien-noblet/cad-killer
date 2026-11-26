@@ -17,6 +17,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      # devenv shell puts Nix's ldd in PATH, which does not read Ubuntu's /etc/ld.so.cache
+      # and causes Playwright's pre-launch host library check to fail on cache misses.
+      PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS: "1"
+
     defaults:
       run:
         shell: devenv shell -- bash -e {0}
