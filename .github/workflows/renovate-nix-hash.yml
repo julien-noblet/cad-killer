@@ -41,7 +41,7 @@ jobs:
         id: update
         run: |
           set +e
-          OUTPUT=$(devenv --no-tui build outputs.node_modules 2>&1)
+          OUTPUT=$(NO_COLOR=1 devenv --no-tui build outputs.node_modules 2>&1)
           STATUS=$?
           set -e
 
@@ -53,7 +53,7 @@ jobs:
             exit 0
           fi
 
-          NEW_HASH=$(echo "$OUTPUT" | grep -oE 'got:\s+sha256-[A-Za-z0-9+/=]+' | awk '{print $2}' | tail -n1)
+          NEW_HASH=$(echo "$OUTPUT" | sed -E 's/\x1b\[[0-9;]*m//g' | grep -oE 'got:\s+sha256-[A-Za-z0-9+/=]+' | awk '{print $2}' | tail -n1)
           if [ -z "$NEW_HASH" ]; then
             echo "::error::Failed to extract new sha256 hash from devenv build output."
             exit 1
