@@ -117,7 +117,7 @@ in
       exec = "bun run dev";
       ready.http.get = {
         port = 9000;
-        path = "/cad-killer/";
+        path = "/cad-killer";
       };
     };
 
